@@ -41,10 +41,24 @@ if (!require(labdsv)) install.packages("labdsv")
 library(labdsv)
 if (!require(devtools)) install.packages("devtools")
 library(devtools)
-if (!require(mvpart)) install_github("cran/mvpart", force = TRUE)
-library(mvpart)
-if (!require(MVPARTwrap)) install_github("cran/MVPARTwrap", force = TRUE)
-library(MVPARTwrap)
+
+if (!suppressPackageStartupMessages(require(mvpart))) {
+  # file name
+  f = file.path(tempdir(), "mvpart")
+  # download package file
+  download.file('https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz', destfile = f, method = 'curl')
+  # install from source
+  system(paste('R CMD INSTALL', f))
+}
+
+if (!suppressPackageStartupMessages(require(MVPARTwrap))) {
+  # file name
+  f = file.path(tempdir(), "MVPARTwrap")
+  # download package file
+  download.file('https://cran.r-project.org/src/contrib/Archive/MVPARTwrap/MVPARTwrap_0.1-9.2.tar.gz', destfile = f, method = 'curl')
+  # install from source
+  system(paste('R CMD INSTALL', f))
+}
 ```
 
 ## Introduction
