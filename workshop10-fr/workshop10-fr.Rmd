@@ -53,6 +53,13 @@ if (!suppressPackageStartupMessages(require(mvpart))) {
   system(paste('R CMD INSTALL', f))
 }
 
+# Dependendies for MVPARTwrap
+if (!require(fBasic)) install.packages("fBasic")
+library(fBasic)
+
+if (!require(ade4)) install.packages("ade4")
+library(ade4)
+
 if (!suppressPackageStartupMessages(require(MVPARTwrap))) {
   # file name
   f = file.path(tempdir(), "MVPARTwrap")
@@ -89,11 +96,11 @@ Le présent atelier se concentrera sur les analyses .alert[**sous contraintes**]
 * Analyse linéaire discriminante (ALD ou LDA)
 <br>
 
-Ces analyses nous permettrons de .alert[**décrire**] et de .alert[**prédire**] les relations entre la structure des communautés et les variables environnementales. 
+Ces analyses nous permettrons de .alert[**décrire**] et de .alert[**prédire**] les relations entre la structure des communautés et les variables environnementales.
 <br>
 
 On pourra alors .alert[**tester des hypothèses**]!
-  
+
 ---
 
 ## Code et données
@@ -141,17 +148,17 @@ class: inverse, center, middle
 ## Introduction aux données  
 
 #### Rivière Doubs (Verneaux 1973)
-  
+
 .pull-left[Données d'abondances d'espèces de communautés de poissons de la rivière Doubs.
  * 27 espèces
  * 30 sites
  * 11 variables environnementales
-   
+
 ![:scale 100%](images/Doubs_Laissey.jpg)
  ]
 
 .pull-right[
-  
+
 ![:scale 100%](images/Doubs_carte.jpg)]
 
 ---
@@ -169,13 +176,13 @@ spe <- spe[-8,] # Supprimer site 8 (pas d'espèces).
 ```
 
 Chargez la matrice de données environnementales (*doubsenv.csv* ):  
-  
+
 ```{r, echo = TRUE}
 env <- read.csv("data/doubsenv.csv", row.names = 1)
 env <- env[-8,] # Supprimer site 8 (pas d'espèces).
 ```  
 
-.alert[Note]: N'exécuter qu'une seule fois! 
+.alert[Note]: N'exécuter qu'une seule fois!
 
 ---
 
@@ -202,9 +209,9 @@ Explorons la structure de la communauté:
 # Compter la fréquence d'espèces dans chaque classe d'abondance
 ab <- table(unlist(spe))
 # Visualiser cette distribution
-barplot(ab, las = 1, 
-        xlab = "Abundance class", ylab = "Frequency", 
-        col = grey(5:0/5)) 
+barplot(ab, las = 1,
+        xlab = "Abundance class", ylab = "Frequency",
+        col = grey(5:0/5))
 ```
 .alert[Notice]: Il y a beaucoup de zéros.
 
@@ -228,7 +235,7 @@ sum(spe == 0)/(nrow(spe)*ncol(spe))
 
 .alert[**Plus de 50%**] des données d'abondances consiste d'absences. C'est élevé, mais pas inhabituel pour ce type de données.
 <br>  
-Par contre, il faut éviter que les **double zéros** soient considérés comme une similarité entre sites. 
+Par contre, il faut éviter que les **double zéros** soient considérés comme une similarité entre sites.
 * Nous appliquerons alors une .alert[transformation Hellinger] aux données d'abondances d'espèces.
 <br>  
 ```{r}
@@ -327,14 +334,14 @@ Préparer les données
 # Enlever la variable "distance from the source" (colinéarity avec plusieurs variables)
 env.z <- subset(env.z, select = -das)
 ```
-  
+
 --
 Effectuer une RDA
 ```{r}
 # Modèlise l'effect de tous les variables environnementales sur la composition en espèces des communautés
 spe.rda <- rda(spe.hel ~ ., data = env.z)
 ```
-  
+
 --
 Extraire les résultats de la RDA
 ```{r, eval = FALSE, results = 'hide'}
@@ -349,9 +356,9 @@ summary(spe.rda, display = NULL)
 
 * **Constrained Proportion**: variance de Y expliquée par X .alert[(73.41%)]
 * **Unconstained Proportion**: variance in Y non expliquée par .alert[(26.59%)]  
-  
+
   <br>
-  
+
 .small[Les variables environnementales mesurées expliquent .alert[73.41%] de la variation dans la composition en espèces des communautés de poissons dans la rivière Doubs.]
 
 ---
@@ -359,7 +366,7 @@ summary(spe.rda, display = NULL)
 ## Sélection de variables
 
 Une .alert[sélection progressive] peut être effectuée afin de sélectionner les variables explicatives significatives.
-  
+
 <br>
 .comment[**Quelles variables contribuent de façon significative au pouvoir explicatif du modèle?**]
 --
@@ -367,7 +374,7 @@ Une .alert[sélection progressive] peut être effectuée afin de sélectionner l
 # Sélection progressive de variables:
 fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # modèle le plus simple
                scope = formula(spe.rda), # modèle "complet"
-               direction = "forward", 
+               direction = "forward",
                R2scope = TRUE, # limité par le R2 du modèle "complet"
                pstep = 1000,
                trace = FALSE) # mettre TRUE pour voir le processus du sélection!
@@ -428,8 +435,8 @@ Comme pour la PCA, on doit choisir le .alert[cadrage]:
 
 .pull-left[
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
-ordiplot(spe.rda.signif, 
-         scaling = 1, 
+ordiplot(spe.rda.signif,
+         scaling = 1,
          type = "text")
 ```
 ]
@@ -449,14 +456,14 @@ ordiplot(spe.rda.signif,
 
 .pull-left[
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
-ordiplot(spe.rda.signif, 
-         scaling = 2, 
+ordiplot(spe.rda.signif,
+         scaling = 2,
          type = "text")
 ```
 ]
 
 .pull-right[
-######Le cadrage 2 permet d’interpréter les .alert[relations] entre variables X et Y. 
+######Le cadrage 2 permet d’interpréter les .alert[relations] entre variables X et Y.
 .small[
 * .comment[Longues] flèches = cette variable explique fortement la variation dans la matrice Y d'abondances
 * Flèches pointant des .comment[directions opposées] = relation négative
@@ -466,7 +473,7 @@ ordiplot(spe.rda.signif,
 
 ---
 
-## Configuration des triplots RDA 
+## Configuration des triplots RDA
 
 Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
@@ -487,7 +494,7 @@ arrows(0,0,
 text(x = scores(spe.rda.signif, display="bp", choices=c(1), scaling=1)-0.1,
      y = scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)-0.03,
      labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="#CC3311", cex=1, font = 2) 
+     col="#CC3311", cex=1, font = 2)
 ```
 
 Voir le wiki pour plus de détails!
@@ -520,44 +527,44 @@ ordiplot()
 
 ---
 
-## Défi 1: Solution 
+## Défi 1: Solution
 
 Étape 1: Préparer les données
 ```{r}
 # Transformer les données d'abondances
 mite.spe.hel <- decostand(mite, method = "hellinger")
 
-# Standardiser les données environmentales quantiatives 
+# Standardiser les données environmentales quantiatives
 mite.env$SubsDens <- decostand(mite.env$SubsDens, method = "standardize")
 mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
 ```
 
 ---
 
-## Défi 1: Solution 
+## Défi 1: Solution
 
 Étape 2: Sélectionner les variables environnementales
 ```{r}
 # RDA avec tous les variables environnementales
 mite.spe.rda <- rda(mite.spe.hel ~ ., data = mite.env)
- 
+
 # Sélection progressive des variables environnementales significatives
-fwd.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env), 
-                      scope = formula(mite.spe.rda), 
-                      direction = "forward", 
+fwd.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env),
+                      scope = formula(mite.spe.rda),
+                      direction = "forward",
                       R2scope = TRUE, pstep = 1000, trace = FALSE)
 fwd.sel$call
 ```
 
 ---
 
-## Défi 1: Solution 
+## Défi 1: Solution
 
 Étape 3: Effectuer l'RDA et extraire le R2 ajusté
 ```{r}
 # Refaire la RDA avec seulement les variables significatives
-mite.spe.rda.signif <- rda(mite.spe.hel ~ WatrCont + Shrub + 
-                           Substrate + Topo + SubsDens, 
+mite.spe.rda.signif <- rda(mite.spe.hel ~ WatrCont + Shrub +
+                           Substrate + Topo + SubsDens,
                            data = mite.env)
 
 # Calculer le R2 ajusté
@@ -583,14 +590,14 @@ Les variables environnementales sélectionnées expliquent .alert[43.7% (p = 0.0
 Étape 5: Triplot!
 .pull-left[
 ```{r, fig.height = 6.5}
-ordiplot(mite.spe.rda.signif, 
+ordiplot(mite.spe.rda.signif,
          scaling = 1,
          main = "Cadrage 1")
 ```
 ]
 .pull-right[
 ```{r, fig.height = 6.5}
-ordiplot(mite.spe.rda.signif, 
+ordiplot(mite.spe.rda.signif,
          scaling = 2,
          main = "Cadrage 2")
 ```
@@ -610,14 +617,14 @@ class: inverse, center, middle
 
 * Cas particulier de la RDA en présence d’une matrice W de variables explicatives additionnelles, appelées co-variables
   * Modèle linéaire de l’effet de X sur Y, ajusté pour tenir compte de l’effet des .alert[co-variables W].
-  
+
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
 ---
 
 ## Applications de la RDA partielle
 
-* Évaluer l’effet de variables environnementales sur la composition des communautés, prenant en compte l'.alert[effet de covariables] de moindre intérêt. 
+* Évaluer l’effet de variables environnementales sur la composition des communautés, prenant en compte l'.alert[effet de covariables] de moindre intérêt.
 * .alert[Isoler] les effets d'un ou plusieurs groupes de variables explicatives.
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
@@ -643,7 +650,7 @@ spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
 .alert[Note]: Syntaxe alternative pour une RDA partielle:
 ```{r, eval = FALSE}
 spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
-                       Condition(alt + pen + deb), 
+                       Condition(alt + pen + deb),
                        data = env.z)
 ```
 ]
@@ -662,14 +669,14 @@ summary(spe.partial.rda, display = NULL)
 * **Conditioned Proportion**:  variance de Y expliquée par W .alert[(41.53%)]
 * **Constrained Proportion**: variance de Y expliquée par X .alert[(31.89%)]
 * **Unconstained Proportion**: variance de Y non expliquée .alert[(26.59%)]  
-  
+
   <br>
 .comment[La chimie de l’eau explique .alert[31.89%] de l’abondance des espèces de poissons, tandis que la topographie explique .alert[41.53%] de la variation en abondances des poissons.]
 ]
 
 ---
 
-## Tester la significativité 
+## Tester la significativité
 
 Extraire le R2 ajusté du modèle:
 ```{r}
@@ -689,7 +696,7 @@ anova.cca(spe.partial.rda, step = 1000)
 
 .small[
 ```{r}
-ordiplot(spe.partial.rda, scaling = 2, 
+ordiplot(spe.partial.rda, scaling = 2,
          main = "Doubs River partial RDA - Scaling 2")
 ```
 --
@@ -727,7 +734,7 @@ Nos données sont déjà transformés et standardisés.
 <br>
 Commençons alors par la RDA partielle:
 ```{r, results = 'hide'}
-mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo 
+mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
                      + Condition(SubsDens + WatrCont + Substrate),
                      data = mite.env)
 
@@ -769,7 +776,7 @@ class: inverse, center, middle
 Divise la variation d’une matrice de variable réponse en 2, 3, ou 4 matrices de variables explicatives.
 * e.g. variables locales vs. à large échelle
 * e.g. abiotique vs. biotique  
-  
+
 <br>
 .center[![:scale 85%](images/VarPart_Matrices.png)]
 
@@ -796,11 +803,11 @@ spe.part.all$part # extraire résultats
 ## Diagramme Venn
 
 ```{r, strip.white = TRUE, fig.width = 6, fig.height = 6}
-plot(spe.part.all, 
+plot(spe.part.all,
      Xnames = c("Chem", "Topo"), # noms des matrices explicatives
-     bg = c("seagreen3", "mediumpurple"), alpha = 80, 
-     digits = 2, 
-     cex = 1.5) 
+     bg = c("seagreen3", "mediumpurple"), alpha = 80,
+     digits = 2,
+     cex = 1.5)
 ```
 
 ---
@@ -854,7 +861,7 @@ anova.cca(rda(spe.hel, env.chem, env.topo))
 
 ---
 
-## Significativité: Fractions individuelles 
+## Significativité: Fractions individuelles
 
 .center[![:scale 30%](images/VarPart_small.png)]
 
@@ -871,11 +878,11 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 
 .small[
 Partitionnez la variation de l’abondance des espèces de mites entres des variables de substrat (SubsDens, WaterCont) et des variables spatiales significatives.
-* Quelle est la proportion de variance expliquée par le substrat? par l'espace? 
+* Quelle est la proportion de variance expliquée par le substrat? par l'espace?
 * Quelles sont les fractions significatives?
 * Diagramme Venn des résultats!
-  
-  
+
+
 Chargez les variables spatiales:
 ```{r}
 data("mite.pcnm")
@@ -918,8 +925,8 @@ spat.sel$call
 mite.subs <- subset(mite.env, select = c(SubsDens, WatrCont))
 
 # Variables spatiales significatives
-mite.spat <- subset(mite.pcnm, 
-                    select = names(spat.sel$terminfo$ordered)) 
+mite.spat <- subset(mite.pcnm,
+                    select = names(spat.sel$terminfo$ordered))
                     # pour rapidement accèder aux variables sélectionnées
 ```
 
@@ -935,7 +942,7 @@ mite.part$part$indfract # extraire résultats
 
 * Quelle est la proportion de variance expliquée par le substrat?  
  * .alert[5.9%]
-  
+
 * Quelle est la proportion de variance expliquée par l'espace?
   * .alert[19.4%]
 
@@ -964,7 +971,7 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 Étape 5: Diagramme Venn
 ```{r, fig.height=6, fig.width=6}
 plot(mite.part, digits = 2, cex = 1.5,
-     bg = c("pink", "skyblue"), alpha = 90) 
+     bg = c("pink", "skyblue"), alpha = 90)
 ```
 
 ---
@@ -1007,12 +1014,12 @@ Plusieurs avantages:
 ## MRT: La méthode
 
 La méthode implique deux volets s'effectuant en parallèle:
-1. .comment[Partitionnement] des données sous contrainte 
+1. .comment[Partitionnement] des données sous contrainte
 2. .comment[Validation croisée] pour identifier l'arbre ayant le meilleur pouvoir prédictif.  
 <br>  
-  
+
 Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un arbre:
-* .comment[parcimonieux] 
+* .comment[parcimonieux]
 * mais avec un nombre .comment[informatif] de groupes
 * Essentiellement: quel arbre répond à ta question?
 
@@ -1026,7 +1033,7 @@ env <- subset(env, select = -das)
 # Créer l'arbre de regression multivarié
 # library(mvpart)
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
-                    xv = "pick", # selection graphique intéractive 
+                    xv = "pick", # selection graphique intéractive
                     xval = nrow(spe.hel), # nombre de validations
                     xvmult = 100, # nombre de validations multiples
                     which = 4, # identifier les noeuds
@@ -1039,10 +1046,10 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
-                    xv = "pick", 
-                    xval = nrow(spe.hel), 
-                    xvmult = 100, 
-                    which = 4, 
+                    xv = "pick",
+                    xval = nrow(spe.hel),
+                    xvmult = 100,
+                    which = 4,
                     legend = FALSE, margin = 0.01, cp = 0, plot.add = FALSE)
 ```
 .small[
@@ -1059,10 +1066,10 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
-                    xv = "pick", 
-                    xval = nrow(spe.hel), 
+                    xv = "pick",
+                    xval = nrow(spe.hel),
                     xvmult = 100,  cross-validations
-                    which = 4, 
+                    which = 4,
                     legend = FALSE, margin = 0.01, cp = 0,
                     plot.add = FALSE)
 ```
@@ -1078,11 +1085,11 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
-                    xv = "1se", 
-                    xval = nrow(spe.hel), 
+                    xv = "1se",
+                    xval = nrow(spe.hel),
                     xvse = 1,
-                    xvmult = 100, 
-                    which = 4, 
+                    xvmult = 100,
+                    which = 4,
                     legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
 ```
 .small[
@@ -1102,7 +1109,7 @@ Par exemple, considérons une solution de 10 groupes!
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
-        which = 4, 
+        which = 4,
         legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
 ```
 
@@ -1121,7 +1128,7 @@ Considérons une solution avec moins (4) de groupes!
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
-        which = 4, 
+        which = 4,
         legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
 ```
 ]
@@ -1195,7 +1202,7 @@ library(labdsv)
 # Calcul d'une valeur indval pour chaque espèce
 doubs.mrt.indval <- indval(spe.hel, doubs.mrt$where)
 
-# Extraire les espèces indicatrices à chaque noeud 
+# Extraire les espèces indicatrices à chaque noeud
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval <= 0.05)]
 
 # Extraire leur valeur indval
@@ -1203,7 +1210,7 @@ doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 ```
 ]
 
-* Les principales espèces discriminantes au premier noeud sont TRU, VAI et ABL. 
+* Les principales espèces discriminantes au premier noeud sont TRU, VAI et ABL.
 * TRU et VAI contribuent beaucoup à la branche de gauche, alors que ABL est davantage indicatrice des sites à basse altitude (<361.5m).
 
 ---
@@ -1239,9 +1246,9 @@ summary()
 Étape 1: Créer un arbre de régression multivarié
 ```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
-                   xv = "1se", 
-                   xval = nrow(mite.spe.hel), 
-                   xvmult = 100, 
+                   xv = "1se",
+                   xval = nrow(mite.spe.hel),
+                   xvmult = 100,
                    which = 4, legend = FALSE, margin = 0.01, cp = 0,
                    prn = FALSE)
 ```
@@ -1253,9 +1260,9 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
-                   xval = nrow(mite.spe.hel), 
-                   xvmult = 100, 
-                   which = 4, legend = FALSE, margin = 0.01, 
+                   xval = nrow(mite.spe.hel),
+                   xvmult = 100,
+                   which = 4, legend = FALSE, margin = 0.01,
                    cp = 0, prn = FALSE)
 ```
 .small[
@@ -1274,8 +1281,8 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
 ```{r, results = 'hide'}
 # Créer sommaire plus informatif
-mite.mrt.wrap <- MRT(mite.mrt, 
-                     percent = 10, 
+mite.mrt.wrap <- MRT(mite.mrt,
+                     percent = 10,
                      species = colnames(mite.spe.hel))
 
 # Voir sommaire (pour voir les espèces discriminantes)
@@ -1351,7 +1358,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 
 ## LDA dans R
 
-.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011). 
+.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011).
 
 Pour les besoins de l'atelier, on passera directement à la LDA:
 ```{r}
@@ -1388,19 +1395,19 @@ Tous les sites ont été correctement classifiés dans leur groupe de latitude e
 
 ## LDA dans R: Prédictions
 
-On peut maintenant utiliser la LDA pour classifier de nouveaux sites dans les groupes de latitude. 
+On peut maintenant utiliser la LDA pour classifier de nouveaux sites dans les groupes de latitude.
 --
-  
+
 Tentons de .alert[prédire la classification] de 5 nouveaux sites à l'aide de notre LDA:
 .small[
 ```{r}
-# charger les nouvelles données 
+# charger les nouvelles données
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
 # classify.me <- classify.me[,-1] # remove das variable
 
 # prédire le groupement des nouvelles données
 predict.group <- predict(LDA, newdata = classify.me)
- 
+
 # donner la classification pour chaque site
 predict.group$class
 ```
@@ -1467,9 +1474,9 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 # classification des objects en fonction de la LDA
 mite.class <- predict(LDA.mite)$class
 # tableeau de classifications  (prior versus predicted)
-(mite.table <- table(mite.xy$group, mite.class)) 
+(mite.table <- table(mite.xy$group, mite.class))
 # proportion de classifications exactes
-diag(prop.table(mite.table, 1)) 
+diag(prop.table(mite.table, 1))
 ```
 
 Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?

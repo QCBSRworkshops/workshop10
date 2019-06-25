@@ -45,6 +45,7 @@ library(devtools)
 if (!require(Hmisc)) install.packages("Hmisc")
 library(Hmisc)
 
+
 if (!suppressPackageStartupMessages(require(mvpart))) {
   # file name
   f = file.path(tempdir(), "mvpart")
@@ -53,6 +54,13 @@ if (!suppressPackageStartupMessages(require(mvpart))) {
   # install from source
   install.packages(pkgs=f, type="source", repos = NULL)
 }
+
+# Dependendies for MVPARTwrap
+if (!require(fBasic)) install.packages("fBasic")
+library(fBasic)
+
+if (!require(ade4)) install.packages("ade4")
+library(ade4)
 
 if (!suppressPackageStartupMessages(require(MVPARTwrap))) {
   # file name
