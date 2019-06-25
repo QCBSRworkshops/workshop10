@@ -54,8 +54,8 @@ if (!suppressPackageStartupMessages(require(mvpart))) {
 }
 
 # Dependendies for MVPARTwrap
-if (!require(fBasic)) install.packages("fBasics")
-library(fBasic)
+if (!require(fBasics)) install.packages("fBasics")
+library(fBasics)
 
 if (!require(ade4)) install.packages("ade4")
 library(ade4)
@@ -1169,7 +1169,7 @@ On peut aussi déterminer quels espèces contribuent le plus à la variance expl
 <br>  
 Pour ceci, on peut utiliser la libraire .comment[MVPARTwrap]:
 ```{r, results = 'hide'}
-# library(MVPARTwrap)
+library(MVPARTwrap)
 
 # Créer un sommaire plus informatif et moins dense
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
@@ -1183,11 +1183,11 @@ summary(doubs.mrt.wrap)
 ## MRT dans R: Espèces discriminantes
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
-```{r, eval = FALSE, results = 'hide'}
+.small[
+```{r, eval = T}
 summary(doubs.mrt.wrap)
 ```
-
-.center[![:scale 30%](images/MRT_IndVal.png)]
+]
 
 ---
 

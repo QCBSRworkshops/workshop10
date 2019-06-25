@@ -1101,7 +1101,7 @@ You might also want to know which species are contributing most to the explained
   <br>
 To do this, we have the .comment[MVPARTwrap] package:
 ```{r, results = 'hide'}
-# library(MVPARTwrap)
+library(MVPARTwrap)
 
 # Generate a nicer and more informative output
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
@@ -1114,11 +1114,12 @@ summary(doubs.mrt.wrap)
 ## MRT in R: Discriminant species
 
 To see each species' contribution to explained variance at each node:
-```{r, eval = FALSE, results = 'hide'}
+.small[
+```{r, eval = T}
 summary(doubs.mrt.wrap)
 ```
+]
 
-.center[![:scale 30%](images/MRT_IndVal.png)]
 
 ---
 ## MRT in R: Indicator species
