@@ -56,7 +56,7 @@ if (!suppressPackageStartupMessages(require(mvpart))) {
 }
 
 # Dependendies for MVPARTwrap
-if (!require(fBasic)) install.packages("fBasic")
+if (!require(fBasic)) install.packages("fBasics")
 library(fBasic)
 
 if (!require(ade4)) install.packages("ade4")
