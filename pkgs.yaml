@@ -1,0 +1,13 @@
+cran_pkgs:
+  - vegan
+  - MASS
+  - labdsv
+  - devtools
+  - fBasics
+  - ade4
+
+archive_pkgs:
+  - url: https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz
+    pkgname: mvpart
+  - url: https://cran.r-project.org/src/contrib/Archive/MVPARTwrap/MVPARTwrap_0.1-9.2.tar.gz
+    pkgname: MVPARTwrap

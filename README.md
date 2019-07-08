@@ -12,6 +12,9 @@ Le contenu de cet atelier a été révisé par plusieurs membres du CSBQ. Si vou
 
 # Workshop 10: Advanced multivariate analyses
 
+
+[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop10.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop10)
+
 In this workshop, you will learn how to perform advanced multivariate analyses
 on community data. This workshop concentrates on constrained methods such as
 redundancy analysis (RDA), multivariate regression tree (MRT) and linear
@@ -22,6 +25,8 @@ driving patterns in species assemblage across sites.
 
 # Atelier 10: Analyses multivariées avancées
 
+[![Build Status](https://travis-ci.org/QCBSRworkshops/workshop10.svg?branch=dev)](https://travis-ci.org/QCBSRworkshops/workshop10)
+
 Durant cet atelier, vous apprendrez à réaliser des analyses multivariées
 avancées sur des données de communauté. Cet atelier se concentre sur les
 méthodes sous contraintes, telles que l'analyse canonique de redondances (RDA),
@@ -30,3 +35,22 @@ afin d'explorer comment les variables environnementales peuvent expliquer les
 patrons de composition en espèces à travers différents sites.
 
 *Matériel des scripts R adapté de: Borcard, Gillet & Legendre (2011). Numerical Ecology with R. Springer New York.*
+
+
+# Links
+
+#### [English](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.html)
+
+#### [Français](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.html)
+
+# Developers
+
+1. Set the working directory set to this folder.
+2. then use:
+
+``` r
+install.packages("remotes")
+remotes::install_github("QCBSRworkshops/qcbsRworkshops")
+library("qcbsRworkshops")
+build_workshops()
+```
