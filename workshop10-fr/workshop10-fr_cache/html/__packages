@@ -5,7 +5,6 @@ vegan
 MASS
 nlme
 mgcv
-cluster
 labdsv
 usethis
 devtools

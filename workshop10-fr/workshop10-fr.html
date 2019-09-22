@@ -714,9 +714,9 @@ anova.cca(spe.partial.rda, step = 1000)
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.chem, Z = env.topo)
-#          Df Variance      F Pr(&gt;F)    
-# Model     7  0.16024 3.0842  0.001 ***
-# Residual 18  0.13360                  
+#          Df Variance      F Pr(&gt;F)   
+# Model     7  0.16024 3.0842  0.002 **
+# Residual 18  0.13360                 
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -816,8 +816,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.031 *  
-# RDA3      1 0.003193 0.9919  0.442    
+# RDA2      1 0.008254 2.5643  0.018 *  
+# RDA3      1 0.003193 0.9919  0.423    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -990,9 +990,9 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
-#          Df Variance      F Pr(&gt;F)    
-# Model     3 0.064495 2.8965  0.001 ***
-# Residual 18 0.133599                  
+#          Df Variance      F Pr(&gt;F)   
+# Model     3 0.064495 2.8965  0.002 **
+# Residual 18 0.133599                 
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1255,8 +1255,8 @@ Le .comment[paramètre de complexité (CP)] représente la variance expliquée p
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0745229 0.07479049
-# 2 0.1044982      1 0.5630439 0.6703197 0.09380062
+# 1 0.4369561      0 1.0000000 1.0770781 0.07511713
+# 2 0.1044982      1 0.5630439 0.6714519 0.09369850
 ```
 
 * CP @ nsplit 0 = R2 de l'arbre au complet
@@ -1278,8 +1278,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0745229 0.07479049
-# 2 0.1044982      1 0.5630439 0.6703197 0.09380062
+# 1 0.4369561      0 1.0000000 1.0770781 0.07511713
+# 2 0.1044982      1 0.5630439 0.6714519 0.09369850
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1356,15 +1356,15 @@ summary(doubs.mrt.wrap)
 # BBO       2          0.7143       0.001
 # GOU       2          0.6443       0.005
 # BCO       2          0.6429       0.001
-# BAR       2          0.6364       0.002
+# BAR       2          0.6364       0.001
 # ROT       2          0.6353       0.001
 # TOX       2          0.6185       0.002
-# BRO       2          0.5533       0.025
-# PER       2          0.5449       0.010
-# TAN       2          0.5115       0.048
-# PCH       2          0.5000       0.006
+# BRO       2          0.5533       0.023
+# PER       2          0.5449       0.012
+# TAN       2          0.5115       0.050
+# PCH       2          0.5000       0.003
 # 
-# Sum of probabilities                 =  1.314 
+# Sum of probabilities                 =  1.326 
 # 
 # Sum of Indicator Values              =  17.49 
 # 
@@ -1401,21 +1401,21 @@ summary(doubs.mrt.wrap)
 # PSO       2          0.8071       0.001
 # BOU       2          0.7857       0.001
 # ANG       2          0.7857       0.001
-# GAR       2          0.7726       0.001
+# GAR       2          0.7726       0.002
 # SPI       2          0.7347       0.001
 # CAR       2          0.7308       0.001
 # BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.005
-# BCO       2          0.6429       0.002
+# GOU       2          0.6443       0.007
+# BCO       2          0.6429       0.001
 # BAR       2          0.6364       0.001
 # ROT       2          0.6353       0.002
-# TOX       2          0.6185       0.001
-# BRO       2          0.5533       0.021
-# PER       2          0.5449       0.016
-# TAN       2          0.5115       0.038
-# PCH       2          0.5000       0.003
+# TOX       2          0.6185       0.002
+# BRO       2          0.5533       0.026
+# PER       2          0.5449       0.017
+# TAN       2          0.5115       0.046
+# PCH       2          0.5000       0.006
 # 
-# Sum of probabilities                 =  1.28 
+# Sum of probabilities                 =  1.302 
 # 
 # Sum of Indicator Values              =  17.49 
 # 
@@ -1820,7 +1820,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
