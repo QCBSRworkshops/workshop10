@@ -15,22 +15,18 @@ output:
 ---
 
 
-```{r setup, echo = F}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
   cache = TRUE,
-  fig.width=6, fig.height=6,
+  fig.width = 6, fig.height = 6,
   fig.retina = 3,
   fig.retina = 3,
   fig.align = 'center'
 )
-```
-
-
-```{r, echo =F}
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
@@ -70,13 +66,13 @@ if (!suppressPackageStartupMessages(require(MVPARTwrap))) {
 }
 ```
 
-## Introduction
+# Introduction
 
 L'atelier précédent (#9) a offert un aperçu des analyses multivariées de base:
 
 * Mesures de distances et transformations de données
 * Groupement hiérarchique
-* Ordinations sans contraintes (PCA, PCoA, CA, nmDS)  
+* Ordinations sans contraintes (PCA, PCoA, CA, nmDS)
 <br>
 
 Celles-ci permettent de relever des .alert[tendances] dans la structure des communautés d'espèces ou des descripteurs.
@@ -85,8 +81,7 @@ Celles-ci permettent de relever des .alert[tendances] dans la structure des comm
 L'atelier #10 montre des analyses permettant d'explorer comment les variables environnementales .alert[**expliquent**] ces tendances.
 
 ---
-
-## Introduction
+# Introduction
 
 Le présent atelier se concentrera sur les analyses .alert[**sous contraintes**]:
 
@@ -102,8 +97,7 @@ Ces analyses nous permettrons de .alert[**décrire**] et de .alert[**prédire**]
 On pourra alors .alert[**tester des hypothèses**]!
 
 ---
-
-## Code et données
+# Code et données
 
 Lien vers le code et les jeux de données: [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_atelier10)
 
@@ -116,8 +110,7 @@ Téléchargez le code R et les données requises pour cet atelier:
   * Données test pour l'analyse linéaire discriminante
 
 ---
-
-## Librairies
+# Librairies
 
 Assurez-vous d'installer et d'importer les librairies suivantes dans R Studio (procédure fournie dans le code R):
 * .comment[vegan] .small[(for multivariate analyses)]
@@ -129,8 +122,7 @@ Assurez-vous d'installer et d'importer les librairies suivantes dans R Studio (p
 * .comment[MVPARTwrap] package .alert[(voir code R)]
 
 ---
-
-## Suivre l'atelier
+# Suivre l'atelier
 
 Quelques conseils:
 * Créez votre propre code (ou commentez le code R fourni)
@@ -144,8 +136,7 @@ class: inverse, center, middle
 # Exploration et préparation des données
 
 ---
-
-## Introduction aux données  
+# Introduction aux données
 
 #### Rivière Doubs (Verneaux 1973)
 
@@ -162,12 +153,11 @@ class: inverse, center, middle
 ![:scale 100%](images/Doubs_carte.jpg)]
 
 ---
-
-## Charger les données
+# Charger les données
 
 .alert[Assurez-vous que les fichiers se trouvent dans votre répertoire de travail!]
 
-Chargez la matrice d'abondances d'espèces (*doubsspe.csv*):  
+Chargez la matrice d'abondances d'espèces (*doubsspe.csv*):
 
 ```{r, echo = TRUE}
 # Assurez vous que les fichiers se trouvent dans votre répertoire de travail!
@@ -175,18 +165,17 @@ spe <- read.csv("data/doubsspe.csv", row.names = 1)
 spe <- spe[-8,] # Supprimer site 8 (pas d'espèces).
 ```
 
-Chargez la matrice de données environnementales (*doubsenv.csv* ):  
+Chargez la matrice de données environnementales (*doubsenv.csv* ):
 
 ```{r, echo = TRUE}
 env <- read.csv("data/doubsenv.csv", row.names = 1)
 env <- env[-8,] # Supprimer site 8 (pas d'espèces).
-```  
+```
 
 .alert[Note]: N'exécuter qu'une seule fois!
 
 ---
-
-## Données d'abondances d'espèces
+# Données d'abondances d'espèces
 
 Explorons la matrice des abondances d'espèces:
 ```{r, echo = TRUE, results = 'hide'}
@@ -201,8 +190,7 @@ summary(spe) # statistiques descriptives des objets (min, moyenne, max, etc.)
 dim(spe)
 ```
 ---
-
-## Distribution des abondances d'espèces
+# Distribution des abondances d'espèces
 
 Explorons la structure de la communauté:
 ```{r, echo = TRUE, results = 'hide', fig.width = 6, fig.height = 3.5}
@@ -216,8 +204,7 @@ barplot(ab, las = 1,
 .alert[Notice]: Il y a beaucoup de zéros.
 
 ---
-
-## Distribution des abondances d'espèces
+# Distribution des abondances d'espèces
 
 Comptez le nombre absences dans les données d'abondances.
 ```{r}
@@ -230,14 +217,13 @@ sum(spe == 0)/(nrow(spe)*ncol(spe))
 ```
 
 ---
-
-## Transformation des données d'abondances
+# Transformation des données d'abondances
 
 .alert[**Plus de 50%**] des données d'abondances consiste d'absences. C'est élevé, mais pas inhabituel pour ce type de données.
-<br>  
+<br>
 Par contre, il faut éviter que les **double zéros** soient considérés comme une similarité entre sites.
 * Nous appliquerons alors une .alert[transformation Hellinger] aux données d'abondances d'espèces.
-<br>  
+<br>
 ```{r}
 # a fonction decostand() dans la libraire vegan nous facilite la tâche:
 library(vegan)
@@ -245,8 +231,7 @@ spe.hel <- decostand(spe, method = "hellinger")
 ```
 
 ---
-
-## Données environnementales
+# Données environnementales
 
 Explorons les données environnementales:
 ```{r, echo = TRUE, results = 'hide'}
@@ -263,8 +248,7 @@ dim(env) # structure des objets
 ```
 
 ---
-
-## Colinéarité
+# Colinéarité
 
 ```{r, fig.height = 5, fig.width = 9}
 # On peut également détecter (visuellement) les colinéarités entres variables:
@@ -273,9 +257,9 @@ pairs(env)
 .alert[Note:] Colinéarité entre quelques variables... .small[(das vs. alt, das vs. deb, das vs. dur, das vs. nit, oxy vs. dbo, etc.)]
 
 ---
-## Standardisation des données
+# Standardisation des données
 
-Il est impossible de comparer les effets de variables d'unités différentes.  
+Il est impossible de comparer les effets de variables d'unités différentes.
 <br>
 Avant d'effectuer les analyses qui suivent, les données doivent donc être .alert[standardisées].
 
@@ -297,8 +281,7 @@ class: inverse, center, middle
 # Analyses canoniques
 
 ---
-
-## Analyses canoniques
+# Analyses canoniques
 
 Les analyses canoniques nous permettent:
 - d'identifier les .comment[relations] entre un ensemble de variables réponses et un ensemble de variables explicatives
@@ -313,8 +296,7 @@ class: inverse, center, middle
 ## Analyse canonique de redondances (RDA)
 
 ---
-
-## Analyse canonique de redondances (RDA)
+# Analyse canonique de redondances (RDA)
 
 L'analyse canonique de redondances est une ordination .alert[sous contraintes].
 - extension directe de la régression multiple.
@@ -326,7 +308,7 @@ Variables peuvent être quantitatives, qualitatives, ou binaires (0/1).
 - .alert[transformez] et .alert[standardisez] les variables avant d'effectuer une RDA.
 
 ---
-## Effectuer une RDA dans R
+# Effectuer une RDA dans R
 
 Préparer les données
 ```{r}
@@ -349,21 +331,19 @@ summary(spe.rda, display = NULL)
 ```
 
 ---
-
-## Sortie d'une RDA
+# Sortie d'une RDA
 
 .center[ ![:scale 70%](images/RDAOutput.png)]
 
-* **Constrained Proportion**: variance de Y expliquée par X .alert[(73.41%)]
-* **Unconstained Proportion**: variance in Y non expliquée par .alert[(26.59%)]  
+* **Constrained Proportion**: variance de Y expliquée par X .alert[(73.41%)]  
+* **Unconstained Proportion**: variance in Y non expliquée par .alert[(26.59%)]
 
   <br>
 
 .small[Les variables environnementales mesurées expliquent .alert[73.41%] de la variation dans la composition en espèces des communautés de poissons dans la rivière Doubs.]
 
 ---
-
-## Sélection de variables
+# Sélection de variables
 
 Une .alert[sélection progressive] peut être effectuée afin de sélectionner les variables explicatives significatives.
 
@@ -383,8 +363,7 @@ fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # modèle le plus simple
 .small[Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le R2 ajusté du modèle.]
 
 ---
-
-## Sélection de variables
+# Sélection de variables
 
 - Quelles variables ont été sélectionnées?
 ```{r}
@@ -400,8 +379,7 @@ RsquareAdj(spe.rda.signif)
 ```
 
 ---
-
-## Tester la significativité d'une RDA
+# Tester la significativité d'une RDA
 
 Utilisez .alert[anova.cca()] pour tester la significativité globale de notre RDA
 ```{r}
@@ -414,8 +392,7 @@ anova.cca(spe.rda.signif, step = 1000, by = "axis")
 ```
 
 ---
-
-## Représentation graphique des RDAs
+# Représentation graphique des RDAs
 
 Une RDA permet la **visualization simultanée** des variables réponses et explicatives .comment[(i.e. espèces et variables environmentales)].
 <br>
@@ -430,8 +407,7 @@ Comme pour la PCA, on doit choisir le .alert[cadrage]:
 
 
 ---
-
-## Triplot RDA: Cadrage de type 1
+# Triplot RDA: Cadrage de type 1
 
 .pull-left[
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
@@ -445,14 +421,13 @@ ordiplot(spe.rda.signif,
 ######Le cadrage 1 permet d'interpréter les .alert[distances] entre objets (espèces).
 
 .small[
-* Les communautés dans les sites (chiffres) .comment[plus rapprochés] ont des compositions plus similaires.  
-* Les espèces .comment[plus rapprochés] occupent souvent les mêmes sites.  
+* Les communautés dans les sites (chiffres) .comment[plus rapprochés] ont des compositions plus similaires.
+* Les espèces .comment[plus rapprochés] occupent souvent les mêmes sites.
 ]
 ]
 
 ---
-
-## Triplot RDA: Cadrage de type 2
+# Triplot RDA: Cadrage de type 2
 
 .pull-left[
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
@@ -472,8 +447,7 @@ ordiplot(spe.rda.signif,
 ]
 
 ---
-
-## Configuration des triplots RDA
+# Configuration des triplots RDA
 
 Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
@@ -486,7 +460,7 @@ points(scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1),
 text(x = (scores(spe.rda.signif, display="species", choices=c(1), scaling=1)+0.09),
      y = (scores(spe.rda.signif, display="species", choices=c(2), scaling=1)),
      labels=rownames(scores(spe.rda.signif, display="species", scaling=1)),
-     col="black", cex=0.6)    
+     col="black", cex=0.6)
 arrows(0,0,
        scores(spe.rda.signif, display="bp", choices=c(1), scaling=1),
        scores(spe.rda.signif, display="bp", choices=c(2), scaling=1),
@@ -500,8 +474,7 @@ text(x = scores(spe.rda.signif, display="bp", choices=c(1), scaling=1)-0.1,
 Voir le wiki pour plus de détails!
 
 ---
-
-## Défi 1 ![:cube]()
+# Défi 1 ![:cube]()
 
 Effectuer une RDA pour modèliser les effect des variables environnementales (.comment[mite.env]) sur l’abondance des espèces d'acariens (.comment[mite]).
 <br>
@@ -526,8 +499,7 @@ ordiplot()
 ]
 
 ---
-
-## Défi 1: Solution
+# Défi 1: Solution
 
 Étape 1: Préparer les données
 ```{r}
@@ -540,8 +512,7 @@ mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
 ```
 
 ---
-
-## Défi 1: Solution
+# Défi 1: Solution
 
 Étape 2: Sélectionner les variables environnementales
 ```{r}
@@ -557,8 +528,7 @@ fwd.sel$call
 ```
 
 ---
-
-## Défi 1: Solution
+# Défi 1: Solution
 
 Étape 3: Effectuer l'RDA et extraire le R2 ajusté
 ```{r}
@@ -573,8 +543,7 @@ RsquareAdj(mite.spe.rda.signif)$adj.r.squared
 ```
 
 ---
-
-## Défi 1: Solution
+# Défi 1: Solution
 
 Étape 4: Tester la significativité globale du modèle
 ```{r}
@@ -584,8 +553,7 @@ anova.cca(mite.spe.rda.signif, step = 1000)
 Les variables environnementales sélectionnées expliquent .alert[43.7% (p = 0.001)] de la variation dans la composition de communautés des acariens.
 
 ---
-
-## Défi 1: Solution
+# Défi 1: Solution
 
 Étape 5: Triplot!
 .pull-left[
@@ -612,8 +580,7 @@ class: inverse, center, middle
 ## RDA partielle
 
 ---
-
-## RDA partielle
+# RDA partielle
 
 * Cas particulier de la RDA en présence d’une matrice W de variables explicatives additionnelles, appelées co-variables
   * Modèle linéaire de l’effet de X sur Y, ajusté pour tenir compte de l’effet des .alert[co-variables W].
@@ -621,8 +588,7 @@ class: inverse, center, middle
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
 ---
-
-## Applications de la RDA partielle
+# Applications de la RDA partielle
 
 * Évaluer l’effet de variables environnementales sur la composition des communautés, prenant en compte l'.alert[effet de covariables] de moindre intérêt.
 * .alert[Isoler] les effets d'un ou plusieurs groupes de variables explicatives.
@@ -630,7 +596,7 @@ class: inverse, center, middle
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
 ---
-## RDA partielle: données Doubs
+# RDA partielle: données Doubs
 
 Évaluons l'effet de la .comment[chimie de l'eau] (X) sur l’abondance des poissons en tenant compte de .comment[covariables topographiques] (W).
 
@@ -656,7 +622,7 @@ spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
 ]
 
 ---
-## Résultats d'une RDA partielle
+# Résultats d'une RDA partielle
 
 ```{r, eval = FALSE, results = 'hide'}
 # Extraire les résultats
@@ -668,15 +634,14 @@ summary(spe.partial.rda, display = NULL)
 .small[
 * **Conditioned Proportion**:  variance de Y expliquée par W .alert[(41.53%)]
 * **Constrained Proportion**: variance de Y expliquée par X .alert[(31.89%)]
-* **Unconstained Proportion**: variance de Y non expliquée .alert[(26.59%)]  
+* **Unconstained Proportion**: variance de Y non expliquée .alert[(26.59%)]
 
   <br>
 .comment[La chimie de l’eau explique .alert[31.89%] de l’abondance des espèces de poissons, tandis que la topographie explique .alert[41.53%] de la variation en abondances des poissons.]
 ]
 
 ---
-
-## Tester la significativité
+# Tester la significativité
 
 Extraire le R2 ajusté du modèle:
 ```{r}
@@ -691,8 +656,7 @@ anova.cca(spe.partial.rda, step = 1000)
 ```
 
 ---
-
-## Représentation graphique
+# Représentation graphique
 
 .small[
 ```{r}
@@ -704,8 +668,7 @@ ordiplot(spe.partial.rda, scaling = 2,
 .alert[Note]: Les variables topographiques ne sont pas représentées. Pourquoi?]
 
 ---
-
-## Défi 2 ![:cube]()
+# Défi 2 ![:cube]()
 
 .small[
 Effectuez une RDA partielle de l’abondance des espèces de mites en fonction des variables environnementales, tenant compte de l’effet du substrat (SubsDens, WaterCont and Substrate).
@@ -727,8 +690,7 @@ anova.cca()
 ]
 
 ---
-
-## Défi 2: Solution
+# Défi 2: Solution
 
 Nos données sont déjà transformés et standardisés.
 <br>
@@ -745,8 +707,7 @@ summary(mite.spe.subs, display = NULL)
 Shrub et Topo expliquent .alert[9.8%] de la variation de l’abondance de mites, tandis que le substrat explique .alert[42.8%] de cette variation.
 
 ---
-
-## Défi 2: Solution
+# Défi 2: Solution
 
 * Le modèle est-il significatif?
 ```{r}
@@ -754,8 +715,7 @@ anova.cca(mite.spe.subs, step = 1000)
 ```
 
 ---
-
-## Défi 2: Solution
+# Défi 2: Solution
 
 * Quels sont les axes significatifs?
 ```{r}
@@ -770,25 +730,22 @@ class: inverse, center, middle
 ## Partitionnement de la variation
 
 ---
-
-## Partitionnement de la variation
+# Partitionnement de la variation
 
 Divise la variation d’une matrice de variable réponse en 2, 3, ou 4 matrices de variables explicatives.
 * e.g. variables locales vs. à large échelle
-* e.g. abiotique vs. biotique  
+* e.g. abiotique vs. biotique
 
 <br>
 .center[![:scale 85%](images/VarPart_Matrices.png)]
 
 ---
-
-## Partitionnement de la variation
+# Partitionnement de la variation
 
 .center[![:scale 85%](images/VarPart.png)]
 
 ---
-
-## Partitionnement de la variation dans R
+# Partitionnement de la variation dans R
 
 .small[.alert[Note]: Assurez-vous que la libraire *vegan* est chargée!
 
@@ -799,8 +756,7 @@ spe.part.all$part # extraire résultats
 ]
 
 ---
-
-## Diagramme Venn
+# Diagramme Venn
 
 ```{r, strip.white = TRUE, fig.width = 6, fig.height = 6}
 plot(spe.part.all,
@@ -811,8 +767,7 @@ plot(spe.part.all,
 ```
 
 ---
-
-## Tester la significativité
+# Tester la significativité
 
 .center[![:scale 75%](images/VarPart.png)]
 
@@ -820,8 +775,7 @@ plot(spe.part.all,
 * Mais, on peut tester la significativité des autres fractions!
 
 ---
-
-## Significativité: X1 [a+b]
+# Significativité: X1 [a+b]
 
 .center[![:scale 30%](images/VarPart_small.png)]
 
@@ -833,8 +787,7 @@ anova.cca(rda(spe.hel, env.chem))
 ]
 
 ---
-
-## Significativité: X2 [b+c]
+# Significativité: X2 [b+c]
 
 .center[![:scale 30%](images/VarPart_small.png)]
 
@@ -846,8 +799,7 @@ anova.cca(rda(spe.hel, env.topo))
 ]
 
 ---
-
-## Significativité: Fractions individuelles
+# Significativité: Fractions individuelles
 
 .center[![:scale 30%](images/VarPart_small.png)]
 .small[
@@ -860,8 +812,7 @@ anova.cca(rda(spe.hel, env.chem, env.topo))
 ]
 
 ---
-
-## Significativité: Fractions individuelles
+# Significativité: Fractions individuelles
 
 .center[![:scale 30%](images/VarPart_small.png)]
 
@@ -873,8 +824,7 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 ]
 
 ---
-
-## Défi 3 ![:cube]()
+# Défi 3 ![:cube]()
 
 .small[
 Partitionnez la variation de l’abondance des espèces de mites entres des variables de substrat (SubsDens, WaterCont) et des variables spatiales significatives.
@@ -898,8 +848,7 @@ plot()
 ]
 
 ---
-
-## Défi 3: Solution
+# Défi 3: Solution
 
 Étape 1: Sélection de variables spatiales significatives
 ```{r}
@@ -916,8 +865,7 @@ spat.sel$call
 ```
 
 ---
-
-## Défi 3: Solution
+# Défi 3: Solution
 
 Étape 2: Créer sous-groupes de variables explicatives
 ```{r}
@@ -931,8 +879,7 @@ mite.spat <- subset(mite.pcnm,
 ```
 
 ---
-
-## Défi 3: Solution
+# Défi 3: Solution
 
 Étape 3: Partitionnement de la variation
 ```{r}
@@ -940,15 +887,14 @@ mite.part <- varpart(mite.spe.hel, mite.subs, mite.spat)
 mite.part$part$indfract # extraire résultats
 ```
 
-* Quelle est la proportion de variance expliquée par le substrat?  
+* Quelle est la proportion de variance expliquée par le substrat?
  * .alert[5.9%]
 
 * Quelle est la proportion de variance expliquée par l'espace?
   * .alert[19.4%]
 
 ---
-
-## Défi 3: Solution
+# Défi 3: Solution
 
 Étape 4: Quelles sont les fractions significatives?
 ```{r, results = 'hide'}
@@ -965,8 +911,7 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 .comment[Alors, quels sont les effets de substrat et de l'espace sur les abondances d'espèces de mites?]
 
 ---
-
-## Défi 3: Solution
+# Défi 3: Solution
 
 Étape 5: Diagramme Venn
 ```{r, fig.height=6, fig.width=6}
@@ -980,8 +925,7 @@ class: inverse, center, middle
 # Arbre de régression multivarié (MRT)
 
 ---
-
-## Arbre de régression multivarié (MRT)
+# Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
 
@@ -989,8 +933,7 @@ L'arbre de régression multivarié (ARM ou MRT) est une méthode de groupement h
 * Partitionne une matrice réponse quantitative (Y) en sous-groupes sous la contrainte d'une matrice de variables explicatives (X).
 
 ---
-
-## Arbre de régression multivarié (MRT)
+# Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
 
@@ -1000,8 +943,7 @@ L'arbre de régression multivarié consiste de:
 * .alert[Feuilles]: groupe terminal de sites
 
 ---
-
-## Arbre de régression multivarié (MRT)
+# Arbre de régression multivarié (MRT)
 
 Plusieurs avantages:
 * N'assume pas de relation linéaire entre les matrices Y et X
@@ -1010,13 +952,12 @@ Plusieurs avantages:
 * Valeurs brutes peuvent être utilisées (sans transformation)
 
 ---
-
-## MRT: La méthode
+# MRT: La méthode
 
 La méthode implique deux volets s'effectuant en parallèle:
 1. .comment[Partitionnement] des données sous contrainte
-2. .comment[Validation croisée] pour identifier l'arbre ayant le meilleur pouvoir prédictif.  
-<br>  
+2. .comment[Validation croisée] pour identifier l'arbre ayant le meilleur pouvoir prédictif.
+<br>
 
 Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un arbre:
 * .comment[parcimonieux]
@@ -1024,7 +965,7 @@ Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un
 * Essentiellement: quel arbre répond à ta question?
 
 ---
-## MRT dans R
+# MRT dans R
 
 ```{r, results = 'hide', fig.show = 'hide', eval = F}
 # Enlever la variable “distance from source”
@@ -1041,8 +982,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ```
 
 ---
-
-## MRT dans R: Choisir un arbre
+# MRT dans R: Choisir un arbre
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
@@ -1061,8 +1001,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-
-## MRT dans R: Choisir un arbre
+# MRT dans R: Choisir un arbre
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
@@ -1080,8 +1019,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-
-## MRT dans R: Visualisation
+# MRT dans R: Visualisation
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
@@ -1099,8 +1037,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-
-## MRT dans R: Comparaison d'arbres
+# MRT dans R: Comparaison d'arbres
 
 Pour choisir un arbre, on peut aussi comparer plusieurs solutions possibles.
 
@@ -1119,8 +1056,7 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-
-## MRT dans R: Comparaison d'arbres
+# MRT dans R: Comparaison d'arbres
 
 Considérons une solution avec moins (4) de groupes!
 .tiny[
@@ -1139,8 +1075,7 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-
-## MRT dans R: Paramètre de complexité
+# MRT dans R: Paramètre de complexité
 
 Le .comment[paramètre de complexité (CP)] représente la variance expliquée par chaque noeud.
 ```{r}
@@ -1151,8 +1086,7 @@ doubs.mrt$cptable
 * CP @ autres neouds = R2 de chaque noeud (voir sommaire complet pour la valeur de seuil de chaque noeud)
 
 ---
-
-## MRT dans R: Sommaire des résultats
+# MRT dans R: Sommaire des résultats
 
 Pour accèder au sommaire des résultats:
 .tiny[
@@ -1162,11 +1096,10 @@ summary(doubs.mrt)
 ]
 
 ---
-
-## MRT dans R: Espèces discriminantes
+# MRT dans R: Espèces discriminantes
 
 On peut aussi déterminer quels espèces contribuent le plus à la variance expliquée par chaque noeud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
-<br>  
+<br>
 Pour ceci, on peut utiliser la libraire .comment[MVPARTwrap]:
 ```{r, results = 'hide'}
 library(MVPARTwrap)
@@ -1179,8 +1112,7 @@ summary(doubs.mrt.wrap)
 ```
 
 ---
-
-## MRT dans R: Espèces discriminantes
+# MRT dans R: Espèces discriminantes
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 .small[
@@ -1190,8 +1122,7 @@ summary(doubs.mrt.wrap)
 ]
 
 ---
-
-## MRT dans R: Espèces discriminantes
+# MRT dans R: Espèces discriminantes
 
 Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
 
@@ -1214,8 +1145,7 @@ doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 * TRU et VAI contribuent beaucoup à la branche de gauche, alors que ABL est davantage indicatrice des sites à basse altitude (<361.5m).
 
 ---
-
-## Défi 4 ![:cube]()
+# Défi 4 ![:cube]()
 
 .small[
 Créez un arbre de régression multivarié pour les données .comment[mite].
@@ -1240,8 +1170,7 @@ summary()
 ```
 ]
 ---
-
-## Défi 4: Solution
+# Défi 4: Solution
 
 Étape 1: Créer un arbre de régression multivarié
 ```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
@@ -1254,8 +1183,7 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ```
 
 ---
-
-## Défi 4: Solution
+# Défi 4: Solution
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
@@ -1274,8 +1202,7 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ]
 
 ---
-
-## Défi 4: Solution
+# Défi 4: Solution
 
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
@@ -1290,8 +1217,7 @@ summary(mite.mrt.wrap)
 ```
 
 ---
-
-## Défi 4: Solution
+# Défi 4: Solution
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
 * LCIL, LRUG, Ceratoz1
@@ -1304,8 +1230,7 @@ class: inverse, center, middle
 # Analyse discriminante linéaire (LDA)
 
 ---
-
-## Analyse discriminante linéaire (LDA)
+# Analyse discriminante linéaire (LDA)
 
 * Détermine si une matrice de variables indépendantes explique bien un groupement établi *a priori*
   * e.g. prédire l’appartenance d’une espèce de poisson à un groupe (marin vs. eau douce) selon sa morphologie
@@ -1313,19 +1238,17 @@ class: inverse, center, middle
 .center[![:scale 60%](images/LDA_FishExample.jpg)]
 
 ---
+# LDA dans R: Rivière Doubs
 
-## LDA dans R: Rivière Doubs
+Généralement, les variables environnementales changent avec la latitude.
 
-Généralement, les variables environnementales changent avec la latitude.  
-
-<br>  
+<br>
 --
-.comment[Si on classifie les sites de la rivière Doubs selon la latitude, à quel point les variables environnementales expliquent-elles ces groupements?]  
+.comment[Si on classifie les sites de la rivière Doubs selon la latitude, à quel point les variables environnementales expliquent-elles ces groupements?]
 * Une LDA permet de répondre à cette question.
 
 ---
-
-## LDA dans R: Rivière Doubs
+# LDA dans R: Rivière Doubs
 
 Commençons par charger les données spatiales des sites:
 ```{r}
@@ -1346,8 +1269,7 @@ spa$group[which(spa$y > 156)] <- 3
 ```
 
 ---
-
-## LDA dans R: Rivière Doubs
+# LDA dans R: Rivière Doubs
 
 Visualisons ces regroupements par latitude:
 ```{r, fig.width = 5.5, fig.height = 5.5}
@@ -1355,8 +1277,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
 
 ---
-
-## LDA dans R
+# LDA dans R
 
 .alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011).
 
@@ -1370,8 +1291,7 @@ LDA <- lda(env, spa$group)
 ```
 
 ---
-
-## LDA dans R: Vérification
+# LDA dans R: Vérification
 
 .small[On peut ensuite voir comment les sites sont classifiés, et si cette classification est exacte.
 
@@ -1392,8 +1312,7 @@ diag(prop.table(spe.table, 1))
 Tous les sites ont été correctement classifiés dans leur groupe de latitude en fonction des variables environnementales.]
 
 ---
-
-## LDA dans R: Prédictions
+# LDA dans R: Prédictions
 
 On peut maintenant utiliser la LDA pour classifier de nouveaux sites dans les groupes de latitude.
 --
@@ -1414,8 +1333,7 @@ predict.group$class
 ]
 
 ---
-
-## Défi 5 ![:cube]()
+# Défi 5 ![:cube]()
 
 .small[Créez 4 groupes de latitude à partir des données .comment[mite.xy]. Ensuite, une LDA sur les données environnementales .comment[(mite.env)] des acariens (.comment[SubsDens] et .comment[WatrCont]).
 * Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?
@@ -1436,8 +1354,7 @@ diag()
 ]
 
 ---
-
-## Défi 5: Solution
+# Défi 5: Solution
 
 Étape 1: Créer 4 groupes de latitude
 .small[
@@ -1465,8 +1382,7 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ]
 
 ---
-
-## Défi 5: Solution
+# Défi 5: Solution
 
 Étape 3: Vérifier la classification
 .small[
@@ -1488,4 +1404,4 @@ class: inverse, center, bottom
 
 # Merci d'avoir participé à cet atelier!
 
-![:scale 50%](images/QCBS_logo.png)
+![:scale 50%](images/qcbs_logo.png)

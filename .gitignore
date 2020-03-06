@@ -1,4 +1,5 @@
-
+# do not upload pdf pres ON GitHub
+workshop[0-1][0-9]-[ef][nr].pdf
 
 assets
 *.html
