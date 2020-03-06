@@ -791,8 +791,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.025 *  
-# RDA3      1 0.003193 0.9919  0.432    
+# RDA2      1 0.008254 2.5643  0.019 *  
+# RDA3      1 0.003193 0.9919  0.433    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1197,9 +1197,11 @@ To find out how much variance is explained by each node in the tree, we need to 
 
 ```r
 doubs.mrt$cptable
-#          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0733391 0.07488538
-# 2 0.1044982      1 0.5630439 0.6725871 0.09438739
+#           CP nsplit rel error    xerror       xstd
+# 1 0.43695606      0 1.0000000 1.0729058 0.07486208
+# 2 0.10449823      1 0.5630439 0.6698747 0.09375457
+# 3 0.07771670      2 0.4585457 0.6831143 0.09846458
+# 4 0.05937766      3 0.3808290 0.6621888 0.09344513
 ```
 
 * CP @ nsplit 0 = R2 of the whole tree
@@ -1219,9 +1221,11 @@ summary(doubs.mrt)
 #     which = 4, legend = FALSE, prn = FALSE, cp = 0)
 #   n= 29 
 # 
-#          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0733391 0.07488538
-# 2 0.1044982      1 0.5630439 0.6725871 0.09438739
+#           CP nsplit rel error    xerror       xstd
+# 1 0.43695606      0 1.0000000 1.0729058 0.07486208
+# 2 0.10449823      1 0.5630439 0.6698747 0.09375457
+# 3 0.07771670      2 0.4585457 0.6831143 0.09846458
+# 4 0.05937766      3 0.3808290 0.6621888 0.09344513
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1233,11 +1237,37 @@ summary(doubs.mrt)
 #       amm &lt; 0.06  to the left,  improve=0.3529830, (0 missing)
 #       nit &lt; 1.415 to the left,  improve=0.3513335, (0 missing)
 # 
-# Node number 2: 15 observations
+# Node number 2: 15 observations,    complexity param=0.0777167
 #   Means=0.1208,0.4463,0.4194,0.4035,0.1104,0.09023,0,0.02108,0.1256,0.2164,0.04392,0.01054,0.107,0.09779,0.06853,0,0.01054,0.01617,0.01054,0.09489,0,0,0,0.08629,0,0,0, Summed MSE=0.3194207 
+#   left son=4 (11 obs) right son=5 (4 obs)
+#   Primary splits:
+#       oxy &lt; 10.25 to the right, improve=0.2282249, (0 missing)
+#       dbo &lt; 4.05  to the left,  improve=0.2282249, (0 missing)
+#       deb &lt; 18    to the left,  improve=0.2045441, (0 missing)
+#       alt &lt; 550   to the right, improve=0.1992144, (0 missing)
+#       das &lt; 111.2 to the left,  improve=0.1992144, (0 missing)
 # 
-# Node number 3: 14 observations
-#   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343
+# Node number 3: 14 observations,    complexity param=0.1044982
+#   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343 
+#   left son=6 (3 obs) right son=7 (11 obs)
+#   Primary splits:
+#       dbo &lt; 10.6  to the right, improve=0.4696188, (0 missing)
+#       amm &lt; 0.45  to the right, improve=0.4696188, (0 missing)
+#       pho &lt; 1.07  to the right, improve=0.3682758, (0 missing)
+#       oxy &lt; 6.75  to the left,  improve=0.3682758, (0 missing)
+#       alt &lt; 298   to the left,  improve=0.2483632, (0 missing)
+# 
+# Node number 4: 11 observations
+#   Means=0.1647,0.5279,0.4324,0.3931,0.1506,0.123,0,0.02875,0.08228,0.1563,0.05989,0.01437,0.07973,0.08234,0.04243,0,0.01437,0,0.01437,0.05004,0,0,0,0.01437,0,0,0, Summed MSE=0.2610106 
+# 
+# Node number 5: 4 observations
+#   Means=0,0.2219,0.3838,0.432,0,0,0,0,0.2449,0.3817,0,0,0.182,0.1403,0.1403,0,0,0.06063,0,0.2182,0,0,0,0.2841,0,0,0, Summed MSE=0.2066745 
+# 
+# Node number 6: 3 observations
+#   Means=0,0,0,0,0,0,0.08607,0,0.1005,0.3889,0,0,0.2282,0.1005,0,0,0.08607,0.1005,0,0,0,0,0.2222,0.3889,0.08607,0.6022,0, Summed MSE=0.1808713 
+# 
+# Node number 7: 11 observations
+#   Means=0.02773,0.04316,0.1084,0.167,0.03748,0.05656,0.1584,0.1733,0.1936,0.2132,0.2382,0.1934,0.2464,0.1993,0.1974,0.2166,0.1929,0.1381,0.1784,0.2253,0.1663,0.1166,0.207,0.2671,0.1799,0.2636,0.192, Summed MSE=0.1016314
 ```
 ]
 
@@ -1297,14 +1327,14 @@ summary(doubs.mrt.wrap)
 # BBO       2          0.7143       0.001
 # GOU       2          0.6443       0.003
 # BCO       2          0.6429       0.001
-# BAR       2          0.6364       0.003
+# BAR       2          0.6364       0.001
 # ROT       2          0.6353       0.001
-# TOX       2          0.6185       0.001
-# BRO       2          0.5533       0.026
-# PER       2          0.5449       0.011
-# PCH       2          0.5000       0.005
+# TOX       2          0.6185       0.002
+# BRO       2          0.5533       0.023
+# PER       2          0.5449       0.023
+# PCH       2          0.5000       0.002
 # 
-# Sum of probabilities                 =  1.335 
+# Sum of probabilities                 =  1.353 
 # 
 # Sum of Indicator Values              =  17.49 
 # 
@@ -1319,56 +1349,140 @@ summary(doubs.mrt.wrap)
 # 
 # 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#                --- Final partition  ---
-#  
-# Sites in the leaf # 2 
-#  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "9"  "10" "11" "12" "13" "14" "15" "16"
+#                     --- Node 2 ---
+#  Complexity(R2) 7.77167 
+#  oxy&gt;=10.25 oxy&lt; 10.25 
 # 
-#  
-# Sites in the leaf # 3 
-#  [1] "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30"
+# ~ Discriminant species : 
+#                            TRU        CHE         GAR
+# % of expl. deviance 25.1104314 13.6236877 19.50954562
+# Mean on the left     0.5278936  0.1563211  0.01437399
+# Mean on the right    0.2219403  0.3816803  0.28405572
+# eliminating null columns
 # 
-#  
-# ~ INDVAL species of the final partition: 
+# ~ INDVAL species for this node: : left is 1, right is 2
 #     cluster indicator_value probability
-# TRU       1          0.8674       0.001
-# VAI       1          0.7758       0.001
-# LOC       1          0.7042       0.002
-# ABL       2          1.0000       0.001
-# HOT       2          0.8571       0.001
-# GRE       2          0.8571       0.001
-# PSO       2          0.8071       0.001
-# BOU       2          0.7857       0.001
-# ANG       2          0.7857       0.001
-# GAR       2          0.7726       0.001
-# SPI       2          0.7347       0.001
-# CAR       2          0.7308       0.001
-# BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.002
-# BCO       2          0.6429       0.001
-# BAR       2          0.6364       0.002
-# ROT       2          0.6353       0.001
-# TOX       2          0.6185       0.001
-# BRO       2          0.5533       0.025
-# PER       2          0.5449       0.015
-# PCH       2          0.5000       0.003
+# TRU       1          0.7040       0.002
+# GAR       2          0.7139       0.012
+# CHE       2          0.7094       0.025
+# TAN       2          0.6101       0.019
 # 
-# Sum of probabilities                 =  1.286 
+# Sum of probabilities                 =  8.062 
 # 
-# Sum of Indicator Values              =  17.49 
+# Sum of Indicator Values              =  7.77 
 # 
-# Sum of Significant Indicator Values  =  15.17 
+# Sum of Significant Indicator Values  =  2.74 
 # 
-# Number of Significant Indicators     =  21 
+# Number of Significant Indicators     =  4 
+# 
+# Significant Indicator Distribution
+# 
+# 1 2 
+# 1 3 
+# 
+# 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#                     --- Node 3 ---
+#  Complexity(R2) 10.44982 
+#  dbo&gt;=10.6 dbo&lt; 10.6 
+# 
+# ~ Discriminant species : 
+#                            ABL
+# % of expl. deviance 18.3810148
+# Mean on the left     0.6022300
+# Mean on the right    0.2636216
+# 
+# ~ INDVAL species for this node: : left is 1, right is 2
+#     cluster indicator_value probability
+# ABL       1          0.6955       0.004
+# CHE       1          0.6459       0.003
+# GAR       1          0.5928       0.011
+# BAR       2          1.0000       0.004
+# SPI       2          1.0000       0.008
+# PER       2          1.0000       0.001
+# BOU       2          1.0000       0.004
+# CAR       2          1.0000       0.002
+# TAN       2          1.0000       0.003
+# ANG       2          1.0000       0.002
+# LOC       2          0.9091       0.011
+# TOX       2          0.9091       0.005
+# BCO       2          0.8182       0.033
+# PSO       2          0.6914       0.034
+# BRO       2          0.6647       0.034
+# VAN       2          0.6583       0.037
+# HOT       2          0.6479       0.037
+# 
+# Sum of probabilities                 =  5.751 
+# 
+# Sum of Indicator Values              =  18.49 
+# 
+# Sum of Significant Indicator Values  =  14.23 
+# 
+# Number of Significant Indicators     =  17 
 # 
 # Significant Indicator Distribution
 # 
 #  1  2 
-#  3 18 
+#  3 14 
+# 
+# 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#                --- Final partition  ---
+#  
+# Sites in the leaf # 3 
+#  [1] "1"  "2"  "3"  "4"  "7"  "11" "12" "13" "14" "15" "16"
+# 
+#  
+# Sites in the leaf # 4 
+# [1] "5"  "6"  "9"  "10"
+# 
+#  
+# Sites in the leaf # 6 
+# [1] "23" "24" "25"
+# 
+#  
+# Sites in the leaf # 7 
+#  [1] "17" "18" "19" "20" "21" "22" "26" "27" "28" "29" "30"
+# 
+#  
+# ~ INDVAL species of the final partition: 
+#     cluster indicator_value probability
+# TRU       1          0.6657       0.001
+# CHA       1          0.4668       0.030
+# LOC       2          0.4354       0.004
+# ABL       3          0.6955       0.001
+# BOU       4          1.0000       0.001
+# ANG       4          1.0000       0.001
+# SPI       4          0.9308       0.001
+# CAR       4          0.9254       0.001
+# BCO       4          0.8182       0.001
+# BAR       4          0.7991       0.001
+# TOX       4          0.7798       0.001
+# PSO       4          0.6576       0.001
+# HOT       4          0.6479       0.002
+# PCH       4          0.6364       0.012
+# BBO       4          0.5534       0.023
+# PER       4          0.5193       0.006
+# TAN       4          0.4565       0.012
+# 
+# Sum of probabilities                 =  1.886 
+# 
+# Sum of Indicator Values              =  15.62 
+# 
+# Sum of Significant Indicator Values  =  11.99 
+# 
+# Number of Significant Indicators     =  17 
+# 
+# Significant Indicator Distribution
+# 
+#  1  2  3  4 
+#  2  1  1 13 
 # 
 # ~ Corresponding MRT leaf number for Indval cluster number: 
-# MRT leaf # 2 is Indval cluster no. 1 
-# MRT leaf # 3 is Indval cluster no. 2
+# MRT leaf # 3 is Indval cluster no. 1 
+# MRT leaf # 4 is Indval cluster no. 2 
+# MRT leaf # 6 is Indval cluster no. 3 
+# MRT leaf # 7 is Indval cluster no. 4
 ```
 ]
 
@@ -1388,19 +1502,17 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extract the significant indicator species (and which node they represent)
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
-#   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# ABL ANG 
-#   2   2
+# CHA TRU VAI LOC HOT TOX BAR SPI PER BOU PSO CAR TAN BCO PCH BBO ABL ANG 
+#   1   1   1   2   4   4   4   4   4   4   4   4   4   4   4   4   3   4
 
 # Extract their indicator values
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-#       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
-# 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
-#       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
-# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
-#       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
+#       CHA       TRU       VAI       LOC       HOT       TOX       BAR       SPI 
+# 0.4668470 0.6657003 0.4251533 0.4354073 0.6478785 0.7797510 0.7990592 0.9308048 
+#       PER       BOU       PSO       CAR       TAN       BCO       PCH       BBO 
+# 0.5193061 1.0000000 0.6575525 0.9254325 0.4564600 0.8181818 0.6363636 0.5533783 
+#       ABL       ANG 
+# 0.6955349 1.0000000
 ```
 ]
 

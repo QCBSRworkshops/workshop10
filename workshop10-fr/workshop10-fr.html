@@ -376,15 +376,15 @@ RsquareAdj(spe.rda.signif)
 Utilisez .alert[anova.cca()] pour tester la significativité globale de notre RDA
 
 ```r
-anova.cca(spe.rda.signif, step = 1000)
+anova.cca(spe.rda.signif, permutations = 1000)
 # Permutation test for rda under reduced model
 # Permutation: free
-# Number of permutations: 999
+# Number of permutations: 1000
 # 
 # Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
-#          Df Variance      F Pr(&gt;F)    
-# Model     3  0.29619 11.963  0.001 ***
-# Residual 25  0.20632                  
+#          Df Variance      F   Pr(&gt;F)    
+# Model     3  0.29619 11.963 0.000999 ***
+# Residual 25  0.20632                    
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -392,7 +392,7 @@ anova.cca(spe.rda.signif, step = 1000)
 On peut aussi tester la significativité des axes!
 
 ```r
-anova.cca(spe.rda.signif, step = 1000, by = "axis")
+anova.cca(spe.rda.signif, permutations = 1000, by = "axis")
 ```
 
 ---
@@ -777,8 +777,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.019 *  
-# RDA3      1 0.003193 0.9919  0.441    
+# RDA2      1 0.008254 2.5643  0.023 *  
+# RDA3      1 0.003193 0.9919  0.435    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -942,9 +942,9 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
-#          Df Variance      F Pr(&gt;F)    
-# Model     3 0.064495 2.8965  0.001 ***
-# Residual 18 0.133599                  
+#          Df Variance      F Pr(&gt;F)   
+# Model     3 0.064495 2.8965  0.002 **
+# Residual 18 0.133599                 
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1191,8 +1191,8 @@ Le .comment[paramètre de complexité (CP)] représente la variance expliquée p
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0748239 0.07502302
-# 2 0.1044982      1 0.5630439 0.6706976 0.09371928
+# 1 0.4369561      0 1.0000000 1.0775432 0.07503181
+# 2 0.1044982      1 0.5630439 0.6763998 0.09495729
 ```
 
 * CP @ nsplit 0 = R2 de l'arbre au complet
@@ -1213,8 +1213,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0748239 0.07502302
-# 2 0.1044982      1 0.5630439 0.6706976 0.09371928
+# 1 0.4369561      0 1.0000000 1.0775432 0.07503181
+# 2 0.1044982      1 0.5630439 0.6763998 0.09495729
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1277,7 +1277,6 @@ summary(doubs.mrt.wrap)
 # TRU       1          0.8674       0.001
 # VAI       1          0.7758       0.001
 # LOC       1          0.7042       0.001
-# CHA       1          0.3389       0.050
 # ABL       2          1.0000       0.001
 # HOT       2          0.8571       0.001
 # GRE       2          0.8571       0.001
@@ -1285,31 +1284,30 @@ summary(doubs.mrt.wrap)
 # BOU       2          0.7857       0.001
 # ANG       2          0.7857       0.001
 # GAR       2          0.7726       0.001
-# SPI       2          0.7347       0.001
+# SPI       2          0.7347       0.002
 # CAR       2          0.7308       0.001
 # BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.003
-# BCO       2          0.6429       0.004
-# BAR       2          0.6364       0.002
+# GOU       2          0.6443       0.005
+# BCO       2          0.6429       0.001
+# BAR       2          0.6364       0.004
 # ROT       2          0.6353       0.001
 # TOX       2          0.6185       0.002
-# BRO       2          0.5533       0.030
-# PER       2          0.5449       0.016
-# TAN       2          0.5115       0.031
-# PCH       2          0.5000       0.002
+# BRO       2          0.5533       0.019
+# PER       2          0.5449       0.024
+# PCH       2          0.5000       0.007
 # 
-# Sum of probabilities                 =  1.293 
+# Sum of probabilities                 =  1.367 
 # 
 # Sum of Indicator Values              =  17.49 
 # 
-# Sum of Significant Indicator Values  =  16.02 
+# Sum of Significant Indicator Values  =  15.17 
 # 
-# Number of Significant Indicators     =  23 
+# Number of Significant Indicators     =  21 
 # 
 # Significant Indicator Distribution
 # 
 #  1  2 
-#  4 19 
+#  3 18 
 # 
 # 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1325,7 +1323,7 @@ summary(doubs.mrt.wrap)
 #  
 # ~ INDVAL species of the final partition: 
 #     cluster indicator_value probability
-# TRU       1          0.8674       0.001
+# TRU       1          0.8674       0.002
 # VAI       1          0.7758       0.001
 # LOC       1          0.7042       0.001
 # ABL       2          1.0000       0.001
@@ -1338,17 +1336,17 @@ summary(doubs.mrt.wrap)
 # SPI       2          0.7347       0.001
 # CAR       2          0.7308       0.001
 # BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.004
+# GOU       2          0.6443       0.003
 # BCO       2          0.6429       0.001
 # BAR       2          0.6364       0.002
 # ROT       2          0.6353       0.001
-# TOX       2          0.6185       0.002
-# BRO       2          0.5533       0.027
-# PER       2          0.5449       0.010
-# TAN       2          0.5115       0.044
-# PCH       2          0.5000       0.002
+# TOX       2          0.6185       0.001
+# BRO       2          0.5533       0.017
+# PER       2          0.5449       0.011
+# TAN       2          0.5115       0.043
+# PCH       2          0.5000       0.004
 # 
-# Sum of probabilities                 =  1.327 
+# Sum of probabilities                 =  1.227 
 # 
 # Sum of Indicator Values              =  17.49 
 # 
@@ -1382,19 +1380,19 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extraire les espèces indicatrices à chaque noeud
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# CHA TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO 
-#   1   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# ABL ANG 
-#   2   2
+# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO ABL 
+#   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
+# ANG 
+#   2
 
 # Extraire leur valeur indval
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-#       CHA       TRU       VAI       LOC       HOT       TOX       BAR       SPI 
-# 0.3388662 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 
-#       GOU       BRO       PER       BOU       PSO       ROT       CAR       BCO 
-# 0.6442950 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 
-#       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
+#       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
+# 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
+#       BRO       PER       BOU       PSO       ROT       CAR       BCO       PCH 
+# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 0.5000000 
+#       GRE       GAR       BBO       ABL       ANG 
+# 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
