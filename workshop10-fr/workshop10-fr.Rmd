@@ -383,12 +383,12 @@ RsquareAdj(spe.rda.signif)
 
 Utilisez .alert[anova.cca()] pour tester la significativité globale de notre RDA
 ```{r}
-anova.cca(spe.rda.signif, step = 1000)
+anova.cca(spe.rda.signif, permutations = 1000)
 ```
 
 On peut aussi tester la significativité des axes!
 ```{r, results = 'hide'}
-anova.cca(spe.rda.signif, step = 1000, by = "axis")
+anova.cca(spe.rda.signif, permutations = 1000, by = "axis")
 ```
 
 ---
