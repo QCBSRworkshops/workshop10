@@ -433,23 +433,19 @@ ordiplot(spe.rda.signif,
 Both plot() and ordiplot() make quick and simple ordination plots, but you can customize your plots by manually setting the aesthetics of points, text, and arrows.
 
 ```{r, echo = FALSE}
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-points(scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1),
-       pch=22, col="black", bg = "#FEC44F", cex=1.2)
-text(x = (scores(spe.rda.signif, display="species", choices=c(1), scaling=1)+0.09),
-     y = (scores(spe.rda.signif, display="species", choices=c(2), scaling=1)),
-     labels=rownames(scores(spe.rda.signif, display="species", scaling=1)),
-     col="black", cex=0.6)
-arrows(0,0,
-       scores(spe.rda.signif, display="bp", choices=c(1), scaling=1),
-       scores(spe.rda.signif, display="bp", choices=c(2), scaling=1),
-       col="#CC3311", lwd = 3)
-text(x = scores(spe.rda.signif, display="bp", choices=c(1), scaling=1)-0.1,
-     y = scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)-0.03,
-     labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="#CC3311", cex=1, font = 2)
+## extract % explained
+perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
+## scores
+sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
+sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
+sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
+## plot
+plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=paste0("RDA1 (", perc[1], "%)"), ylab = paste0("RDA2 (", perc[2], "%)"), xlim=c(-1,1), ylim=c(-1,1))
+points(sc_si, pch=21, col="black", bg="steelblue", cex=1.2)
+points(sc_sp, pch=22, col="black", bg = "#f2bd33", cex=1.2)
+text(sc_sp, labels = rownames(sc_sp), col="black", cex=0.6)
+arrows(0,0, sc_bp[,1], sc_bp[,2], col="red", lwd = 3)
+text(x = sc_bp[,1] -0.1, y = sc_bp[,2] - 0.03, labels=rownames(sc_bp), col="red", cex=1, font = 2)
 ```
 
 See the wiki page for more details!

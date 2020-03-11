@@ -439,11 +439,13 @@ ordiplot(spe.rda.signif,
 Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
 ```{r, echo = FALSE}
+## extrait le % expliqué par les 2 axes
 perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
+## scores => coordonnées
 sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
 sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
 sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
-
+## plot
 plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=paste0("RDA1 (", perc[1], "%)"), ylab = paste0("RDA2 (", perc[2], "%)"), xlim=c(-1,1), ylim=c(-1,1))
 points(sc_si, pch=21, col="black", bg="steelblue", cex=1.2)
 points(sc_sp, pch=22, col="black", bg = "#f2bd33", cex=1.2)
