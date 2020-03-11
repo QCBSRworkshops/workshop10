@@ -949,6 +949,7 @@ In what follows we will be using .alert[`mvpart` that is currently archived on C
 
 ```{R mvpart_install}
 remotes::install_github("cran/mvpart")
+library(mvpart)
 ```
 
 ---
@@ -1090,14 +1091,13 @@ To do this, we have the .comment[MVPARTwrap] package.
 
 ```{R MVPARTwrap_install}
 remotes::install_github("cran/MVPARTwrap")
+library(MVPARTwrap)
 ```
 
 ---
 # MRT in R: Discriminant species
 
 ```{r, results = 'hide'}
-library(MVPARTwrap)
-
 # Generate a nicer and more informative output
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 

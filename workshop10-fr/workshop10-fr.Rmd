@@ -953,6 +953,7 @@ Dans ce qui suit, nous allons utiliser .alert[`mvpart` qui est archivé sur le C
 
 ```{R mvpart_install}
 remotes::install_github("cran/mvpart")
+library(mvpart)
 ```
 
 
@@ -995,7 +996,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 # MRT dans R: Choisir un arbre
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =F}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =FALSE}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "pick",
                     xval = nrow(spe.hel),
@@ -1090,7 +1091,7 @@ summary(doubs.mrt)
 ---
 # MRT dans R: Espèces discriminantes
 
-On peut aussi déterminer quels espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
+On peut aussi déterminer quelles espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
 <br>
 Pour ceci, on peut utiliser la libraire **MVPARTwrap**
 
@@ -1098,14 +1099,13 @@ Pour ceci, on peut utiliser la libraire **MVPARTwrap**
 
 ```{R MVPARTwrap_install}
 remotes::install_github("cran/MVPARTwrap")
+library(MVPARTwrap)
 ```
 
 ---
 # MRT dans R: Espèces discriminantes
 
 ```{r, results = 'hide'}
-library(MVPARTwrap)
-
 # Créer un sommaire plus informatif et moins dense
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 
@@ -1118,7 +1118,7 @@ summary(doubs.mrt.wrap)
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 .small[
-```{r, eval = T}
+```{r}
 summary(doubs.mrt.wrap)
 ```
 ]
