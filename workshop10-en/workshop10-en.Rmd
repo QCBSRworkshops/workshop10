@@ -15,7 +15,7 @@ output:
 ---
 
 
-```{r setup, echo = F}
+```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   comment = "#",
   collapse = TRUE,
@@ -26,51 +26,30 @@ knitr::opts_chunk$set(
   fig.retina = 3,
   fig.align = 'center'
 )
-```
-
-
-```{r, echo =F}
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
-```{r, include = FALSE}
-if (!require(vegan)) install.packages("vegan")
-library(vegan)
-if (!require(MASS)) install.packages("MASS")
-library(MASS)
-if (!require(labdsv)) install.packages("labdsv")
-library(labdsv)
-if (!require(devtools)) install.packages("devtools")
-library(devtools)
-if (!require(Hmisc)) install.packages("Hmisc")
-library(Hmisc)
+class: inverse, center, middle
 
-
-if (!suppressPackageStartupMessages(require(mvpart))) {
-  # file name
-  f = file.path(tempdir(), "mvpart")
-  # download package file
-  download.file('https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz', destfile = f, method = 'curl')
-  # install from source
-  install.packages(pkgs=f, type="source", repos = NULL)
-}
-
-# Dependendies for MVPARTwrap
-if (!require(fBasics)) install.packages("fBasics")
-library(fBasics)
-
-if (!require(ade4)) install.packages("ade4")
-library(ade4)
-
-if (!suppressPackageStartupMessages(require(MVPARTwrap))) {
-  # file name
-  f = file.path(tempdir(), "MVPARTwrap")
-  # download package file
-  download.file('https://cran.r-project.org/src/contrib/Archive/MVPARTwrap/MVPARTwrap_0.1-9.2.tar.gz', destfile = f, method = 'curl')
-  # install from source
-  install.packages(pkgs=f, type="source", repos = NULL)
-}
+```{R install_pkgs, echo = FALSE, results = "asis"}
+cat(
+  qcbsRworkshops::first_slides(10, c('Hmisc', 'labdsv', 'MASS', 'vegan'))
+)
 ```
+
+---
+# Learning objectives
+
+##### Use R to perform unconstrained ordinations
+
+
+---
+class: inverse, center, middle
+
+## Introduction
+
+
+---
 
 ## Introduction
 
@@ -966,6 +945,15 @@ The "best" tree varies depending on your study goals. Usually you want a tree:
 ---
 # MRT in R
 
+In what follows we will be using .alert[`mvpart` that is currently archived on CRAN]. We install it from GitHub using the package remotes:
+
+```{R mvpart_install}
+remotes::install_github("cran/mvpart")
+```
+
+---
+# MRT in R
+
 ```{r, results = 'hide', fig.show = 'hide', eval = F}
 # First, remove the "distance from source" variable
 env <- subset(env, select = -das)
@@ -1095,8 +1083,18 @@ summary(doubs.mrt)
 
 You might also want to know which species are contributing most to the explained variance at each split (i.e. .alert[discriminant species]), or which sites are included within each leaf (group).
 
-  <br>
-To do this, we have the .comment[MVPARTwrap] package:
+<br>
+To do this, we have the .comment[MVPARTwrap] package.
+
+.alert[MVPARTwrap is archived, we use the package remotes to install it from GitHub:]
+
+```{R MVPARTwrap_install}
+remotes::install_github("cran/MVPARTwrap")
+```
+
+---
+# MRT in R: Discriminant species
+
 ```{r, results = 'hide'}
 library(MVPARTwrap)
 
@@ -1112,7 +1110,7 @@ summary(doubs.mrt.wrap)
 
 To see each species' contribution to explained variance at each node:
 .small[
-```{r, eval = T}
+```{r}
 summary(doubs.mrt.wrap)
 ```
 ]
@@ -1123,8 +1121,8 @@ summary(doubs.mrt.wrap)
 
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
 
-.tiny[
-```{r}
+.xsmall[
+```{r labdsv}
 library(labdsv)
 
 # Calculate indicator values (indval) for each species
