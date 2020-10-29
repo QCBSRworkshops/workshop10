@@ -824,8 +824,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.024 *  
-# RDA3      1 0.003193 0.9919  0.430    
+# RDA2      1 0.008254 2.5643  0.018 *  
+# RDA3      1 0.003193 0.9919  0.439    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1242,8 +1242,8 @@ To find out how much variance is explained by each node in the tree, we need to 
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0752730 0.07518210
-# 2 0.1044982      1 0.5630439 0.6694153 0.09368615
+# 1 0.4369561      0 1.0000000 1.0768059 0.07491763
+# 2 0.1044982      1 0.5630439 0.6760624 0.09510184
 ```
 
 * CP @ nsplit 0 = R2 of the whole tree
@@ -1264,8 +1264,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0752730 0.07518210
-# 2 0.1044982      1 0.5630439 0.6694153 0.09368615
+# 1 0.4369561      0 1.0000000 1.0768059 0.07491763
+# 2 0.1044982      1 0.5630439 0.6760624 0.09510184
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1321,108 +1321,18 @@ To see each species' contribution to explained variance at each node:
 
 ```r
 summary(doubs.mrt.wrap)
-# Portion (%) of deviance explained by species for every particular node 
-#  
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#                     --- Node 1 ---
-#  Complexity(R2) 43.69561 
-#  das&lt; 192.2 das&gt;=192.2 
-# 
-# ~ Discriminant species : 
-#                             TRU         VAI        ABL
-# % of expl. deviance 20.03148905 13.16272887 13.3114611
-# Mean on the left     0.44630603  0.41943941  0.0000000
-# Mean on the right    0.03390824  0.08514225  0.3361805
-# 
-# ~ INDVAL species for this node: : left is 1, right is 2
-#     cluster indicator_value probability
-# TRU       1          0.8674       0.001
-# VAI       1          0.7758       0.001
-# LOC       1          0.7042       0.002
-# ABL       2          1.0000       0.001
-# HOT       2          0.8571       0.001
-# GRE       2          0.8571       0.001
-# PSO       2          0.8071       0.001
-# BOU       2          0.7857       0.001
-# ANG       2          0.7857       0.001
-# GAR       2          0.7726       0.001
-# SPI       2          0.7347       0.001
-# CAR       2          0.7308       0.001
-# BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.002
-# BCO       2          0.6429       0.002
-# BAR       2          0.6364       0.003
-# ROT       2          0.6353       0.002
-# TOX       2          0.6185       0.001
-# BRO       2          0.5533       0.030
-# PER       2          0.5449       0.016
-# PCH       2          0.5000       0.004
-# 
-# Sum of probabilities                 =  1.324 
-# 
-# Sum of Indicator Values              =  17.49 
-# 
-# Sum of Significant Indicator Values  =  15.17 
-# 
-# Number of Significant Indicators     =  21 
-# 
-# Significant Indicator Distribution
-# 
-#  1  2 
-#  3 18 
-# 
-# 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#                --- Final partition  ---
-#  
-# Sites in the leaf # 2 
-#  [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "9"  "10" "11" "12" "13" "14" "15" "16"
-# 
-#  
-# Sites in the leaf # 3 
-#  [1] "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30"
-# 
-#  
-# ~ INDVAL species of the final partition: 
-#     cluster indicator_value probability
-# TRU       1          0.8674       0.001
-# VAI       1          0.7758       0.001
-# LOC       1          0.7042       0.001
-# ABL       2          1.0000       0.001
-# HOT       2          0.8571       0.001
-# GRE       2          0.8571       0.001
-# PSO       2          0.8071       0.001
-# BOU       2          0.7857       0.001
-# ANG       2          0.7857       0.001
-# GAR       2          0.7726       0.002
-# SPI       2          0.7347       0.001
-# CAR       2          0.7308       0.001
-# BBO       2          0.7143       0.001
-# GOU       2          0.6443       0.003
-# BCO       2          0.6429       0.003
-# BAR       2          0.6364       0.002
-# ROT       2          0.6353       0.001
-# TOX       2          0.6185       0.002
-# BRO       2          0.5533       0.019
-# PER       2          0.5449       0.017
-# PCH       2          0.5000       0.003
-# 
-# Sum of probabilities                 =  1.312 
-# 
-# Sum of Indicator Values              =  17.49 
-# 
-# Sum of Significant Indicator Values  =  15.17 
-# 
-# Number of Significant Indicators     =  21 
-# 
-# Significant Indicator Distribution
-# 
-#  1  2 
-#  3 18 
-# 
-# ~ Corresponding MRT leaf number for Indval cluster number: 
-# MRT leaf # 2 is Indval cluster no. 1 
-# MRT leaf # 3 is Indval cluster no. 2
+#            Length Class  Mode     
+# nodes       1     -none- numeric  
+# pourct     27     -none- numeric  
+# R2         27     -none- numeric  
+# obj        13     rpart  list     
+# percent     1     -none- numeric  
+# MOYs       54     -none- numeric  
+# RWHERE      1     -none- list     
+# LWHERE      1     -none- list     
+# TABLE1     84     -none- numeric  
+# LABELS      1     -none- logical  
+# mat_labels  3     -none- character
 ```
 ]
 
@@ -1442,19 +1352,19 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extract the significant indicator species (and which node they represent)
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
+# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO ABL 
 #   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# ABL ANG 
-#   2   2
+# ANG 
+#   2
 
 # Extract their indicator values
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
 #       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
 # 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
-#       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
-# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
-#       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
+#       BRO       PER       BOU       PSO       ROT       CAR       BCO       PCH 
+# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 0.5000000 
+#       GRE       GAR       BBO       ABL       ANG 
+# 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
@@ -1796,30 +1706,20 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
 })();
 (function() {
   "use strict"
-  /* Replace <script> tags in slides area to make them executable
-   *
-   * Runs after post-processing of markdown source into slides and replaces only
-   * <script>s on the last slide of continued slides using the .has-continuation
-   * class added by xaringan. Finally, any <script>s in the slides area that
-   * aren't executed are commented out.
-   */
+  // Replace <script> tags in slides area to make them executable
   var scripts = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container:not(.has-continuation) script'
+    '.remark-slides-area .remark-slide-container script'
   );
   if (!scripts.length) return;
   for (var i = 0; i < scripts.length; i++) {
     var s = document.createElement('script');
     var code = document.createTextNode(scripts[i].textContent);
     s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
     scripts[i].parentElement.replaceChild(s, scripts[i]);
-  }
-  var scriptsNotExecuted = document.querySelectorAll(
-    '.remark-slides-area .remark-slide-container.has-continuation script'
-  );
-  if (!scriptsNotExecuted.length) return;
-  for (var i = 0; i < scriptsNotExecuted.length; i++) {
-    var comment = document.createComment(scriptsNotExecuted[i].outerHTML)
-    scriptsNotExecuted[i].parentElement.replaceChild(comment, scriptsNotExecuted[i])
   }
 })();
 (function() {
