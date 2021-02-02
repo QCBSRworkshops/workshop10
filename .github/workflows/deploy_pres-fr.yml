@@ -50,9 +50,7 @@ jobs:
         uses: r-lib/actions/setup-pandoc@v1
         
       - name: Install cURL Headers, UNITS, SSL, SSH2, PQ, 1g
-        run: |
-          sudo apt-get install libcurl4-openssl-dev libudunits2-dev 
-          libssl-dev libssh2-1-dev libpq-dev zlib1g-dev
+        run: sudo apt-get install libcurl4-openssl-dev libudunits2-dev libssl-dev libssh2-1-dev libpq-dev zlib1g-dev
     
       - name: 💻 Install R packages and dependencies if needed
         run: |
@@ -104,3 +102,4 @@ jobs:
           FOLDER: pres-fr/
           TARGET_FOLDER: pres-fr # The folder the action should deploy
           CLEAN: true
+          
