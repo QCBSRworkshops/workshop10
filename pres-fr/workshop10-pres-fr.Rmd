@@ -5,7 +5,7 @@ author: "Centre de la Science de la Biodiversité du Québec"
 output:
   xaringan::moon_reader:
     includes:
-      #in_header: qcbsR-header.html
+      in_header: qcbsR-header.html
     lib_dir: assets
     seal: true
     css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
@@ -25,7 +25,6 @@ knitr::opts_chunk$set(
   cache = TRUE,
   fig.width = 6, fig.height = 6,
   fig.retina = 3,
-  fig.retina = 3,
   fig.align = 'center'
 )
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
@@ -36,7 +35,7 @@ class: inverse, center, middle
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c("Hmisc", "labdsv", "MASS", "vegan")
+list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -46,6 +45,9 @@ if(length(new.packages) > 0) {
 } else if(length(new.packages) == 0) {
     print("All packages were already installed previously")
   }
+
+# Load all required libraries at once
+lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
 
 # � propos de cet atelier
