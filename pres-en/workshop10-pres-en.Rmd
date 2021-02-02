@@ -35,7 +35,7 @@ class: inverse, center, middle
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c("Hmisc", "labdsv", "MASS", "vegan")
+list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -45,6 +45,9 @@ if(length(new.packages) > 0) {
 } else if(length(new.packages) == 0) {
     print("All packages were already installed previously")
   }
+  
+# Load all required libraries at once
+lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
 
 # About this workshop
