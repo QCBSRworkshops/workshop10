@@ -5,7 +5,7 @@ author: "Québec Centre for Biodiversity Science"
 output:
   xaringan::moon_reader:
     includes:
-      #in_header: qcbsR-header.html
+      in_header: qcbsR-header.html
     lib_dir: assets
     seal: true
     css: ["default", "qcbsR.css", "qcbsR-fonts.css"]
