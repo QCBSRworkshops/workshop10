@@ -1,6 +1,6 @@
 ---
 title: "Atelier 10: Analyses multivariées avancées"
-subtitle: "Série d'ateliers R"
+subtitle: "Série d'ateliers R du CSBQ"
 author: "Centre de la Science de la Biodiversité du Québec"
 output:
   xaringan::moon_reader:
@@ -14,7 +14,6 @@ output:
       highlightLines: true
       highlightStyle: github
 ---
-
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
@@ -30,6 +29,7 @@ knitr::opts_chunk$set(
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
+---
 class: inverse, center, middle
 
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
@@ -50,7 +50,7 @@ if(length(new.packages) > 0) {
 lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
 
-# � propos de cet atelier
+# À propos de cet atelier
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=repo&message=dev&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop10)
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=wiki&message=10&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier10)
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Diapos&message=10&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.html)
@@ -68,7 +68,7 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 
 <br>
 
-```R
+```r
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan'))
 ```
 
@@ -986,7 +986,7 @@ Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un
 
 Dans ce qui suit, nous allons utiliser .alert[`mvpart` qui est archivé sur le CRAN]. Nous l'installons depuis GitHub avec le package remotes:
 
-```{R mvpart_install}
+```{R mvpart_install, eval=FALSE, echo=TRUE}
 remotes::install_github("cran/mvpart")
 library(mvpart)
 ```
@@ -1132,8 +1132,9 @@ Pour ceci, on peut utiliser la libraire **MVPARTwrap**
 
 .alert[MVPARTwrap est archivé, on utilise remotes pour l'installer depuis GitHub]
 
-```{R MVPARTwrap_install}
+```{R MVPARTwrap_install, eval = FALSE, echo=TRUE}
 remotes::install_github("cran/MVPARTwrap")
+
 library(MVPARTwrap)
 ```
 
