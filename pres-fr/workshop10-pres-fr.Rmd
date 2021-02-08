@@ -29,7 +29,6 @@ knitr::opts_chunk$set(
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
----
 class: inverse, center, middle
 
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
@@ -153,7 +152,6 @@ Quelques conseils:
 * N'oubliez pas de bien définir votre répertoire de travail (le dossier contenant les fichiers requises pour l'atelier)
 
 ---
-
 class: inverse, center, middle
 
 # Exploration et préparation des données
