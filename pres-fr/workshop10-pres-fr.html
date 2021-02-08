@@ -839,8 +839,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.023 *  
-# RDA3      1 0.003193 0.9919  0.422    
+# RDA2      1 0.008254 2.5643  0.018 *  
+# RDA3      1 0.003193 0.9919  0.392    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1267,8 +1267,8 @@ Le .comment[paramètre de complexité (CP)] représente la variance expliquée p
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0757126 0.07477954
-# 2 0.1044982      1 0.5630439 0.6690774 0.09374393
+# 1 0.4369561      0 1.0000000 1.0744890 0.07470129
+# 2 0.1044982      1 0.5630439 0.6720523 0.09439347
 ```
 
 * CP @ nsplit 0 = R2 de l'arbre au complet
@@ -1289,8 +1289,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0757126 0.07477954
-# 2 0.1044982      1 0.5630439 0.6690774 0.09374393
+# 1 0.4369561      0 1.0000000 1.0744890 0.07470129
+# 2 0.1044982      1 0.5630439 0.6720523 0.09439347
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1376,19 +1376,19 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extraire les espèces indicatrices à chaque noeud
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# CHA TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR 
-#   1   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# BBO ABL ANG 
-#   2   2   2
+# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO ABL 
+#   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
+# ANG 
+#   2
 
 # Extraire leur valeur indval
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-#       CHA       TRU       VAI       LOC       HOT       TOX       BAR       SPI 
-# 0.3388662 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 
-#       GOU       BRO       PER       BOU       PSO       ROT       CAR       TAN 
-# 0.6442950 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 
-#       BCO       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.6428571 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
+#       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
+# 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
+#       BRO       PER       BOU       PSO       ROT       CAR       BCO       PCH 
+# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 0.5000000 
+#       GRE       GAR       BBO       ABL       ANG 
+# 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
