@@ -35,7 +35,10 @@ class: inverse, center, middle
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan")
+remotes::install_github("cran/mvpart")
+remotes::install_github("cran/MVPARTwrap")
+
+list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan", "MVPARTwrap", "mvpart")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -988,6 +991,7 @@ Dans ce qui suit, nous allons utiliser .alert[`mvpart` qui est archivé sur le C
 
 ```{R mvpart_install, eval=FALSE, echo=TRUE}
 remotes::install_github("cran/mvpart")
+
 library(mvpart)
 ```
 
