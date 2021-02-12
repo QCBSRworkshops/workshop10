@@ -828,8 +828,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.015 *  
-# RDA3      1 0.003193 0.9919  0.411    
+# RDA2      1 0.008254 2.5643  0.023 *  
+# RDA3      1 0.003193 0.9919  0.431    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1164,9 +1164,9 @@ In what follows we will be using .alert[`mvpart` that is currently archived on C
 ```r
 remotes::install_github("cran/mvpart")
 #   
-   checking for file ‘/tmp/RtmpYBf3bA/remotes40f26128c334/cran-mvpart-acf0035/DESCRIPTION’ ...
+   checking for file ‘/tmp/Rtmp8Q9wkW/remotes3dc436e65208/cran-mvpart-acf0035/DESCRIPTION’ ...
   
-[32m✔[39m  [90mchecking for file ‘/tmp/RtmpYBf3bA/remotes40f26128c334/cran-mvpart-acf0035/DESCRIPTION’[39m[36m[39m
+[32m✔[39m  [90mchecking for file ‘/tmp/Rtmp8Q9wkW/remotes3dc436e65208/cran-mvpart-acf0035/DESCRIPTION’[39m[36m[39m
 # 
   
 [90m─[39m[90m  [39m[90mpreparing ‘mvpart’:[39m[36m[39m
@@ -1274,8 +1274,8 @@ To find out how much variance is explained by each node in the tree, we need to 
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0763085 0.07486480
-# 2 0.1044982      1 0.5630439 0.6698033 0.09397317
+# 1 0.4369561      0 1.0000000 1.0750313 0.07450697
+# 2 0.1044982      1 0.5630439 0.6673394 0.09335479
 ```
 
 * CP @ nsplit 0 = R2 of the whole tree
@@ -1296,8 +1296,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0763085 0.07486480
-# 2 0.1044982      1 0.5630439 0.6698033 0.09397317
+# 1 0.4369561      0 1.0000000 1.0750313 0.07450697
+# 2 0.1044982      1 0.5630439 0.6673394 0.09335479
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1333,8 +1333,10 @@ remotes::install_github("cran/MVPARTwrap")
 # crayon     (1.3.4 -&gt; 1.4.1    ) [CRAN]
 # hms        (NA    -&gt; 1.0.0    ) [CRAN]
 # timeDate   (NA    -&gt; 3043.102 ) [CRAN]
+# waldo      (0.2.3 -&gt; 0.2.4    ) [CRAN]
 # cli        (2.2.0 -&gt; 2.3.0    ) [CRAN]
 # tibble     (3.0.5 -&gt; 3.0.6    ) [CRAN]
+# xfun       (0.20  -&gt; 0.21     ) [CRAN]
 # progress   (NA    -&gt; 1.2.2    ) [CRAN]
 # sp         (NA    -&gt; 1.4-5    ) [CRAN]
 # pixmap     (NA    -&gt; 0.4-12   ) [CRAN]
@@ -1344,9 +1346,9 @@ remotes::install_github("cran/MVPARTwrap")
 # ade4       (NA    -&gt; 1.7-16   ) [CRAN]
 # fBasics    (NA    -&gt; 3042.89.1) [CRAN]
 #   
-   checking for file ‘/tmp/RtmpYBf3bA/remotes40f232afe2e3/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
+   checking for file ‘/tmp/Rtmp8Q9wkW/remotes3dc451672010/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
   
-[32m✔[39m  [90mchecking for file ‘/tmp/RtmpYBf3bA/remotes40f232afe2e3/cran-MVPARTwrap-9ef54fa/DESCRIPTION’[39m[36m[39m
+[32m✔[39m  [90mchecking for file ‘/tmp/Rtmp8Q9wkW/remotes3dc451672010/cran-MVPARTwrap-9ef54fa/DESCRIPTION’[39m[36m[39m
 # 
   
 [90m─[39m[90m  [39m[90mpreparing ‘MVPARTwrap’:[39m[36m[39m
