@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <meta name="description" content="Advanced Multivariate Analyses in R" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop10" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R" />
+  
+  <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="what-are-constrained-ordinations.html"/>
+<link rel="next" href="partial-redundancy-analysis.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+</ul></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html"><i class="fa fa-check"></i><b>4</b> Exploring the dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#species-data"><i class="fa fa-check"></i><b>4.1</b> Species data</a></li>
+<li class="chapter" data-level="4.2" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#environmental-data"><i class="fa fa-check"></i><b>4.2</b> Environmental data</a></li>
+</ul></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
+<li class="part"><span><b>Final considerations</b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 10: Advanced Multivariate Analyses in <code>R</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+<div id="redundancy-analysis" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Redundancy analysis</h1>
+<p>Redundancy Analysis is a direct extension of multiple regression, as it
+models the effect of an explanatory matrix X (n x p) on a response
+matrix Y (n x m). This is done by preforming an ordination of Y to
+obtain ordination axes that are linear combinations of the variables in
+X. In RDA, ordination axes are calculating from a PCA of a matrix Yfit,
+computed by fitting the Y variables to X by multivariate linear
+regression. Note that the explanatory variables in X can be
+quantitative, qualitative or binary variables. Prior to RDA, explanatory
+variables in Y must be centered, standardized (if explanatory variables
+are not dimensionally homogeneous, i.e. in different units), transformed
+(to limit the skew of explanatory variables) or normalized (to linearize
+relationships) following the same principles as in PCA. Collinearity
+between the X variables should also be reduced before RDA.</p>
+<p>In order to obtain the best model of RDA, explanatory variables can be
+selected by forward, backward or stepwise selection that remove
+non-significant explanatory variables.</p>
+<p>RDA involves two computational steps. In the first step, a matrix of
+fitted values Yfit is calculated trough the linear equation: Yfit =
+X<span class="math display">\[X&#39;X\]</span>-1 <span class="math display">\[X&#39;Y\]</span></p>
+<p>In the second step, a PCA of the fitted matrix Yfit is calculated (see
+equations in the figure below) and produce the canonical eigenvalues and
+eigenvectors together with the matrix Z containing the canonical axes.
+These canonical axes correspond to linear combinations of the
+explanatory variables in X. This linearity of the combinations of the X
+variables is a fundamental property of RDA. In the analysis of community
+composition, these canonical axes are interpreted as complex
+environmental gradients.</p>
+<p><img src="images/constrained_ord_diagram.png" class="align-center" /></p>
+<p>Redundancy analysis as a two-step process (from Legendre and Legendre
+2012) Several statistics can be computed from RDA:</p>
+<p>- The R² measures the strength of the canonical relationship between Y
+and X by calculating the proportion of the variation of Y explained by
+the variables in X, - The adjusted R² also measures the strength of the
+relationship between Y and X, but applies a correction of the R² to take
+into account the number of explanatory variables, - The F-statistic
+corresponds to an overall test of significance of an RDA by comparing
+the computed model to a null model. This test is based on the null
+hypothesis that the strength of the linear relationship calculated by
+the R² is not larger than the value that would be obtained for unrelated
+Y and X matrices of the same size. Note that F-statistics can also be
+used to sequentially test the significance of each canonical axis.</p>
+<p>In R, RDA can be computed using the function rda from package vegan, as
+follows:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="redundancy-analysis.html#cb10-1"></a><span class="co"># Preparing the data prior to RDA</span></span>
+<span id="cb10-2"><a href="redundancy-analysis.html#cb10-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="op">-</span>das)  <span class="co"># remove the &#39;distance from the source&#39; variable</span></span>
+<span id="cb10-3"><a href="redundancy-analysis.html#cb10-3"></a></span>
+<span id="cb10-4"><a href="redundancy-analysis.html#cb10-4"></a><span class="co"># Running the RDA</span></span>
+<span id="cb10-5"><a href="redundancy-analysis.html#cb10-5"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(rda)</span>
+<span id="cb10-6"><a href="redundancy-analysis.html#cb10-6"></a>spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.z)</span>
+<span id="cb10-7"><a href="redundancy-analysis.html#cb10-7"></a></span>
+<span id="cb10-8"><a href="redundancy-analysis.html#cb10-8"></a><span class="co">### Extract the results</span></span>
+<span id="cb10-9"><a href="redundancy-analysis.html#cb10-9"></a><span class="kw">summary</span>(spe.rda, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
+<span id="cb10-10"><a href="redundancy-analysis.html#cb10-10"></a></span>
+<span id="cb10-11"><a href="redundancy-analysis.html#cb10-11"></a><span class="co"># The results are called using summary:</span></span>
+<span id="cb10-12"><a href="redundancy-analysis.html#cb10-12"></a><span class="kw">summary</span>(spe.rda, <span class="dt">display =</span> <span class="ot">NULL</span>)  <span class="co">#display = NULL optional  </span></span></code></pre></div>
+<p>The summary of the output looks like this:</p>
+<p><img src="images/rda_output_1.png" class="align-center" /></p>
+<p>These results contain the proportion of variance of Y explained by the X
+variables (constrained proportion, 73.41% here), the unexplained
+variance of Y (unconstrained proportion, 26.59% here) and then summarize
+the eigenvalues, the proportions explained and the cumulative proportion
+of each canonical axis (each canonical axis = each constraining
+variable, in this case, the environmental variables from env).</p>
+<p>To select the significant explanatory variables, you can then perform a
+forward selection (or backwards or stepwise), using the ordiR2step()
+function (or using the forward.sel function of package packfor):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="redundancy-analysis.html#cb11-1"></a><span class="co">### Select the significant explanatory variables by forward</span></span>
+<span id="cb11-2"><a href="redundancy-analysis.html#cb11-2"></a><span class="co">### selection</span></span>
+<span id="cb11-3"><a href="redundancy-analysis.html#cb11-3"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(ordiR2step)</span>
+<span id="cb11-4"><a href="redundancy-analysis.html#cb11-4"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> env.z), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.rda), </span>
+<span id="cb11-5"><a href="redundancy-analysis.html#cb11-5"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb11-6"><a href="redundancy-analysis.html#cb11-6"></a>env.signif &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;alt&quot;</span>, <span class="st">&quot;oxy&quot;</span>, <span class="st">&quot;dbo&quot;</span>))</span></code></pre></div>
+<p>The resulting output reads: rda(formula = spe.hel ~ alt + oxy + dbo,
+data = env.z) with the proportion of variation explained by the three
+constraining variables being 0.59. So in this case, only three variables
+are retained by the forward selection, i.e. alt, oxy and dbo. These
+three variables can be placed in a new data frame env.signif to perform
+the new RDA including only significant X variables:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="redundancy-analysis.html#cb12-1"></a>spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.signif)</span>
+<span id="cb12-2"><a href="redundancy-analysis.html#cb12-2"></a><span class="kw">summary</span>(spe.rda.signif, <span class="dt">display =</span> <span class="ot">NULL</span>)</span></code></pre></div>
+<p>The explanatory variables (altitude, oxygen and biological oxygen
+demand) now explain 59% of the variance in Y (species). The adjusted R²
+of this RDA is calculated using the function RsquareAdj:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="redundancy-analysis.html#cb13-1"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.rda.signif)<span class="op">$</span>adj.r.squared)</span>
+<span id="cb13-2"><a href="redundancy-analysis.html#cb13-2"></a><span class="co"># Here the strength of the relationship between X and Y</span></span>
+<span id="cb13-3"><a href="redundancy-analysis.html#cb13-3"></a><span class="co"># corrected for the number of X variables is 0.54.</span></span></code></pre></div>
+<p>The significance of the model and of each canonical axis can be tested
+using the function anova (note this is different from retaining
+significant variables as was done with forward selection, now we’re
+testing the significance of the RDA axes):</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="redundancy-analysis.html#cb14-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(anova.cca)</span>
+<span id="cb14-2"><a href="redundancy-analysis.html#cb14-2"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-3"><a href="redundancy-analysis.html#cb14-3"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
+<span id="cb14-4"><a href="redundancy-analysis.html#cb14-4"></a><span class="co"># In this case, the RDA model is highly significant (p=0.001)</span></span>
+<span id="cb14-5"><a href="redundancy-analysis.html#cb14-5"></a><span class="co"># as well as all three canonical axes.</span></span></code></pre></div>
+<p>To visualize the results of the RDA, triplots can be drawn using the
+plot(). Note that as in PCA, users can create scaling 1 and scaling 2
+triplots. In scaling 1, distance among objects approximate their
+Euclidean distances while in scaling 2, angles between variables X and Y
+reflect their correlation. Thus, scaling 1 triplots can be used to
+interpret distances among objects and scaling 2 triplots to interpret
+the relationships between X and Y. To plot the scaling 1 triplots of the
+RDA, the following code can be used:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="redundancy-analysis.html#cb15-1"></a><span class="co"># Quick plots scaling 1 and 2</span></span>
+<span id="cb15-2"><a href="redundancy-analysis.html#cb15-2"></a><span class="kw">windows</span>()</span>
+<span id="cb15-3"><a href="redundancy-analysis.html#cb15-3"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA (scaling 1)&quot;</span>)</span>
+<span id="cb15-4"><a href="redundancy-analysis.html#cb15-4"></a><span class="kw">windows</span>()</span>
+<span id="cb15-5"><a href="redundancy-analysis.html#cb15-5"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA (scaling 2)&quot;</span>)</span>
+<span id="cb15-6"><a href="redundancy-analysis.html#cb15-6"></a></span>
+<span id="cb15-7"><a href="redundancy-analysis.html#cb15-7"></a><span class="co"># Advanced plots scaling 1</span></span>
+<span id="cb15-8"><a href="redundancy-analysis.html#cb15-8"></a><span class="kw">windows</span>()</span>
+<span id="cb15-9"><a href="redundancy-analysis.html#cb15-9"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 1&quot;</span>, </span>
+<span id="cb15-10"><a href="redundancy-analysis.html#cb15-10"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
+<span id="cb15-11"><a href="redundancy-analysis.html#cb15-11"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb15-12"><a href="redundancy-analysis.html#cb15-12"></a><span class="kw">points</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
+<span id="cb15-13"><a href="redundancy-analysis.html#cb15-13"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb15-14"><a href="redundancy-analysis.html#cb15-14"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb15-15"><a href="redundancy-analysis.html#cb15-15"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-16"><a href="redundancy-analysis.html#cb15-16"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
+<span id="cb15-17"><a href="redundancy-analysis.html#cb15-17"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
+<span id="cb15-18"><a href="redundancy-analysis.html#cb15-18"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-19"><a href="redundancy-analysis.html#cb15-19"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
+<span id="cb15-20"><a href="redundancy-analysis.html#cb15-20"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
+<span id="cb15-21"><a href="redundancy-analysis.html#cb15-21"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb15-22"><a href="redundancy-analysis.html#cb15-22"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-23"><a href="redundancy-analysis.html#cb15-23"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
+<span id="cb15-24"><a href="redundancy-analysis.html#cb15-24"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb15-25"><a href="redundancy-analysis.html#cb15-25"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-26"><a href="redundancy-analysis.html#cb15-26"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
+<span id="cb15-27"><a href="redundancy-analysis.html#cb15-27"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
+<span id="cb15-28"><a href="redundancy-analysis.html#cb15-28"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb15-29"><a href="redundancy-analysis.html#cb15-29"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span>
+<span id="cb15-30"><a href="redundancy-analysis.html#cb15-30"></a></span>
+<span id="cb15-31"><a href="redundancy-analysis.html#cb15-31"></a><span class="co"># Advanced plots scaling 2</span></span>
+<span id="cb15-32"><a href="redundancy-analysis.html#cb15-32"></a><span class="kw">windows</span>()</span>
+<span id="cb15-33"><a href="redundancy-analysis.html#cb15-33"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 2&quot;</span>, </span>
+<span id="cb15-34"><a href="redundancy-analysis.html#cb15-34"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
+<span id="cb15-35"><a href="redundancy-analysis.html#cb15-35"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb15-36"><a href="redundancy-analysis.html#cb15-36"></a><span class="kw">points</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
+<span id="cb15-37"><a href="redundancy-analysis.html#cb15-37"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb15-38"><a href="redundancy-analysis.html#cb15-38"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb15-39"><a href="redundancy-analysis.html#cb15-39"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-40"><a href="redundancy-analysis.html#cb15-40"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
+<span id="cb15-41"><a href="redundancy-analysis.html#cb15-41"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
+<span id="cb15-42"><a href="redundancy-analysis.html#cb15-42"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-43"><a href="redundancy-analysis.html#cb15-43"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.1</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
+<span id="cb15-44"><a href="redundancy-analysis.html#cb15-44"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.1</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
+<span id="cb15-45"><a href="redundancy-analysis.html#cb15-45"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb15-46"><a href="redundancy-analysis.html#cb15-46"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb15-47"><a href="redundancy-analysis.html#cb15-47"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
+<span id="cb15-48"><a href="redundancy-analysis.html#cb15-48"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb15-49"><a href="redundancy-analysis.html#cb15-49"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-50"><a href="redundancy-analysis.html#cb15-50"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
+<span id="cb15-51"><a href="redundancy-analysis.html#cb15-51"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
+<span id="cb15-52"><a href="redundancy-analysis.html#cb15-52"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb15-53"><a href="redundancy-analysis.html#cb15-53"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>And the final triplots would look like this:</p>
+<p><img src="images/doubs_rda1.png" class="align-center" /> <img src="images/doubs_rda2.png" class="align-center" /></p>
+<p><strong>Challenge 1</strong>: Run an RDA of the mite environmental variables
+constraining the mite species abundances. Use:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="redundancy-analysis.html#cb16-1"></a><span class="co"># Load the mite species and environmental data from vegan</span></span>
+<span id="cb16-2"><a href="redundancy-analysis.html#cb16-2"></a><span class="co"># package</span></span>
+<span id="cb16-3"><a href="redundancy-analysis.html#cb16-3"></a><span class="kw">data</span>(mite)</span>
+<span id="cb16-4"><a href="redundancy-analysis.html#cb16-4"></a>mite.spe &lt;-<span class="st"> </span>mite</span>
+<span id="cb16-5"><a href="redundancy-analysis.html#cb16-5"></a>mite.spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span>
+<span id="cb16-6"><a href="redundancy-analysis.html#cb16-6"></a></span>
+<span id="cb16-7"><a href="redundancy-analysis.html#cb16-7"></a><span class="kw">data</span>(mite.env)</span></code></pre></div>
+<p>What are the significant explanatory variables? How much of the
+variation in species data is explain by significant explanatory
+variables (i.e. those that were selected)? What are the significant
+axes? What group(s) of sites can you identify? What species are related
+to each group(s) of sites?</p>
+<p><strong>Challenge 1</strong>: Solution</p>
+<p>Your code probably looks something like this:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="redundancy-analysis.html#cb17-1"></a><span class="co"># Initial RDA with ALL of the environmental data</span></span>
+<span id="cb17-2"><a href="redundancy-analysis.html#cb17-2"></a>mite.spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env)</span>
+<span id="cb17-3"><a href="redundancy-analysis.html#cb17-3"></a></span>
+<span id="cb17-4"><a href="redundancy-analysis.html#cb17-4"></a><span class="co"># Select significant environmental variables</span></span>
+<span id="cb17-5"><a href="redundancy-analysis.html#cb17-5"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env), <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), </span>
+<span id="cb17-6"><a href="redundancy-analysis.html#cb17-6"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb17-7"><a href="redundancy-analysis.html#cb17-7"></a></span>
+<span id="cb17-8"><a href="redundancy-analysis.html#cb17-8"></a><span class="co"># Create a new dataframe with only the significant variables</span></span>
+<span id="cb17-9"><a href="redundancy-analysis.html#cb17-9"></a><span class="co"># that you identified above</span></span>
+<span id="cb17-10"><a href="redundancy-analysis.html#cb17-10"></a>mite.env.signif &lt;-<span class="st"> </span><span class="kw">subset</span>(mite.env, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;WatrCont&quot;</span>, <span class="st">&quot;Shrub&quot;</span>, </span>
+<span id="cb17-11"><a href="redundancy-analysis.html#cb17-11"></a>    <span class="st">&quot;Substrate&quot;</span>, <span class="st">&quot;Topo&quot;</span>, <span class="st">&quot;SubsDens&quot;</span>))</span>
+<span id="cb17-12"><a href="redundancy-analysis.html#cb17-12"></a></span>
+<span id="cb17-13"><a href="redundancy-analysis.html#cb17-13"></a><span class="co"># Re-run the RDA with the significant variables and look at</span></span>
+<span id="cb17-14"><a href="redundancy-analysis.html#cb17-14"></a><span class="co"># the summary</span></span>
+<span id="cb17-15"><a href="redundancy-analysis.html#cb17-15"></a>mite.spe.rda.signif =<span class="st"> </span><span class="kw">rda</span>(mite.spe <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env.signif)</span>
+<span id="cb17-16"><a href="redundancy-analysis.html#cb17-16"></a><span class="kw">summary</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
+<span id="cb17-17"><a href="redundancy-analysis.html#cb17-17"></a></span>
+<span id="cb17-18"><a href="redundancy-analysis.html#cb17-18"></a><span class="co"># Find the R2 adjusted of the model with the retained</span></span>
+<span id="cb17-19"><a href="redundancy-analysis.html#cb17-19"></a><span class="co"># environmental variables</span></span>
+<span id="cb17-20"><a href="redundancy-analysis.html#cb17-20"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared)</span>
+<span id="cb17-21"><a href="redundancy-analysis.html#cb17-21"></a></span>
+<span id="cb17-22"><a href="redundancy-analysis.html#cb17-22"></a><span class="co"># Determine the significant canonical (constrained) axes)</span></span>
+<span id="cb17-23"><a href="redundancy-analysis.html#cb17-23"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
+<span id="cb17-24"><a href="redundancy-analysis.html#cb17-24"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
+<span id="cb17-25"><a href="redundancy-analysis.html#cb17-25"></a></span>
+<span id="cb17-26"><a href="redundancy-analysis.html#cb17-26"></a><span class="co"># Plot the RDA</span></span>
+<span id="cb17-27"><a href="redundancy-analysis.html#cb17-27"></a><span class="kw">windows</span>()</span>
+<span id="cb17-28"><a href="redundancy-analysis.html#cb17-28"></a><span class="kw">plot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 1&quot;</span>, </span>
+<span id="cb17-29"><a href="redundancy-analysis.html#cb17-29"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
+<span id="cb17-30"><a href="redundancy-analysis.html#cb17-30"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb17-31"><a href="redundancy-analysis.html#cb17-31"></a><span class="kw">points</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
+<span id="cb17-32"><a href="redundancy-analysis.html#cb17-32"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
+<span id="cb17-33"><a href="redundancy-analysis.html#cb17-33"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb17-34"><a href="redundancy-analysis.html#cb17-34"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb17-35"><a href="redundancy-analysis.html#cb17-35"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
+<span id="cb17-36"><a href="redundancy-analysis.html#cb17-36"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.rda.signif, </span>
+<span id="cb17-37"><a href="redundancy-analysis.html#cb17-37"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb17-38"><a href="redundancy-analysis.html#cb17-38"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb17-39"><a href="redundancy-analysis.html#cb17-39"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, </span>
+<span id="cb17-40"><a href="redundancy-analysis.html#cb17-40"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb17-41"><a href="redundancy-analysis.html#cb17-41"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
+<span id="cb17-42"><a href="redundancy-analysis.html#cb17-42"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, </span>
+<span id="cb17-43"><a href="redundancy-analysis.html#cb17-43"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.rda.signif, </span>
+<span id="cb17-44"><a href="redundancy-analysis.html#cb17-44"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb17-45"><a href="redundancy-analysis.html#cb17-45"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Five explanatory variables are significant: WatrCont, Shrub, Substrate,
+Topo, and SubsDens. The proportion of the variance explained by these
+variables is 32.08% and the adjusted R² of this model is 19.20%. While
+the first canonical is significant (p&lt;0.001), the overall model is
+however not significant (p=0.107). Three groups of sites appear on the
+triplot. One group of sites with high water content (top right) have
+high abundance of species 9 and 25. Species 6, 12, 19 and 26 are related
+to another group of sites with hummock topography (bottom left). The
+last group of sites (top left) have not characteristic species and
+heterogeneous environmental conditions. See the triplot below:</p>
+<p><img src="images/mite_rda1.png" class="align-center" /></p>
+
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="what-are-constrained-ordinations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="partial-redundancy-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
