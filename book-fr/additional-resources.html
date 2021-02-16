@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Workshop 10: Advanced Multivariate Analyses in R</title>
+  <title>Chapitre 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="learning-objectives.html"/>
+<link rel="prev" href="summary.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -195,73 +195,85 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="header">
-<h1 class="title">Workshop 10: Advanced Multivariate Analyses in <code>R</code></h1>
-<h2 class="subtitle"><em>QCBS R Workshop Series</em></h2>
-<p class="author"><em>Developed and maintained by the contributors of the QCBS R Workshop Series<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></em></p>
-<p class="date"><em>2021-02-16 23:35:15</em></p>
-</div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>The <strong>QCBS R Workshop Series</strong> is a series of 10 workshops that walks participants through the steps required to use R for a wide array of statistical analyses relevant to research in biology and ecology. These open-access workshops were created by members of the QCBS both for members of the QCBS and the larger community.</p>
-<p>The content of this workshop has been peer-reviewed by several QCBS members. If you would like to suggest modifications, please contact the current series coordinators, listed on the main Github page.</p>
-<div id="code-of-conduct" class="section level2">
-<h2><span class="header-section-number">0.1</span> Code of conduct</h2>
-<p>The QCBS R Workshop Series and the QCBS R Symposium are venues dedicated to providing a welcoming and supportive environment for all people, regardless of background or identity.</p>
-<p>Participants, presenters and organizers of the workshop series and other related activities accept this Code of Conduct when being present at any workshop-related activities.</p>
-<p>We do not tolerate behaviour that is disrespectful or that excludes, intimidates, or causes discomfort to others.</p>
-<p>We do not tolerate discrimination or harassment based on characteristics that include, but are not limited to, gender identity and expression, sexual orientation, disability, physical appearance, body size, citizenship, nationality, ethnic or social origin, pregnancy, familial status, genetic information, religion or belief (or lack thereof), membership of a national minority, property, age, education, socio-economic status, technical choices, and experience level.</p>
-<p>It applies to all spaces managed by or affiliated with the workshop, including, but not limited to, workshops, email lists, and online forums such as GitHub, Slack and Twitter.</p>
-<div id="expected-behaviour" class="section level3">
-<h3><span class="header-section-number">0.1.1</span> Expected behaviour</h3>
-<p>All participants are expected to show respect and courtesy to others. All interactions should be professional regardless of platform: either online or in-person. In order to foster a positive and professional learning environment we encourage the following kinds of behaviours in all workshop events and platforms:</p>
-<ul>
-<li>Use welcoming and inclusive language</li>
-<li>Be respectful of different viewpoints and experiences</li>
-<li>Gracefully accept constructive criticism</li>
-<li>Focus on what is best for the community</li>
-<li>Show courtesy and respect towards other community members</li>
-</ul>
-</div>
-<div id="unacceptable-behaviour" class="section level3">
-<h3><span class="header-section-number">0.1.2</span> Unacceptable behaviour</h3>
-<p>Examples of unacceptable behaviour by participants at any workshop event/platform include:</p>
-<ul>
-<li>written or verbal comments which have the effect of excluding people on the - basis of membership of any specific group;</li>
-<li>causing someone to fear for their safety, such as through stalking or intimidation;</li>
-<li>violent threats or language directed against another person;</li>
-<li>the display of sexual or violent images;</li>
-<li>unwelcome sexual attention;</li>
-<li>nonconsensual or unwelcome physical contact;</li>
-<li>insults or put-downs;</li>
-<li>sexist, racist, homophobic, transphobic, ableist, or exclusionary jokes;</li>
-<li>incitement to violence, suicide, or self-harm;</li>
-<li>continuing to initiate interaction (including photography or recording) with - someone after being asked to stop;</li>
-<li>publication of private communication without consent.</li>
-</ul>
-</div>
-</div>
-<div id="contributors" class="section level2">
-<h2><span class="header-section-number">0.2</span> Contributors</h2>
-<p>Originally developed by:</p>
-<p>Contributed with changes to the presentation:</p>
-<p>Contributed with changes to the written material:</p>
-<p>Contributed by reporting issues and suggesting modifications:</p>
-</div>
-<div id="contributing" class="section level2">
-<h2><span class="header-section-number">0.3</span> Contributing</h2>
-<p>Under construction.</p>
+<div id="additional-resources" class="section level1">
+<h1><span class="header-section-number">Chapitre 12</span> Additional resources</h1>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="additional-resources.html#cb33-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co">#(constrained correspondence analysis)</span></span>
+<span id="cb33-2"><a href="additional-resources.html#cb33-2"></a>)</span>
+<span id="cb33-3"><a href="additional-resources.html#cb33-3"></a><span class="co"># Constrained Correspondence Analysis (CCA) is a canonical</span></span>
+<span id="cb33-4"><a href="additional-resources.html#cb33-4"></a><span class="co"># ordination method similar to RDA that preserve Chi-square</span></span>
+<span id="cb33-5"><a href="additional-resources.html#cb33-5"></a><span class="co"># distances among object (instead of Euclidean distances in</span></span>
+<span id="cb33-6"><a href="additional-resources.html#cb33-6"></a><span class="co"># RDA). This method is well suited for the analysis of large</span></span>
+<span id="cb33-7"><a href="additional-resources.html#cb33-7"></a><span class="co"># ecological gradients.</span></span>
+<span id="cb33-8"><a href="additional-resources.html#cb33-8"></a></span>
+<span id="cb33-9"><a href="additional-resources.html#cb33-9"></a></span>
+<span id="cb33-10"><a href="additional-resources.html#cb33-10"></a></span>
+<span id="cb33-11"><a href="additional-resources.html#cb33-11"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># Canonical Correlation Analysis</span></span>
+<span id="cb33-12"><a href="additional-resources.html#cb33-12"></a>)</span>
+<span id="cb33-13"><a href="additional-resources.html#cb33-13"></a></span>
+<span id="cb33-14"><a href="additional-resources.html#cb33-14"></a><span class="co"># Canonical Correlation Analysis (CCorA) differs from RDA</span></span>
+<span id="cb33-15"><a href="additional-resources.html#cb33-15"></a><span class="co"># given that the two matrices are considered symmetric while</span></span>
+<span id="cb33-16"><a href="additional-resources.html#cb33-16"></a><span class="co"># in RDA the Y matrix is dependent on the X matrix. The main</span></span>
+<span id="cb33-17"><a href="additional-resources.html#cb33-17"></a><span class="co"># use of this technique is to test the significance of the</span></span>
+<span id="cb33-18"><a href="additional-resources.html#cb33-18"></a><span class="co"># correlation between two multidimensional data sets, then</span></span>
+<span id="cb33-19"><a href="additional-resources.html#cb33-19"></a><span class="co"># explore the structure of the data by computing the</span></span>
+<span id="cb33-20"><a href="additional-resources.html#cb33-20"></a><span class="co"># correlations (which are the square roots of the CCorA</span></span>
+<span id="cb33-21"><a href="additional-resources.html#cb33-21"></a><span class="co"># eigenvalues) that can be found between linear functions of</span></span>
+<span id="cb33-22"><a href="additional-resources.html#cb33-22"></a><span class="co"># two groups of descriptors.</span></span>
+<span id="cb33-23"><a href="additional-resources.html#cb33-23"></a></span>
+<span id="cb33-24"><a href="additional-resources.html#cb33-24"></a></span>
+<span id="cb33-25"><a href="additional-resources.html#cb33-25"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># Coinertia Analysis</span></span>
+<span id="cb33-26"><a href="additional-resources.html#cb33-26"></a></span>
+<span id="cb33-27"><a href="additional-resources.html#cb33-27"></a><span class="co"># Coinertia Analysis (CoIA) is a symmetric canonical</span></span>
+<span id="cb33-28"><a href="additional-resources.html#cb33-28"></a><span class="co"># ordination method that is appropriate to compare pairs of</span></span>
+<span id="cb33-29"><a href="additional-resources.html#cb33-29"></a><span class="co"># data sets that play equivalent roles in the analysis. The</span></span>
+<span id="cb33-30"><a href="additional-resources.html#cb33-30"></a><span class="co"># method finds a common space onto which the objects and</span></span>
+<span id="cb33-31"><a href="additional-resources.html#cb33-31"></a><span class="co"># variables of these data sets can be projected and compared.</span></span>
+<span id="cb33-32"><a href="additional-resources.html#cb33-32"></a><span class="co"># Compared to CCorA, co-inertia analysis imposes no</span></span>
+<span id="cb33-33"><a href="additional-resources.html#cb33-33"></a><span class="co"># constraint regarding the number of variables in the two</span></span>
+<span id="cb33-34"><a href="additional-resources.html#cb33-34"></a><span class="co"># sets, so that it can be used to compare ecological</span></span>
+<span id="cb33-35"><a href="additional-resources.html#cb33-35"></a><span class="co"># communities even when they are species-rich. Co-inertia</span></span>
+<span id="cb33-36"><a href="additional-resources.html#cb33-36"></a><span class="co"># analysis is not well-suited, however, to analyse pairs of</span></span>
+<span id="cb33-37"><a href="additional-resources.html#cb33-37"></a><span class="co"># data sets that contain the same variables, because the</span></span>
+<span id="cb33-38"><a href="additional-resources.html#cb33-38"></a><span class="co"># analysis does not establish one-to-one correspondences</span></span>
+<span id="cb33-39"><a href="additional-resources.html#cb33-39"></a><span class="co"># between variables in the two data sets; the method does not</span></span>
+<span id="cb33-40"><a href="additional-resources.html#cb33-40"></a><span class="co"># ‘know’ that the first variable is the same in the first and</span></span>
+<span id="cb33-41"><a href="additional-resources.html#cb33-41"></a><span class="co"># the second data sets, and likewise for the other variables.</span></span>
+<span id="cb33-42"><a href="additional-resources.html#cb33-42"></a></span>
+<span id="cb33-43"><a href="additional-resources.html#cb33-43"></a></span>
+<span id="cb33-44"><a href="additional-resources.html#cb33-44"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># Multiple Factorial Analysis</span></span>
+<span id="cb33-45"><a href="additional-resources.html#cb33-45"></a></span>
+<span id="cb33-46"><a href="additional-resources.html#cb33-46"></a><span class="co"># Multiple factor analysis (MFA) can be used to compare</span></span>
+<span id="cb33-47"><a href="additional-resources.html#cb33-47"></a><span class="co"># several data sets describing the same objects. MFA consists</span></span>
+<span id="cb33-48"><a href="additional-resources.html#cb33-48"></a><span class="co"># in projecting objects and variables of two or more data</span></span>
+<span id="cb33-49"><a href="additional-resources.html#cb33-49"></a><span class="co"># sets on a global PCA, computed from all data sets, in which</span></span>
+<span id="cb33-50"><a href="additional-resources.html#cb33-50"></a><span class="co"># the sets receive equal weights.</span></span>
+<span id="cb33-51"><a href="additional-resources.html#cb33-51"></a></span>
+<span id="cb33-52"><a href="additional-resources.html#cb33-52"></a></span>
+<span id="cb33-53"><a href="additional-resources.html#cb33-53"></a><span class="co"># Spatial analysis can be performed using packages AEM and</span></span>
+<span id="cb33-54"><a href="additional-resources.html#cb33-54"></a><span class="co"># PCNM : http://r-forge.r-project.org/R/?group_id=195</span></span></code></pre></div>
+<p>Add the references below to the BibTeX file.</p>
+<p>Alday &amp; Marrs (2014). A simple test for alternative states in ecological
+restoration: the use of principal response curves. Journal of Vegetation
+Science, 17, 302-311.</p>
+<p>Borcard, Gillet &amp; Legendre (2011). Numerical Ecology with R. Springer
+New York.</p>
+<p>Breiman, L., J. H. Friedman, et al. (1984). Classification and
+Regression Trees. Belmont, California, USA, Wadsworth International
+Group.</p>
+<p>Budyko, M.I. (1969) The effect of solar radiation variations on the
+climate of the Earth. Tellus, 21(5), 611-619.</p>
+<p>Clarke &amp; Warwick (2001). Change in Marine Communities: An Approach to
+Statistical Analysis and Interpretation 2nd edition. Primer-E Ltd.</p>
+<p>De’ath, G. (2002). Multivariate regression trees : a new technique for
+modeling species-environment relationships. Ecology, 83(4), 1105–1117.</p>
+<p>Gotelli &amp; Ellison (2004). A Primer of Ecological Statistics. Sinaeuer
+Associates Inc., Sunderland MA.</p>
+<p>Legendre &amp; Legendre (2012). Numerical Ecology 3rd edition. Elsevier
+Science BV, Amsterdam.</p>
+<p>Poulin, Andersen &amp; Rochefort (2013) A new approach for tracking
+vegetation change after restoration: a case study with peatlands.
+Restoration Ecology, 21, 363-371.</p>
 
-</div>
-</div>
-
-
-
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>The QCBS R Workshop Series is part of the <a href="https://www.qcbs.ca">Québec Centre for Biodiversity Science</a>, and is maintained by the series coordinators and graduent student, postdoctoral, and research professional members. <strong>The contributors for this workshop can be accessed <a href="link">here</a></strong>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-</ol>
 </div>
 <hr>
 <center> 
@@ -274,8 +286,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-
-<a href="learning-objectives.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
