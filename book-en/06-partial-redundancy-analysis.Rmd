@@ -1,0 +1,181 @@
+# Partial Redundancy Analysis
+
+Partial RDA is a special case of RDA in which the response variables Y
+are related to explanatory variables X in the presence of additional
+explanatory variables, W, called covariables. As in partial linear
+regression, the linear effect of X variables on the Y variables are
+adjusted for the effects of the covariables W. For this, a RDA of the
+covariables W on the response variables Y is first performed. The
+residuals of this RDA are then extracted, i.e. a matrix Yres\|W
+containing the Y response variables in which the effect of W were
+removed. The partial RDA finally correspond to the RDA of X on Yres\|W.
+All statistics previously presented for RDA also apply for partial RDA.
+
+Partial RDA is thus a powerful tool when users what to assess the effect
+of environmental variables on species composition while taking into
+account the species variation due to other environmental variables with
+no interest. It can also be used to control for well-known linear
+effects, isolate the effect of a single explanatory variable or analyse
+related samples. In the example below, we will assess the effect of
+water chemistry on fish species abundances partialling out the effect of
+physiography.
+
+In R, partial RDA is performed in the same way as RDA using rda() with
+the addition of a condition term:
+
+```{r, echo = TRUE, eval = FALSE}
+#Divide the env2 dataframe into two dataframes: 
+envtopo <- env[, c(1:3)] # Physiography : explanatory dataset 1
+names(envtopo)
+envchem <- env[, c(4:10)] # Water quality : explanatory dataset 2
+names(envchem)
+ 
+#Run the partial RDA
+spechem.physio=rda(spe.hel, envchem, envtopo)
+summary(spechem.physio, display=NULL)
+#or
+spechem.physio2=rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo 
+                    + Condition(alt + pen + deb), data=env)
+ 
+#Extract the results
+summary(spechem.physio, display=NULL)
+ 
+#Calculate the adjusted R2 of the partial RDA
+(R2adj <- RsquareAdj(spechem.physio)$adj.r.squared)
+ 
+#Test the significance of the axes in partial RDA
+anova.cca(spechem.physio, step=1000)
+anova.cca(spechem.physio2, step=1000, by="axis")
+ 
+#Construct the triplots
+#Scaling 1
+windows(title="Partial RDA scaling 1")
+plot(spechem.physio, scaling=1, main="Triplot partial RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
+points(scores(spechem.physio, display="sites", choices=c(1,2), scaling=1),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,
+       scores(spechem.physio, display="species", choices=c(1), scaling=1),
+       scores(spechem.physio, display="species", choices=c(2), scaling=1),
+       col="black",length=0)
+text(scores(spechem.physio, display="species", choices=c(1), scaling=1),
+     scores(spechem.physio, display="species", choices=c(2), scaling=1),
+     labels=rownames(scores(spechem.physio, display="species", scaling=1)),
+     col="black", cex=0.8)  
+arrows(0,0,
+      scores(spechem.physio, display="bp", choices=c(1), scaling=1),
+      scores(spechem.physio, display="bp", choices=c(2), scaling=1),
+      col="red")
+text(scores(spechem.physio, display="bp", choices=c(1), scaling=1)+0.05,
+     scores(spechem.physio, display="bp", choices=c(2), scaling=1)+0.05,
+     labels=rownames(scores(spechem.physio, display="bp", choices=c(2), scaling=1)),
+     col="red", cex=1) 
+ 
+#Scaling 2
+windows(title="Partial RDA scaling 2")
+plot(spechem.physio, scaling=2, main="Triplot partial RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
+points(scores(spechem.physio, display="sites", choices=c(1,2), scaling=2),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,
+       scores(spechem.physio, display="species", choices=c(1), scaling=2),
+       scores(spechem.physio, display="species", choices=c(2), scaling=2),
+       col="black",length=0)
+text(scores(spechem.physio, display="species", choices=c(1), scaling=2),
+     scores(spechem.physio, display="species", choices=c(2), scaling=2),
+     labels=rownames(scores(spechem.physio, display="species", scaling=2)),
+     col="black", cex=0.8)  
+arrows(0,0,
+       scores(spechem.physio, display="bp", choices=c(1), scaling=2),
+       scores(spechem.physio, display="bp", choices=c(2), scaling=2),
+       col="red")
+text(scores(spechem.physio, display="bp", choices=c(1), scaling=2)+0.05,
+     scores(spechem.physio, display="bp", choices=c(2), scaling=2)+0.05,
+     labels=rownames(scores(spechem.physio, display="bp", choices=c(2), scaling=2)),
+     col="red", cex=1)  
+```
+
+This RDA is significant (p\<0.001) as well as the two first canonical
+axis. Water chemistry explained 31.89% of the variance of fish species
+composition, physiographic covariables explained 41.53% of this
+variation and the unexplained variation is 26.59%. The adjusted R² of
+this RDA is 24.13%. The triplot looks like:
+
+![](images/doubs_rdapart2.png){.align-center}
+
+**Challenge 2**
+
+Run the partial RDA of the mite environmental variables of the mite
+species abundances partialling out for the substrate variables
+(SubsDens, WaterCont and Substrate). Is the model significant? Which are
+the significant axes? Interpret the obtained triplot.
+
+**Challenge 2**: Solution
+
+
+
+Here is some potential code:
+
+```{r, echo = TRUE, eval = FALSE}
+#Partial RDA
+mite.spe.subs=rda(mite.spe.hel ~ Shrub + Topo
+                  + Condition(SubsDens + WatrCont + Substrate), data=mite.env)
+ 
+#Summary
+summary(mite.spe.subs, display=NULL)
+(R2adj <- RsquareAdj(mite.spe.subs)$adj.r.squared)
+ 
+#Significant axes
+anova.cca(mite.spe.subs, step=1000)
+anova.cca(mite.spe.subs, step=1000, by="axis")
+ 
+#Triplot scaling 1
+windows(title="Partial RDA scaling 1")
+plot(mite.spe.subs, scaling=1, main="Triplot partial RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
+points(scores(mite.spe.subs, display="sites", choices=c(1,2), scaling=1),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,
+       scores(mite.spe.subs, display="species", choices=c(1), scaling=1),
+       scores(mite.spe.subs, display="species", choices=c(2), scaling=1),
+       col="black",length=0)
+text(scores(mite.spe.subs, display="species", choices=c(1), scaling=1),
+     scores(mite.spe.subs, display="species", choices=c(2), scaling=1),
+     labels=rownames(scores(mite.spe.subs, display="species", scaling=1)),
+     col="black", cex=0.8)  
+arrows(0,0,
+       scores(mite.spe.subs, display="bp", choices=c(1), scaling=1),
+       scores(mite.spe.subs, display="bp", choices=c(2), scaling=1),
+       col="red")
+text(scores(mite.spe.subs, display="bp", choices=c(1), scaling=1)+0.05,
+     scores(mite.spe.subs, display="bp", choices=c(2), scaling=1)+0.05,
+     labels=rownames(scores(mite.spe.subs, display="bp", choices=c(2), scaling=1)),
+     col="red", cex=1) 
+ 
+#Triplot scaling 2
+windows(title="Partial RDA scaling 2")
+plot(mite.spe.subs, scaling=2, main="Triplot partial RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
+points(scores(mite.spe.subs, display="sites", choices=c(1,2), scaling=2),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,
+       scores(mite.spe.subs, display="species", choices=c(1), scaling=2),
+       scores(mite.spe.subs, display="species", choices=c(2), scaling=2),
+       col="black",length=0)
+text(scores(mite.spe.subs, display="species", choices=c(1), scaling=2),
+     scores(mite.spe.subs, display="species", choices=c(2), scaling=2),
+     labels=rownames(scores(mite.spe.subs, display="species", scaling=2)),
+     col="black", cex=0.8)  
+arrows(0,0,
+       scores(mite.spe.subs, display="bp", choices=c(1), scaling=2),
+       scores(mite.spe.subs, display="bp", choices=c(2), scaling=2),
+       col="red")
+text(scores(mite.spe.subs, display="bp", choices=c(1), scaling=2)+0.05,
+     scores(mite.spe.subs, display="bp", choices=c(2), scaling=2)+0.05,
+     labels=rownames(scores(mite.spe.subs, display="bp", choices=c(2), scaling=2)),
+     col="red", cex=1)  
+```
+
+![](images/partial_rda_ch6.png){.align-center}
+
+This RDA is significant (p\<0.001) as well as the first canonical axis.
+Environmental variables explained 9.81% of the variance of mite species
+composition, substrate covariables explained 42.84% of this variation
+and the unexplained variation is 47.35%. The adjusted R² of this RDA is
+8.33%. 

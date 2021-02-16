@@ -1,0 +1,80 @@
+# (PART\*) Final considerations {-}
+
+# Summary
+
+To be included.
+
+# Additional resources
+
+
+```{r, echo = TRUE, eval = FALSE}
+?cca #(constrained correspondence analysis)
+# Constrained Correspondence Analysis (CCA) is a canonical ordination method similar to RDA that preserve
+# Chi-square distances among object (instead of Euclidean distances in RDA). This method is well suited for the
+# analysis of large ecological gradients.
+
+
+
+?CCorA # Canonical Correlation Analysis
+
+# Canonical Correlation Analysis (CCorA) differs from RDA given that the two matrices are considered symmetric
+# while in RDA the Y matrix is dependent on the X matrix. The main use of this technique is to test the
+# significance of the correlation between two multidimensional data sets, then explore the structure of the data by
+# computing the correlations (which are the square roots of the CCorA eigenvalues) that can be found between
+# linear functions of two groups of descriptors.
+
+
+help(coinertia, package=ade4) # Coinertia Analysis
+
+#Coinertia Analysis (CoIA) is a symmetric canonical ordination method that is appropriate to compare pairs
+# of data sets that play equivalent roles in the analysis. The method finds a common space onto which the objects
+# and variables of these data sets can be projected and compared. Compared to CCorA, co-inertia analysis
+# imposes no constraint regarding the number of variables in the two sets, so that it can be used to compare
+# ecological communities even when they are species-rich. Co-inertia analysis is not well-suited, however, to
+# analyse pairs of data sets that contain the same variables, because the analysis does not establish one-to-one
+# correspondences between variables in the two data sets; the method does not ‘know’ that the first variable is the
+# same in the first and the second data sets, and likewise for the other variables.
+
+
+help(mfa, package=ade4) # Multiple Factorial Analysis
+
+# Multiple factor analysis (MFA) can be used to compare several data sets describing the same objects. MFA
+# consists in projecting objects and variables of two or more data sets on a global PCA, computed from all data
+# sets, in which the sets receive equal weights.
+
+
+# Spatial analysis can be performed using packages AEM and PCNM : http://r-forge.r-project.org/R/?group_id=195
+```
+
+
+Add the references below to the BibTeX file.
+
+Alday & Marrs (2014). A simple test for alternative states in ecological
+restoration: the use of principal response curves. Journal of Vegetation
+Science, 17, 302-311.
+
+Borcard, Gillet & Legendre (2011). Numerical Ecology with R. Springer
+New York.
+
+Breiman, L., J. H. Friedman, et al. (1984). Classification and
+Regression Trees. Belmont, California, USA, Wadsworth International
+Group.
+
+Budyko, M.I. (1969) The effect of solar radiation variations on the
+climate of the Earth. Tellus, 21(5), 611-619.
+
+Clarke & Warwick (2001). Change in Marine Communities: An Approach to
+Statistical Analysis and Interpretation 2nd edition. Primer-E Ltd.
+
+De'ath, G. (2002). Multivariate regression trees : a new technique for
+modeling species-environment relationships. Ecology, 83(4), 1105--1117.
+
+Gotelli & Ellison (2004). A Primer of Ecological Statistics. Sinaeuer
+Associates Inc., Sunderland MA.
+
+Legendre & Legendre (2012). Numerical Ecology 3rd edition. Elsevier
+Science BV, Amsterdam.
+
+Poulin, Andersen & Rochefort (2013) A new approach for tracking
+vegetation change after restoration: a case study with peatlands.
+Restoration Ecology, 21, 363-371.

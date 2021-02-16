@@ -1,0 +1,218 @@
+# Multivariate regression tree
+
+Multivariate regression tree (MRT) is a constrained clustering
+technique. Introduced by De'ath (2002), MRTs allow the partitioning of a
+quantitative response matrix by a matrix of explanatory variables
+constraining (guiding) on where to divide the data of the response
+matrix. RDA and MRT are both regression techniques, the former
+explaining the global structure of relationships through a linear model,
+the latter better highlighting local structures and interactions among
+variables by producing a tree model.
+
+Advantages of the MRT compared to the RDA:
+
+      * does not make assumptions about the shape of the relationships between species and environmental variables (quantitative or categorical), 
+      * is robust in dealing with missing values 
+      * is robust in dealing with collinearity among the explanatory variables
+      * is insensitive to transformations of the explanatory variables, which allows the use of raw values 
+      * the outcome, the tree, is easy to interpret, especially to a non-scientist audience.
+
+The MRT technique splits the data into clusters of samples similar in
+their species composition based on environmental value thresholds. It
+involves two procedures running at the same time: 1) the computation of
+the constrained partitioning of the data, and 2) the calculation of the
+relative error of the successive partitioning levels by multiple
+cross-validations. The function mvpart() from the package mvpart
+computes both the partition and the cross-validation.
+
+A quick note on MRT terminology:
+
+Leaf: Terminal group of sites
+
+Node: Point where the data splits into two groups. It is characterized
+by a threshold value of an explanatory variable.
+
+Branch: Each group formed by a split
+
+**1- Constrained partitioning of the data**
+
+First, the method computes all possible partitions of the sites into two
+groups. For each quantitative explanatory variable, the sites will be
+sorted in the ascending values of the variables; for categorical
+variables, the sites will be aggregated by levels to test all
+combinations of levels. The method will split the data after the first
+object, the second object and so on, and compute the sum of within-group
+sum of squared distances to the group mean (within-group SS) for the
+response data. The method will retain the partition into two groups
+minimizing the within-group SS and the threshold value/level of the
+explanatory variable. These steps will be repeated within the two
+subgroups formed previously, until all objects form their own group. In
+other words, when each leaf of the tree contains one object.
+
+**2- Cross-validation and pruning the tree**
+
+The mvpart function also performs a cross-validation and identifies the
+best predictive tree. The cross-validation procedure consists in using a
+subset of the objects to construct the tree, and to allocate the
+remaining objects to the groups. In a good predictive tree, objects are
+assigned to the appropriate groups. The cross-validated relative error
+(CVRE) is the measure of the predictive error. Without cross-validation,
+one would retain the number of partitions minimizing the variance not
+explained by the tree (i.e. the relative error: the sum of the
+within-group SS over all leaves divided by the overall SS of the data).
+This is the solution maximizing the R2 so to speak. This approach is
+explanatory rather than predictive.
+
+Let's create a multivariate regression tree on the Doubs data.
+
+```{r, echo = TRUE, eval = FALSE}
+?mvpart
+ 
+#Prepare the data: remove “distance from source”
+env <- subset(env, select = -das)
+
+# Create the regression tree
+doubs.mrt <- mvpart(as.matrix(spe.hel) ~. ,env,
+            legend=FALSE, margin=0.01, cp=0, xv="pick",
+            xval=nrow(spe.hel), xvmult=100, which=4)
+```
+
+At this point, you will need to select the tree who's size (number of
+groups) is appropriate to the aim of your study from the following
+graph. This step requires the argument xv=\"pick\". In other words, you
+must prune the tree by picking the best-fit tree. Indeed, a fully
+resolved tree is not the desirable outcome. Instead, one is usually
+interested in a tree including only informative partitions/groups. It is
+possible to have an a-priori idea of the number of potential groups to
+be retained as well.
+
+![](images/cross_validation.png){.align-center}
+
+The graph shows the relative error RE (in green) and the cross-validated
+relative error CVRE (in blue) of trees of increasing size. The red dot
+indicates the solution with the smallest CVRE, and the orange dot shows
+the smallest tree within one standard error of CVRE. It has been
+suggested that instead of choosing the solution minimizing CVRE, it
+would be more parsimonious to opt for the smallest tree for which the
+CVRE is within one standard error of the tree with the lowest CVRE
+(Breiman et al. 1984). The green bars at the top indicate the number of
+times each size was chosen during the cross-validation process.
+
+This graph is interactive, which means you will have to click on the
+blue point corresponding your choice of tree size. Once you do so, the
+corresponding multivariate regression tree will appear. If you click on
+the orange dot, the following tree appears.
+
+![](images/mrt_1se.png){.align-center}
+
+The statistics at the bottom of the figure are: the residual error (the
+reciprocal of the R2 of the model, in this case 43.7%), the
+cross-validated error, and the standard error. This tree has only two
+leaves separated by one node. This node splits the data into two groups
+at the threshold altitude value of 361.5m.
+
+Each leaf is characterized by a small barplot showing the abundances of
+the species, its number of sites and its relative error.
+
+We can compare this tree with the 10-group solution, as suggested by the
+CVRE criterion, or choose a solution in between, e.g. with 4 leaves to
+compare.
+
+```{r, echo = TRUE, eval = FALSE}
+# Using the CVRE criterion
+doubs.mrt.cvre <- mvpart(as.matrix(spe.hel)~., env, 
+                 legend=FALSE, margin=0.01, cp=0,xv="pick", 
+                 xval=nrow(spe.hel), xvmult=100,which=4)
+
+# Choosing ourself the best number of partitions
+doubs.mrt.4 <- mvpart(as.matrix(spe.hel)~., env, 
+              legend=FALSE, margin=0.01, cp=0, xv="pick", 
+              xval=nrow(spe.hel), xvmult=100,which=4)
+```
+
+![](images/mrt_cvre.png){.align-center} ![](images/mrt_4.png){.align-center}
+
+The 10-group solution has a high EXPLANATORY power but its predictive
+power (indicated by the cross-validated error) is just slightly better
+than that of the 2-group solution. The 4-group solution seems to be a
+good compromise.
+
+More information can be obtained by looking at the summary output.
+
+```{r, echo = TRUE, eval = FALSE}
+summary(doubs.mrt)
+```
+
+![](images/doubs_mrt_summary.png){.align-center}
+
+CP stands for "complexity parameter", which is the equivalent of the
+variance explained by each node. The CP at nsplit 0 is the R2 of the
+whole tree. The summary then outlines, for each node, the best threshold
+values to split the data. While informative, this output is very dense.
+A more detailed and yet more manageable output can be generated by using
+the wrapper from the function MRT() of the MVPARTwrap package. Plus,
+this other function allows identification of discriminant species.
+
+```{r, echo = TRUE, eval = FALSE}
+# Find discriminant species with MRT results
+doubs.mrt.wrap<-MRT(doubs.mrt,percent=10,species=colnames(spe.hel))
+summary(doubs.mrt.wrap)
+
+# Extract indval p-values
+doubs.mrt.indval<-indval(spe.hel,doubs.mrt$where)
+doubs.mrt.indval$pval
+
+# Extract indicator species of each node, with its indval
+doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval<=0.05)]
+doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval<=0.05)]
+```
+
+![](images//doubs_mrt_discriminant.png){.align-center}
+![](images//doubs_mrt_finalpart.png){.align-center}
+
+The main discriminant species of the first split are TRU, VAI and ABL.
+TRU and VAI contribute highly to the left leaf, and ABL is the most
+indicative species of the sites at lower altitude (\<361.5m). This
+output also indicates which sites are included in each leaf.
+
+![](images//doubs_mrt_indval.png){.align-center}
+
+The second part of the code allows us to test the significance of the
+indicator value of each species through a permutation test. For each
+significant indicator species, we extracted the leaf number and the
+indicator value. In this particular case, TRU, VAI and LOC are all
+significant species of the left leaf, TRU having the highest indicator
+value (0.867).
+
+**Challenge 4**: Run the multivariate regression tree for the mite data.
+Select the minimum size of tree within one SE of the CVRE. What is the
+proportion of variance explained by this tree? How many leaves contain
+this tree? What are the discriminant species?
+
+**Challenge 4** - Solution
+
+
+
+```{r, echo = TRUE, eval = FALSE}
+mite.mrt<-mvpart(data.matrix(mite.spe.hel)~.,mite.env,
+legend=FALSE,margin=0.01,cp=0,xv="pick",
+xval=nrow(mite.spe.hel),xvmult=100,which=4)
+summary(mite.mrt)
+
+mite.mrt.wrap<-MRT(mite.mrt,percent=10,species=colnames(mite.spe.hel))
+summary(mite.mrt.wrap)
+
+mite.mrt.indval<-indval(mite.spe.hel,mite.mrt$where)
+mite.mrt.indval$pval
+
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval<=0.05)]
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval<=0.05)]
+```
+
+25.6% of the variation in the mite species assemblage across sites is
+explained by the partition of the sites based on water content of the
+substrate (at 385.1 mg/l). LCIL is a discriminant species of sites with
+higher water content, and has an indicator value of 0.715.
+
+
+

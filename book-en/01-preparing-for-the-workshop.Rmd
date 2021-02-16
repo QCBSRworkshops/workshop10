@@ -1,0 +1,83 @@
+# (PART\*) Advanced Multivariate Analyses in `R` {-}
+
+# Learning objectives
+
+**Summary:** In this workshop, you will learn how to perform advanced
+multivariate analyses on community data. This workshop concentrates on
+constrained methods such as redundancy analysis (RDA), multivariate
+regression tree (MRT) and linear discriminant analysis (LDA) to explore
+how environmental variables may be driving patterns in species
+assemblage across sites.
+
+The previous workshop presented the basics of multivariate analyses:
+  
+* how to choose appropriate distance metrics and transformations
+* hierarchical clustering
+* unconstrained ordinations 
+* Principal component analysis
+* Principal coordinate Analysis
+* Correspondence analysis
+* Nonmetric multidimensional scaling
+
+The present workshop builds on this knowledge, and will focus on
+constrained analyses. All the methods overviewed during the introductory
+workshop allowed to find patterns in the community composition data or
+in the descriptors, but not to explore how environmental variables could
+be driving these patterns. With constrained analyses, such as redundancy
+analysis (RDA), linear discriminant analysis (LDA) and multivariate
+regression tree (MRT), one can describe and predict relationships
+between community composition data and environmental variables.
+
+*Include learning objectives.*
+
+# Preparing for the workshop
+
+Download the R script, packages and data required for this workshop:
+  
+-  [R Script](http://qcbs.ca/wiki/_media/multivar2_e.r)
+-  [DoubsEnv data](http://qcbs.ca/wiki/_media/DoubsEnv.csv)
+-  [DoubsSpe data](http://qcbs.ca/wiki/_media/DoubsSpe.csv)
+-  [Test data for linear discriminant
+   analysis](http://qcbs.ca/wiki/_media/classifyme.csv)
+-  [mvpart package](http://qcbs.ca/wiki/_media/mvpart_1.6-2.tar.gz)
+-  [MVPARTwrap
+   package](http://qcbs.ca/wiki/_media/MVPARTwrap_0.1-9.tar.gz)
+-  [rdaTest package](http://qcbs.ca/wiki/_media/rdaTest_1.10.tar.gz)
+
+Make sure to load the following packages (see how in the R script):
+  
+- [vegan (for multivariate
+      analyses)](http://cran.r-project.org/web/packages/vegan/index.html)
+- [labdsv (for identification of significant indicator species in the
+     multivariate regression tree
+     analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
+- [plyr (classification for linear discriminant
+   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
+- [MASS (for linear discriminant
+   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
+- mvpart
+- MVPARTwrap
+- rdatest
+
+```{r, echo = TRUE, eval = FALSE}
+install.packages("vegan")
+install.packages("mvpart")
+install.packages("labdsv")
+install.packages("plyr")
+install.packages("MASS")
+
+# For the two following packages, upload the file provided on the wiki page.
+# To do so, go to Packages tab on the bottom right panel of R Studio
+# Click on Install Packages
+# Choose to install from Package Archive file and upload these two files
+install.packages("MVPARTwrap")
+install.packages("rdaTest")
+
+library(vegan)
+library(mvpart)
+library(MVPARTwrap)
+library(rdaTest)
+library(labdsv)
+library(plyr)
+library(MASS)
+```

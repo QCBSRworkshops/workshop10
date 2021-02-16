@@ -1,0 +1,154 @@
+# Variation partitioning
+
+Variation partitioning is a type of analysis that combines RDA and
+partial RDA to divide the variation of a response variable among two,
+three or four explanatory data sets. Variation partitioning are
+generally represented by Venn diagram in which the percentage of
+explained variance by each explanatory data set (or combination of data
+stets) is reported.
+
+In the case of two datasets (below): - Fraction a + b +c is the
+explained variance by the two datasets calculated using a RDA of y by X
++ W. - Fraction d is the unexplained variance by the two datasets
+calculated using the same RDA as above. - Fraction a is the explained
+variance by the X data set only calculated using a partial of y by X
+with W as covariables. - Fraction c is the explained variance by the W
+data set only calculated using a partial of y by W with X as
+covariables. - Fraction b is calculated by subtraction, i.e. b = \[a +
+b\] + \[b + c\] - \[a + b + c\].
+
+![](images/vennd_varpart.png){.align-center}
+
+Venn diagram of partition of the variation of a response variable y
+among two sets of explanatory variables X and W (from Legendre and
+Legendre 2012).
+
+Variation partitioning is thus an indicated analysis when user what to
+relate the abundance of species in a community to various type of
+environmental variables, for example abiotic vs biotic variables,
+large-scale versus small-scale variables, etc. In the next example, we
+will partition the variation of fish species composition between
+chemical and physiographic variables.
+
+In R, variation partitioning is performed using the function varpart().
+Venn diagrams can also be drawn using the function plot().
+
+```{r, echo = TRUE, eval = FALSE}
+?varpart
+vegandocs("partitioning.pdf")
+ 
+#Variation partitioning with all explanatory variables
+spe.part.all <- varpart(spe.hel, envchem, envtopo)
+spe.part.all
+windows(title="Variation partitioning - all variables")
+plot(spe.part.all, digits=2)  
+```
+
+The output looks like: ![](images/varpart_output.png){.align-center}
+![](images/varpart_output_venn.png){.align-center}
+
+In this case, the chemical variables explain 24.10% of the fish species
+composition, the physiographic variables explain 11.20% of the fish
+species composition and the interaction of these two types of variables
+explained 23.30% of the fish species composition. Note that the
+varpart() function also identify the fractions that can be tested for
+significance using the function anova.cca().
+
+Users can also perform variation partitioning between data sets that
+only contain significant environmental variables:
+
+```{r, echo = TRUE, eval = FALSE}
+#RDA of chemistry variables
+spe.chem <- rda(spe.hel~., data=envchem)
+ 
+#Select significant chemistry variables
+R2a.all.chem <- RsquareAdj(spe.chem)$adj.r.squared
+ordiR2step(rda(spe.hel~1, data=envchem), 
+           scope= formula(spe.chem), direction= "forward", R2scope=TRUE, pstep=1000)
+names(envchem)
+(envchem.pars <- envchem[, c( 4, 6, 7 )])
+ 
+#RDA with other environmental variables
+spe.topo <- rda(spe.hel~., data=envtopo)
+R2a.all.topo <- RsquareAdj(spe.topo)$adj.r.squared
+ordiR2step(rda(spe.hel~1, data=envtopo), 
+           scope= formula(spe.topo), direction= "forward", R2scope=TRUE, pstep=1000)
+names(envtopo)
+envtopo.pars <- envtopo[, c(1,2)]
+ 
+#Varpart
+spe.part <- varpart(spe.hel, envchem.pars, envtopo.pars)
+windows(title="Variation partitioning - parsimonious subsets")
+plot(spe.part, digits=2)
+ 
+#Tests of significance 
+anova.cca(rda(spe.hel, envchem.pars), step=1000) # Test of fractions [a+b]
+anova.cca(rda(spe.hel, envtopo.pars), step=1000) # Test of fractions [b+c]
+env.pars <- cbind(envchem.pars, envtopo.pars) 
+anova.cca(rda(spe.hel, env.pars), step=1000) # Test of fractions [a+b+c]
+anova.cca(rda(spe.hel, envchem.pars, envtopo.pars), step=1000) # Test of fraction [a]
+anova.cca(rda(spe.hel, envtopo.pars, envchem.pars), step=1000) # Test of fraction [c]
+```
+
+Now, the chemical variables explain 25.30% of the fish species
+composition, the physiographic variables explain 14.20% of the fish
+species composition and the interaction of these two types of variables
+explained 19.60% of the fish species composition. All these fractions
+are significant (p\<0.001).
+
+**Challenge 3**: Perform variation partitioning of the mite species
+abundances with a first dataset for the significant substrate variables
+(SubsDens, WaterCont and Substrate) and a second dataset for the
+significant other variables (Shrud and Topo). What proportion of the
+variation are explained by each dataset? What are the significant
+fractions ?
+
+**Challenge 3**: Solution
+
+ This is what your code may look like:
+
+```{r, echo = TRUE, eval = FALSE}
+str(mite.env)
+(mite.subs=mite.env[,c(1,2,3)]) #First set of variables outlined in challenge 
+(mite.other=mite.env[,c(4,5)]) #Second set of variables outlined in challenge 
+ 
+#RDA for mite.subs
+rda.mite.subs <- rda(mite.spe.hel~., data=mite.subs)
+R2a.all.subs <- RsquareAdj(rda.mite.subs)$adj.r.squared
+ 
+#Forward selection for mite.subs
+ordiR2step(rda(mite.spe.hel~1, data=mite.subs), 
+           scope= formula(rda.mite.subs), direction= "forward", R2scope=TRUE, pstep=1000)
+names(mite.subs)
+(mite.subs.pars <- mite.subs[, c(2, 3)])
+ 
+#RDA for mite.other
+rda.mite.other <- rda(mite.spe.hel~., data=mite.other)
+R2a.all.other <- RsquareAdj(rda.mite.other)$adj.r.squared
+ 
+#Forward selection for mite.other
+ordiR2step(rda(mite.spe.hel~1, data=mite.other), 
+           scope= formula(rda.mite.other), direction= "forward", R2scope=TRUE, pstep=1000)
+names(mite.other)
+(mite.other.pars <- mite.other[, c(1,2)])
+ 
+#Variation partitioning
+(mite.spe.part <- varpart(mite.spe.hel, ~WatrCont+Substrate, ~Shrub+Topo,
+                          data=mite.env))
+windows(title="Variation partitioning - parsimonious subsets")
+plot(mite.spe.part, digits=2)
+ 
+# Tests of all testable fractions
+anova.cca(rda(mite.spe.hel~ WatrCont+Substrate, data=mite.env), step=1000) # Test of fractions [a+b]
+anova.cca(rda(mite.spe.hel~Shrub+Topo, data=mite.env), step=1000) # Test of fractions [b+c]
+(env.pars <- cbind(mite.env[,c(2,3,4,5)])) 
+anova.cca(rda(mite.spe.hel~ WatrCont+Substrate+Shrub+Topo, data=env.pars), step=1000) # Test of fractions [a+b+c]
+anova.cca(rda(mite.spe.hel~WatrCont+Substrate + Condition(Shrub+Topo), data=env.pars), step=1000) # Test of fraction [a]
+anova.cca(rda(mite.spe.hel~Shrub+Topo+ Condition(WatrCont+Substrate ), data=env.pars), step=1000) # Test of fraction [c]
+```
+
+In this case, substrate variables explain 14.00% of the mite species
+composition, the other environmental variables explain 9.1% of the mite
+species composition and the interaction of these two types of vriables
+explained 16.90% of the mite species composition. All these fractions
+are significant (p\<0.001). 
