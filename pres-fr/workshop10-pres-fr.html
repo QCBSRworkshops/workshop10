@@ -839,8 +839,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.025 *  
-# RDA3      1 0.003193 0.9919  0.388    
+# RDA2      1 0.008254 2.5643  0.016 *  
+# RDA3      1 0.003193 0.9919  0.429    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1004,9 +1004,9 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
-#          Df Variance      F Pr(&gt;F)    
-# Model     3 0.064495 2.8965  0.001 ***
-# Residual 18 0.133599                  
+#          Df Variance      F Pr(&gt;F)   
+# Model     3 0.064495 2.8965  0.002 **
+# Residual 18 0.133599                 
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1266,11 +1266,9 @@ Le .comment[paramètre de complexité (CP)] représente la variance expliquée p
 
 ```r
 doubs.mrt$cptable
-#           CP nsplit rel error    xerror       xstd
-# 1 0.43695606      0 1.0000000 1.0729919 0.07501607
-# 2 0.10449823      1 0.5630439 0.6737117 0.09454743
-# 3 0.07771670      2 0.4585457 0.6862659 0.09890532
-# 4 0.05937766      3 0.3808290 0.6684895 0.09510255
+#          CP nsplit rel error    xerror       xstd
+# 1 0.4369561      0 1.0000000 1.0753628 0.07497948
+# 2 0.1044982      1 0.5630439 0.6721745 0.09399756
 ```
 
 * CP @ nsplit 0 = R2 de l'arbre au complet
@@ -1290,11 +1288,9 @@ summary(doubs.mrt)
 #     which = 4, legend = FALSE, prn = FALSE, cp = 0)
 #   n= 29 
 # 
-#           CP nsplit rel error    xerror       xstd
-# 1 0.43695606      0 1.0000000 1.0729919 0.07501607
-# 2 0.10449823      1 0.5630439 0.6737117 0.09454743
-# 3 0.07771670      2 0.4585457 0.6862659 0.09890532
-# 4 0.05937766      3 0.3808290 0.6684895 0.09510255
+#          CP nsplit rel error    xerror       xstd
+# 1 0.4369561      0 1.0000000 1.0753628 0.07497948
+# 2 0.1044982      1 0.5630439 0.6721745 0.09399756
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1306,37 +1302,11 @@ summary(doubs.mrt)
 #       amm &lt; 0.06  to the left,  improve=0.3529830, (0 missing)
 #       nit &lt; 1.415 to the left,  improve=0.3513335, (0 missing)
 # 
-# Node number 2: 15 observations,    complexity param=0.0777167
+# Node number 2: 15 observations
 #   Means=0.1208,0.4463,0.4194,0.4035,0.1104,0.09023,0,0.02108,0.1256,0.2164,0.04392,0.01054,0.107,0.09779,0.06853,0,0.01054,0.01617,0.01054,0.09489,0,0,0,0.08629,0,0,0, Summed MSE=0.3194207 
-#   left son=4 (11 obs) right son=5 (4 obs)
-#   Primary splits:
-#       oxy &lt; 10.25 to the right, improve=0.2282249, (0 missing)
-#       dbo &lt; 4.05  to the left,  improve=0.2282249, (0 missing)
-#       deb &lt; 18    to the left,  improve=0.2045441, (0 missing)
-#       alt &lt; 550   to the right, improve=0.1992144, (0 missing)
-#       das &lt; 111.2 to the left,  improve=0.1992144, (0 missing)
 # 
-# Node number 3: 14 observations,    complexity param=0.1044982
-#   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343 
-#   left son=6 (3 obs) right son=7 (11 obs)
-#   Primary splits:
-#       dbo &lt; 10.6  to the right, improve=0.4696188, (0 missing)
-#       amm &lt; 0.45  to the right, improve=0.4696188, (0 missing)
-#       pho &lt; 1.07  to the right, improve=0.3682758, (0 missing)
-#       oxy &lt; 6.75  to the left,  improve=0.3682758, (0 missing)
-#       alt &lt; 298   to the left,  improve=0.2483632, (0 missing)
-# 
-# Node number 4: 11 observations
-#   Means=0.1647,0.5279,0.4324,0.3931,0.1506,0.123,0,0.02875,0.08228,0.1563,0.05989,0.01437,0.07973,0.08234,0.04243,0,0.01437,0,0.01437,0.05004,0,0,0,0.01437,0,0,0, Summed MSE=0.2610106 
-# 
-# Node number 5: 4 observations
-#   Means=0,0.2219,0.3838,0.432,0,0,0,0,0.2449,0.3817,0,0,0.182,0.1403,0.1403,0,0,0.06063,0,0.2182,0,0,0,0.2841,0,0,0, Summed MSE=0.2066745 
-# 
-# Node number 6: 3 observations
-#   Means=0,0,0,0,0,0,0.08607,0,0.1005,0.3889,0,0,0.2282,0.1005,0,0,0.08607,0.1005,0,0,0,0,0.2222,0.3889,0.08607,0.6022,0, Summed MSE=0.1808713 
-# 
-# Node number 7: 11 observations
-#   Means=0.02773,0.04316,0.1084,0.167,0.03748,0.05656,0.1584,0.1733,0.1936,0.2132,0.2382,0.1934,0.2464,0.1993,0.1974,0.2166,0.1929,0.1381,0.1784,0.2253,0.1663,0.1166,0.207,0.2671,0.1799,0.2636,0.192, Summed MSE=0.1016314
+# Node number 3: 14 observations
+#   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343
 ```
 ]
 
@@ -1377,17 +1347,17 @@ Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 ```r
 summary(doubs.mrt.wrap)
 #            Length Class  Mode     
-# nodes        3    -none- numeric  
-# pourct      81    -none- numeric  
-# R2          81    -none- numeric  
-# obj         13    rpart  list     
-# percent      1    -none- numeric  
-# MOYs       162    -none- numeric  
-# RWHERE       3    -none- list     
-# LWHERE       3    -none- list     
-# TABLE1     140    -none- numeric  
-# LABELS       1    -none- logical  
-# mat_labels   9    -none- character
+# nodes       1     -none- numeric  
+# pourct     27     -none- numeric  
+# R2         27     -none- numeric  
+# obj        13     rpart  list     
+# percent     1     -none- numeric  
+# MOYs       54     -none- numeric  
+# RWHERE      1     -none- list     
+# LWHERE      1     -none- list     
+# TABLE1     84     -none- numeric  
+# LABELS      1     -none- logical  
+# mat_labels  3     -none- character
 ```
 ]
 
@@ -1406,17 +1376,19 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extraire les espèces indicatrices à chaque noeud
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# CHA TRU VAI LOC HOT TOX BAR SPI PER BOU PSO CAR TAN BCO PCH BBO ABL ANG 
-#   1   1   1   2   4   4   4   4   4   4   4   4   4   4   4   4   3   4
+# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
+#   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
+# ABL ANG 
+#   2   2
 
 # Extraire leur valeur indval
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-#       CHA       TRU       VAI       LOC       HOT       TOX       BAR       SPI 
-# 0.4668470 0.6657003 0.4251533 0.4354073 0.6478785 0.7797510 0.7990592 0.9308048 
-#       PER       BOU       PSO       CAR       TAN       BCO       PCH       BBO 
-# 0.5193061 1.0000000 0.6575525 0.9254325 0.4564600 0.8181818 0.6363636 0.5533783 
-#       ABL       ANG 
-# 0.6955349 1.0000000
+#       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
+# 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
+#       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
+# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
+#       PCH       GRE       GAR       BBO       ABL       ANG 
+# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
