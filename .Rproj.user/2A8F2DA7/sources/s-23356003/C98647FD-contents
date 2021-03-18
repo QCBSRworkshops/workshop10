@@ -99,13 +99,11 @@ These identify patterns in community composition data or in descriptors, .alert[
 ---
 # Introduction
 
-
 In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
 * Variation partitioning
-
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
