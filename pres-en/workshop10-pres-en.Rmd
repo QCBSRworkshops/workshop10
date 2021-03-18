@@ -112,7 +112,7 @@ These analyses allow us to .alert[**describe**] and .alert[**predict**] relation
 ---
 # Download today's script and data
 
-All data and code can be found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
+All data and code are found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
 
 For this workshop, you will need:
 * R script
