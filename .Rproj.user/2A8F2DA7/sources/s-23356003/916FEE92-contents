@@ -1,1 +1,4 @@
-git clone https://github.com/QCBSRworkshops/workshop10.git
+git clone 
+
+
+git push --set-upstream https://github.com/QCBSRworkshops/workshop10.git wor10 

@@ -1,0 +1,9 @@
+"0","# Compute partial RDA
+mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
+                     + Condition(SubsDens 
+                                 + WatrCont + Substrate),
+                     data = mite.env)
+"
+"2","Error in rda(mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont +  : 
+  could not find function ""rda""
+"
