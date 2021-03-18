@@ -104,8 +104,7 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
 * Variation partitioning
-* Multivariate regression tree (MRT)
-* Linear discriminant analysis (LDA)
+
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
