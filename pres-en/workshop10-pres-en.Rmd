@@ -22,13 +22,38 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  cache = TRUE,
+  cache = TRUE, 
   fig.width=6, fig.height=6,
   fig.retina = 3,
   fig.align = 'center'
 )
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
+
+```{r output-lines, echo = FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
 
 class: inverse, center, middle
 
@@ -595,93 +620,139 @@ class: inverse, center, middle
 ---
 # Partial RDA
 
-* Special case of RDA involving covariates
-  * Models the linear effects of matrix X on matrix Y while controling for a matrix W of .alert[covariates].
+The partial RDA is a special case of RDA that allows you to control for **covariates**.
+
+In other words, we can model the linear effects of matrix $X$ on matrix $Y$ *while* controlling for a matrix $W$ of covariates.
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
 ---
 # Applications of partial RDA
 
-* Assess effects of environmental variables on community composition while .alert[accounting for variation] that isn't the focus of the study.
-* .alert[Isolate] effect of one or more groups of explanatory variables
+Because partial RDA allows us to control for covariates, we can:
+* Assess effects of environmental variables on community composition while accounting for variation that **isn't** the focus of the study.
+* **Isolate** the effect of one or more groups of explanatory variables
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
----
-# Partial RDA on Doubs River data
+--
+.center[.comment[Partial RDA is often used in community ecology to separate the effects of environmental variables from the effect of spatial variables.]]
 
-Let's assess the effect of water chemistry on fish species abundances while controling for the effect of topography.
+---
+# Example: Partial RDA on Doubs River data
+
+In `R`, we can run a partial RDA using the `rda()` function.
+
+As a demonstration, let's assess the effect of water chemistry on fish species abundances (`spe.hel`) while controlling for the effect of topography.
 
 ```{r}
 # Subset environmental data into topography variables and chemistry variables
 env.topo <- subset(env.z, select = c(alt, pen, deb))
 env.chem <- subset(env.z, select = c(pH, dur, pho, nit, amm, oxy, dbo))
 
-# Partial RDA
+# Run a partial RDA
 spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
 ```
 
 --
 
+<br> 
 .small[
-.alert[Note]: Alternative syntax for the partial RDA:
+**Note:** You can also use a formula syntax like `Y ~ X + Condition(W)`, where `Condition()` allows you to control for covariates.
+
 ```{r, eval = FALSE}
-spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
-                       Condition(alt + pen + deb),
+# Alternative syntax for the partial RDA:
+spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo + # these are the effects we are interested in
+                       Condition(alt + pen + deb), # these are the covariates
                        data = env.z)
 ```
 ]
 
 ---
-# Partial RDA output in R
+# Interpreting partial RDA output in `R`
 
-```{r, eval = FALSE, results = 'hide'}
+```{r, eval = TRUE, collapse=FALSE, output.lines=(5:10)}
 summary(spe.partial.rda, display = NULL)
 ```
+<br>
 
-.center[ ![:scale 45%](images/PartialRDAOutput.png)]
+* **Conditioned Proportion**: variance of $Y$ explained by $W$ .alert[(41.53%)]
+* **Constrained Proportion**: variance of $Y$ explained by $X$ .alert[(31.89%)]
+* **Unconstained Proportion**: unexplained variance in $Y$ .alert[(26.59%)]
+<br>
+<br>
+.center[How would you report these results?]  
 
-.small[
-* **Conditioned Proportion**: variance of Y explained by W .alert[(41.53%)]
-* **Constrained Proportion**: variance of Y explained by X .alert[(31.89%)]
-* **Unconstained Proportion**: unexplained variance in Y .alert[(26.59%)]
+--
+
+.center[.comment[Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.]]
 
 
+---
+# Interpreting partial RDA in `R`
 
-How would you report these results?
-.comment[Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.]
+We are still missing some important details for our interpretation of this model!
+<br>
+<br>
+.pull-left2[
+1\. What is the model's **explanatory power**?
+```{r}
+# Extract the model's adjusted R2
+RsquareAdj(spe.partial.rda)$adj.r.squared
+```
+]
+
+--
+
+.pull-right2[
+<br>
+<br>
+.small[.comment[Our model explains .alert[24.1%] of the variation in fish abundance across sites.]]
+]
+
+--
+
+.pull-left2[
+2\. Is the model **statistically significant**?
+```{r output.lines=-c(2,9,10)}
+# Test whether the model is statistically significant
+anova.cca(spe.partial.rda, step = 1000)
+```
+]
+
+--
+
+.pull-right2[
+<br>
+<br>
+.small[.comment[It is also statistically significant (.alert[p = 0.001])!]]
 ]
 
 ---
-# Significance testing
-
-First, let's extract the model's adjusted R2.
-```{r}
-RsquareAdj(spe.partial.rda)$adj.r.squared
-```
-
---
-Then, let's test whether the model is statistically significant.
-```{r}
-anova.cca(spe.partial.rda, step = 1000)
-```
----
 # Plot the partial RDA
 
+We can visualise the effects of the environmental variables on the fish community with the `ordiplot()` function.
+
 .small[
-```{r}
+```{r, fig.height=55, fig.width=55}
 ordiplot(spe.partial.rda, scaling = 2,
          main = "Doubs River partial RDA - Scaling 2")
 ```
 --
 
 .alert[Note]: The topography variables (covariates) aren't plotted. Why is that?]
+
+???
+
+Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are controlled for, they do not show up in the scaling 2 biplot.
+
+Recall: In scaling 2, arrow length shows effect size, arrow direction shows the direction of the relationship (opposite directions means the variables have a negative relationship, while same direction indicates a positive relationship)
+
 ---
 # Challenge 2 ![:cube]()
 
 .small[
-Run a partial RDA to model the effects of environmental variables on mite species abundances, while controling for substrate variables (SubsDens, WatrCont, and Substrate).
+Run a partial RDA to model the effects of environmental variables on mite species abundances (`mite.spe.hel`), while controlling for substrate variables (`SubsDens`, `WatrCont`, and `Substrate`).
 * What is the variance explained by substrate variables?
 * Is the model significant?
 * Which axes are significant?
@@ -696,13 +767,14 @@ RsquareAdj()
 anova.cca() # hint: see the 'by' argument in ?anova.cca
 ```
 ]
+
 ---
 # Challenge 2: Solution
 
 Our species abundance and environmental datasets have already been transformed and standardized.
 
 So, we can start with the partial RDA:
-```{r, results = 'hide'}
+```{r, output.lines=c(5:10)}
 # Compute partial RDA
 mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
                      + Condition(SubsDens + WatrCont + Substrate),
@@ -722,6 +794,7 @@ Shrub and Topo explain .alert[9.8%] of the variation in mite species abundances,
 RsquareAdj(mite.spe.subs)$adj.r.squared
 ```
 --
+<br>
 * Is the model significant?
 ```{r}
 anova.cca(mite.spe.subs, step = 1000)
@@ -978,7 +1051,7 @@ The "best" tree varies depending on your study goals. Usually you want a tree:
 
 In what follows we will be using .alert[`mvpart` that is currently archived on CRAN]. We install it from GitHub using the package remotes:
 
-```{R mvpart_install}
+```{R mvpart_install, eval=FALSE}
 remotes::install_github("cran/mvpart")
 library(mvpart)
 ```
@@ -1003,7 +1076,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 # MRT in R: Tree selection
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
+```{r, eval = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "pick", # interactively select tree size
                     xval = nrow(spe.hel), # number of cross-validations
@@ -1039,7 +1112,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 # MRT in R: Tree plot
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5, eval=F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "1se", # interactively select tree size
                     xval = nrow(spe.hel), # number of cross-validations
@@ -1059,7 +1132,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 We can also compare solutions, to help us chose the best tree.
 
 For example, let's look at a 10-group solution!
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12, eval=F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
@@ -1076,7 +1149,7 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 
 Let's look at a solution with fewer (4) groups!
 .tiny[
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8,  eval=F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
@@ -1093,7 +1166,7 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 # MRT in R: Complexity parameter
 
 To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP).
-```{r}
+```{r,  eval=F}
 doubs.mrt$cptable
 ```
 
@@ -1105,7 +1178,7 @@ doubs.mrt$cptable
 
 We can access more information about the tree (such as which node corresponds to which variable threshold):
 .tiny[
-```{r}
+```{r,  eval=F}
 summary(doubs.mrt)
 ```
 ]
@@ -1120,7 +1193,7 @@ To do this, we have the .comment[MVPARTwrap] package.
 
 .alert[MVPARTwrap is archived, we use the package remotes to install it from GitHub:]
 
-```{R MVPARTwrap_install}
+```{R MVPARTwrap_install,  eval=F}
 remotes::install_github("cran/MVPARTwrap")
 library(MVPARTwrap)
 ```
@@ -1128,7 +1201,7 @@ library(MVPARTwrap)
 ---
 # MRT in R: Discriminant species
 
-```{r, results = 'hide'}
+```{r, results = 'hide',  eval=F}
 # Generate a nicer and more informative output
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 
@@ -1141,7 +1214,7 @@ summary(doubs.mrt.wrap)
 
 To see each species' contribution to explained variance at each node:
 .small[
-```{r}
+```{r,  eval=F}
 summary(doubs.mrt.wrap)
 ```
 ]
@@ -1153,7 +1226,7 @@ summary(doubs.mrt.wrap)
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
 
 .xsmall[
-```{r labdsv}
+```{r labdsv,  eval=F}
 library(labdsv)
 
 # Calculate indicator values (indval) for each species
@@ -1197,7 +1270,7 @@ summary()
 # Challenge 4: Solution
 
 Step 1: Create the multivariate regression tree
-```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
+```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5,  eval=F}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1209,7 +1282,7 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ---
 # Challenge 4: Solution
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5,  eval=F}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1229,7 +1302,7 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 
 
 What are the top 3 discriminant species .alert[for node 1]?
-```{r, results = 'hide'}
+```{r, results = 'hide',  eval=F}
 # Generate nicer MRT output
 mite.mrt.wrap <- MRT(mite.mrt,
                      percent = 10,
