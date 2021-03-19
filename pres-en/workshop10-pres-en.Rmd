@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   fig.width=6, fig.height=6,
   fig.retina = 3,
   fig.align = 'center'
@@ -90,11 +90,12 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
 * [vegan](https://cran.r-project.org/package=vegan)
+* [ggplot2](https://cran.r-project.org/package=ggplot2)
 
 <br>
 
 ```R
-install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan'))
+install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ```
 
 ---
@@ -1374,31 +1375,40 @@ What are the top 3 discriminant species .alert[for node 1]?
 ---
 
 class: inverse, center, middle
-
 # Linear discriminant analysis (LDA)
+
 ---
 
 # Linear discriminant analysis (LDA)
 
-* Determine how well your descriptor variables explain an *a priori* grouping of your response variable
+The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful beacause:
 
-* Make predictions about how to classify new data
-  * e.g. classifying whether a fish comes from a lake or ocean population, based on morphology
+* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable
+* Which is great for making predictions about how to classify new data
+  
+  .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
-.center[![:scale 60%](images/LDA_FishExample.jpg)]
+.center[
+![:scale 40%](images/LDA_FishExample.jpg)
+]
+
+???
+The grouping is done by maximizing the among-group dispersion versus the within-group dispersion
+
 ---
 
 # LDA in R: Doubs fish dataset
 
 <br>
-.center[We know that environmental variables generally change with latitude.]
+We know that environmental variables generally change with latitude.
 
 <br>
 --
-.center[**If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
-<br><br><br>
-.comment[We can use an LDA to answer this question!]
-]
+
+* **If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
+
+  .comment[We can use an LDA to answer this question!]
+
 ---
 
 # LDA in R: Doubs fish dataset
@@ -1446,6 +1456,32 @@ library(MASS)
 # run the LDA grouping sites into latitude groups based on env data
 LDA <- lda(env, spa$group)
 ```
+---
+
+# LDA in R
+
+Our sites have now been reorganised into groups that are as distinct as possible, based on the environmental variables.
+<br><br>
+
+```{r echo = FALSE, fig.width = 7, fig.height = 6}
+library(ggplot2)
+
+lda.plotdf <- data.frame(group = factor(spa$group), 
+                         lda = predict(LDA)$x) # predict the values for plotting
+
+# Plot the newly reorganised sites according to the LDA
+ggplot(lda.plotdf) +
+  geom_point(aes(x = lda.LD1, 
+                 y = lda.LD2, 
+                 col = group), 
+             size = 3) +
+  labs(color = "Groups") +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
+```
+
 
 ---
 
