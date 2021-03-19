@@ -1289,13 +1289,11 @@ What are the top 3 discriminant species .alert[for node 1]?
 
 .center[![:scale 40%](images/Challenge4_IndVal.png)]
 ---
-exclude: true 
 
 class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 ---
-exclude: true 
 
 # Linear discriminant analysis (LDA)
 
@@ -1306,7 +1304,6 @@ exclude: true
 
 .center[![:scale 60%](images/LDA_FishExample.jpg)]
 ---
-exclude: true 
 
 # LDA in R: Doubs fish dataset
 
@@ -1318,7 +1315,6 @@ We know that environmental variables generally change with latitude.
 * We can use an LDA to answer this question.
 
 ---
-exclude: true 
 
 # LDA in R: Doubs fish dataset
 
@@ -1342,7 +1338,6 @@ spa$group[which(spa$y > 156)] <- 3
 ```
 
 ---
-exclude: true 
 
 # LDA in R: Latitude groups
 
@@ -1352,7 +1347,6 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
 
 ---
-exclude: true 
 
 # LDA in R
 
@@ -1368,7 +1362,6 @@ LDA <- lda(env, spa$group)
 ```
 
 ---
-exclude: true 
 
 # LDA in R: Grouping accuracy
 
@@ -1391,7 +1384,6 @@ diag(prop.table(spe.table, 1))
 All sites were correctly classified into the latitude groups based on environmental variables.]
 
 ---
-exclude: true 
 
 # LDA in R: Predictions
 
@@ -1414,7 +1406,6 @@ predict.group$class
 ```
 ]
 ---
-exclude: true 
 
 # Challenge 5 ![:cube]()
 
@@ -1437,7 +1428,6 @@ diag()
 ]
 
 ---
-exclude: true 
 
 # Challenge 5: Solution
 
@@ -1467,7 +1457,6 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
 ---
-exclude: true 
 
 # Challenge 5: Solution
 
