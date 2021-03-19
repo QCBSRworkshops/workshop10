@@ -121,6 +121,11 @@ For this workshop, you will need:
   * DoubsSpe data
   * DoubsSpa data
 
+???
+
+Additional datasets that are no longer used in the 3-hr version:
+Test data for linear discriminant analyses
+
 ---
 # Required packages
 
@@ -129,6 +134,11 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * rdaTest package .alert[(from wiki)]
 * mvpart package .alert[(from wiki)]
 * MVPARTwrap package .alert[(from wiki)]
+
+??? 
+
+labdsv .small[(to identify indicator species in the MRT)]
+MASS .small[(for LDA)]
 
 ---
 # Follow along!
