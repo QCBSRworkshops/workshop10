@@ -103,7 +103,8 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
-* Variation partitioning
+* Variation partitioning  
+* Linear discriminant analysis (LDA)
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
@@ -129,10 +130,16 @@ For this workshop, you will need:
 # Required packages
 
 Please make sure you have downloaded, installed, and loaded these packages:
-* vegan .small[(for multivariate analyses)]
+* [Hmisc](https://cran.r-project.org/package=Hmisc)
+* [labdsv](https://cran.r-project.org/package=labdsv)
+* [MASS](https://cran.r-project.org/package=MASS)
+* [vegan](https://cran.r-project.org/package=vegan) 
 * rdaTest package .alert[(from wiki)]
-* mvpart package .alert[(from wiki)]
-* MVPARTwrap package .alert[(from wiki)]
+
+???
+Unused packages in 3-hr version:
+mvpart package .alert[(from wiki)]
+MVPARTwrap package .alert[(from wiki)]
 
 ---
 # Follow along!
@@ -1293,13 +1300,11 @@ What are the top 3 discriminant species .alert[for node 1]?
 
 .center[![:scale 40%](images/Challenge4_IndVal.png)]
 ---
-exclude: true 
 
 class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 ---
-exclude: true 
 
 # Linear discriminant analysis (LDA)
 
@@ -1310,7 +1315,6 @@ exclude: true
 
 .center[![:scale 60%](images/LDA_FishExample.jpg)]
 ---
-exclude: true 
 
 # LDA in R: Doubs fish dataset
 
@@ -1346,7 +1350,7 @@ spa$group[which(spa$y > 156)] <- 3
 ```
 
 ---
-exclude: true 
+ 
 
 # LDA in R: Latitude groups
 
@@ -1356,7 +1360,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
 
 ---
-exclude: true 
+ 
 
 # LDA in R
 
@@ -1372,7 +1376,7 @@ LDA <- lda(env, spa$group)
 ```
 
 ---
-exclude: true 
+ 
 
 # LDA in R: Grouping accuracy
 
@@ -1395,7 +1399,7 @@ diag(prop.table(spe.table, 1))
 All sites were correctly classified into the latitude groups based on environmental variables.]
 
 ---
-exclude: true 
+ 
 
 # LDA in R: Predictions
 
@@ -1418,7 +1422,7 @@ predict.group$class
 ```
 ]
 ---
-exclude: true 
+ 
 
 # Challenge 5 ![:cube]()
 
@@ -1441,7 +1445,7 @@ diag()
 ]
 
 ---
-exclude: true 
+ 
 
 # Challenge 5: Solution
 
@@ -1471,7 +1475,7 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
 ---
-exclude: true 
+ 
 
 # Challenge 5: Solution
 
