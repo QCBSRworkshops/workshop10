@@ -82,8 +82,7 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
 * Variation partitioning
-* Multivariate regression tree (MRT)
-* Linear discriminant analysis (LDA)
+
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
@@ -99,7 +98,6 @@ For this workshop, you will need:
   * DoubsEnv data
   * DoubsSpe data
   * DoubsSpa data
-  * Test data for linear discriminant analyses
 
 ---
 # Required packages
@@ -109,8 +107,6 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * rdaTest package .alert[(from wiki)]
 * mvpart package .alert[(from wiki)]
 * MVPARTwrap package .alert[(from wiki)]
-* labdsv .small[(to identify indicator species in the MRT)]
-* MASS .small[(for LDA)]
 
 ---
 # Follow along!
@@ -828,8 +824,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.016 *  
-# RDA3      1 0.003193 0.9919  0.417    
+# RDA2      1 0.008254 2.5643  0.022 *  
+# RDA3      1 0.003193 0.9919  0.426    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1112,9 +1108,13 @@ plot(mite.part, digits = 2, cex = 1.5,
 ---
 class: inverse, center, middle
 
+exclude: true 
+
 # Multivariate regression tree (MRT)
 
 ---
+exclude: true 
+
 # Multivariate regression tree (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -1123,6 +1123,8 @@ MRT is a constrained clustering technique.
 * Splits a response matrix (Y) into clusters based on thresholds of explanatory variables (X)
 
 ---
+exclude: true 
+
 # Multivariate regression tree (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -1133,6 +1135,8 @@ An MRT consists of:
 * .alert[Leaf]: terminal group of sites
 
 ---
+exclude: true 
+
 # Multivariate regression tree (MRT)
 
 MRT has many advantages:
@@ -1143,6 +1147,8 @@ MRT has many advantages:
 * Can handle raw explanatory variables
 
 ---
+exclude: true 
+
 # MRT: Tree selection
 
 When you run an MRT, 2 things happen:
@@ -1156,6 +1162,8 @@ The "best" tree varies depending on your study goals. Usually you want a tree:
 * Basically: what makes sense for your question?
 
 ---
+exclude: true 
+
 # MRT in R
 
 In what follows we will be using .alert[`mvpart` that is currently archived on CRAN]. We install it from GitHub using the package remotes:
@@ -1164,9 +1172,9 @@ In what follows we will be using .alert[`mvpart` that is currently archived on C
 ```r
 remotes::install_github("cran/mvpart")
 #   
-   checking for file ‘/tmp/RtmpOa4Xyx/remotes5d93307220df/cran-mvpart-acf0035/DESCRIPTION’ ...
+   checking for file ‘/tmp/RtmpLOFnb0/remotes3d422a3f6193/cran-mvpart-acf0035/DESCRIPTION’ ...
   
-✔  checking for file ‘/tmp/RtmpOa4Xyx/remotes5d93307220df/cran-mvpart-acf0035/DESCRIPTION’
+✔  checking for file ‘/tmp/RtmpLOFnb0/remotes3d422a3f6193/cran-mvpart-acf0035/DESCRIPTION’
 # 
   
 ─  preparing ‘mvpart’:
@@ -1193,6 +1201,8 @@ library(mvpart)
 ```
 
 ---
+exclude: true 
+
 # MRT in R
 
 
@@ -1211,6 +1221,8 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ```
 
 ---
+exclude: true 
+
 # MRT in R: Tree selection
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-57-1.png" width="396" style="display: block; margin: auto;" /&gt;
@@ -1222,6 +1234,8 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 * Lime green bars: # of times each tree size was chosen
 ]
 ---
+exclude: true 
+
 # MRT in R: Tree selection
 
 
@@ -1232,6 +1246,8 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true 
+
 # MRT in R: Tree plot
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-59-1.png" width="396" style="display: block; margin: auto;" /&gt;
@@ -1241,6 +1257,8 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 * Residual error = 0.563, which means the model's R2 is .alert[43.7%]
 ]
 ---
+exclude: true 
+
 # MRT in R: Comparing trees
 
 We can also compare solutions, to help us chose the best tree.
@@ -1253,6 +1271,8 @@ For example, let's look at a 10-group solution!
 * Higher explanatory power, .alert[BUT] predictive power (CV Error = 0.671) is basically the same as the previous solution (CV Error = 0.673).
 ]
 ---
+exclude: true 
+
 # MRT in R: Comparing trees
 
 Let's look at a solution with fewer (4) groups!
@@ -1265,6 +1285,8 @@ Let's look at a solution with fewer (4) groups!
 * .alert[Higher predictive power] than both previous solutions (CV Error)
 ]
 ---
+exclude: true 
+
 # MRT in R: Complexity parameter
 
 To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP).
@@ -1272,14 +1294,16 @@ To find out how much variance is explained by each node in the tree, we need to 
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0797395 0.07471601
-# 2 0.1044982      1 0.5630439 0.6740234 0.09447328
+# 1 0.4369561      0 1.0000000 1.0749498 0.07499685
+# 2 0.1044982      1 0.5630439 0.6723418 0.09409905
 ```
 
 * CP @ nsplit 0 = R2 of the whole tree
 * CP at subsequent nodes = R2 of each node (see full summary to see which node corresponds to which variable threshold)
 
 ---
+exclude: true 
+
 # MRT in R: Summary output
 
 We can access more information about the tree (such as which node corresponds to which variable threshold):
@@ -1294,8 +1318,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0797395 0.07471601
-# 2 0.1044982      1 0.5630439 0.6740234 0.09447328
+# 1 0.4369561      0 1.0000000 1.0749498 0.07499685
+# 2 0.1044982      1 0.5630439 0.6723418 0.09409905
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1316,6 +1340,8 @@ summary(doubs.mrt)
 ]
 
 ---
+exclude: true 
+
 # MRT in R: Discriminant species
 
 You might also want to know which species are contributing most to the explained variance at each split (i.e. .alert[discriminant species]), or which sites are included within each leaf (group).
@@ -1339,9 +1365,9 @@ remotes::install_github("cran/MVPARTwrap")
 # ade4       (NA -&gt; 1.7-16   ) [CRAN]
 # fBasics    (NA -&gt; 3042.89.1) [CRAN]
 #   
-   checking for file ‘/tmp/RtmpOa4Xyx/remotes5d9356e65591/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
+   checking for file ‘/tmp/RtmpLOFnb0/remotes3d422c89439/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
   
-✔  checking for file ‘/tmp/RtmpOa4Xyx/remotes5d9356e65591/cran-MVPARTwrap-9ef54fa/DESCRIPTION’
+✔  checking for file ‘/tmp/RtmpLOFnb0/remotes3d422c89439/cran-MVPARTwrap-9ef54fa/DESCRIPTION’
 # 
   
 ─  preparing ‘MVPARTwrap’:
@@ -1356,9 +1382,7 @@ remotes::install_github("cran/MVPARTwrap")
 # 
   
 ─  checking for empty or unneeded directories
-# 
-  
-─  building ‘MVPARTwrap_0.1-9.2.tar.gz’
+# ─  building ‘MVPARTwrap_0.1-9.2.tar.gz’
 # 
   
    
@@ -1367,6 +1391,8 @@ library(MVPARTwrap)
 ```
 
 ---
+exclude: true 
+
 # MRT in R: Discriminant species
 
 
@@ -1379,6 +1405,8 @@ summary(doubs.mrt.wrap)
 ```
 
 ---
+exclude: true 
+
 # MRT in R: Discriminant species
 
 To see each species' contribution to explained variance at each node:
@@ -1403,6 +1431,8 @@ summary(doubs.mrt.wrap)
 
 
 ---
+exclude: true 
+
 # MRT in R: Indicator species
 
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
@@ -1417,25 +1447,27 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extract the significant indicator species (and which node they represent)
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
+# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO ABL 
 #   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# ABL ANG 
-#   2   2
+# ANG 
+#   2
 
 # Extract their indicator values
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
 #       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
 # 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
-#       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
-# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
-#       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
+#       BRO       PER       BOU       PSO       ROT       CAR       BCO       PCH 
+# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 0.5000000 
+#       GRE       GAR       BBO       ABL       ANG 
+# 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
 TRU has the highest indicator value (0.867) overall, and is an indicator species for the first (alt &gt;= 361.5) leaf of the tree.
 
 ---
+exclude: true 
+
 # Challenge 4 ![:cube]()
 .small[
 Create a multivariate regression tree for the mite data.
@@ -1462,6 +1494,8 @@ summary()
 ```
 ]
 ---
+exclude: true 
+
 # Challenge 4: Solution
 
 Step 1: Create the multivariate regression tree
@@ -1478,6 +1512,8 @@ mite.mrt &lt;- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-68-1.png" width="324" style="display: block; margin: auto;" /&gt;
 
 ---
+exclude: true 
+
 # Challenge 4: Solution
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-69-1.png" width="360" style="display: block; margin: auto;" /&gt;
@@ -1489,6 +1525,8 @@ mite.mrt &lt;- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
   * 2 leaves
 ]
 ---
+exclude: true 
+
 # Challenge 4: Solution
 
 
@@ -1505,6 +1543,8 @@ summary(mite.mrt.wrap)
 ```
 
 ---
+exclude: true 
+
 # Challenge 4: Solution
 
 What are the top 3 discriminant species .alert[for node 1]?
@@ -1512,10 +1552,12 @@ What are the top 3 discriminant species .alert[for node 1]?
 
 .center[![:scale 40%](images/Challenge4_IndVal.png)]
 ---
+
 class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 ---
+
 # Linear discriminant analysis (LDA)
 
 * Determine how well your descriptor variables explain an *a priori* grouping of your response variable
@@ -1525,6 +1567,7 @@ class: inverse, center, middle
 
 .center[![:scale 60%](images/LDA_FishExample.jpg)]
 ---
+
 # LDA in R: Doubs fish dataset
 
 We know that environmental variables generally change with latitude.
@@ -1535,6 +1578,7 @@ We know that environmental variables generally change with latitude.
 * We can use an LDA to answer this question.
 
 ---
+
 # LDA in R: Doubs fish dataset
 
 Let's begin by loading spatial coordinates for the Doubs sites:
@@ -1559,6 +1603,7 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 ```
 
 ---
+
 # LDA in R: Latitude groups
 
 Let's quickly plot the latitude groupings to see if they make sense:
@@ -1570,6 +1615,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="396" style="display: block; margin: auto;" /&gt;
 
 ---
+
 # LDA in R
 
 .alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011).
@@ -1585,6 +1631,7 @@ LDA &lt;- lda(env, spa$group)
 ```
 
 ---
+
 # LDA in R: Grouping accuracy
 
 .small[We can then determine how sites were grouped, and whether this grouping is accurate.
@@ -1614,6 +1661,7 @@ diag(prop.table(spe.table, 1))
 All sites were correctly classified into the latitude groups based on environmental variables.]
 
 ---
+
 # LDA in R: Predictions
 
 We can now use this relationship to .comment[classify new sites into latitude groups].
@@ -1638,6 +1686,7 @@ predict.group$class
 ```
 ]
 ---
+
 # Challenge 5 ![:cube]()
 
 .small[Create 4 latitude groups in the .comment[mite.xy] dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (.comment[SubsDens] and .comment[WatrCont]).
@@ -1661,6 +1710,7 @@ diag()
 ]
 
 ---
+
 # Challenge 5: Solution
 
 Step 1: Create 4 latitude groups
@@ -1692,6 +1742,7 @@ LDA.mite &lt;- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
 ---
+
 # Challenge 5: Solution
 
 Step 3: Check whether the groupings are correct
