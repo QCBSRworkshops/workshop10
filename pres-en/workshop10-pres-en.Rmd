@@ -741,7 +741,7 @@ anova.cca(spe.partial.rda, step = 1000)
 We can visualise the effects of the environmental variables on the fish community with the `ordiplot()` function.
 
 .small[
-```{r, fig.height=55, fig.width=55}
+```{r, fig.height=4.5, fig.width=4.5}
 ordiplot(spe.partial.rda, scaling = 2,
          main = "Doubs River partial RDA - Scaling 2")
 ```
@@ -1400,15 +1400,18 @@ The grouping is done by maximizing the among-group dispersion versus the within-
 # LDA in R: Doubs fish dataset
 
 <br>
-We know that environmental variables generally change with latitude.
+We know that environmental variables generally change with latitude. This might lead us to ask the following question:
 
 <br>
 --
 
-* **If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
+<br><br><br><br>
+.center[
+**If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
 
-  .comment[We can use an LDA to answer this question!]
+.comment[We can use an LDA to answer this question!]
 
+]
 ---
 
 # LDA in R: Doubs fish dataset
@@ -1423,6 +1426,7 @@ spa <- spa[-8,] # remove site 8
 
 --
 
+<br><br>
 We can then assign sites into 3 groups based on their latitude:
 ```{r}
 # group sites based on latitude
@@ -1503,10 +1507,9 @@ spe.post <- predict(LDA)$posterior
 diag(prop.table(spe.table, 1))
 ```
 
-All sites were correctly classified into the latitude groups based on environmental variables.]
+All sites were correctly classified (1) into the latitude groups based on environmental variables.]
 
 ---
-
 # LDA in R: Predictions
 
 We can now use this relationship to classify **new** sites into latitude groups.
@@ -1529,7 +1532,7 @@ predict.group$class
 ]
 ---
 
-# Challenge 5 ![:cube]()
+# Challenge 4 ![:cube]()
 
 .small[Create 4 latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`).
 * What proportion of sites was correctly classified in group1? in group2?
@@ -1551,7 +1554,7 @@ diag()
 
 ---
 
-# Challenge 5: Solution
+# Challenge 4: Solution
 
 Step 1: Create 4 latitude groups
 .small[
@@ -1579,7 +1582,7 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ]
 ---
 
-# Challenge 5: Solution
+# Challenge 4: Solution
 
 Step 3: Check whether the groupings are correct
 .small[
