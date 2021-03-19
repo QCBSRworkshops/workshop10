@@ -22,13 +22,38 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   fig.width=6, fig.height=6,
   fig.retina = 3,
   fig.align = 'center'
 )
 options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
+
+```{r output-lines, echo = FALSE}
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
 
 class: inverse, center, middle
 
@@ -40,12 +65,12 @@ list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
 if(length(new.packages) > 0) {
-  install.packages(new.packages, dependencies = TRUE) 
-  print(paste0("The following package was installed:", new.packages)) 
+  install.packages(new.packages, dependencies = TRUE)
+  print(paste0("The following package was installed:", new.packages))
 } else if(length(new.packages) == 0) {
     print("All packages were already installed previously")
   }
-  
+
 # Load all required libraries at once
 lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
@@ -65,11 +90,12 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
 * [vegan](https://cran.r-project.org/package=vegan)
+* [ggplot2](https://cran.r-project.org/package=ggplot2)
 
 <br>
 
 ```R
-install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan'))
+install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ```
 
 ---
@@ -103,7 +129,7 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
-* Variation partitioning  
+* Variation partitioning
 * Linear discriminant analysis (LDA)
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
@@ -132,7 +158,7 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
-* [vegan](https://cran.r-project.org/package=vegan) 
+* [vegan](https://cran.r-project.org/package=vegan)
 * rdaTest package .alert[(from wiki)]
 
 ???
@@ -601,93 +627,139 @@ class: inverse, center, middle
 ---
 # Partial RDA
 
-* Special case of RDA involving covariates
-  * Models the linear effects of matrix X on matrix Y while controlling for a matrix W of .alert[covariates].
+The partial RDA is a special case of RDA that allows you to control for **covariates**.
+
+In other words, we can model the linear effects of matrix $X$ on matrix $Y$ *while* controlling for a matrix $W$ of covariates.
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
 ---
 # Applications of partial RDA
 
-* Assess effects of environmental variables on community composition while .alert[accounting for variation] that isn't the focus of the study.
-* .alert[Isolate] effect of one or more groups of explanatory variables
+Because partial RDA allows us to control for covariates, we can:
+* Assess effects of environmental variables on community composition while accounting for variation that **isn't** the focus of the study.
+* **Isolate** the effect of one or more groups of explanatory variables
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
----
-# Partial RDA on Doubs River data
+--
+.center[.comment[Partial RDA is often used in community ecology to separate the effects of environmental variables from the effect of spatial variables.]]
 
-Let's assess the effect of water chemistry on fish species abundances while controlling for the effect of topography.
+---
+# Example: Partial RDA on Doubs River data
+
+In `R`, we can run a partial RDA using the `rda()` function.
+
+As a demonstration, let's assess the effect of water chemistry on fish species abundances (`spe.hel`) while controlling for the effect of topography.
 
 ```{r}
 # Subset environmental data into topography variables and chemistry variables
 env.topo <- subset(env.z, select = c(alt, pen, deb))
 env.chem <- subset(env.z, select = c(pH, dur, pho, nit, amm, oxy, dbo))
 
-# Partial RDA
+# Run a partial RDA
 spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
 ```
 
 --
 
+<br>
 .small[
-.alert[Note]: Alternative syntax for the partial RDA:
+**Note:** You can also use a formula syntax like `Y ~ X + Condition(W)`, where `Condition()` allows you to control for covariates.
+
 ```{r, eval = FALSE}
-spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
-                       Condition(alt + pen + deb),
+# Alternative syntax for the partial RDA:
+spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo + # these are the effects we are interested in
+                       Condition(alt + pen + deb), # these are the covariates
                        data = env.z)
 ```
 ]
 
 ---
-# Partial RDA output in R
+# Interpreting partial RDA output in `R`
 
-```{r, eval = FALSE, results = 'hide'}
+```{r, eval = TRUE, collapse=FALSE, output.lines=(5:10)}
 summary(spe.partial.rda, display = NULL)
 ```
+<br>
 
-.center[ ![:scale 45%](images/PartialRDAOutput.png)]
+* **Conditioned Proportion**: variance of $Y$ explained by $W$ .alert[(41.53%)]
+* **Constrained Proportion**: variance of $Y$ explained by $X$ .alert[(31.89%)]
+* **Unconstained Proportion**: unexplained variance in $Y$ .alert[(26.59%)]
+<br>
+<br>
+.center[How would you report these results?]
 
-.small[
-* **Conditioned Proportion**: variance of Y explained by W .alert[(41.53%)]
-* **Constrained Proportion**: variance of Y explained by X .alert[(31.89%)]
-* **Unconstrained Proportion**: unexplained variance in Y .alert[(26.59%)]
+--
+
+.center[.comment[Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.]]
 
 
+---
+# Interpreting partial RDA in `R`
 
-How would you report these results?
-.comment[Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.]
+We are still missing some important details for our interpretation of this model!
+<br>
+<br>
+.pull-left2[
+1\. What is the model's **explanatory power**?
+```{r}
+# Extract the model's adjusted R2
+RsquareAdj(spe.partial.rda)$adj.r.squared
+```
+]
+
+--
+
+.pull-right2[
+<br>
+<br>
+.small[.comment[Our model explains .alert[24.1%] of the variation in fish abundance across sites.]]
+]
+
+--
+
+.pull-left2[
+2\. Is the model **statistically significant**?
+```{r output.lines=-c(2,9,10)}
+# Test whether the model is statistically significant
+anova.cca(spe.partial.rda, step = 1000)
+```
+]
+
+--
+
+.pull-right2[
+<br>
+<br>
+.small[.comment[It is also statistically significant (.alert[p = 0.001])!]]
 ]
 
 ---
-# Significance testing
-
-First, let's extract the model's adjusted R2.
-```{r}
-RsquareAdj(spe.partial.rda)$adj.r.squared
-```
-
---
-Then, let's test whether the model is statistically significant.
-```{r}
-anova.cca(spe.partial.rda, step = 1000)
-```
----
 # Plot the partial RDA
 
+We can visualise the effects of the environmental variables on the fish community with the `ordiplot()` function.
+
 .small[
-```{r}
+```{r, fig.height=4.5, fig.width=4.5}
 ordiplot(spe.partial.rda, scaling = 2,
          main = "Doubs River partial RDA - Scaling 2")
 ```
 --
 
 .alert[Note]: The topography variables (covariates) aren't plotted. Why is that?]
+
+???
+
+Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are controlled for, they do not show up in the scaling 2 biplot.
+
+Recall: In scaling 2, arrow length shows effect size, arrow direction shows the direction of the relationship (opposite directions means the variables have a negative relationship, while same direction indicates a positive relationship)
+
 ---
 # Challenge 2 ![:cube]()
 
 .small[
-Run a partial RDA to model the effects of environmental variables on mite species abundances, while controlling for substrate variables (SubsDens, WatrCont, and Substrate).
+Run a partial RDA to model the effects of environmental variables on mite species abundances (`mite.spe.hel`), while controlling for substrate variables (`SubsDens`, `WatrCont`, and `Substrate`).
 * What is the variance explained by substrate variables?
 * Is the model significant?
 * Which axes are significant?
@@ -702,13 +774,14 @@ RsquareAdj()
 anova.cca() # hint: see the 'by' argument in ?anova.cca
 ```
 ]
+
 ---
 # Challenge 2: Solution
 
 Our species abundance and environmental datasets have already been transformed and standardized.
 
 So, we can start with the partial RDA:
-```{r, results = 'hide'}
+```{r, output.lines=c(5:10)}
 # Compute partial RDA
 mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
                      + Condition(SubsDens + WatrCont + Substrate),
@@ -728,6 +801,7 @@ Shrub and Topo explain .alert[9.8%] of the variation in mite species abundances,
 RsquareAdj(mite.spe.subs)$adj.r.squared
 ```
 --
+<br>
 * Is the model significant?
 ```{r}
 anova.cca(mite.spe.subs, step = 1000)
@@ -936,12 +1010,12 @@ plot(mite.part, digits = 2, cex = 1.5,
 ---
 class: inverse, center, middle
 
-exclude: true 
+exclude: true
 
 # Multivariate regression tree (MRT)
 
 ---
-exclude: true 
+exclude: true
 
 # Multivariate regression tree (MRT)
 
@@ -951,7 +1025,7 @@ MRT is a constrained clustering technique.
 * Splits a response matrix (Y) into clusters based on thresholds of explanatory variables (X)
 
 ---
-exclude: true 
+exclude: true
 
 # Multivariate regression tree (MRT)
 
@@ -963,7 +1037,7 @@ An MRT consists of:
 * .alert[Leaf]: terminal group of sites
 
 ---
-exclude: true 
+exclude: true
 
 # Multivariate regression tree (MRT)
 
@@ -975,7 +1049,7 @@ MRT has many advantages:
 * Can handle raw explanatory variables
 
 ---
-exclude: true 
+exclude: true
 
 # MRT: Tree selection
 
@@ -990,19 +1064,19 @@ The "best" tree varies depending on your study goals. Usually you want a tree:
 * Basically: what makes sense for your question?
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R
 
 In what follows we will be using .alert[`mvpart` that is currently archived on CRAN]. We install it from GitHub using the package remotes:
 
-```{R mvpart_install}
+```{R mvpart_install, eval=FALSE}
 remotes::install_github("cran/mvpart")
 library(mvpart)
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R
 
@@ -1021,11 +1095,11 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Tree selection
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
+```{r, eval = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "pick", # interactively select tree size
                     xval = nrow(spe.hel), # number of cross-validations
@@ -1041,7 +1115,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 * Lime green bars: # of times each tree size was chosen
 ]
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Tree selection
 
@@ -1061,11 +1135,11 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Tree plot
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5, eval=F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "1se", # interactively select tree size
                     xval = nrow(spe.hel), # number of cross-validations
@@ -1080,14 +1154,14 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 * Residual error = 0.563, which means the model's R2 is .alert[43.7%]
 ]
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Comparing trees
 
 We can also compare solutions, to help us chose the best tree.
 
 For example, let's look at a 10-group solution!
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12, eval=F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
@@ -1100,13 +1174,13 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 * Higher explanatory power, .alert[BUT] predictive power (CV Error = 0.671) is basically the same as the previous solution (CV Error = 0.673).
 ]
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Comparing trees
 
 Let's look at a solution with fewer (4) groups!
 .tiny[
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8,  eval=F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
@@ -1120,12 +1194,12 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 * .alert[Higher predictive power] than both previous solutions (CV Error)
 ]
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Complexity parameter
 
 To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP).
-```{r}
+```{r,  eval=F}
 doubs.mrt$cptable
 ```
 
@@ -1133,19 +1207,19 @@ doubs.mrt$cptable
 * CP at subsequent nodes = R2 of each node (see full summary to see which node corresponds to which variable threshold)
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Summary output
 
 We can access more information about the tree (such as which node corresponds to which variable threshold):
 .tiny[
-```{r}
+```{r,  eval=F}
 summary(doubs.mrt)
 ```
 ]
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Discriminant species
 
@@ -1156,17 +1230,17 @@ To do this, we have the .comment[MVPARTwrap] package.
 
 .alert[MVPARTwrap is archived, we use the package remotes to install it from GitHub:]
 
-```{R MVPARTwrap_install}
+```{R MVPARTwrap_install,  eval=F}
 remotes::install_github("cran/MVPARTwrap")
 library(MVPARTwrap)
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Discriminant species
 
-```{r, results = 'hide'}
+```{r, results = 'hide',  eval=F}
 # Generate a nicer and more informative output
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 
@@ -1175,27 +1249,27 @@ summary(doubs.mrt.wrap)
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Discriminant species
 
 To see each species' contribution to explained variance at each node:
 .small[
-```{r}
+```{r,  eval=F}
 summary(doubs.mrt.wrap)
 ```
 ]
 
 
 ---
-exclude: true 
+exclude: true
 
 # MRT in R: Indicator species
 
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
 
 .xsmall[
-```{r labdsv}
+```{r labdsv,  eval=F}
 library(labdsv)
 
 # Calculate indicator values (indval) for each species
@@ -1212,7 +1286,7 @@ doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 TRU has the highest indicator value (0.867) overall, and is an indicator species for the first (alt >= 361.5) leaf of the tree.
 
 ---
-exclude: true 
+exclude: true
 
 # Challenge 4 ![:cube]()
 .small[
@@ -1238,12 +1312,12 @@ summary()
 ```
 ]
 ---
-exclude: true 
+exclude: true
 
 # Challenge 4: Solution
 
 Step 1: Create the multivariate regression tree
-```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
+```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5,  eval=F}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1253,11 +1327,11 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # Challenge 4: Solution
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5,  eval=F}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1273,13 +1347,13 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
   * 2 leaves
 ]
 ---
-exclude: true 
+exclude: true
 
 # Challenge 4: Solution
 
 
 What are the top 3 discriminant species .alert[for node 1]?
-```{r, results = 'hide'}
+```{r, results = 'hide',  eval=F}
 # Generate nicer MRT output
 mite.mrt.wrap <- MRT(mite.mrt,
                      percent = 10,
@@ -1290,7 +1364,7 @@ summary(mite.mrt.wrap)
 ```
 
 ---
-exclude: true 
+exclude: true
 
 # Challenge 4: Solution
 
@@ -1301,29 +1375,43 @@ What are the top 3 discriminant species .alert[for node 1]?
 ---
 
 class: inverse, center, middle
-
 # Linear discriminant analysis (LDA)
+
 ---
 
 # Linear discriminant analysis (LDA)
 
-* Determine how well your descriptor variables explain an *a priori* grouping of your response variable
+The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful beacause:
 
-* Make predictions about how to classify new data
-  * e.g. classifying whether a fish comes from a lake or ocean population, based on morphology
+* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable
+* Which is great for making predictions about how to classify new data
+  
+  .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
-.center[![:scale 60%](images/LDA_FishExample.jpg)]
+.center[
+![:scale 40%](images/LDA_FishExample.jpg)
+]
+
+???
+The grouping is done by maximizing the among-group dispersion versus the within-group dispersion
+
 ---
 
 # LDA in R: Doubs fish dataset
 
-We know that environmental variables generally change with latitude.
+<br>
+We know that environmental variables generally change with latitude. This might lead us to ask the following question:
 
 <br>
 --
-.comment[If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?]
-* We can use an LDA to answer this question.
 
+<br><br><br><br>
+.center[
+**If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
+
+.comment[We can use an LDA to answer this question!]
+
+]
 ---
 
 # LDA in R: Doubs fish dataset
@@ -1338,7 +1426,8 @@ spa <- spa[-8,] # remove site 8
 
 --
 
-We can then assign sites to 3 latitude groups:
+<br><br>
+We can then assign sites into 3 groups based on their latitude:
 ```{r}
 # group sites based on latitude
 spa$group <- NA # create "group" column
@@ -1352,6 +1441,7 @@ spa$group[which(spa$y > 156)] <- 3
 # LDA in R: Latitude groups
 
 Let's quickly plot the latitude groupings to see if they make sense:
+
 ```{r, fig.width = 5.5, fig.height = 5.5}
 plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
@@ -1360,7 +1450,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 
 # LDA in R
 
-.alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011).
+.alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011). If you need to do this, check the `betadisper()` function in the `vegan` package.
 
 For the purposes of this workshop, we will move straight to doing the LDA:
 ```{r}
@@ -1370,6 +1460,32 @@ library(MASS)
 # run the LDA grouping sites into latitude groups based on env data
 LDA <- lda(env, spa$group)
 ```
+---
+
+# LDA in R
+
+Our sites have now been reorganised into groups that are as distinct as possible, based on the environmental variables.
+<br><br>
+
+```{r echo = FALSE, fig.width = 7, fig.height = 6}
+library(ggplot2)
+
+lda.plotdf <- data.frame(group = factor(spa$group), 
+                         lda = predict(LDA)$x) # predict the values for plotting
+
+# Plot the newly reorganised sites according to the LDA
+ggplot(lda.plotdf) +
+  geom_point(aes(x = lda.LD1, 
+                 y = lda.LD2, 
+                 col = group), 
+             size = 3) +
+  labs(color = "Groups") +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
+```
+
 
 ---
 
@@ -1391,17 +1507,16 @@ spe.post <- predict(LDA)$posterior
 diag(prop.table(spe.table, 1))
 ```
 
-All sites were correctly classified into the latitude groups based on environmental variables.]
+All sites were correctly classified (1) into the latitude groups based on environmental variables.]
 
 ---
-
 # LDA in R: Predictions
 
-We can now use this relationship to .comment[classify new sites into latitude groups].
+We can now use this relationship to classify **new** sites into latitude groups.
 
 --
 
-Let's .alert[predict the grouping] of 5 new sites using our LDA results:
+Let's **predict the grouping** of 5 new sites using our LDA results:
 .small[
 ```{r}
 # Load the new site data
@@ -1417,13 +1532,13 @@ predict.group$class
 ]
 ---
 
-# Challenge 5 ![:cube]()
+# Challenge 4 ![:cube]()
 
-.small[Create 4 latitude groups in the .comment[mite.xy] dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (.comment[SubsDens] and .comment[WatrCont]).
+.small[Create 4 latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`).
 * What proportion of sites was correctly classified in group1? in group2?
 
 <br>
-Load .comment[mite.xy] data:
+Load the `mite.xy` data:
 ```{r}
 data(mite.xy)
 ```
@@ -1439,7 +1554,7 @@ diag()
 
 ---
 
-# Challenge 5: Solution
+# Challenge 4: Solution
 
 Step 1: Create 4 latitude groups
 .small[
@@ -1451,7 +1566,6 @@ mite.xy$site <- 1:nrow(mite.xy)
 (max(mite.xy[,2])-min(mite.xy[,2]))/4
 
 # group sites into 4 latitude groups
-# group sites based on latitude
 mite.xy$group <- NA # create "group" column
 mite.xy$group[which(mite.xy$y < 2.5)] <- 1
 mite.xy$group[which(mite.xy$y >= 2.5 & mite.xy$y < 4.9)] <- 2
@@ -1468,7 +1582,7 @@ LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ]
 ---
 
-# Challenge 5: Solution
+# Challenge 4: Solution
 
 Step 3: Check whether the groupings are correct
 .small[
