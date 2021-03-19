@@ -1390,13 +1390,15 @@ class: inverse, center, middle
 
 # LDA in R: Doubs fish dataset
 
-We know that environmental variables generally change with latitude.
+<br>
+.center[We know that environmental variables generally change with latitude.]
 
 <br>
 --
-.comment[If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?]
-* We can use an LDA to answer this question.
-
+.center[**If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
+<br><br><br>
+.comment[We can use an LDA to answer this question!]
+]
 ---
 
 # LDA in R: Doubs fish dataset
@@ -1411,7 +1413,7 @@ spa <- spa[-8,] # remove site 8
 
 --
 
-We can then assign sites to 3 latitude groups:
+We can then assign sites into 3 groups based on their latitude:
 ```{r}
 # group sites based on latitude
 spa$group <- NA # create "group" column
@@ -1425,6 +1427,7 @@ spa$group[which(spa$y > 156)] <- 3
 # LDA in R: Latitude groups
 
 Let's quickly plot the latitude groupings to see if they make sense:
+
 ```{r, fig.width = 5.5, fig.height = 5.5}
 plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
@@ -1433,7 +1436,7 @@ plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 
 # LDA in R
 
-.alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011).
+.alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011). If you need to do this, check the `betadisper()` function in the `vegan` package.
 
 For the purposes of this workshop, we will move straight to doing the LDA:
 ```{r}
@@ -1470,11 +1473,11 @@ All sites were correctly classified into the latitude groups based on environmen
 
 # LDA in R: Predictions
 
-We can now use this relationship to .comment[classify new sites into latitude groups].
+We can now use this relationship to classify **new** sites into latitude groups.
 
 --
 
-Let's .alert[predict the grouping] of 5 new sites using our LDA results:
+Let's **predict the grouping** of 5 new sites using our LDA results:
 .small[
 ```{r}
 # Load the new site data
@@ -1492,11 +1495,11 @@ predict.group$class
 
 # Challenge 5 ![:cube]()
 
-.small[Create 4 latitude groups in the .comment[mite.xy] dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (.comment[SubsDens] and .comment[WatrCont]).
+.small[Create 4 latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`).
 * What proportion of sites was correctly classified in group1? in group2?
 
 <br>
-Load .comment[mite.xy] data:
+Load the `mite.xy` data:
 ```{r}
 data(mite.xy)
 ```
@@ -1524,7 +1527,6 @@ mite.xy$site <- 1:nrow(mite.xy)
 (max(mite.xy[,2])-min(mite.xy[,2]))/4
 
 # group sites into 4 latitude groups
-# group sites based on latitude
 mite.xy$group <- NA # create "group" column
 mite.xy$group[which(mite.xy$y < 2.5)] <- 1
 mite.xy$group[which(mite.xy$y >= 2.5 & mite.xy$y < 4.9)] <- 2
