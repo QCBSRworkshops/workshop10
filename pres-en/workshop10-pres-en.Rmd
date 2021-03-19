@@ -120,11 +120,7 @@ For this workshop, you will need:
   * DoubsEnv data
   * DoubsSpe data
   * DoubsSpa data
-
-???
-
-Additional datasets that are no longer used in the 3-hr version:
-Test data for linear discriminant analyses
+  * Test data for linear discriminant analyses
 
 ---
 # Required packages
