@@ -112,7 +112,7 @@ These analyses allow us to .alert[**describe**] and .alert[**predict**] relation
 ---
 # Download today's script and data
 
-All data and code can be found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
+All data and code are found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
 
 For this workshop, you will need:
 * R script
@@ -120,6 +120,7 @@ For this workshop, you will need:
   * DoubsEnv data
   * DoubsSpe data
   * DoubsSpa data
+  * Test data for linear discriminant analyses
 
 ---
 # Required packages
@@ -129,6 +130,11 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * rdaTest package .alert[(from wiki)]
 * mvpart package .alert[(from wiki)]
 * MVPARTwrap package .alert[(from wiki)]
+
+??? 
+
+labdsv .small[(to identify indicator species in the MRT)]
+MASS .small[(for LDA)]
 
 ---
 # Follow along!
@@ -349,7 +355,7 @@ summary(spe.rda, display = NULL)
 .center[ ![:scale 70%](images/RDAOutput.png)]
 
 * **Constrained Proportion**: variance of Y explained by X .alert[(73.41%)]
-* **Unconstained Proportion**: unexplained variance in Y .alert[(26.59%)]
+* **Unconstrained Proportion**: unexplained variance in Y .alert[(26.59%)]
 
 
 How would you report these results?
@@ -515,7 +521,7 @@ Step 1: Prepare the data
 # Hellinger transform the community data
 mite.spe.hel <- decostand(mite, method = "hellinger")
 
-# Standardize quantiative environmental data
+# Standardize quantitative environmental data
 mite.env$SubsDens <- decostand(mite.env$SubsDens, method = "standardize")
 mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
 ```
@@ -592,7 +598,7 @@ class: inverse, center, middle
 # Partial RDA
 
 * Special case of RDA involving covariates
-  * Models the linear effects of matrix X on matrix Y while controling for a matrix W of .alert[covariates].
+  * Models the linear effects of matrix X on matrix Y while controlling for a matrix W of .alert[covariates].
 
 .center[ ![:scale 90%](images/PartialRDA.png)]
 
@@ -607,7 +613,7 @@ class: inverse, center, middle
 ---
 # Partial RDA on Doubs River data
 
-Let's assess the effect of water chemistry on fish species abundances while controling for the effect of topography.
+Let's assess the effect of water chemistry on fish species abundances while controlling for the effect of topography.
 
 ```{r}
 # Subset environmental data into topography variables and chemistry variables
@@ -641,7 +647,7 @@ summary(spe.partial.rda, display = NULL)
 .small[
 * **Conditioned Proportion**: variance of Y explained by W .alert[(41.53%)]
 * **Constrained Proportion**: variance of Y explained by X .alert[(31.89%)]
-* **Unconstained Proportion**: unexplained variance in Y .alert[(26.59%)]
+* **Unconstrained Proportion**: unexplained variance in Y .alert[(26.59%)]
 
 
 
@@ -677,7 +683,7 @@ ordiplot(spe.partial.rda, scaling = 2,
 # Challenge 2 ![:cube]()
 
 .small[
-Run a partial RDA to model the effects of environmental variables on mite species abundances, while controling for substrate variables (SubsDens, WatrCont, and Substrate).
+Run a partial RDA to model the effects of environmental variables on mite species abundances, while controlling for substrate variables (SubsDens, WatrCont, and Substrate).
 * What is the variance explained by substrate variables?
 * Is the model significant?
 * Which axes are significant?
