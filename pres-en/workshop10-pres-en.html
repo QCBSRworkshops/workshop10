@@ -81,11 +81,16 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
-* Variation partitioning
-
+* Variation partitioning  
+* Linear discriminant analysis (LDA)
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
+
+???
+Other methods that were excluded for 3 hour workshop format, but are in the book
+Multivariate regression tree (MRT)
+Linear discriminant analysis (LDA)
 
 ---
 # Download today's script and data
@@ -104,10 +109,16 @@ For this workshop, you will need:
 # Required packages
 
 Please make sure you have downloaded, installed, and loaded these packages:
-* vegan .small[(for multivariate analyses)]
+* [Hmisc](https://cran.r-project.org/package=Hmisc)
+* [labdsv](https://cran.r-project.org/package=labdsv)
+* [MASS](https://cran.r-project.org/package=MASS)
+* [vegan](https://cran.r-project.org/package=vegan) 
 * rdaTest package .alert[(from wiki)]
-* mvpart package .alert[(from wiki)]
-* MVPARTwrap package .alert[(from wiki)]
+
+???
+Unused packages in 3-hr version:
+mvpart package .alert[(from wiki)]
+MVPARTwrap package .alert[(from wiki)]
 
 ??? 
 
@@ -830,8 +841,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.021 *  
-# RDA3      1 0.003193 0.9919  0.415    
+# RDA2      1 0.008254 2.5643  0.020 *  
+# RDA3      1 0.003193 0.9919  0.424    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1178,9 +1189,9 @@ In what follows we will be using .alert[`mvpart` that is currently archived on C
 ```r
 remotes::install_github("cran/mvpart")
 #   
-   checking for file ‘/tmp/Rtmp4NVTu2/remotes3d856369fa2/cran-mvpart-acf0035/DESCRIPTION’ ...
+   checking for file ‘/tmp/RtmpSdXX0D/remotes3d7235913355/cran-mvpart-acf0035/DESCRIPTION’ ...
   
-✔  checking for file ‘/tmp/Rtmp4NVTu2/remotes3d856369fa2/cran-mvpart-acf0035/DESCRIPTION’
+✔  checking for file ‘/tmp/RtmpSdXX0D/remotes3d7235913355/cran-mvpart-acf0035/DESCRIPTION’
 # 
   
 ─  preparing ‘mvpart’:
@@ -1300,8 +1311,8 @@ To find out how much variance is explained by each node in the tree, we need to 
 ```r
 doubs.mrt$cptable
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0754062 0.07475333
-# 2 0.1044982      1 0.5630439 0.6695524 0.09354999
+# 1 0.4369561      0 1.0000000 1.0733061 0.07464251
+# 2 0.1044982      1 0.5630439 0.6718201 0.09412062
 ```
 
 * CP @ nsplit 0 = R2 of the whole tree
@@ -1324,8 +1335,8 @@ summary(doubs.mrt)
 #   n= 29 
 # 
 #          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0754062 0.07475333
-# 2 0.1044982      1 0.5630439 0.6695524 0.09354999
+# 1 0.4369561      0 1.0000000 1.0733061 0.07464251
+# 2 0.1044982      1 0.5630439 0.6718201 0.09412062
 # 
 # Node number 1: 29 observations,    complexity param=0.4369561
 #   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -1371,9 +1382,9 @@ remotes::install_github("cran/MVPARTwrap")
 # ade4       (NA -&gt; 1.7-16   ) [CRAN]
 # fBasics    (NA -&gt; 3042.89.1) [CRAN]
 #   
-   checking for file ‘/tmp/Rtmp4NVTu2/remotes3d8515f18d8e/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
+   checking for file ‘/tmp/RtmpSdXX0D/remotes3d726b906ad4/cran-MVPARTwrap-9ef54fa/DESCRIPTION’ ...
   
-✔  checking for file ‘/tmp/Rtmp4NVTu2/remotes3d8515f18d8e/cran-MVPARTwrap-9ef54fa/DESCRIPTION’
+✔  checking for file ‘/tmp/RtmpSdXX0D/remotes3d726b906ad4/cran-MVPARTwrap-9ef54fa/DESCRIPTION’
 # 
   
 ─  preparing ‘MVPARTwrap’:
@@ -1388,7 +1399,9 @@ remotes::install_github("cran/MVPARTwrap")
 # 
   
 ─  checking for empty or unneeded directories
-# ─  building ‘MVPARTwrap_0.1-9.2.tar.gz’
+# 
+  
+─  building ‘MVPARTwrap_0.1-9.2.tar.gz’
 # 
   
    

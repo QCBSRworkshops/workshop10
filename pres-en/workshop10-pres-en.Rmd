@@ -103,11 +103,16 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
-* Variation partitioning
-
+* Variation partitioning  
+* Linear discriminant analysis (LDA)
 
 
 These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
+
+???
+Other methods that were excluded for 3 hour workshop format, but are in the book
+Multivariate regression tree (MRT)
+Linear discriminant analysis (LDA)
 
 ---
 # Download today's script and data
@@ -126,10 +131,16 @@ For this workshop, you will need:
 # Required packages
 
 Please make sure you have downloaded, installed, and loaded these packages:
-* vegan .small[(for multivariate analyses)]
+* [Hmisc](https://cran.r-project.org/package=Hmisc)
+* [labdsv](https://cran.r-project.org/package=labdsv)
+* [MASS](https://cran.r-project.org/package=MASS)
+* [vegan](https://cran.r-project.org/package=vegan) 
 * rdaTest package .alert[(from wiki)]
-* mvpart package .alert[(from wiki)]
-* MVPARTwrap package .alert[(from wiki)]
+
+???
+Unused packages in 3-hr version:
+mvpart package .alert[(from wiki)]
+MVPARTwrap package .alert[(from wiki)]
 
 ??? 
 
