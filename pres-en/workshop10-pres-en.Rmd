@@ -654,7 +654,7 @@ The selected environmental variables significantly explain .alert[43.7% (p = 0.0
 
 Step 5: Plot the RDA!
 .pull-left[
-```{r, fig.height = 6.5}
+```{r, fig.height = 6, fig.width = 5.8}
 ordiplot(mite.spe.rda.signif,
          scaling = 1,
          frame = F,
@@ -662,13 +662,12 @@ ordiplot(mite.spe.rda.signif,
 ```
 ]
 .pull-right[
-```{r, fig.height = 6.5}
+```{r, fig.height = 5.8, fig.width = 6}
 ordiplot(mite.spe.rda.signif,
          scaling = 2,
          frame = F,  
          main = "Mite RDA - Scaling 2")
 ```
-
 ]
 
 ---
