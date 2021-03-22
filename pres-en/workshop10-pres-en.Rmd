@@ -440,13 +440,13 @@ RsquareAdj(spe.rda.signif)
 ---
 # Significance testing
 
-Use .alert[anova.cca()] to test the significance of your RDA.
-```{r}
+Use `anova.cca()` to test the significance of your RDA.
+```{r, output.lines = 6:9}
 anova.cca(spe.rda.signif, step = 1000)
 ```
 
-You can also test the significance of each variable!
-```{r, results = 'hide'}
+You can also test the significance of each variable with `by = "term"`!
+```{r, output.lines = 6:11}
 anova.cca(spe.rda.signif, step = 1000, by = "term")
 ```
 
