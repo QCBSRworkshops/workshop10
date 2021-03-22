@@ -1572,6 +1572,7 @@ ggplot(lda.plotdf) +
 
 We can then determine how sites were grouped based on the LDA, and whether this grouping is accurate.
 
+.small[
 ```{r}
 # Classification of the objects based on the LDA
 spe.class <- predict(LDA)$class
@@ -1585,7 +1586,8 @@ spe.post <- predict(LDA)$posterior
 # Proportion of corrected classification
 diag(prop.table(spe.table, 1))
 ```
-<br>
+] 
+
 All sites were correctly classified (*Proportion of corrected classification = 1*) into the latitude groups based on environmental variables.
 
 ---
