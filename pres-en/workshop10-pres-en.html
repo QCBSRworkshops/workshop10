@@ -252,6 +252,7 @@ Let's use the .alert[Hellinger] transformation:
 library(vegan)
 spe.hel &lt;- decostand(spe, method = "hellinger")
 ```
+
 ---
 # Exploring the environmental dataset
 
@@ -278,6 +279,7 @@ For a closer look at the objects (environmental variables):
 str(env) # structure of objects in dataset
 summary(env) # summary statistics for all objects (min, mean, max, etc.)
 ```
+
 ---
 # Collinearity
 .small[
@@ -524,14 +526,15 @@ ordiplot(spe.rda.signif,
 * Arrows pointing in the .alert[same direction] have a positive relationship
 ]
 ]
+
 ---
 # Customizing RDA plots
 
-Both plot() and ordiplot() make quick and simple ordination plots, but you can customize your plots by manually setting the aesthetics of points, text, and arrows.
+Both `plot()` and `ordiplot()` make quick and simple ordination plots, but you can customize your plots by extracting scores with `scores()` and manually setting the aesthetics of `points()`, `text()`, and `arrows()`.
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-See the wiki page for more details!
+See Workshop 10's script or the [book](https://qcbsrworkshops.github.io/workshop10/book-en/index.html) for more details!
 
 ---
 # Challenge 1 ![:cube]()
@@ -917,8 +920,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.018 *  
-# RDA3      1 0.003193 0.9919  0.437    
+# RDA2      1 0.008254 2.5643  0.017 *  
+# RDA3      1 0.003193 0.9919  0.382    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
