@@ -58,8 +58,6 @@ Nous allons besoin de ces paquets pendant cet atelier:
 2. [`labdsv`](https://cran.r-project.org/package=labdsv)
 3. [`MASS`](https://cran.r-project.org/package=MASS)
 4. [`vegan`](https://cran.r-project.org/package=vegan)
-5. [`MVPARTwrap`](https://cran.r-project.org/package=MVPARTwrap)
-6. [`mvpart`](https://cran.r-project.org/package=mvpart)
 
 
 Vous pouvez les installer en utilisant le code ci-dessous:
@@ -67,11 +65,16 @@ Vous pouvez les installer en utilisant le code ci-dessous:
 
 ```r
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan'))
-
-remotes::install_github("cran/mvpart")
-remotes::install_github("cran/MVPARTwrap")
 ```
 ]
+
+???
+
+Paquets non-utilisés dans la version de 3 heures
+[`MVPARTwrap`](https://cran.r-project.org/package=MVPARTwrap)
+[`mvpart`](https://cran.r-project.org/package=mvpart)
+remotes::install_github("cran/mvpart")
+remotes::install_github("cran/MVPARTwrap")
 
 ---
 # Objectifs d'apprentissage
@@ -107,8 +110,8 @@ L'atelier #10 montre des analyses permettant d'explorer comment les variables en
 Le présent atelier se concentrera sur les analyses .alert[**sous contraintes**]:
 
 * Analyse canonique de redondances (ACR ou RDA)
+* Analyse canonique de redondances partielle (ACR partielle ou RDA partielle)
 * Partitionnement de la variation
-* Arbre de régression multivarié (ARM ou MRT)
 * Analyse linéaire discriminante (ALD ou LDA)
 &lt;br&gt;
 
@@ -116,6 +119,12 @@ Ces analyses nous permettrons de .alert[**décrire**] et de .alert[**prédire**]
 &lt;br&gt;
 
 On pourra alors .alert[**tester des hypothèses**]!
+
+???
+
+Pas présenté dans la version de 3 heures:
+Arbre de régression multivarié (ARM ou MRT)
+
 
 ---
 # Code et données
@@ -139,8 +148,10 @@ Assurez-vous d'installer et d'importer les librairies suivantes dans R Studio (p
 * .comment[plyr] .small[(classification pour l'analyse linéaire discriminante)]
 * .comment[MASS] .small[(for l'analyse linéaire discriminante)]
 * .comment[rdaTest] package .alert[(voir code R)]
-* .comment[mvpart] package .alert[(voir code R)]
-* .comment[MVPARTwrap] package .alert[(voir code R)]
+
+???
+.comment[mvpart] package .alert[(voir code R)]
+.comment[MVPARTwrap] package .alert[(voir code R)]
 
 ---
 # Suivre l'atelier
@@ -839,8 +850,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.016 *  
-# RDA3      1 0.003193 0.9919  0.429    
+# RDA2      1 0.008254 2.5643  0.023 *  
+# RDA3      1 0.003193 0.9919  0.399    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1004,9 +1015,9 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
-#          Df Variance      F Pr(&gt;F)   
-# Model     3 0.064495 2.8965  0.002 **
-# Residual 18 0.133599                 
+#          Df Variance      F Pr(&gt;F)    
+# Model     3 0.064495 2.8965  0.001 ***
+# Residual 18 0.133599                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1125,11 +1136,14 @@ plot(mite.part, digits = 2, cex = 1.5,
 &lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
+exclude: true
 
 class: inverse, center, middle
 # Arbre de régression multivarié (MRT)
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -1138,6 +1152,8 @@ L'arbre de régression multivarié (ARM ou MRT) est une méthode de groupement h
 * Partitionne une matrice réponse quantitative (Y) en sous-groupes sous la contrainte d'une matrice de variables explicatives (X).
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -1148,6 +1164,8 @@ L'arbre de régression multivarié consiste de:
 * .alert[Feuilles]: groupe terminal de sites
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 Plusieurs avantages:
@@ -1157,6 +1175,8 @@ Plusieurs avantages:
 * Valeurs brutes peuvent être utilisées (sans transformation)
 
 ---
+exclude: true
+
 # MRT: La méthode
 
 La méthode implique deux volets s'effectuant en parallèle:
@@ -1171,6 +1191,8 @@ Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un
 
 
 ---
+exclude: true
+
 # MRT dans R
 
 Dans ce qui suit, nous allons utiliser .alert[`mvpart` qui est archivé sur le CRAN]. Nous l'installons depuis GitHub avec le package remotes:
@@ -1184,6 +1206,8 @@ library(mvpart)
 
 
 ---
+exclude: true
+
 # MRT dans R
 
 
@@ -1202,9 +1226,11 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Choisir un arbre
 
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-57-1.png" width="396" style="display: block; margin: auto;" /&gt;
+
 .small[
 * Points verts: Erreur relative
 * Points bleus: Erreur relative de validation croisée (CVRE)
@@ -1214,6 +1240,8 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Choisir un arbre
 
 
@@ -1224,9 +1252,11 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Visualisation
 
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-59-1.png" width="396" style="display: block; margin: auto;" /&gt;
+
 .small[
 * La matrice d'abondances est partitionnée selon un seuil d'.alert[altitude (361.5)].
   * "Barplots": abondances d'espèces inclus dans chaque groupe
@@ -1234,12 +1264,14 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Comparaison d'arbres
 
 Pour choisir un arbre, on peut aussi comparer plusieurs solutions possibles.
 
 Par exemple, considérons une solution de 10 groupes!
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-60-1.png" width="864" style="display: block; margin: auto;" /&gt;
+
 
 .small[
 * L'interprétation est .alert[plus difficile].
@@ -1247,11 +1279,13 @@ Par exemple, considérons une solution de 10 groupes!
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Comparaison d'arbres
 
 Considérons une solution avec moins (4) de groupes!
 .tiny[
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-61-1.png" width="576" style="display: block; margin: auto;" /&gt;
+
 ]
 .small[
 * Plus facile à interpréter!
@@ -1260,21 +1294,22 @@ Considérons une solution avec moins (4) de groupes!
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Paramètre de complexité
 
 Le .comment[paramètre de complexité (CP)] représente la variance expliquée par chaque noeud.
 
 ```r
 doubs.mrt$cptable
-#          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0753628 0.07497948
-# 2 0.1044982      1 0.5630439 0.6721745 0.09399756
 ```
 
 * CP @ nsplit 0 = R2 de l'arbre au complet
 * CP @ autres neouds = R2 de chaque noeud (voir sommaire complet pour la valeur de seuil de chaque noeud)
 
 ---
+exclude: true
+
 # MRT dans R: Sommaire des résultats
 
 Pour accèder au sommaire des résultats:
@@ -1282,35 +1317,12 @@ Pour accèder au sommaire des résultats:
 
 ```r
 summary(doubs.mrt)
-# Call:
-# mvpart(form = as.matrix(spe.hel) ~ ., data = env, xv = "1se", 
-#     xval = nrow(spe.hel), xvmult = 100, xvse = 1, margin = 0.01, 
-#     which = 4, legend = FALSE, prn = FALSE, cp = 0)
-#   n= 29 
-# 
-#          CP nsplit rel error    xerror       xstd
-# 1 0.4369561      0 1.0000000 1.0753628 0.07497948
-# 2 0.1044982      1 0.5630439 0.6721745 0.09399756
-# 
-# Node number 1: 29 observations,    complexity param=0.4369561
-#   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
-#   left son=2 (15 obs) right son=3 (14 obs)
-#   Primary splits:
-#       das &lt; 192.2 to the left,  improve=0.4369561, (0 missing)
-#       alt &lt; 361.5 to the right, improve=0.4369561, (0 missing)
-#       deb &lt; 23.65 to the left,  improve=0.4369561, (0 missing)
-#       amm &lt; 0.06  to the left,  improve=0.3529830, (0 missing)
-#       nit &lt; 1.415 to the left,  improve=0.3513335, (0 missing)
-# 
-# Node number 2: 15 observations
-#   Means=0.1208,0.4463,0.4194,0.4035,0.1104,0.09023,0,0.02108,0.1256,0.2164,0.04392,0.01054,0.107,0.09779,0.06853,0,0.01054,0.01617,0.01054,0.09489,0,0,0,0.08629,0,0,0, Summed MSE=0.3194207 
-# 
-# Node number 3: 14 observations
-#   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343
 ```
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 On peut aussi déterminer quelles espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
@@ -1327,6 +1339,8 @@ library(MVPARTwrap)
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 
@@ -1339,6 +1353,8 @@ summary(doubs.mrt.wrap)
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
@@ -1346,22 +1362,12 @@ Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 
 ```r
 summary(doubs.mrt.wrap)
-#            Length Class  Mode     
-# nodes       1     -none- numeric  
-# pourct     27     -none- numeric  
-# R2         27     -none- numeric  
-# obj        13     rpart  list     
-# percent     1     -none- numeric  
-# MOYs       54     -none- numeric  
-# RWHERE      1     -none- list     
-# LWHERE      1     -none- list     
-# TABLE1     84     -none- numeric  
-# LABELS      1     -none- logical  
-# mat_labels  3     -none- character
 ```
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
@@ -1376,19 +1382,9 @@ doubs.mrt.indval &lt;- indval(spe.hel, doubs.mrt$where)
 
 # Extraire les espèces indicatrices à chaque noeud
 doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-# TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
-#   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
-# ABL ANG 
-#   2   2
 
 # Extraire leur valeur indval
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
-#       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
-# 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
-#       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
-# 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
-#       PCH       GRE       GAR       BBO       ABL       ANG 
-# 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143
 ```
 ]
 
@@ -1396,6 +1392,8 @@ doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval &lt;= 0.05)]
 * TRU et VAI contribuent beaucoup à la branche de gauche, alors que ABL est davantage indicatrice des sites à basse altitude (&lt;361.5m).
 
 ---
+exclude: true
+
 # Défi 4 ![:cube]()
 
 .small[
@@ -1423,6 +1421,8 @@ summary()
 ```
 ]
 ---
+exclude: true
+
 # Défi 4: Solution
 
 Étape 1: Créer un arbre de régression multivarié
@@ -1436,12 +1436,12 @@ mite.mrt &lt;- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    prn = FALSE)
 ```
 
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-69-1.png" width="324" style="display: block; margin: auto;" /&gt;
-
 ---
+exclude: true
+
 # Défi 4: Solution
 
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-70-1.png" width="360" style="display: block; margin: auto;" /&gt;
+
 .small[
 * Quelle est la variance totale expliquée (R2) par cet arbre?
   * 1 - Error = 0.252, alors l'arbre explique .alert[25.2%] de la variantion dans la matrice d'abondances.
@@ -1451,6 +1451,8 @@ mite.mrt &lt;- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ]
 
 ---
+exclude: true
+
 # Défi 4: Solution
 
 
@@ -1467,6 +1469,8 @@ summary(mite.mrt.wrap)
 ```
 
 ---
+exclude: true
+
 # Défi 4: Solution
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?

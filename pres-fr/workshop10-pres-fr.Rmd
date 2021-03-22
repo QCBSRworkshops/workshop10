@@ -33,10 +33,12 @@ class: inverse, center, middle
 ```{r install_pkgs, message=FALSE, warning=FALSE, include=FALSE, results=0}
 # Standard procedure to check and install packages and their dependencies, if needed.
 
-remotes::install_github("cran/mvpart")
-remotes::install_github("cran/MVPARTwrap")
+# remotes::install_github("cran/mvpart")
+# remotes::install_github("cran/MVPARTwrap")
 
-list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan", "MVPARTwrap", "mvpart")
+list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan"
+                      #, "MVPARTwrap", "mvpart"
+                      )
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
@@ -82,19 +84,22 @@ Nous allons besoin de ces paquets pendant cet atelier:
 2. [`labdsv`](https://cran.r-project.org/package=labdsv)
 3. [`MASS`](https://cran.r-project.org/package=MASS)
 4. [`vegan`](https://cran.r-project.org/package=vegan)
-5. [`MVPARTwrap`](https://cran.r-project.org/package=MVPARTwrap)
-6. [`mvpart`](https://cran.r-project.org/package=mvpart)
 
 
 Vous pouvez les installer en utilisant le code ci-dessous:
 .small[
 ```{r echo = TRUE, eval = FALSE}
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan'))
-
-remotes::install_github("cran/mvpart")
-remotes::install_github("cran/MVPARTwrap")
 ```
 ]
+
+???
+
+Paquets non-utilisés dans la version de 3 heures
+[`MVPARTwrap`](https://cran.r-project.org/package=MVPARTwrap)
+[`mvpart`](https://cran.r-project.org/package=mvpart)
+remotes::install_github("cran/mvpart")
+remotes::install_github("cran/MVPARTwrap")
 
 ---
 # Objectifs d'apprentissage
@@ -130,8 +135,8 @@ L'atelier #10 montre des analyses permettant d'explorer comment les variables en
 Le présent atelier se concentrera sur les analyses .alert[**sous contraintes**]:
 
 * Analyse canonique de redondances (ACR ou RDA)
+* Analyse canonique de redondances partielle (ACR partielle ou RDA partielle)
 * Partitionnement de la variation
-* Arbre de régression multivarié (ARM ou MRT)
 * Analyse linéaire discriminante (ALD ou LDA)
 <br>
 
@@ -139,6 +144,12 @@ Ces analyses nous permettrons de .alert[**décrire**] et de .alert[**prédire**]
 <br>
 
 On pourra alors .alert[**tester des hypothèses**]!
+
+???
+
+Pas présenté dans la version de 3 heures:
+Arbre de régression multivarié (ARM ou MRT)
+
 
 ---
 # Code et données
@@ -162,8 +173,10 @@ Assurez-vous d'installer et d'importer les librairies suivantes dans R Studio (p
 * .comment[plyr] .small[(classification pour l'analyse linéaire discriminante)]
 * .comment[MASS] .small[(for l'analyse linéaire discriminante)]
 * .comment[rdaTest] package .alert[(voir code R)]
-* .comment[mvpart] package .alert[(voir code R)]
-* .comment[MVPARTwrap] package .alert[(voir code R)]
+
+???
+.comment[mvpart] package .alert[(voir code R)]
+.comment[MVPARTwrap] package .alert[(voir code R)]
 
 ---
 # Suivre l'atelier
@@ -959,11 +972,14 @@ plot(mite.part, digits = 2, cex = 1.5,
 ```
 
 ---
+exclude: true
 
 class: inverse, center, middle
 # Arbre de régression multivarié (MRT)
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -972,6 +988,8 @@ L'arbre de régression multivarié (ARM ou MRT) est une méthode de groupement h
 * Partitionne une matrice réponse quantitative (Y) en sous-groupes sous la contrainte d'une matrice de variables explicatives (X).
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 .center[![:scale 75%](images/MRT.png)]
@@ -982,6 +1000,8 @@ L'arbre de régression multivarié consiste de:
 * .alert[Feuilles]: groupe terminal de sites
 
 ---
+exclude: true
+
 # Arbre de régression multivarié (MRT)
 
 Plusieurs avantages:
@@ -991,6 +1011,8 @@ Plusieurs avantages:
 * Valeurs brutes peuvent être utilisées (sans transformation)
 
 ---
+exclude: true
+
 # MRT: La méthode
 
 La méthode implique deux volets s'effectuant en parallèle:
@@ -1005,6 +1027,8 @@ Choisissez l'arbre selon les objectifs de ton étude. Généralement, on veut un
 
 
 ---
+exclude: true
+
 # MRT dans R
 
 Dans ce qui suit, nous allons utiliser .alert[`mvpart` qui est archivé sur le CRAN]. Nous l'installons depuis GitHub avec le package remotes:
@@ -1017,6 +1041,8 @@ library(mvpart)
 
 
 ---
+exclude: true
+
 # MRT dans R
 
 ```{r, results = 'hide', fig.show = 'hide', eval = F}
@@ -1034,9 +1060,11 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Choisir un arbre
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval = F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "pick",
                     xval = nrow(spe.hel),
@@ -1053,6 +1081,8 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Choisir un arbre
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =FALSE}
@@ -1071,9 +1101,11 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Visualisation
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5, eval = F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "1se",
                     xval = nrow(spe.hel),
@@ -1089,12 +1121,14 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Comparaison d'arbres
 
 Pour choisir un arbre, on peut aussi comparer plusieurs solutions possibles.
 
 Par exemple, considérons une solution de 10 groupes!
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12, eval = F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
@@ -1108,11 +1142,13 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Comparaison d'arbres
 
 Considérons une solution avec moins (4) de groupes!
 .tiny[
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8, eval = F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
@@ -1127,10 +1163,12 @@ mvpart(as.matrix(spe.hel) ~ ., data = env,
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Paramètre de complexité
 
 Le .comment[paramètre de complexité (CP)] représente la variance expliquée par chaque noeud.
-```{r}
+```{r, eval = F}
 doubs.mrt$cptable
 ```
 
@@ -1138,16 +1176,20 @@ doubs.mrt$cptable
 * CP @ autres neouds = R2 de chaque noeud (voir sommaire complet pour la valeur de seuil de chaque noeud)
 
 ---
+exclude: true
+
 # MRT dans R: Sommaire des résultats
 
 Pour accèder au sommaire des résultats:
 .tiny[
-```{r}
+```{r, eval = FALSE}
 summary(doubs.mrt)
 ```
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 On peut aussi déterminer quelles espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
@@ -1163,9 +1205,11 @@ library(MVPARTwrap)
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
-```{r, results = 'hide'}
+```{r, results = 'hide', eval = FALSE}
 # Créer un sommaire plus informatif et moins dense
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 
@@ -1174,22 +1218,26 @@ summary(doubs.mrt.wrap)
 ```
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 .small[
-```{r}
+```{r, eval = FALSE}
 summary(doubs.mrt.wrap)
 ```
 ]
 
 ---
+exclude: true
+
 # MRT dans R: Espèces discriminantes
 
 Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
 
 .tiny[
-```{r}
+```{r, eval = FALSE}
 library(labdsv)
 
 # Calcul d'une valeur indval pour chaque espèce
@@ -1207,6 +1255,8 @@ doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 * TRU et VAI contribuent beaucoup à la branche de gauche, alors que ABL est davantage indicatrice des sites à basse altitude (<361.5m).
 
 ---
+exclude: true
+
 # Défi 4 ![:cube]()
 
 .small[
@@ -1219,7 +1269,7 @@ Créez un arbre de régression multivarié pour les données .comment[mite].
 <br>
 .small[
 Rappel: chargez les données!
-```{r}
+```{r, eval = FALSE}
 data("mite")
 data("mite.env")
 ```
@@ -1232,10 +1282,12 @@ summary()
 ```
 ]
 ---
+exclude: true
+
 # Défi 4: Solution
 
 Étape 1: Créer un arbre de régression multivarié
-```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
+```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5, eval = FALSE}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se",
                    xval = nrow(mite.spe.hel),
@@ -1245,9 +1297,11 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ```
 
 ---
+exclude: true
+
 # Défi 4: Solution
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5, eval = FALSE}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1264,11 +1318,13 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ]
 
 ---
+exclude: true
+
 # Défi 4: Solution
 
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
-```{r, results = 'hide'}
+```{r, results = 'hide', eval = FALSE}
 # Créer sommaire plus informatif
 mite.mrt.wrap <- MRT(mite.mrt,
                      percent = 10,
@@ -1279,6 +1335,8 @@ summary(mite.mrt.wrap)
 ```
 
 ---
+exclude: true
+
 # Défi 4: Solution
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
