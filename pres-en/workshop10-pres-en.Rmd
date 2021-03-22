@@ -1504,9 +1504,23 @@ spa$group[which(spa$y > 156)] <- 3
 # LDA in R: Latitude groups
 
 Let's quickly plot the latitude groupings to see if they make sense:
+<br><br>
 
-```{r, fig.width = 5.5, fig.height = 5.5}
-plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
+```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
+ggplot(data = spa) +
+  geom_point(aes(x = x, 
+                 y = y, 
+                 col = as.factor(group)), 
+             size = 4) +
+  labs(color = "Groups", 
+       x = "Longitude", 
+       y = "Latitude") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
 ```
 
 ---
@@ -1528,23 +1542,25 @@ LDA <- lda(env, spa$group)
 # LDA in R
 
 Our sites have now been reorganised into groups that are as distinct as possible, based on the environmental variables.
-<br><br>
 
-```{r echo = FALSE, fig.width = 7, fig.height = 6}
+```{r}
+# predict the groupings
+lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
+```
+<br>
+```{r echo = FALSE, fig.width = 6.5, fig.height = 5.5}
 library(ggplot2)
-
-lda.plotdf <- data.frame(group = factor(spa$group), 
-                         lda = predict(LDA)$x) # predict the values for plotting
-
 # Plot the newly reorganised sites according to the LDA
 ggplot(lda.plotdf) +
   geom_point(aes(x = lda.LD1, 
                  y = lda.LD2, 
-                 col = group), 
-             size = 3) +
+                 col = factor(group)), 
+             size = 4) +
   labs(color = "Groups") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
   theme_classic() + # formatting the plot to make it pretty
   theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
         legend.title = element_text(size = 20),
         legend.text = element_text(size = 18))
 ```
@@ -1554,7 +1570,7 @@ ggplot(lda.plotdf) +
 
 # LDA in R: Grouping accuracy
 
-.small[We can then determine how sites were grouped, and whether this grouping is accurate.
+We can then determine how sites were grouped based on the LDA, and whether this grouping is accurate.
 
 ```{r}
 # Classification of the objects based on the LDA
@@ -1569,8 +1585,8 @@ spe.post <- predict(LDA)$posterior
 # Proportion of corrected classification
 diag(prop.table(spe.table, 1))
 ```
-
-All sites were correctly classified (1) into the latitude groups based on environmental variables.]
+<br>
+All sites were correctly classified (*Proportion of corrected classification = 1*) into the latitude groups based on environmental variables.
 
 ---
 # LDA in R: Predictions
@@ -1584,7 +1600,6 @@ Let's **predict the grouping** of 5 new sites using our LDA results:
 ```{r}
 # Load the new site data
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
-# classify.me <- classify.me[,-1] # remove das variable
 
 # Predict grouping of new sites
 predict.group <- predict(LDA, newdata = classify.me)
