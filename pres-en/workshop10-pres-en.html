@@ -443,26 +443,30 @@ RsquareAdj(spe.rda.signif)
 ---
 # Significance testing
 
-Use .alert[anova.cca()] to test the significance of your RDA.
+Use `anova.cca()` to test the significance of your RDA.
 
 ```r
 anova.cca(spe.rda.signif, step = 1000)
-# Permutation test for rda under reduced model
-# Permutation: free
-# Number of permutations: 999
-# 
-# Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+...
 #          Df Variance      F Pr(&gt;F)    
 # Model     3  0.29619 11.963  0.001 ***
 # Residual 25  0.20632                  
 # ---
-# Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+...
 ```
 
-You can also test the significance of each variable!
+You can also test the significance of each variable with `by = "term"`!
 
 ```r
 anova.cca(spe.rda.signif, step = 1000, by = "term")
+...
+# Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+#          Df Variance       F Pr(&gt;F)    
+# alt       1 0.164856 19.9759  0.001 ***
+# oxy       1 0.082426  9.9877  0.001 ***
+# dbo       1 0.048909  5.9264  0.002 ** 
+# Residual 25 0.206319                   
+...
 ```
 
 ---
@@ -920,8 +924,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.021 *  
-# RDA3      1 0.003193 0.9919  0.421    
+# RDA2      1 0.008254 2.5643  0.028 *  
+# RDA3      1 0.003193 0.9919  0.425    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
