@@ -1064,7 +1064,7 @@ exclude: true
 
 # MRT dans R: Choisir un arbre
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center'}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval = F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "pick",
                     xval = nrow(spe.hel),
@@ -1105,7 +1105,7 @@ exclude: true
 
 # MRT dans R: Visualisation
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5.5, fig.width = 5.5, eval = F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "1se",
                     xval = nrow(spe.hel),
@@ -1128,7 +1128,7 @@ exclude: true
 Pour choisir un arbre, on peut aussi comparer plusieurs solutions possibles.
 
 Par exemple, considérons une solution de 10 groupes!
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width = 12, eval = F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
@@ -1148,7 +1148,7 @@ exclude: true
 
 Considérons une solution avec moins (4) de groupes!
 .tiny[
-```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8}
+```{r, echo = FALSE, results = 'hide', fig.height = 4.5, fig.width =8, eval = F}
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
@@ -1168,7 +1168,7 @@ exclude: true
 # MRT dans R: Paramètre de complexité
 
 Le .comment[paramètre de complexité (CP)] représente la variance expliquée par chaque noeud.
-```{r}
+```{r, eval = F}
 doubs.mrt$cptable
 ```
 
@@ -1182,7 +1182,7 @@ exclude: true
 
 Pour accèder au sommaire des résultats:
 .tiny[
-```{r}
+```{r, eval = FALSE}
 summary(doubs.mrt)
 ```
 ]
@@ -1209,7 +1209,7 @@ exclude: true
 
 # MRT dans R: Espèces discriminantes
 
-```{r, results = 'hide'}
+```{r, results = 'hide', eval = FALSE}
 # Créer un sommaire plus informatif et moins dense
 doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
 
@@ -1224,7 +1224,7 @@ exclude: true
 
 Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
 .small[
-```{r}
+```{r, eval = FALSE}
 summary(doubs.mrt.wrap)
 ```
 ]
