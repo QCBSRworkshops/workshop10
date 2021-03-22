@@ -284,7 +284,17 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 
 ```r
 # We can visually look for correlations between variables:
-pairs(env)
+
+heatmap(abs(cor(env)), ## Compute pearson correlation (note they are absolute values)
+        col = rev(heat.colors(6)))
+
+legend("topright",
+       legend =  round(seq(0,1, 
+                     length.out = 6),1),
+       y.intersp = 0.7,
+       title = "Absolute correlation (Pearson)",
+       bty = "n",
+       fill = rev(heat.colors(6)))
 ```
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-11-1.png" width="648" style="display: block; margin: auto;" /&gt;
@@ -479,6 +489,7 @@ There are 2 scaling options:
 ```r
 ordiplot(spe.rda.signif,
          scaling = 1,
+         frame = F,
          type = "text")
 ```
 
@@ -631,6 +642,7 @@ Step 5: Plot the RDA!
 ```r
 ordiplot(mite.spe.rda.signif,
          scaling = 1,
+         frame = F,
          main = "Mite RDA - Scaling 1")
 ```
 
@@ -641,6 +653,7 @@ ordiplot(mite.spe.rda.signif,
 ```r
 ordiplot(mite.spe.rda.signif,
          scaling = 2,
+         frame = F,  
          main = "Mite RDA - Scaling 2")
 ```
 
@@ -800,7 +813,9 @@ We can visualise the effects of the environmental variables on the fish communit
 .small[
 
 ```r
-ordiplot(spe.partial.rda, scaling = 2,
+ordiplot(spe.partial.rda, 
+         scaling = 2,
+         frame = F, 
          main = "Doubs River partial RDA - Scaling 2")
 ```
 
@@ -904,8 +919,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.021 *  
-# RDA3      1 0.003193 0.9919  0.461    
+# RDA2      1 0.008254 2.5643  0.026 *  
+# RDA3      1 0.003193 0.9919  0.431    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -967,6 +982,7 @@ spe.part.all$part # access results!
 
 ```r
 plot(spe.part.all,
+     frame = F, 
      Xnames = c("Chem", "Topo"), # name the partitions
      bg = c("seagreen3", "mediumpurple"), alpha = 80, # colour the circles
      digits = 2, # only show 2 digits
@@ -1180,8 +1196,12 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 Step 5: Plot the variation partitioning results
 
 ```r
-plot(mite.part, digits = 2, cex = 1.5,
-     bg = c("pink", "skyblue"), alpha = 90) # add colour!
+plot(mite.part, 
+     digits = 2, 
+     frame = F,
+     cex = 1.5,
+     bg = c("pink", "skyblue"),
+     alpha = 90) # add colour!
 ```
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
