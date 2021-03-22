@@ -164,7 +164,6 @@ Please make sure you have downloaded, installed, and loaded these packages:
 ???
 Unused packages in 3-hr version:
 mvpart package .alert[(from wiki)]
-MVPARTwrap package .alert[(from wiki)]
 
 ---
 # Follow along!
@@ -1284,49 +1283,6 @@ summary(doubs.mrt)
 ---
 exclude: true
 
-# MRT in R: Discriminant species
-
-You might also want to know which species are contributing most to the explained variance at each split (i.e. .alert[discriminant species]), or which sites are included within each leaf (group).
-
-<br>
-To do this, we have the .comment[MVPARTwrap] package.
-
-.alert[MVPARTwrap is archived, we use the package remotes to install it from GitHub:]
-
-```{R MVPARTwrap_install,  eval=F}
-remotes::install_github("cran/MVPARTwrap")
-library(MVPARTwrap)
-```
-
----
-exclude: true
-
-# MRT in R: Discriminant species
-
-```{r, results = 'hide',  eval=F}
-# Generate a nicer and more informative output
-doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
-
-# Access the full output:
-summary(doubs.mrt.wrap)
-```
-
----
-exclude: true
-
-# MRT in R: Discriminant species
-
-To see each species' contribution to explained variance at each node:
-.small[
-```{r,  eval=F}
-summary(doubs.mrt.wrap)
-```
-]
-
-
----
-exclude: true
-
 # MRT in R: Indicator species
 
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
@@ -1370,7 +1326,6 @@ data("mite.env")
 Recall some useful functions:
 ```{r, eval = FALSE}
 ?mvpart() # hint: pay attention to the 'xv' argument!
-?MRT()
 summary()
 ```
 ]
@@ -1414,27 +1369,18 @@ exclude: true
 
 # Challenge 4: Solution
 
-
-What are the top 3 discriminant species .alert[for node 1]?
+Which species are significant .alert[indicator species] for each grouping of sites?
 ```{r, results = 'hide',  eval=F}
-# Generate nicer MRT output
-mite.mrt.wrap <- MRT(mite.mrt,
-                     percent = 10,
-                     species = colnames(mite.spe.hel))
+# Calculate indicator values (indval) for each species
+mite.mrt.indval <- indval(mite.spe.hel, mite.mrt$where)
 
-# Look at discriminant species table from MRT output
-summary(mite.mrt.wrap)
+# Extract the significant indicator species (and which node they represent)
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval <= 0.05)]
+
+# Extract their indicator values
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval <= 0.05)]
 ```
 
----
-exclude: true
-
-# Challenge 4: Solution
-
-What are the top 3 discriminant species .alert[for node 1]?
-* LCIL, LRUG, Ceratoz1
-
-.center[![:scale 40%](images/Challenge4_IndVal.png)]
 ---
 
 class: inverse, center, middle
