@@ -1237,7 +1237,7 @@ exclude: true
 Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
 
 .tiny[
-```{r}
+```{r, eval = FALSE}
 library(labdsv)
 
 # Calcul d'une valeur indval pour chaque espèce
@@ -1269,7 +1269,7 @@ Créez un arbre de régression multivarié pour les données .comment[mite].
 <br>
 .small[
 Rappel: chargez les données!
-```{r}
+```{r, eval = FALSE}
 data("mite")
 data("mite.env")
 ```
@@ -1287,7 +1287,7 @@ exclude: true
 # Défi 4: Solution
 
 Étape 1: Créer un arbre de régression multivarié
-```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5}
+```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5, eval = FALSE}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se",
                    xval = nrow(mite.spe.hel),
@@ -1301,7 +1301,7 @@ exclude: true
 
 # Défi 4: Solution
 
-```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5}
+```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5, eval = FALSE}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE
                    xval = nrow(mite.spe.hel),
@@ -1324,7 +1324,7 @@ exclude: true
 
 
 Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
-```{r, results = 'hide'}
+```{r, results = 'hide', eval = FALSE}
 # Créer sommaire plus informatif
 mite.mrt.wrap <- MRT(mite.mrt,
                      percent = 10,
