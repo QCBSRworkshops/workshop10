@@ -300,7 +300,17 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 
 ```{r, fig.height = 5, fig.width = 9}
 # We can visually look for correlations between variables:
-pairs(env)
+
+heatmap(abs(cor(env)), ## Compute pearson correlation (note they are absolute values)
+        col = rev(heat.colors(6)))
+
+legend("topright",
+       legend =  round(seq(0,1, 
+                     length.out = 6),1),
+       y.intersp = 0.7,
+       title = "Absolute correlation (Pearson)",
+       bty = "n",
+       fill = rev(heat.colors(6)))
 ```
 .alert[Note:] Some variables look correlated... .small[(das vs. alt, das vs. deb, das vs. dur, das vs. nit, oxy vs. dbo, etc.)]
 
@@ -463,6 +473,7 @@ There are 2 scaling options:
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
 ordiplot(spe.rda.signif,
          scaling = 1,
+         frame = F,
          type = "text")
 ```
 ]
@@ -507,11 +518,28 @@ sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
 sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
 sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
 ## plot
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=paste0("RDA1 (", perc[1], "%)"), ylab = paste0("RDA2 (", perc[2], "%)"), xlim=c(-1,1), ylim=c(-1,1))
-points(sc_si, pch=21, col="black", bg="steelblue", cex=1.2)
-points(sc_sp, pch=22, col="black", bg = "#f2bd33", cex=1.2)
+plot(spe.rda.signif,
+     scaling=1, 
+     main="Triplot RDA - scaling 1", 
+     type="none", 
+     frame = F,
+     xlab=paste0("RDA1 (", perc[1], "%)"), 
+     ylab = paste0("RDA2 (", perc[2], "%)"), 
+     xlim=c(-1,1), 
+     ylim=c(-1,1))
+points(sc_si, 
+       pch=21, 
+       col="black", 
+       bg="steelblue",
+       cex=1.2)
+points(sc_sp, 
+       pch=22, 
+       col="black",
+       bg = "#f2bd33", 
+       cex=1.2)
 text(sc_sp, labels = rownames(sc_sp), col="black", cex=0.6)
-arrows(0,0, sc_bp[,1], sc_bp[,2], col="red", lwd = 3)
+arrows(0,0,
+       sc_bp[,1], sc_bp[,2], col="red", lwd = 3)
 text(x = sc_bp[,1] -0.1, y = sc_bp[,2] - 0.03, labels=rownames(sc_bp), col="red", cex=1, font = 2)
 ```
 
@@ -605,6 +633,7 @@ Step 5: Plot the RDA!
 ```{r, fig.height = 6.5}
 ordiplot(mite.spe.rda.signif,
          scaling = 1,
+         frame = F,
          main = "Mite RDA - Scaling 1")
 ```
 ]
@@ -612,6 +641,7 @@ ordiplot(mite.spe.rda.signif,
 ```{r, fig.height = 6.5}
 ordiplot(mite.spe.rda.signif,
          scaling = 2,
+         frame = F,  
          main = "Mite RDA - Scaling 2")
 ```
 
@@ -742,7 +772,9 @@ We can visualise the effects of the environmental variables on the fish communit
 
 .small[
 ```{r, fig.height=4.5, fig.width=4.5}
-ordiplot(spe.partial.rda, scaling = 2,
+ordiplot(spe.partial.rda, 
+         scaling = 2,
+         frame = F, 
          main = "Doubs River partial RDA - Scaling 2")
 ```
 --
@@ -851,6 +883,7 @@ spe.part.all$part # access results!
 
 ```{r, strip.white = TRUE, fig.width = 6, fig.height = 6}
 plot(spe.part.all,
+     frame = F, 
      Xnames = c("Chem", "Topo"), # name the partitions
      bg = c("seagreen3", "mediumpurple"), alpha = 80, # colour the circles
      digits = 2, # only show 2 digits
@@ -1004,8 +1037,12 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 
 Step 5: Plot the variation partitioning results
 ```{r, fig.height=6, fig.width=6}
-plot(mite.part, digits = 2, cex = 1.5,
-     bg = c("pink", "skyblue"), alpha = 90) # add colour!
+plot(mite.part, 
+     digits = 2, 
+     frame = F,
+     cex = 1.5,
+     bg = c("pink", "skyblue"),
+     alpha = 90) # add colour!
 ```
 ---
 class: inverse, center, middle
