@@ -895,7 +895,7 @@ Partitions the variation of response variables among 2, 3, or 4 explanatory data
 ---
 # Variation partitioning in R
 
-.small[.alert[Note]: Make sure you've loaded the *vegan* package!
+.small[.alert[Note]: Make sure you've loaded the `vegan` package!
 
 ```{r}
 spe.part.all <- varpart(spe.hel, env.chem, env.topo)
@@ -1061,14 +1061,15 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 # Challenge 3: Solution
 
 Step 5: Plot the variation partitioning results
-```{r, fig.height=6, fig.width=6}
+```{r, fig.height=5.5, fig.width=6}
 plot(mite.part, 
      digits = 2, 
-     frame = F,
+     frame = FALSE,
      cex = 1.5,
-     bg = c("pink", "skyblue"),
-     alpha = 90) # add colour!
+     bg = c("pink", "skyblue"), # add colour!
+     alpha = 90) # adjust transparency
 ```
+
 ---
 class: inverse, center, middle
 
