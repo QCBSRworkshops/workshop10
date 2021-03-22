@@ -797,16 +797,18 @@ We can visualise the effects of the environmental variables on the fish communit
 ```{r, fig.height=4.5, fig.width=4.5}
 ordiplot(spe.partial.rda, 
          scaling = 2,
-         frame = F, 
+         frame = FALSE, 
          main = "Doubs River partial RDA - Scaling 2")
 ```
+]
+
 --
 
-.alert[Note]: The topography variables (covariates) aren't plotted. Why is that?]
+.alert[Note]: The topography variables (covariates) aren't plotted. Why is that?
 
 ???
 
-Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are controlled for, they do not show up in the scaling 2 biplot.
+Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are only controlled for, so they do not show up in the scaling 2 biplot.
 
 Recall: In scaling 2, arrow length shows effect size, arrow direction shows the direction of the relationship (opposite directions means the variables have a negative relationship, while same direction indicates a positive relationship)
 
