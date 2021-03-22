@@ -647,7 +647,7 @@ ordiplot(mite.spe.rda.signif,
          main = "Mite RDA - Scaling 1")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-30-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-30-1.png" width="417.6" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -659,7 +659,6 @@ ordiplot(mite.spe.rda.signif,
 ```
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-31-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
 ]
 
 ---
@@ -816,18 +815,20 @@ We can visualise the effects of the environmental variables on the fish communit
 ```r
 ordiplot(spe.partial.rda, 
          scaling = 2,
-         frame = F, 
+         frame = FALSE, 
          main = "Doubs River partial RDA - Scaling 2")
 ```
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-37-1.png" width="324" style="display: block; margin: auto;" /&gt;
+]
+
 --
 
-.alert[Note]: The topography variables (covariates) aren't plotted. Why is that?]
+.alert[Note]: The topography variables (covariates) aren't plotted. Why is that?
 
 ???
 
-Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are controlled for, they do not show up in the scaling 2 biplot.
+Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for). The covariates are only controlled for, so they do not show up in the scaling 2 biplot.
 
 Recall: In scaling 2, arrow length shows effect size, arrow direction shows the direction of the relationship (opposite directions means the variables have a negative relationship, while same direction indicates a positive relationship)
 
@@ -920,8 +921,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.017 *  
-# RDA3      1 0.003193 0.9919  0.382    
+# RDA2      1 0.008254 2.5643  0.016 *  
+# RDA3      1 0.003193 0.9919  0.432    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -951,7 +952,7 @@ Partitions the variation of response variables among 2, 3, or 4 explanatory data
 ---
 # Variation partitioning in R
 
-.small[.alert[Note]: Make sure you've loaded the *vegan* package!
+.small[.alert[Note]: Make sure you've loaded the `vegan` package!
 
 
 ```r
@@ -1199,13 +1200,14 @@ Step 5: Plot the variation partitioning results
 ```r
 plot(mite.part, 
      digits = 2, 
-     frame = F,
+     frame = FALSE,
      cex = 1.5,
-     bg = c("pink", "skyblue"),
-     alpha = 90) # add colour!
+     bg = c("pink", "skyblue"), # add colour!
+     alpha = 90) # adjust transparency
 ```
 
 &lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
 ---
 class: inverse, center, middle
 
@@ -1620,13 +1622,9 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 # LDA in R: Latitude groups
 
 Let's quickly plot the latitude groupings to see if they make sense:
+&lt;br&gt;&lt;br&gt;
 
-
-```r
-plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
-```
-
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="396" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1648,16 +1646,21 @@ LDA &lt;- lda(env, spa$group)
 # LDA in R
 
 Our sites have now been reorganised into groups that are as distinct as possible, based on the environmental variables.
-&lt;br&gt;&lt;br&gt;
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-75-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+```r
+# predict the groupings
+lda.plotdf &lt;- data.frame(group = spa$group, lda = predict(LDA)$x)
+```
+&lt;br&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-76-1.png" width="468" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 # LDA in R: Grouping accuracy
 
-.small[We can then determine how sites were grouped, and whether this grouping is accurate.
+We can then determine how sites were grouped based on the LDA, and whether this grouping is accurate.
 
 
 ```r
@@ -1680,8 +1683,8 @@ diag(prop.table(spe.table, 1))
 # 1 2 3 
 # 1 1 1
 ```
-
-All sites were correctly classified (1) into the latitude groups based on environmental variables.]
+&lt;br&gt;
+All sites were correctly classified (*Proportion of corrected classification = 1*) into the latitude groups based on environmental variables.
 
 ---
 # LDA in R: Predictions
@@ -1696,7 +1699,6 @@ Let's **predict the grouping** of 5 new sites using our LDA results:
 ```r
 # Load the new site data
 classify.me &lt;- read.csv("data/classifyme.csv", header = TRUE)
-# classify.me &lt;- classify.me[,-1] # remove das variable
 
 # Predict grouping of new sites
 predict.group &lt;- predict(LDA, newdata = classify.me)
