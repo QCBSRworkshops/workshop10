@@ -1192,49 +1192,7 @@ exclude: true
 
 # MRT dans R: Espèces discriminantes
 
-On peut aussi déterminer quelles espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
-<br>
-Pour ceci, on peut utiliser la libraire **MVPARTwrap**
-
-.alert[MVPARTwrap est archivé, on utilise remotes pour l'installer depuis GitHub]
-
-```{R MVPARTwrap_install, eval = FALSE, echo=TRUE}
-remotes::install_github("cran/MVPARTwrap")
-
-library(MVPARTwrap)
-```
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-```{r, results = 'hide', eval = FALSE}
-# Créer un sommaire plus informatif et moins dense
-doubs.mrt.wrap <- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
-
-# Voir le sommaire
-summary(doubs.mrt.wrap)
-```
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
-.small[
-```{r, eval = FALSE}
-summary(doubs.mrt.wrap)
-```
-]
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
+Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe de sites:
 
 .tiny[
 ```{r, eval = FALSE}
@@ -1277,7 +1235,6 @@ data("mite.env")
 Rappel de fonctions utiles:
 ```{r, eval = FALSE}
 ?mvpart() # argument 'xv'!
-?MRT()
 summary()
 ```
 ]
@@ -1323,26 +1280,18 @@ exclude: true
 # Défi 4: Solution
 
 
-Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
-```{r, results = 'hide', eval = FALSE}
-# Créer sommaire plus informatif
-mite.mrt.wrap <- MRT(mite.mrt,
-                     percent = 10,
-                     species = colnames(mite.spe.hel))
+Quels sont les .alert[espèces indicatrices] pour chaque groupe de sites?
 
-# Voir sommaire (pour voir les espèces discriminantes)
-summary(mite.mrt.wrap)
+```{r, results = 'hide',  eval=F}
+# Calculate indicator values (indval) for each species
+mite.mrt.indval <- indval(mite.spe.hel, mite.mrt$where)
+
+# Extract the significant indicator species (and which node they represent)
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval <= 0.05)]
+
+# Extract their indicator values
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval <= 0.05)]
 ```
-
----
-exclude: true
-
-# Défi 4: Solution
-
-Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
-* LCIL, LRUG, Ceratoz1
-
-.center[![:scale 40%](images/Challenge4_IndVal.png)]
 
 ---
 
