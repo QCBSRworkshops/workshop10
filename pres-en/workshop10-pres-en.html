@@ -120,7 +120,6 @@ Please make sure you have downloaded, installed, and loaded these packages:
 ???
 Unused packages in 3-hr version:
 mvpart package .alert[(from wiki)]
-MVPARTwrap package .alert[(from wiki)]
 
 ---
 # Follow along!
@@ -921,8 +920,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.024 *  
-# RDA3      1 0.003193 0.9919  0.423    
+# RDA2      1 0.008254 2.5643  0.021 *  
+# RDA3      1 0.003193 0.9919  0.421    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1399,52 +1398,6 @@ summary(doubs.mrt)
 ---
 exclude: true
 
-# MRT in R: Discriminant species
-
-You might also want to know which species are contributing most to the explained variance at each split (i.e. .alert[discriminant species]), or which sites are included within each leaf (group).
-
-&lt;br&gt;
-To do this, we have the .comment[MVPARTwrap] package.
-
-.alert[MVPARTwrap is archived, we use the package remotes to install it from GitHub:]
-
-
-```r
-remotes::install_github("cran/MVPARTwrap")
-library(MVPARTwrap)
-```
-
----
-exclude: true
-
-# MRT in R: Discriminant species
-
-
-```r
-# Generate a nicer and more informative output
-doubs.mrt.wrap &lt;- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
-
-# Access the full output:
-summary(doubs.mrt.wrap)
-```
-
----
-exclude: true
-
-# MRT in R: Discriminant species
-
-To see each species' contribution to explained variance at each node:
-.small[
-
-```r
-summary(doubs.mrt.wrap)
-```
-]
-
-
----
-exclude: true
-
 # MRT in R: Indicator species
 
 You might also be interested in finding out which species are significant .alert[indicator species] for each grouping of sites.
@@ -1491,7 +1444,6 @@ Recall some useful functions:
 
 ```r
 ?mvpart() # hint: pay attention to the 'xv' argument!
-?MRT()
 summary()
 ```
 ]
@@ -1529,28 +1481,19 @@ exclude: true
 
 # Challenge 4: Solution
 
-
-What are the top 3 discriminant species .alert[for node 1]?
+Which species are significant .alert[indicator species] for each grouping of sites?
 
 ```r
-# Generate nicer MRT output
-mite.mrt.wrap &lt;- MRT(mite.mrt,
-                     percent = 10,
-                     species = colnames(mite.spe.hel))
+# Calculate indicator values (indval) for each species
+mite.mrt.indval &lt;- indval(mite.spe.hel, mite.mrt$where)
 
-# Look at discriminant species table from MRT output
-summary(mite.mrt.wrap)
+# Extract the significant indicator species (and which node they represent)
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval &lt;= 0.05)]
+
+# Extract their indicator values
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval &lt;= 0.05)]
 ```
 
----
-exclude: true
-
-# Challenge 4: Solution
-
-What are the top 3 discriminant species .alert[for node 1]?
-* LCIL, LRUG, Ceratoz1
-
-.center[![:scale 40%](images/Challenge4_IndVal.png)]
 ---
 
 class: inverse, center, middle
@@ -1624,7 +1567,7 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 Let's quickly plot the latitude groupings to see if they make sense:
 &lt;br&gt;&lt;br&gt;
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-71-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1653,7 +1596,7 @@ Our sites have now been reorganised into groups that are as distinct as possible
 lda.plotdf &lt;- data.frame(group = spa$group, lda = predict(LDA)$x)
 ```
 &lt;br&gt;
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-76-1.png" width="468" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-74-1.png" width="468" style="display: block; margin: auto;" /&gt;
 
 
 ---
