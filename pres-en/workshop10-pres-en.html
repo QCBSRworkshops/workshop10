@@ -280,24 +280,22 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 ```
 ---
 # Collinearity
-
+.small[
 
 ```r
 # We can visually look for correlations between variables:
-
 heatmap(abs(cor(env)), ## Compute pearson correlation (note they are absolute values)
-        col = rev(heat.colors(6)))
-
-legend("topright",
-       legend =  round(seq(0,1, 
-                     length.out = 6),1),
-       y.intersp = 0.7,
-       title = "Absolute correlation (Pearson)",
-       bty = "n",
+        col = rev(heat.colors(6)), 
+        Colv = NA, Rowv = NA)
+legend("topright", 
+       title = "Absolute Pearson R",
+       legend =  round(seq(0,1, length.out = 6),1),
+       y.intersp = 0.7, bty = "n",
        fill = rev(heat.colors(6)))
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-11-1.png" width="648" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /&gt;
+]
 .alert[Note:] Some variables look correlated... .small[(das vs. alt, das vs. deb, das vs. dur, das vs. nit, oxy vs. dbo, etc.)]
 
 ---
@@ -919,8 +917,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.026 *  
-# RDA3      1 0.003193 0.9919  0.431    
+# RDA2      1 0.008254 2.5643  0.018 *  
+# RDA3      1 0.003193 0.9919  0.437    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
