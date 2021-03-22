@@ -297,21 +297,19 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 ```
 ---
 # Collinearity
-
-```{r, fig.height = 5, fig.width = 9}
+.small[
+```{r, fig.height = 4, fig.width = 8}
 # We can visually look for correlations between variables:
-
 heatmap(abs(cor(env)), ## Compute pearson correlation (note they are absolute values)
-        col = rev(heat.colors(6)))
-
-legend("topright",
-       legend =  round(seq(0,1, 
-                     length.out = 6),1),
-       y.intersp = 0.7,
-       title = "Absolute correlation (Pearson)",
-       bty = "n",
+        col = rev(heat.colors(6)), 
+        Colv = NA, Rowv = NA)
+legend("topright", 
+       title = "Absolute Pearson R",
+       legend =  round(seq(0,1, length.out = 6),1),
+       y.intersp = 0.7, bty = "n",
        fill = rev(heat.colors(6)))
 ```
+]
 .alert[Note:] Some variables look correlated... .small[(das vs. alt, das vs. deb, das vs. dur, das vs. nit, oxy vs. dbo, etc.)]
 
 ---
