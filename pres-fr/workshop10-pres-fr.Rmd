@@ -526,25 +526,66 @@ ordiplot(spe.rda.signif,
 ---
 # Configuration des triplots RDA
 
-Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
+Les fonctions `plot()` et `ordiplot()` produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
 ```{r, echo = FALSE}
-## extrait le % expliqué par les 2 axes
+## extrait le % expliqué par les 2 premiers axes
 perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
-## scores => coordonnées
+
+## scores - ceux-ci sont des coordonnées dans l'espace RDA
 sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
 sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
 sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
-## plot
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=paste0("RDA1 (", perc[1], "%)"), ylab = paste0("RDA2 (", perc[2], "%)"), xlim=c(-1,1), ylim=c(-1,1))
-points(sc_si, pch=21, col="black", bg="steelblue", cex=1.2)
-points(sc_sp, pch=22, col="black", bg = "#f2bd33", cex=1.2)
-text(sc_sp, labels = rownames(sc_sp), col="black", cex=0.6)
-arrows(0,0, sc_bp[,1], sc_bp[,2], col="#f04f6c", lwd = 3)
-text(x = sc_bp[,1] -0.1, y = sc_bp[,2] - 0.03, labels=rownames(sc_bp), col="#f04f6c", cex=1, font = 2)
+
+## Configuration du graphique
+
+# Commencer avec un graphique vide avec le cadrage, les axes, et des titres  
+plot(spe.rda.signif,
+     scaling = 1, # type de cadrage
+     type = "none", # garder le graphique vide pour l'instant
+     frame = FALSE,
+     # fixer les limites des axes
+     xlim = c(-1,1), 
+     ylim = c(-1,1),
+     # ajouter des titres au graphique et aux axes
+     main = "Triplot RDA - cadrage 1",
+     xlab = paste0("RDA1 (", perc[1], "%)"), 
+     ylab = paste0("RDA2 (", perc[2], "%)") 
+)
+# ajouter des points pour les scores des sites
+points(sc_si, 
+       pch = 21, # fixer le symbole (ici, un cercle rempli avec une couleur)
+       col = "black", # couleur de la bordure du cercle
+       bg = "steelblue", # couleur pour remplir le cercle
+       cex = 1.2) # taille du cercle
+# ajouter des points pour les scores des espèces
+points(sc_sp, 
+       pch = 22, # fixer le symbole (ici, un carré rempli avec une couleur)
+       col = "black",
+       bg = "#f2bd33", 
+       cex = 1.2)
+# ajouter du texte pour identifier les espèces 
+text(sc_sp + c(0.03, 0.09), # ajuster les coordonnées pour éviter des chevauchements 
+     labels = rownames(sc_sp), 
+     col = "grey40", 
+     font = 2, # gras
+     cex = 0.6)
+# ajouter des flèches pour les effets des variables explicatives
+arrows(0,0, # chaque flèche commence à (0,0)
+       sc_bp[,1], sc_bp[,2], # et finit au score de la variable
+       col = "red", 
+       lwd = 3)
+# ajouter du texte pour identifier les variables explicatives
+text(x = sc_bp[,1] -0.1, # ajuster les coordonnées pour éviter des chevauchements
+     y = sc_bp[,2] - 0.03, 
+     labels = rownames(sc_bp), 
+     col = "red", 
+     cex = 1, 
+     font = 2)
 ```
 
-Voir le wiki pour plus de détails!
+Voir le script et le [livre](https://qcbsrworkshops.github.io/workshop10/book-fr/index.html) de l'atelier 10 pour coder la figure!
+
 
 ---
 # Défi 1 ![:cube]()
