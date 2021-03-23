@@ -1560,70 +1560,102 @@ predict.group$class
 
 # Challenge 4 ![:cube]()
 
-.small[Create 4 latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`).
-* What proportion of sites was correctly classified in group1? in group2?
+Create 4 equally-spaced latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`). 
+
+**What proportion of sites was correctly classified in group1? in group2?**
 
 <br>
-Load the `mite.xy` data:
+To begin, load the `mite.xy` data:
+
 ```{r}
 data(mite.xy)
 ```
 
+<br>
 Recall some useful functions:
+
 ```{r, eval = FALSE}
 lda()
 predict()
 table()
 diag()
 ```
-]
+
+
+???
+
+If you need to speed things up, show the following slide (Step 1) to let the participants make the same groupings.
 
 ---
-
 # Challenge 4: Solution
 
-Step 1: Create 4 latitude groups
-.small[
+**Step 1:** Make 4 equally spaced latitude groups.
+
 ```{r}
 # assign numbers to sites
 mite.xy$site <- 1:nrow(mite.xy)
 
-# find latitudinal range for each group
+# figure out the spacing to make 4 equally spaced latitude groups 
 (max(mite.xy[,2])-min(mite.xy[,2]))/4
 
-# group sites into 4 latitude groups
+# use this to group sites into 4 latitude groups
 mite.xy$group <- NA # create "group" column
 mite.xy$group[which(mite.xy$y < 2.5)] <- 1
 mite.xy$group[which(mite.xy$y >= 2.5 & mite.xy$y < 4.9)] <- 2
 mite.xy$group[which(mite.xy$y >= 4.9 & mite.xy$y < 7.3)] <- 3
 mite.xy$group[which(mite.xy$y >= 7.3)] <- 4
 ```
-]
 
-Step 2: Run the LDA
+
+---
+
+# Challenge 4: Solution
+
+**Step 2:** Run the LDA.
 .small[
 ```{r}
 LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
+
+--
+
+**Step 3:** Check whether the groupings are correct.
+
+.small[
+```{r}
+# group sites based on the LDA
+mite.class <- predict(LDA.mite)$class
+
+# get the table of prior versus predicted classifications
+(mite.table <- table(mite.xy$group, mite.class))
+
+# proportion of correct classification
+diag(prop.table(mite.table, 1))
+```
+]
+
 ---
 
 # Challenge 4: Solution
 
-Step 3: Check whether the groupings are correct
-.small[
+We can answer the challenge question with this part:
+
 ```{r}
-# classification of the objects based on LDA
-mite.class <- predict(LDA.mite)$class
-# table of prior versus predicted classifications
-(mite.table <- table(mite.xy$group, mite.class))
 # proportion of correct classification
 diag(prop.table(mite.table, 1))
 ```
 
-What proportion of sites was correctly classified in group1? in group2?
-* .alert[60%] were correctly classified into group1, and .alert[64.7%] were classified into group2.]
+<br>
+**So, what proportion of sites was correctly classified in group1? in group2?**
 
+--
+
+* .alert[60%] were correctly classified into group1, and .alert[64.7%] were classified into group2.
+
+<br><br>
+
+.center[*That's it! We did it!*]
 ---
 class: inverse, center, bottom
 
