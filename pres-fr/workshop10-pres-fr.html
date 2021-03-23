@@ -850,8 +850,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.023 *  
-# RDA3      1 0.003193 0.9919  0.399    
+# RDA2      1 0.008254 2.5643  0.020 *  
+# RDA3      1 0.003193 0.9919  0.429    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1325,52 +1325,7 @@ exclude: true
 
 # MRT dans R: Espèces discriminantes
 
-On peut aussi déterminer quelles espèces contribuent le plus à la variance expliquée par chaque nœud (.alert[espèces discriminantes]), ou quels sites sont inclus dans chaque feuille (groupe).
-&lt;br&gt;
-Pour ceci, on peut utiliser la libraire **MVPARTwrap**
-
-.alert[MVPARTwrap est archivé, on utilise remotes pour l'installer depuis GitHub]
-
-
-```r
-remotes::install_github("cran/MVPARTwrap")
-
-library(MVPARTwrap)
-```
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-
-```r
-# Créer un sommaire plus informatif et moins dense
-doubs.mrt.wrap &lt;- MRT(doubs.mrt, percent = 10, species = colnames(spe.hel))
-
-# Voir le sommaire
-summary(doubs.mrt.wrap)
-```
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-Pour voir la contribution de chaque espèce à la variance expliquée par noeud:
-.small[
-
-```r
-summary(doubs.mrt.wrap)
-```
-]
-
----
-exclude: true
-
-# MRT dans R: Espèces discriminantes
-
-Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe:
+Pour déterminer les espèces discriminantes .alert[significatives] pour chaque groupe de sites:
 
 .tiny[
 
@@ -1416,7 +1371,6 @@ Rappel de fonctions utiles:
 
 ```r
 ?mvpart() # argument 'xv'!
-?MRT()
 summary()
 ```
 ]
@@ -1456,27 +1410,19 @@ exclude: true
 # Défi 4: Solution
 
 
-Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
+Quels sont les .alert[espèces indicatrices] pour chaque groupe de sites?
+
 
 ```r
-# Créer sommaire plus informatif
-mite.mrt.wrap &lt;- MRT(mite.mrt,
-                     percent = 10,
-                     species = colnames(mite.spe.hel))
+# Calculate indicator values (indval) for each species
+mite.mrt.indval &lt;- indval(mite.spe.hel, mite.mrt$where)
 
-# Voir sommaire (pour voir les espèces discriminantes)
-summary(mite.mrt.wrap)
+# Extract the significant indicator species (and which node they represent)
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval &lt;= 0.05)]
+
+# Extract their indicator values
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval &lt;= 0.05)]
 ```
-
----
-exclude: true
-
-# Défi 4: Solution
-
-Quels sont les 3 principales espèces discriminantes pour .alert[noeud #1]?
-* LCIL, LRUG, Ceratoz1
-
-.center[![:scale 40%](images/Challenge4_IndVal.png)]
 
 ---
 
@@ -1533,7 +1479,7 @@ Visualisons ces regroupements par latitude:
 plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
 ```
 
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-74-1.png" width="396" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-72-1.png" width="396" style="display: block; margin: auto;" /&gt;
 
 ---
 # LDA dans R
