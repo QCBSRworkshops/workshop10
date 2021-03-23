@@ -446,7 +446,7 @@ RsquareAdj(spe.rda.signif)
 ---
 # Tester la significativité d'une RDA
 
-Utilisez .alert[anova.cca()] pour tester la significativité globale de notre RDA
+Utilisez `anova.cca()` pour tester la significativité globale de notre RDA
 
 ```r
 anova.cca(spe.rda.signif, permutations = 1000)
@@ -532,11 +532,12 @@ ordiplot(spe.rda.signif,
 ---
 # Configuration des triplots RDA
 
-Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
+Les fonctions `plot()` et `ordiplot()` produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
 &lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
-Voir le wiki pour plus de détails!
+Voir le script et le [livre](https://qcbsrworkshops.github.io/workshop10/book-fr/index.html) de l'atelier 10 pour coder la figure!
+
 
 ---
 # Défi 1 ![:cube]()
@@ -850,8 +851,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.028 *  
-# RDA3      1 0.003193 0.9919  0.444    
+# RDA2      1 0.008254 2.5643  0.027 *  
+# RDA3      1 0.003193 0.9919  0.419    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1474,17 +1475,14 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 # LDA dans R: Rivière Doubs
 
 Visualisons ces regroupements par latitude:
+&lt;br&gt;&lt;br&gt;
 
-```r
-plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
-```
-
-&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-72-1.png" width="396" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-72-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 # LDA dans R
 
-.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011).
+.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011). Au besoin, on peut utiliser la fonction `betadisper()` du paquet `vegan`.
 
 Pour les besoins de l'atelier, on passera directement à la LDA:
 
@@ -1497,10 +1495,24 @@ LDA &lt;- lda(env, spa$group)
 ```
 
 ---
-# LDA dans R: Vérification
+# LDA dans R
 
-.small[On peut ensuite voir comment les sites sont classifiés, et si cette classification est exacte.
+Nos sites sont maintenant réorganisés en groupes qui sont les plus distincts possibles, à partir des variables environnementales.
 
+
+```r
+# prédire les groupes à partir de la LDA
+lda.plotdf &lt;- data.frame(group = spa$group, lda = predict(LDA)$x)
+```
+&lt;br&gt;
+&lt;img src="workshop10-pres-fr_files/figure-html/unnamed-chunk-75-1.png" width="468" style="display: block; margin: auto;" /&gt;
+
+---
+# LDA dans R: Exactitude du groupement
+
+On peut ensuite voir comment les sites sont classifiés en groupes, et si cette classification est exacte.
+
+.small[
 
 ```r
 # classification des objets en fonction de la LDA
@@ -1522,27 +1534,27 @@ diag(prop.table(spe.table, 1))
 # 1 2 3 
 # 1 1 1
 ```
+]
 
-Tous les sites ont été correctement classifiés dans leur groupe de latitude en fonction des variables environnementales.]
+Tous les sites ont été correctement classifiés dans leur groupe de latitude en fonction des variables environnementales (*Proportion de classification correcte = 1*).
 
 ---
 # LDA dans R: Prédictions
 
-On peut maintenant utiliser la LDA pour classifier de nouveaux sites dans les groupes de latitude.
+On peut maintenant utiliser la LDA pour classifier de **nouveaux** sites dans les groupes de latitude.
 --
 
-Tentons de .alert[prédire la classification] de 5 nouveaux sites à l'aide de notre LDA:
+Essayons de .alert[prédire la classification] de 5 nouveaux sites à l'aide de notre LDA:
 .small[
 
 ```r
 # charger les nouvelles données
 classify.me &lt;- read.csv("data/classifyme.csv", header = TRUE)
-# classify.me &lt;- classify.me[,-1] # remove das variable
 
 # prédire le groupement des nouvelles données
 predict.group &lt;- predict(LDA, newdata = classify.me)
 
-# donner la classification pour chaque site
+# prédire la classification pour chaque site
 predict.group$class
 # [1] 1 1 1 3 3
 # Levels: 1 2 3
@@ -1550,18 +1562,20 @@ predict.group$class
 ]
 
 ---
-# Défi 5 ![:cube]()
+# Défi 4 ![:cube]()
 
-.small[Créez 4 groupes de latitude à partir des données .comment[mite.xy]. Ensuite, une LDA sur les données environnementales .comment[(mite.env)] des acariens (.comment[SubsDens] et .comment[WatrCont]).
-* Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?
+.small[Créez 4 groupes de latitude avec des étendues égales à partir des données `mite.xy`. Ensuite, faites une LDA sur les données environnementales `mite.env` des acariens (`SubsDens` et `WatrCont`).
+
+**Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?**
 
 &lt;br&gt;
-Chargez .comment[mite.xy]:
+Pour commencer, chargez les données `mite.xy`:
 
 ```r
 data(mite.xy)
 ```
 
+&lt;br&gt;
 Rappel de fonctions utiles:
 
 ```r
@@ -1572,11 +1586,15 @@ diag()
 ```
 ]
 
----
-# Défi 5: Solution
+???
 
-Étape 1: Créer 4 groupes de latitude
-.small[
+Si vous manquez de temps, passez directement à la prochaine diapo pour montrer les groupes de latitudes.
+
+---
+# Défi 4: Solution
+
+**Étape 1:** Créer 4 groupes de latitude avec des étendues égales.
+
 
 ```r
 # numéroter les sites
@@ -1593,9 +1611,11 @@ mite.xy$group[which(mite.xy$y &gt;= 2.5 &amp; mite.xy$y &lt; 4.9)] &lt;- 2
 mite.xy$group[which(mite.xy$y &gt;= 4.9 &amp; mite.xy$y &lt; 7.3)] &lt;- 3
 mite.xy$group[which(mite.xy$y &gt;= 7.3)] &lt;- 4
 ```
-]
 
-Étape 2: Faire la LDA
+---
+# Défi 4: Solution
+
+**Étape 2:** Faire la LDA.
 .small[
 
 ```r
@@ -1603,10 +1623,10 @@ LDA.mite &lt;- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
 
----
-# Défi 5: Solution
+--
 
-Étape 3: Vérifier la classification
+**Étape 3:** Vérifier l'exactitude du groupement.
+
 .small[
 
 ```r
@@ -1625,9 +1645,31 @@ diag(prop.table(mite.table, 1))
 #         1         2         3         4 
 # 0.6000000 0.6470588 0.7368421 0.8421053
 ```
+]
 
-Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?
-* .alert[60%] des sites ont été classifiés correctement dans group1, et .alert[64.7%] dans group2.]
+---
+# Défi 4: Solution
+
+On peut maintenant répondre à la question du défi avec cette partie du code: 
+
+
+```r
+# proportion of correct classification
+diag(prop.table(mite.table, 1))
+#         1         2         3         4 
+# 0.6000000 0.6470588 0.7368421 0.8421053
+```
+
+&lt;br&gt;
+**Alors, quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?**
+
+--
+
+* .alert[60%] des sites ont été classifiés correctement au groupe 1, et .alert[64.7%] au groupe 2.
+
+&lt;br&gt;&lt;br&gt;
+
+.center[*C'est ça! On a réussit!*]
 
 ---
 

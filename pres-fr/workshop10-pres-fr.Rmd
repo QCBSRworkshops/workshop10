@@ -458,7 +458,7 @@ RsquareAdj(spe.rda.signif)
 ---
 # Tester la significativité d'une RDA
 
-Utilisez .alert[anova.cca()] pour tester la significativité globale de notre RDA
+Utilisez `anova.cca()` pour tester la significativité globale de notre RDA
 ```{r}
 anova.cca(spe.rda.signif, permutations = 1000)
 ```
@@ -526,25 +526,66 @@ ordiplot(spe.rda.signif,
 ---
 # Configuration des triplots RDA
 
-Les fonctions plot() et ordiplot() produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
+Les fonctions `plot()` et `ordiplot()` produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques manuellement.
 
 ```{r, echo = FALSE}
-## extrait le % expliqué par les 2 axes
+## extrait le % expliqué par les 2 premiers axes
 perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
-## scores => coordonnées
+
+## scores - ceux-ci sont des coordonnées dans l'espace RDA
 sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
 sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
 sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
-## plot
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=paste0("RDA1 (", perc[1], "%)"), ylab = paste0("RDA2 (", perc[2], "%)"), xlim=c(-1,1), ylim=c(-1,1))
-points(sc_si, pch=21, col="black", bg="steelblue", cex=1.2)
-points(sc_sp, pch=22, col="black", bg = "#f2bd33", cex=1.2)
-text(sc_sp, labels = rownames(sc_sp), col="black", cex=0.6)
-arrows(0,0, sc_bp[,1], sc_bp[,2], col="#f04f6c", lwd = 3)
-text(x = sc_bp[,1] -0.1, y = sc_bp[,2] - 0.03, labels=rownames(sc_bp), col="#f04f6c", cex=1, font = 2)
+
+## Configuration du graphique
+
+# Commencer avec un graphique vide avec le cadrage, les axes, et des titres  
+plot(spe.rda.signif,
+     scaling = 1, # type de cadrage
+     type = "none", # garder le graphique vide pour l'instant
+     frame = FALSE,
+     # fixer les limites des axes
+     xlim = c(-1,1), 
+     ylim = c(-1,1),
+     # ajouter des titres au graphique et aux axes
+     main = "Triplot RDA - cadrage 1",
+     xlab = paste0("RDA1 (", perc[1], "%)"), 
+     ylab = paste0("RDA2 (", perc[2], "%)") 
+)
+# ajouter des points pour les scores des sites
+points(sc_si, 
+       pch = 21, # fixer le symbole (ici, un cercle rempli avec une couleur)
+       col = "black", # couleur de la bordure du cercle
+       bg = "steelblue", # couleur pour remplir le cercle
+       cex = 1.2) # taille du cercle
+# ajouter des points pour les scores des espèces
+points(sc_sp, 
+       pch = 22, # fixer le symbole (ici, un carré rempli avec une couleur)
+       col = "black",
+       bg = "#f2bd33", 
+       cex = 1.2)
+# ajouter du texte pour identifier les espèces 
+text(sc_sp + c(0.03, 0.09), # ajuster les coordonnées pour éviter des chevauchements 
+     labels = rownames(sc_sp), 
+     col = "grey40", 
+     font = 2, # gras
+     cex = 0.6)
+# ajouter des flèches pour les effets des variables explicatives
+arrows(0,0, # chaque flèche commence à (0,0)
+       sc_bp[,1], sc_bp[,2], # et finit au score de la variable
+       col = "red", 
+       lwd = 3)
+# ajouter du texte pour identifier les variables explicatives
+text(x = sc_bp[,1] -0.1, # ajuster les coordonnées pour éviter des chevauchements
+     y = sc_bp[,2] - 0.03, 
+     labels = rownames(sc_bp), 
+     col = "red", 
+     cex = 1, 
+     font = 2)
 ```
 
-Voir le wiki pour plus de détails!
+Voir le script et le [livre](https://qcbsrworkshops.github.io/workshop10/book-fr/index.html) de l'atelier 10 pour coder la figure!
+
 
 ---
 # Défi 1 ![:cube]()
@@ -1362,14 +1403,29 @@ spa$group[which(spa$y > 156)] <- 3
 # LDA dans R: Rivière Doubs
 
 Visualisons ces regroupements par latitude:
-```{r, fig.width = 5.5, fig.height = 5.5}
-plot(spa$x, spa$y, col = spa$group, pch = 16, cex = 1.5)
+<br><br>
+
+```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
+ggplot(data = spa) +
+  geom_point(aes(x = x, 
+                 y = y, 
+                 col = as.factor(group)), 
+             size = 4) +
+  labs(color = "Groups", 
+       x = "Longitude", 
+       y = "Latitude") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
 ```
 
 ---
 # LDA dans R
 
-.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011).
+.alert[Note]: Normalement, nous devons vérifier que les matrices de covariance des variables explicatives sont homogènes (voir Borcard et al. 2011). Au besoin, on peut utiliser la fonction `betadisper()` du paquet `vegan`.
 
 Pour les besoins de l'atelier, on passera directement à la LDA:
 ```{r}
@@ -1381,10 +1437,38 @@ LDA <- lda(env, spa$group)
 ```
 
 ---
-# LDA dans R: Vérification
+# LDA dans R
 
-.small[On peut ensuite voir comment les sites sont classifiés, et si cette classification est exacte.
+Nos sites sont maintenant réorganisés en groupes qui sont les plus distincts possibles, à partir des variables environnementales.
 
+```{r}
+# prédire les groupes à partir de la LDA
+lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
+```
+<br>
+```{r echo = FALSE, fig.width = 6.5, fig.height = 5.5}
+library(ggplot2)
+# Visualiser les sites réorganisés à partir de la LDA
+ggplot(lda.plotdf) +
+  geom_point(aes(x = lda.LD1, 
+                 y = lda.LD2, 
+                 col = factor(group)), 
+             size = 4) +
+  labs(color = "Groupes") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
+  theme_classic() + # configuration de la figure pour la rendre plus belle
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
+```
+
+---
+# LDA dans R: Exactitude du groupement
+
+On peut ensuite voir comment les sites sont classifiés en groupes, et si cette classification est exacte.
+
+.small[
 ```{r}
 # classification des objets en fonction de la LDA
 spe.class <- predict(LDA)$class
@@ -1398,42 +1482,44 @@ spe.post <- predict(LDA)$posterior
 # proportion de classification correcte
 diag(prop.table(spe.table, 1))
 ```
+]
 
-Tous les sites ont été correctement classifiés dans leur groupe de latitude en fonction des variables environnementales.]
+Tous les sites ont été correctement classifiés dans leur groupe de latitude en fonction des variables environnementales (*Proportion de classification correcte = 1*).
 
 ---
 # LDA dans R: Prédictions
 
-On peut maintenant utiliser la LDA pour classifier de nouveaux sites dans les groupes de latitude.
+On peut maintenant utiliser la LDA pour classifier de **nouveaux** sites dans les groupes de latitude.
 --
 
-Tentons de .alert[prédire la classification] de 5 nouveaux sites à l'aide de notre LDA:
+Essayons de .alert[prédire la classification] de 5 nouveaux sites à l'aide de notre LDA:
 .small[
 ```{r}
 # charger les nouvelles données
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
-# classify.me <- classify.me[,-1] # remove das variable
 
 # prédire le groupement des nouvelles données
 predict.group <- predict(LDA, newdata = classify.me)
 
-# donner la classification pour chaque site
+# prédire la classification pour chaque site
 predict.group$class
 ```
 ]
 
 ---
-# Défi 5 ![:cube]()
+# Défi 4 ![:cube]()
 
-.small[Créez 4 groupes de latitude à partir des données .comment[mite.xy]. Ensuite, une LDA sur les données environnementales .comment[(mite.env)] des acariens (.comment[SubsDens] et .comment[WatrCont]).
-* Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?
+.small[Créez 4 groupes de latitude avec des étendues égales à partir des données `mite.xy`. Ensuite, faites une LDA sur les données environnementales `mite.env` des acariens (`SubsDens` et `WatrCont`).
+
+**Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?**
 
 <br>
-Chargez .comment[mite.xy]:
+Pour commencer, chargez les données `mite.xy`:
 ```{r}
 data(mite.xy)
 ```
 
+<br>
 Rappel de fonctions utiles:
 ```{r, eval = FALSE}
 lda()
@@ -1443,11 +1529,15 @@ diag()
 ```
 ]
 
----
-# Défi 5: Solution
+???
 
-Étape 1: Créer 4 groupes de latitude
-.small[
+Si vous manquez de temps, passez directement à la prochaine diapo pour montrer les groupes de latitudes.
+
+---
+# Défi 4: Solution
+
+**Étape 1:** Créer 4 groupes de latitude avec des étendues égales.
+
 ```{r}
 # numéroter les sites
 mite.xy$site <- 1:nrow(mite.xy)
@@ -1462,19 +1552,21 @@ mite.xy$group[which(mite.xy$y >= 2.5 & mite.xy$y < 4.9)] <- 2
 mite.xy$group[which(mite.xy$y >= 4.9 & mite.xy$y < 7.3)] <- 3
 mite.xy$group[which(mite.xy$y >= 7.3)] <- 4
 ```
-]
 
-Étape 2: Faire la LDA
+---
+# Défi 4: Solution
+
+**Étape 2:** Faire la LDA.
 .small[
 ```{r}
 LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
 
----
-# Défi 5: Solution
+--
 
-Étape 3: Vérifier la classification
+**Étape 3:** Vérifier l'exactitude du groupement.
+
 .small[
 ```{r}
 # classification des objects en fonction de la LDA
@@ -1484,9 +1576,28 @@ mite.class <- predict(LDA.mite)$class
 # proportion de classifications exactes
 diag(prop.table(mite.table, 1))
 ```
+]
 
-Quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?
-* .alert[60%] des sites ont été classifiés correctement dans group1, et .alert[64.7%] dans group2.]
+---
+# Défi 4: Solution
+
+On peut maintenant répondre à la question du défi avec cette partie du code: 
+
+```{r}
+# proportion of correct classification
+diag(prop.table(mite.table, 1))
+```
+
+<br>
+**Alors, quelle proportion de sites ont été classifiés correctement au groupe 1? Au groupe 2?**
+
+--
+
+* .alert[60%] des sites ont été classifiés correctement au groupe 1, et .alert[64.7%] au groupe 2.
+
+<br><br>
+
+.center[*C'est ça! On a réussit!*]
 
 ---
 
