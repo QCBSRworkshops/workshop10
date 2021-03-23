@@ -1105,6 +1105,32 @@ plot(mite.part,
 ```
 
 ---
+# Challenge 3: Solution
+
+**So, what can we say about the effects of substrate and space on mite species abundances?**
+
+In breakout rooms, summarise and interpret these results as if you were writing an article. 
+**Hint:** Why is the model showing such an important effect of space?
+
+--
+
+<br>.comment[
+Space explains a lot of the variation in species abundances here: **19.4%** of the variation is explained by space alone, and **24.8%** is *jointly* explained by space and substrate. Substrate only explains **~6%** of the variation in community composition across sites on its own!
+
+Space could be so important because:
+* some spatial ecological process is at work, like dispersal
+* or, some unmeasured variable might be important, and vary in space
+]
+
+???
+
+Breakout rooms: 5-10 minutes. 
+
+Answer: This large effect of space *could* be a sign that some spatial ecological process is important here (like dispersal, for example). *However*, it could also be telling us that we are missing an important environmental variable in our model, which itself varies in space!
+
+Also note that half of the variation is not explained by the variables we included in the model (look at the residuals!), so the model could be improved 
+
+---
 class: inverse, center, middle
 
 exclude: true
