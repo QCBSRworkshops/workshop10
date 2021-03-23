@@ -38,6 +38,14 @@ class: inverse, center, middle
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=10&amp;color=red&amp;logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.pdf)
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=script&amp;message=10&amp;color=2a50b8&amp;logo=r)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.R)
 
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
+
 ---
 
 # Required packages
@@ -57,7 +65,7 @@ install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ---
 # Learning objectives
 
-##### Use R to perform unconstrained ordinations
+##### Use R to perform constrained ordinations
 
 
 ---
@@ -76,7 +84,7 @@ This workshop is an extension of Workshop 9, which covered the basics of unconst
 * Hierarchical clustering
 * Unconstrained ordinations (PCA, PCoA, CA, nmDS)
 
-These identify patterns in community composition data or in descriptors, .alert[**without**] exploring how environmental variables could be driving these patterns.
+These identify ***patterns*** in community composition data or in descriptors, without exploring how environmental variables could be ***driving*** these patterns.
 
 ---
 # Introduction
@@ -88,7 +96,7 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 * Variation partitioning
 * Linear discriminant analysis (LDA)
 
-These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
+These analyses allow us to **describe** and **predict** relationships between community composition data and environmental variables. (This means we can ***test hypotheses***!)
 
 ???
 Other methods that were excluded for 3 hour workshop format, but are in the book
@@ -97,15 +105,18 @@ Multivariate regression tree (MRT)
 ---
 # Download today's script and data
 
-All data and code are found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
+All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10).
 
 For this workshop, you will need:
-* R script
+* [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R)
 * Data:
-  * DoubsEnv data
-  * DoubsSpe data
-  * DoubsSpa data
-  * Test data for linear discriminant analyses
+  * [DoubsEnv](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv)
+  * [DoubsSpe](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv)
+  * [DoubsSpa](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv)
+  * [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+.small[.comment[To download the data, do right click + save on the page that opens.]
 
 ---
 # Required packages
@@ -115,7 +126,6 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
 * [vegan](https://cran.r-project.org/package=vegan)
-* rdaTest package .alert[(from wiki)]
 
 ???
 Unused packages in 3-hr version:
@@ -125,9 +135,9 @@ mvpart package .alert[(from wiki)]
 # Follow along!
 
 As always, we recommend that you:
-* create your own script (or add comments to the provided script)
-* avoid copy-pasting or running the code directly from the script
-* remember to set the working directory to the folder in which your files are stored
+* create your own script (or add comments to the provided script);
+* avoid copy-pasting or running the code directly from the script;
+* remember to set the working directory to the folder in which your files are stored.
 
 ---
 
@@ -157,7 +167,7 @@ class: inverse, center, middle
 
 .alert[Make sure the datasets are in your working directory!]
 
-Load the species data (*doubsspe.csv* ):
+Load the species data (`doubsspe.csv`):
 
 
 ```r
@@ -166,7 +176,7 @@ spe &lt;- read.csv("data/doubsspe.csv", row.names = 1)
 spe &lt;- spe[-8,] # remove site with no data
 ```
 
-Load the environmental data (*doubsenv.csv* ):
+Load the environmental data (`doubsenv.csv`):
 
 
 ```r
@@ -237,11 +247,11 @@ sum(spe==0)/(nrow(spe)*ncol(spe))
 # Transforming the community data
 
 .alert[**Over 50%**] of our dataset consists of 0s, which is common in community datasets.
-&lt;br&gt;
+
+--
 
 However, we don't want these common absences to **artificially increase** the similarity between sites.
 * To avoid this, we can .alert[transform] the community data.
-&lt;br&gt;
 
 
 Let's use the .alert[Hellinger] transformation:
@@ -281,6 +291,7 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 
 ---
 # Collinearity
+
 .small[
 
 ```r
@@ -303,7 +314,7 @@ legend("topright",
 # Standardizing the environmental variables
 
 You cannot compare the effects of variables with different units.
-&lt;br&gt;
+
 Before moving on to further analyses, .alert[standardizing] your environmental variables is therefore crucial.
 
 
@@ -332,8 +343,8 @@ class: inverse, center, middle
 # Canonical analyses
 
 Canonical analyses allow us to:
-- identify relationships between a response matrix and explanatory matrix/matrices
-- test hypotheses about these relationships
+- identify **relationships** between a response matrix and explanatory matrix/matrices
+- test .alert[hypotheses] about these relationships
 - make predictions
 
 ---
@@ -359,7 +370,8 @@ Variables can be quantitative, qualitative, or binary (0/1).
 ---
 # Running an RDA in R
 
-Prepare the data
+**Step 1**: Standardize and/or transform the data.
+
 
 ```r
 # We'll use our standardized environmental data
@@ -368,7 +380,8 @@ env.z &lt;- subset(env.z, select = -das)
 ```
 
 --
-Run the RDA
+
+**Step 2**: Run the RDA.
 
 ```r
 # Model the effect of all environmental variables on fish community composition
@@ -376,22 +389,45 @@ spe.rda &lt;- rda(spe.hel ~ ., data = env.z)
 ```
 
 --
-Extract key results of the RDA
+
+**Step 3 **: Extract key results of the RDA.
 
 ```r
-summary(spe.rda, display = NULL)
+summary(spe.rda)
+...
+# Partitioning of variance:
+#               Inertia Proportion
+# Total          0.5025     1.0000
+# Constrained    0.3689     0.7341
+# Unconstrained  0.1336     0.2659
+...
 ```
 
 ---
 # RDA output in R
 
-.center[ ![:scale 70%](images/RDAOutput.png)]
-
-* **Constrained Proportion**: variance of Y explained by X .alert[(73.41%)]
-* **Unconstrained Proportion**: unexplained variance in Y .alert[(26.59%)]
+Let us take a closer look at the RDA summary:
 
 
+```
+...
+# Partitioning of variance:
+#               Inertia Proportion
+# Total          0.5025     1.0000
+# Constrained    0.3689     0.7341
+# Unconstrained  0.1336     0.2659
+...
+```
+
+&lt;br&gt;
+* **Constrained Proportion**: variance of `\(Y\)` explained by `\(X\)` .alert[(73.41%)]
+* **Unconstrained Proportion**: unexplained variance in `\(Y\)` .alert[(26.59%)]
+
+&lt;br&gt;&lt;br&gt;
 How would you report these results?
+
+--
+
 * .comment[The included environmental variables explain .alert[73.41%] of the variation in fish community composition across sites.]
 
 ---
@@ -400,8 +436,10 @@ How would you report these results?
 Using .alert[forward selection], we can select the explanatory variables that are statistically "important".
 
 &lt;br&gt;
-.comment[**Which variables significantly contribute to our model's explanatory power?**]
+**Which variables significantly contribute to our model's explanatory power?**
+
 --
+&lt;br&gt;
 
 ```r
 # Forward selection of variables:
@@ -415,6 +453,10 @@ fwd.sel &lt;- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (si
 
 .small[Here, we are essentially adding one variable at a time, and retaining it if it significantly increases the model's adjusted R2.]
 
+???
+
+Note that selecting variables ecologically is much more important than doing forward selection in this way. If a variable of ecological interest is not selected, this does not mean it has to be removed in every case.
+
 ---
 # Selecting variables
 
@@ -425,7 +467,9 @@ fwd.sel &lt;- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (si
 fwd.sel$call
 # rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
 ```
+
 --
+&lt;br&gt;
 - What is the adjusted R2 of the RDA with the selected variables?
 
 ```r
@@ -496,15 +540,15 @@ ordiplot(spe.rda.signif,
          type = "text")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-21-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-######Scaling 1 shows similarities between objects in the .comment[response matrix].
+######Scaling 1 shows similarities between objects in the **response matrix**.
 
 .small[
-* Sites (numbers) that are .alert[closer together] have more similar communities.
-* Species that are .alert[closer together] occupy more sites in common.
+* Sites (numbers) that are .alert[closer together] have *more similar* communities.
+* Species that are .alert[closer together] occupy more sites *in common*.
 ]
 ]
 ---
@@ -518,15 +562,15 @@ ordiplot(spe.rda.signif,
          type = "text")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-22-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-######Scaling 2 shows the effects of .comment[explanatory variables].
+######Scaling 2 shows the effects of **explanatory variables**.
 .small[
-* .alert[Longer] arrows mean this variable strongly drives the variation in the community matrix.
-* Arrows pointing in .alert[opposite directions] have a negative relationship
-* Arrows pointing in the .alert[same direction] have a positive relationship
+* .alert[Longer] arrows mean this variable *strongly* drives the variation in the community matrix.
+* Arrows pointing in .alert[opposite directions] have a *negative* relationship.
+* Arrows pointing in the .alert[same direction] have a *positive* relationship.
 ]
 ]
 
@@ -535,7 +579,7 @@ ordiplot(spe.rda.signif,
 
 Both `plot()` and `ordiplot()` make quick and simple ordination plots, but you can customize your plots by extracting scores with `scores()` and manually setting the aesthetics of `points()`, `text()`, and `arrows()`.
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-23-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-24-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 See Workshop 10's script or the [book](https://qcbsrworkshops.github.io/workshop10/book-en/index.html) for more details!
 
@@ -570,7 +614,7 @@ ordiplot()
 ---
 # Challenge 1: Solution
 
-Step 1: Prepare the data
+**Step 1:** Transform and standardize the data.
 
 ```r
 # Hellinger transform the community data
@@ -584,7 +628,7 @@ mite.env$WatrCont &lt;- decostand(mite.env$WatrCont, method = "standardize")
 ---
 # Challenge 1: Solution
 
-Step 2: Select environmental variables
+**Step 2:** Select environmental variables.
 
 ```r
 # Initial RDA with ALL of the environmental data
@@ -603,7 +647,7 @@ fwd.sel$call
 ---
 # Challenge 1: Solution
 
-Step 3: Run RDA and check adjusted R2
+**Step 3:** Run RDA and check its explanatory power.
 
 
 ```r
@@ -616,10 +660,11 @@ mite.spe.rda.signif &lt;- rda(mite.spe.hel ~ WatrCont + Shrub +
 RsquareAdj(mite.spe.rda.signif)$adj.r.squared
 # [1] 0.4367038
 ```
+
 ---
 # Challenge 1: Solution
 
-Step 4: Test model significance
+**Step 4:** Test model significance.
 
 ```r
 anova.cca(mite.spe.rda.signif, step = 1000)
@@ -640,7 +685,7 @@ The selected environmental variables significantly explain .alert[43.7% (p = 0.0
 ---
 # Challenge 1: Solution
 
-Step 5: Plot the RDA!
+**Step 5:** Plot the RDA results!
 .pull-left[
 
 ```r
@@ -650,7 +695,7 @@ ordiplot(mite.spe.rda.signif,
          main = "Mite RDA - Scaling 1")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-30-1.png" width="417.6" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-31-1.png" width="417.6" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -661,7 +706,7 @@ ordiplot(mite.spe.rda.signif,
          main = "Mite RDA - Scaling 2")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-31-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-32-1.png" width="432" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -757,7 +802,7 @@ summary(spe.partial.rda, display = NULL)
 
 
 ---
-# Interpreting partial RDA in `R`
+# Interpreting a partial RDA in `R`
 
 We are still missing some important details for our interpretation of this model!
 &lt;br&gt;
@@ -822,7 +867,7 @@ ordiplot(spe.partial.rda,
          main = "Doubs River partial RDA - Scaling 2")
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-37-1.png" width="324" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-38-1.png" width="324" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -859,9 +904,13 @@ anova.cca() # hint: see the 'by' argument in ?anova.cca
 ---
 # Challenge 2: Solution
 
-Our species abundance and environmental datasets have already been transformed and standardized.
+**Step 1:** Transform and standardize the data.
 
-So, we can start with the partial RDA:
+.comment[Our datasets have already been transformed and standardized!]
+
+
+**Step 2:** Run a partial RDA.
+
 
 ```r
 # Compute partial RDA
@@ -886,6 +935,8 @@ Shrub and Topo explain .alert[9.8%] of the variation in mite species abundances,
 ---
 # Challenge 2: Solution
 
+**Step 3:** Interpret the results!
+
 * What is the variance explained by substrate variables?
 
 ```r
@@ -909,6 +960,7 @@ anova.cca(mite.spe.subs, step = 1000)
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
+
 ---
 # Challenge 2: Solution
 
@@ -924,12 +976,13 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.028 *  
-# RDA3      1 0.003193 0.9919  0.425    
+# RDA2      1 0.008254 2.5643  0.022 *  
+# RDA3      1 0.003193 0.9919  0.430    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
+
 ---
 
 class: inverse, center, middle
@@ -994,7 +1047,7 @@ plot(spe.part.all,
      cex = 1.5)
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-44-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-45-1.png" width="432" style="display: block; margin: auto;" /&gt;
 
 ---
 # Significance testing
@@ -1003,6 +1056,9 @@ plot(spe.part.all,
 
 * The shared fraction [b] .alert[cannot] be tested for significance.
 * But, we can test the significance of the remaining fractions!
+
+???
+The adjusted-R2 of fraction [b] cannot be tested for significance, because it is the result of subtracting and adding other adjusted-R2's from partial RDAs, "behind the scenes". It can also be negative, which indicates that the response matrix is better explained by the combination of X1 and X2 than by either matrix on its own.
 
 ---
 # Significance testing: X1 [a+b]
@@ -1100,7 +1156,7 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Challenge 3 ![:cube]()
 
 .small[
-Partition the variation in the mite species data according to substrate variables (SubsDens, WatrCont) and significant spatial variables.
+**Partition the variation in the mite species data according to substrate variables (`SubsDens`, `WatrCont`) and significant spatial variables.**
 * What proportion of the variation is explained by substrate variables? By space?
 * Which individual fractions are significant?
 * Plot your results!
@@ -1125,7 +1181,8 @@ plot()
 ---
 # Challenge 3: Solution
 
-Step 1: Forward selection of significant spatial variables
+**Step 1:** Forward selection of significant spatial variables.
+
 
 ```r
 # Write full RDA model with all variables
@@ -1145,7 +1202,8 @@ spat.sel$call
 ---
 # Challenge 3: Solution
 
-Step 2: Create variable groups
+**Step 2:** Group variables of interest.
+
 
 ```r
 # Subset environmental data to retain only substrate variables
@@ -1160,7 +1218,7 @@ mite.spat &lt;- subset(mite.pcnm,
 ---
 # Challenge 3: Solution
 
-Step 3: Variation partitioning
+**Step 3:** Partition the variation in species abundances.
 
 ```r
 mite.part &lt;- varpart(mite.spe.hel, mite.subs, mite.spat)
@@ -1181,35 +1239,77 @@ mite.part$part$indfract # access results!
 ---
 # Challenge 3: Solution
 
-Step 4: Which individual fractions are significant?
+**Step 4:** Which individual fractions are significant?
+&lt;br&gt;&lt;br&gt;
+
+**[a]: Substrate only**
 
 ```r
-# [a]: Substrate only
 anova.cca(rda(mite.spe.hel, mite.subs, mite.spat))
-# p = 0.001 ***
-
-# [c]: Space only
-anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
-# p = 0.001 ***
+...
+# Model: rda(X = mite.spe.hel, Y = mite.subs, Z = mite.spat)
+#          Df Variance      F Pr(&gt;F)    
+# Model     2 0.025602 4.4879  0.001 ***
+# Residual 57 0.162583                  
+...
 ```
 
---
-.comment[So, what can you say about the effects of substrate and space on mite species abundances?]
+
+**[c]: Space only**
+
+```r
+anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
+...
+# Model: rda(X = mite.spe.hel, Y = mite.spat, Z = mite.subs)
+#          Df Variance      F Pr(&gt;F)    
+# Model    10  0.10286 3.6061  0.001 ***
+# Residual 57  0.16258                  
+...
+```
+
+
 ---
 # Challenge 3: Solution
 
-Step 5: Plot the variation partitioning results
+**Step 5:** Plot the variation partitioning results.
+
 
 ```r
 plot(mite.part, 
      digits = 2, 
-     frame = FALSE,
+     Xnames = c("Subs", "Space"), # label the fractions
      cex = 1.5,
-     bg = c("pink", "skyblue"), # add colour!
-     alpha = 90) # adjust transparency
+     bg = c("seagreen3", "mediumpurple"), # add colour!
+     alpha = 80) # adjust transparency
 ```
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-55-1.png" width="432" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-57-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+---
+# Challenge 3: Solution
+
+**So, what can we say about the effects of substrate and space on mite species abundances?**
+
+In breakout rooms, summarise and interpret these results as if you were writing an article. 
+**Hint:** Why is the model showing such an important effect of space?
+
+--
+
+&lt;br&gt;.comment[
+Space explains a lot of the variation in species abundances here: **19.4%** of the variation is explained by space alone, and **24.8%** is *jointly* explained by space and substrate. Substrate only explains **~6%** of the variation in community composition across sites on its own!
+
+Space could be so important because:
+* some spatial ecological process is at work, like dispersal
+* or, some unmeasured variable might be important, and vary in space
+]
+
+???
+
+Breakout rooms: 5-10 minutes. 
+
+Answer: This large effect of space *could* be a sign that some spatial ecological process is important here (like dispersal, for example). *However*, it could also be telling us that we are missing an important environmental variable in our model, which itself varies in space!
+
+Also note that half of the variation is not explained by the variables we included in the model (look at the residuals!), so the model could be improved 
 
 ---
 class: inverse, center, middle
@@ -1507,10 +1607,10 @@ class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 
-The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful beacause:
+The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful because:
 
-* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable
-* Which is great for making predictions about how to classify new data
+* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable;
+* Which is great for making predictions about how to classify new data!
   
   .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
@@ -1519,7 +1619,7 @@ The LDA divides your response variable into groups according to a factor by find
 ]
 
 ???
-The grouping is done by maximizing the among-group dispersion versus the within-group dispersion
+The grouping is done by maximizing the among-group dispersion versus the within-group dispersion.
 
 ---
 
@@ -1571,14 +1671,14 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 Let's quickly plot the latitude groupings to see if they make sense:
 &lt;br&gt;&lt;br&gt;
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-71-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # LDA in R
 
 .alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011). If you need to do this, check the `betadisper()` function in the `vegan` package.
-
+&lt;br&gt;&lt;br&gt;
 For the purposes of this workshop, we will move straight to doing the LDA:
 
 ```r
@@ -1600,7 +1700,7 @@ Our sites have now been reorganised into groups that are as distinct as possible
 lda.plotdf &lt;- data.frame(group = spa$group, lda = predict(LDA)$x)
 ```
 &lt;br&gt;
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-74-1.png" width="468" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-76-1.png" width="468" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1642,7 +1742,7 @@ We can now use this relationship to classify **new** sites into latitude groups.
 
 --
 
-Let's **predict the grouping** of 5 new sites using our LDA results:
+Let's **predict the grouping** of five new sites using our LDA results:
 .small[
 
 ```r
@@ -1662,17 +1762,21 @@ predict.group$class
 
 # Challenge 4 ![:cube]()
 
-.small[Create 4 latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`).
-* What proportion of sites was correctly classified in group1? in group2?
+Create four equally-spaced latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`). 
+
+**What proportion of sites was correctly classified in group1? in group2?**
 
 &lt;br&gt;
-Load the `mite.xy` data:
+To begin, load the `mite.xy` data:
+
 
 ```r
 data(mite.xy)
 ```
 
+&lt;br&gt;
 Recall some useful functions:
+
 
 ```r
 lda()
@@ -1680,50 +1784,58 @@ predict()
 table()
 diag()
 ```
-]
+
+
+???
+
+If you need to speed things up, show the following slide (Step 1) to let the participants make the same groupings.
 
 ---
-
 # Challenge 4: Solution
 
-Step 1: Create 4 latitude groups
-.small[
+**Step 1:** Make four equally spaced latitude groups.
+
 
 ```r
 # assign numbers to sites
 mite.xy$site &lt;- 1:nrow(mite.xy)
 
-# find latitudinal range for each group
+# figure out the spacing to make 4 equally spaced latitude groups 
 (max(mite.xy[,2])-min(mite.xy[,2]))/4
 # [1] 2.4
 
-# group sites into 4 latitude groups
+# use this to group sites into 4 latitude groups
 mite.xy$group &lt;- NA # create "group" column
 mite.xy$group[which(mite.xy$y &lt; 2.5)] &lt;- 1
 mite.xy$group[which(mite.xy$y &gt;= 2.5 &amp; mite.xy$y &lt; 4.9)] &lt;- 2
 mite.xy$group[which(mite.xy$y &gt;= 4.9 &amp; mite.xy$y &lt; 7.3)] &lt;- 3
 mite.xy$group[which(mite.xy$y &gt;= 7.3)] &lt;- 4
 ```
-]
 
-Step 2: Run the LDA
+
+---
+
+# Challenge 4: Solution
+
+**Step 2:** Run the LDA.
 .small[
 
 ```r
 LDA.mite &lt;- lda(mite.env[,1:2], mite.xy$group)
 ```
 ]
----
 
-# Challenge 4: Solution
+--
 
-Step 3: Check whether the groupings are correct
+**Step 3:** Check whether the groupings are correct.
+
 .small[
 
 ```r
-# classification of the objects based on LDA
+# group sites based on the LDA
 mite.class &lt;- predict(LDA.mite)$class
-# table of prior versus predicted classifications
+
+# get the table of prior versus predicted classifications
 (mite.table &lt;- table(mite.xy$group, mite.class))
 #    mite.class
 #      1  2  3  4
@@ -1731,15 +1843,38 @@ mite.class &lt;- predict(LDA.mite)$class
 #   2  2 11  4  0
 #   3  1  2 14  2
 #   4  0  0  3 16
+
+# proportion of correct classification
+diag(prop.table(mite.table, 1))
+#         1         2         3         4 
+# 0.6000000 0.6470588 0.7368421 0.8421053
+```
+]
+
+---
+
+# Challenge 4: Solution
+
+We can answer the challenge question with this part:
+
+
+```r
 # proportion of correct classification
 diag(prop.table(mite.table, 1))
 #         1         2         3         4 
 # 0.6000000 0.6470588 0.7368421 0.8421053
 ```
 
-What proportion of sites was correctly classified in group1? in group2?
-* .alert[60%] were correctly classified into group1, and .alert[64.7%] were classified into group2.]
+&lt;br&gt;
+**So, what proportion of sites was correctly classified in group1? in group2?**
 
+--
+
+* .alert[60%] were correctly classified into group1, and .alert[64.7%] were classified into group2.
+
+&lt;br&gt;&lt;br&gt;
+
+.center[*That's it! We did it!*]
 ---
 class: inverse, center, bottom
 
