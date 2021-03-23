@@ -300,6 +300,7 @@ summary(env) # summary statistics for all objects (min, mean, max, etc.)
 
 ---
 # Collinearity
+
 .small[
 ```{r, fig.height = 4, fig.width = 8}
 # We can visually look for correlations between variables:
@@ -370,7 +371,8 @@ Variables can be quantitative, qualitative, or binary (0/1).
 ---
 # Running an RDA in R
 
-Prepare the data
+**Step 1**: Standardize and/or transform the data.
+
 ```{r}
 # We'll use our standardized environmental data
 # But we will remove 'das', which was correlated with many other variables:
@@ -378,28 +380,38 @@ env.z <- subset(env.z, select = -das)
 ```
 
 --
-Run the RDA
+
+**Step 2**: Run the RDA.
 ```{r}
 # Model the effect of all environmental variables on fish community composition
 spe.rda <- rda(spe.hel ~ ., data = env.z)
 ```
 
 --
-Extract key results of the RDA
-```{r, eval = FALSE, results = 'hide'}
-summary(spe.rda, display = NULL)
+
+**Step 3 **: Extract key results of the RDA.
+```{r, output.lines = 5:9}
+summary(spe.rda)
 ```
 
 ---
 # RDA output in R
 
-.center[ ![:scale 70%](images/RDAOutput.png)]
+Let us take a closer look at the RDA summary:
 
-* **Constrained Proportion**: variance of Y explained by X .alert[(73.41%)]
-* **Unconstrained Proportion**: unexplained variance in Y .alert[(26.59%)]
+```{r, output.lines = 5:9, echo = FALSE}
+summary(spe.rda)
+```
 
+<br>
+* **Constrained Proportion**: variance of $Y$ explained by $X$ .alert[(73.41%)]
+* **Unconstrained Proportion**: unexplained variance in $Y$ .alert[(26.59%)]
 
+<br><br>
 How would you report these results?
+
+--
+
 * .comment[The included environmental variables explain .alert[73.41%] of the variation in fish community composition across sites.]
 
 ---
@@ -408,8 +420,10 @@ How would you report these results?
 Using .alert[forward selection], we can select the explanatory variables that are statistically "important".
 
 <br>
-.comment[**Which variables significantly contribute to our model's explanatory power?**]
+**Which variables significantly contribute to our model's explanatory power?**
+
 --
+<br>
 ```{r}
 # Forward selection of variables:
 fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (simple!)
@@ -430,7 +444,9 @@ fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (simpl
 # Check the new model with forward-selected variables
 fwd.sel$call
 ```
+
 --
+<br>
 - What is the adjusted R2 of the RDA with the selected variables?
 ```{r}
 # Write our new model
@@ -480,11 +496,11 @@ ordiplot(spe.rda.signif,
 ]
 
 .pull-right[
-######Scaling 1 shows similarities between objects in the .comment[response matrix].
+######Scaling 1 shows similarities between objects in the **response matrix**.
 
 .small[
-* Sites (numbers) that are .alert[closer together] have more similar communities.
-* Species that are .alert[closer together] occupy more sites in common.
+* Sites (numbers) that are .alert[closer together] have *more similar* communities.
+* Species that are .alert[closer together] occupy more sites *in common*.
 ]
 ]
 ---
@@ -499,11 +515,11 @@ ordiplot(spe.rda.signif,
 ]
 
 .pull-right[
-######Scaling 2 shows the effects of .comment[explanatory variables].
+######Scaling 2 shows the effects of **explanatory variables**.
 .small[
-* .alert[Longer] arrows mean this variable strongly drives the variation in the community matrix.
-* Arrows pointing in .alert[opposite directions] have a negative relationship
-* Arrows pointing in the .alert[same direction] have a positive relationship
+* .alert[Longer] arrows mean this variable *strongly* drives the variation in the community matrix.
+* Arrows pointing in .alert[opposite directions] have a *negative* relationship.
+* Arrows pointing in the .alert[same direction] have a *positive* relationship.
 ]
 ]
 
@@ -599,7 +615,7 @@ ordiplot()
 ---
 # Challenge 1: Solution
 
-Step 1: Prepare the data
+**Step 1:** Transform and standardize the data.
 ```{r}
 # Hellinger transform the community data
 mite.spe.hel <- decostand(mite, method = "hellinger")
@@ -612,7 +628,7 @@ mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
 ---
 # Challenge 1: Solution
 
-Step 2: Select environmental variables
+**Step 2:** Select environmental variables.
 ```{r}
 # Initial RDA with ALL of the environmental data
 mite.spe.rda <- rda(mite.spe.hel ~ ., data = mite.env)
@@ -628,7 +644,7 @@ fwd.sel$call
 ---
 # Challenge 1: Solution
 
-Step 3: Run RDA and check adjusted R2
+**Step 3:** Run RDA and check its explanatory power.
 
 ```{r}
 # Re-run the RDA with the significant variables
@@ -640,10 +656,11 @@ mite.spe.rda.signif <- rda(mite.spe.hel ~ WatrCont + Shrub +
 RsquareAdj(mite.spe.rda.signif)$adj.r.squared
 
 ```
+
 ---
 # Challenge 1: Solution
 
-Step 4: Test model significance
+**Step 4:** Test model significance.
 ```{r}
 anova.cca(mite.spe.rda.signif, step = 1000)
 ```
@@ -653,7 +670,7 @@ The selected environmental variables significantly explain .alert[43.7% (p = 0.0
 ---
 # Challenge 1: Solution
 
-Step 5: Plot the RDA!
+**Step 5:** Plot the RDA results!
 .pull-left[
 ```{r, fig.height = 6, fig.width = 5.8}
 ordiplot(mite.spe.rda.signif,
@@ -836,9 +853,13 @@ anova.cca() # hint: see the 'by' argument in ?anova.cca
 ---
 # Challenge 2: Solution
 
-Our species abundance and environmental datasets have already been transformed and standardized.
+**Step 1:** Transform and standardize the data.
 
-So, we can start with the partial RDA:
+.comment[Our datasets have already been transformed and standardized!]
+
+
+**Step 2:** Run a partial RDA.
+
 ```{r, output.lines=c(5:10)}
 # Compute partial RDA
 mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
@@ -854,6 +875,8 @@ Shrub and Topo explain .alert[9.8%] of the variation in mite species abundances,
 ---
 # Challenge 2: Solution
 
+**Step 3:** Interpret the results!
+
 * What is the variance explained by substrate variables?
 ```{r}
 RsquareAdj(mite.spe.subs)$adj.r.squared
@@ -864,6 +887,7 @@ RsquareAdj(mite.spe.subs)$adj.r.squared
 ```{r}
 anova.cca(mite.spe.subs, step = 1000)
 ```
+
 ---
 # Challenge 2: Solution
 
@@ -871,6 +895,7 @@ anova.cca(mite.spe.subs, step = 1000)
 ```{r}
 anova.cca(mite.spe.subs, step = 1000, by = "axis")
 ```
+
 ---
 
 class: inverse, center, middle
@@ -924,6 +949,9 @@ plot(spe.part.all,
 * The shared fraction [b] .alert[cannot] be tested for significance.
 * But, we can test the significance of the remaining fractions!
 
+???
+The adjusted-R2 of fraction [b] cannot be tested for significance, because it is the result of subtracting and adding other adjusted-R2's from partial RDAs, "behind the scenes". It can also be negative, which indicates that the response matrix is better explained by the combination of X1 and X2 than by either matrix on its own.
+
 ---
 # Significance testing: X1 [a+b]
 
@@ -976,7 +1004,7 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Challenge 3 ![:cube]()
 
 .small[
-Partition the variation in the mite species data according to substrate variables (SubsDens, WatrCont) and significant spatial variables.
+**Partition the variation in the mite species data according to substrate variables (`SubsDens`, `WatrCont`) and significant spatial variables.**
 * What proportion of the variation is explained by substrate variables? By space?
 * Which individual fractions are significant?
 * Plot your results!
@@ -999,7 +1027,8 @@ plot()
 ---
 # Challenge 3: Solution
 
-Step 1: Forward selection of significant spatial variables
+**Step 1:** Forward selection of significant spatial variables.
+
 ```{r}
 # Write full RDA model with all variables
 full.spat <- rda(mite.spe.hel ~ ., data = mite.pcnm)
@@ -1016,7 +1045,8 @@ spat.sel$call
 ---
 # Challenge 3: Solution
 
-Step 2: Create variable groups
+**Step 2:** Group variables of interest.
+
 ```{r}
 # Subset environmental data to retain only substrate variables
 mite.subs <- subset(mite.env, select = c(SubsDens, WatrCont))
@@ -1030,7 +1060,7 @@ mite.spat <- subset(mite.pcnm,
 ---
 # Challenge 3: Solution
 
-Step 3: Variation partitioning
+**Step 3:** Partition the variation in species abundances.
 ```{r}
 mite.part <- varpart(mite.spe.hel, mite.subs, mite.spat)
 mite.part$part$indfract # access results!
@@ -1045,30 +1075,33 @@ mite.part$part$indfract # access results!
 ---
 # Challenge 3: Solution
 
-Step 4: Which individual fractions are significant?
-```{r, results = 'hide'}
-# [a]: Substrate only
-anova.cca(rda(mite.spe.hel, mite.subs, mite.spat))
-# p = 0.001 ***
+**Step 4:** Which individual fractions are significant?
+<br><br>
 
-# [c]: Space only
-anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
-# p = 0.001 ***
+**[a]: Substrate only**
+```{r, output.lines = 5:8}
+anova.cca(rda(mite.spe.hel, mite.subs, mite.spat))
 ```
 
---
-.comment[So, what can you say about the effects of substrate and space on mite species abundances?]
+
+**[c]: Space only**
+```{r, output.lines = 5:8}
+anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
+```
+
+
 ---
 # Challenge 3: Solution
 
-Step 5: Plot the variation partitioning results
+**Step 5:** Plot the variation partitioning results.
+
 ```{r, fig.height=5.5, fig.width=6}
 plot(mite.part, 
      digits = 2, 
-     frame = FALSE,
+     Xnames = c("Subs", "Space"), # label the fractions
      cex = 1.5,
-     bg = c("pink", "skyblue"), # add colour!
-     alpha = 90) # adjust transparency
+     bg = c("seagreen3", "mediumpurple"), # add colour!
+     alpha = 80) # adjust transparency
 ```
 
 ---
@@ -1404,7 +1437,7 @@ The LDA divides your response variable into groups according to a factor by find
 ]
 
 ???
-The grouping is done by maximizing the among-group dispersion versus the within-group dispersion
+The grouping is done by maximizing the among-group dispersion versus the within-group dispersion.
 
 ---
 
@@ -1476,7 +1509,7 @@ ggplot(data = spa) +
 # LDA in R
 
 .alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011). If you need to do this, check the `betadisper()` function in the `vegan` package.
-
+<br><br>
 For the purposes of this workshop, we will move straight to doing the LDA:
 ```{r}
 # load required library
