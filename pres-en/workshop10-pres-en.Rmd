@@ -13,8 +13,6 @@ output:
       beforeInit: "qcbsR-macros.js"
       highlightLines: true
       highlightStyle: github
-editor_options: 
-  chunk_output_type: console
 ---
 
 
@@ -33,6 +31,8 @@ options(repos=structure(c(CRAN="http://cran.r-project.org")))
 ```
 
 ```{r output-lines, echo = FALSE}
+# sometimes cache needs to be set to true in the knitr setup chunk for this to take effect
+# in xaringan::infinite_moon_reader()
 library(knitr)
 hook_output <- knit_hooks$get("output")
 knit_hooks$set(output = function(x, options) {
@@ -84,6 +84,14 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Slides&message=10&color=red&logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.pdf)
 [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=script&message=10&color=2a50b8&logo=r)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.R)
 
+<br>
+
+<br>
+
+<br>
+
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
+
 ---
 
 # Required packages
@@ -103,7 +111,7 @@ install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ---
 # Learning objectives
 
-##### Use R to perform unconstrained ordinations
+##### Use R to perform constrained ordinations
 
 
 ---
@@ -122,7 +130,7 @@ This workshop is an extension of Workshop 9, which covered the basics of unconst
 * Hierarchical clustering
 * Unconstrained ordinations (PCA, PCoA, CA, nmDS)
 
-These identify patterns in community composition data or in descriptors, .alert[**without**] exploring how environmental variables could be driving these patterns.
+These identify ***patterns*** in community composition data or in descriptors, without exploring how environmental variables could be ***driving*** these patterns.
 
 ---
 # Introduction
@@ -134,7 +142,7 @@ In this workshop, we will focus instead on .alert[**constrained**] analyses:
 * Variation partitioning
 * Linear discriminant analysis (LDA)
 
-These analyses allow us to .alert[**describe**] and .alert[**predict**] relationships between community composition data and environmental variables. (This means we can .alert[**test hypotheses**]!)
+These analyses allow us to **describe** and **predict** relationships between community composition data and environmental variables. (This means we can ***test hypotheses***!)
 
 ???
 Other methods that were excluded for 3 hour workshop format, but are in the book
@@ -143,15 +151,18 @@ Multivariate regression tree (MRT)
 ---
 # Download today's script and data
 
-All data and code are found at [qcbs.ca/wiki/r_workshop10](http://qcbs.ca/wiki/r_workshop10)
+All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10).
 
 For this workshop, you will need:
-* R script
+* [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R)
 * Data:
-  * DoubsEnv data
-  * DoubsSpe data
-  * DoubsSpa data
-  * Test data for linear discriminant analyses
+  * [DoubsEnv](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv)
+  * [DoubsSpe](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv)
+  * [DoubsSpa](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv)
+  * [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)
+
+<br><br><br><br><br><br><br>
+.small[.comment[To download the data, do right click + save on the page that opens.]
 
 ---
 # Required packages
@@ -161,7 +172,6 @@ Please make sure you have downloaded, installed, and loaded these packages:
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
 * [vegan](https://cran.r-project.org/package=vegan)
-* rdaTest package .alert[(from wiki)]
 
 ???
 Unused packages in 3-hr version:
@@ -171,9 +181,9 @@ mvpart package .alert[(from wiki)]
 # Follow along!
 
 As always, we recommend that you:
-* create your own script (or add comments to the provided script)
-* avoid copy-pasting or running the code directly from the script
-* remember to set the working directory to the folder in which your files are stored
+* create your own script (or add comments to the provided script);
+* avoid copy-pasting or running the code directly from the script;
+* remember to set the working directory to the folder in which your files are stored.
 
 ---
 
@@ -203,7 +213,7 @@ class: inverse, center, middle
 
 .alert[Make sure the datasets are in your working directory!]
 
-Load the species data (*doubsspe.csv* ):
+Load the species data (`doubsspe.csv`):
 
 ```{r, echo = TRUE}
 # Make sure the files are in your working directory!
@@ -211,7 +221,7 @@ spe <- read.csv("data/doubsspe.csv", row.names = 1)
 spe <- spe[-8,] # remove site with no data
 ```
 
-Load the environmental data (*doubsenv.csv* ):
+Load the environmental data (`doubsenv.csv`):
 
 ```{r, echo = TRUE}
 env <- read.csv("data/doubsenv.csv", row.names = 1)
@@ -268,11 +278,11 @@ sum(spe==0)/(nrow(spe)*ncol(spe))
 # Transforming the community data
 
 .alert[**Over 50%**] of our dataset consists of 0s, which is common in community datasets.
-<br>
+
+--
 
 However, we don't want these common absences to **artificially increase** the similarity between sites.
 * To avoid this, we can .alert[transform] the community data.
-<br>
 
 
 Let's use the .alert[Hellinger] transformation:
@@ -320,7 +330,7 @@ legend("topright",
 # Standardizing the environmental variables
 
 You cannot compare the effects of variables with different units.
-<br>
+
 Before moving on to further analyses, .alert[standardizing] your environmental variables is therefore crucial.
 
 ```{r}
@@ -344,8 +354,8 @@ class: inverse, center, middle
 # Canonical analyses
 
 Canonical analyses allow us to:
-- identify relationships between a response matrix and explanatory matrix/matrices
-- test hypotheses about these relationships
+- identify **relationships** between a response matrix and explanatory matrix/matrices
+- test .alert[hypotheses] about these relationships
 - make predictions
 
 ---
@@ -435,6 +445,10 @@ fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (simpl
 ```
 
 .small[Here, we are essentially adding one variable at a time, and retaining it if it significantly increases the model's adjusted R2.]
+
+???
+
+Note that selecting variables ecologically is much more important than doing forward selection in this way. If a variable of ecological interest is not selected, this does not mean it has to be removed in every case.
 
 ---
 # Selecting variables
@@ -767,7 +781,7 @@ summary(spe.partial.rda, display = NULL)
 
 
 ---
-# Interpreting partial RDA in `R`
+# Interpreting a partial RDA in `R`
 
 We are still missing some important details for our interpretation of this model!
 <br>
@@ -1451,10 +1465,10 @@ class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 
-The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful beacause:
+The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful because:
 
-* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable
-* Which is great for making predictions about how to classify new data
+* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable;
+* Which is great for making predictions about how to classify new data!
   
   .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
@@ -1604,7 +1618,7 @@ We can now use this relationship to classify **new** sites into latitude groups.
 
 --
 
-Let's **predict the grouping** of 5 new sites using our LDA results:
+Let's **predict the grouping** of five new sites using our LDA results:
 .small[
 ```{r}
 # Load the new site data
@@ -1621,7 +1635,7 @@ predict.group$class
 
 # Challenge 4 ![:cube]()
 
-Create 4 equally-spaced latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`). 
+Create four equally-spaced latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`). 
 
 **What proportion of sites was correctly classified in group1? in group2?**
 
@@ -1650,7 +1664,7 @@ If you need to speed things up, show the following slide (Step 1) to let the par
 ---
 # Challenge 4: Solution
 
-**Step 1:** Make 4 equally spaced latitude groups.
+**Step 1:** Make four equally spaced latitude groups.
 
 ```{r}
 # assign numbers to sites
