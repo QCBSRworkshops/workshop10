@@ -13,6 +13,8 @@ output:
       beforeInit: "qcbsR-macros.js"
       highlightLines: true
       highlightStyle: github
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -511,10 +513,10 @@ ordiplot(spe.rda.signif,
 Both `plot()` and `ordiplot()` make quick and simple ordination plots, but you can customize your plots by extracting scores with `scores()` and manually setting the aesthetics of `points()`, `text()`, and `arrows()`.
 
 ```{r, echo = FALSE}
-## extract % explained
+## extract % explained by the first 2 axes
 perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
 
-## extract scores
+## extract scores - these are coordinates in the RDA space
 sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
 sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
 sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
