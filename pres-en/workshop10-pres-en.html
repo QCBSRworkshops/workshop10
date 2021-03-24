@@ -116,7 +116,7 @@ For this workshop, you will need:
   * [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
-.small[.comment[To download the data, do right click + save on the page that opens.]
+.small[.comment[To download the data, do right click + save on the page that opens.]]
 
 ---
 # Required packages
@@ -508,7 +508,7 @@ anova.cca(spe.rda.signif, step = 1000, by = "term")
 #          Df Variance       F Pr(&gt;F)    
 # alt       1 0.164856 19.9759  0.001 ***
 # oxy       1 0.082426  9.9877  0.001 ***
-# dbo       1 0.048909  5.9264  0.002 ** 
+# dbo       1 0.048909  5.9264  0.004 ** 
 # Residual 25 0.206319                   
 ...
 ```
@@ -536,7 +536,6 @@ There are 2 scaling options:
 ```r
 ordiplot(spe.rda.signif,
          scaling = 1,
-         frame = F,
          type = "text")
 ```
 
@@ -774,7 +773,7 @@ spe.partial.rda &lt;- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo + # t
 
 
 ```r
-summary(spe.partial.rda, display = NULL)
+summary(spe.partial.rda)
 ```
 
 ```
@@ -919,7 +918,7 @@ mite.spe.subs &lt;- rda(mite.spe.hel ~ Shrub + Topo
                      data = mite.env)
 
 # Check summary
-summary(mite.spe.subs, display = NULL)
+summary(mite.spe.subs)
 ...
 # Partitioning of variance:
 #               Inertia Proportion
@@ -976,8 +975,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.022 *  
-# RDA3      1 0.003193 0.9919  0.430    
+# RDA2      1 0.008254 2.5643  0.024 *  
+# RDA3      1 0.003193 0.9919  0.419    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1196,7 +1195,7 @@ spat.sel &lt;- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.pcnm),
                trace = FALSE)
 spat.sel$call
 # rda(formula = mite.spe.hel ~ V2 + V3 + V8 + V1 + V6 + V4 + V9 + 
-#     V16 + V7 + V20, data = mite.pcnm)
+#     V16 + V7, data = mite.pcnm)
 ```
 
 ---
@@ -1224,10 +1223,10 @@ mite.spat &lt;- subset(mite.pcnm,
 mite.part &lt;- varpart(mite.spe.hel, mite.subs, mite.spat)
 mite.part$part$indfract # access results!
 #                 Df R.squared Adj.R.squared Testable
-# [a] = X1|X2      2        NA    0.05901929     TRUE
-# [b]              0        NA    0.24765221    FALSE
-# [c] = X2|X1     10        NA    0.19415929     TRUE
-# [d] = Residuals NA        NA    0.49916921    FALSE
+# [a] = X1|X2      2        NA    0.06152333     TRUE
+# [b]              0        NA    0.24514817    FALSE
+# [c] = X2|X1      9        NA    0.18615302     TRUE
+# [d] = Residuals NA        NA    0.50717548    FALSE
 ```
 
 * What proportion of the variation is explained by substrate variables?
@@ -1249,8 +1248,8 @@ anova.cca(rda(mite.spe.hel, mite.subs, mite.spat))
 ...
 # Model: rda(X = mite.spe.hel, Y = mite.subs, Z = mite.spat)
 #          Df Variance      F Pr(&gt;F)    
-# Model     2 0.025602 4.4879  0.001 ***
-# Residual 57 0.162583                  
+# Model     2 0.026889 4.6392  0.001 ***
+# Residual 58 0.168088                  
 ...
 ```
 
@@ -1262,8 +1261,8 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 ...
 # Model: rda(X = mite.spe.hel, Y = mite.spat, Z = mite.subs)
 #          Df Variance      F Pr(&gt;F)    
-# Model    10  0.10286 3.6061  0.001 ***
-# Residual 57  0.16258                  
+# Model     9 0.097351 3.7324  0.001 ***
+# Residual 58 0.168088                  
 ...
 ```
 
