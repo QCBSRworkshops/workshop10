@@ -34,7 +34,7 @@ You should also make sure you have downloaded, installed, and loaded these packa
 * [ggplot2](https://cran.r-project.org/package=ggplot2) (for plotting some results)
 
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE}
 # Install the required packages
 install.packages("vegan")
 install.packages("labdsv")
