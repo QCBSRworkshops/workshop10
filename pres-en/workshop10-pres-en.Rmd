@@ -162,7 +162,7 @@ For this workshop, you will need:
   * [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)
 
 <br><br><br><br><br><br><br>
-.small[.comment[To download the data, do right click + save on the page that opens.]
+.small[.comment[To download the data, do right click + save on the page that opens.]]
 
 ---
 # Required packages
@@ -504,7 +504,6 @@ There are 2 scaling options:
 ```{r, fig.height = 6.5, fig.width = 6, strip.white = TRUE}
 ordiplot(spe.rda.signif,
          scaling = 1,
-         frame = F,
          type = "text")
 ```
 ]
@@ -764,7 +763,7 @@ spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo + # thes
 # Interpreting partial RDA output in `R`
 
 ```{r, eval = TRUE, collapse=FALSE, output.lines=(5:10)}
-summary(spe.partial.rda, display = NULL)
+summary(spe.partial.rda)
 ```
 <br>
 
@@ -881,7 +880,7 @@ mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
                      data = mite.env)
 
 # Check summary
-summary(mite.spe.subs, display = NULL)
+summary(mite.spe.subs)
 ```
 --
 Shrub and Topo explain .alert[9.8%] of the variation in mite species abundances, while substrate covariables explain .alert[42.8%] of this variation.

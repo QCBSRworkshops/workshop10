@@ -48,7 +48,7 @@ $$Y_{fit} = X[X'X]^{-1}X'Y$$
 
 In the second step, we apply a principal components analysis (PCA) on the fitted matrix $Y_{fit}$ to reduce dimensionality, i.e. to obtain the eigenvalues and eigenvectors. We then obtain a matrix $Z$ which contains the canonical axes, which correspond to *linear* combinations of the explanatory variables in the space of $X$. The *linearity* of the combinations of the $X$ variables is a fundamental property of RDA. In the analysis of community composition, these canonical axes are interpreted as complex environmental gradients.
 
-```{r ord-diagram, echo=FALSE, out.width="70%", fig.cap="The computation process of an RDA, from Legendre & Legendre (2012).", fig.align="center"}
+```{r ord-diagram, echo=FALSE, out.width="50%", fig.cap="The computation process of an RDA, from Legendre & Legendre (2012).", fig.align="center"}
 knitr::include_graphics("images/constrained_ord_diagram.png")
 ```
 
