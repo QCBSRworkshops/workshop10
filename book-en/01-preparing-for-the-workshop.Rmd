@@ -40,10 +40,12 @@ install.packages("vegan")
 install.packages("labdsv")
 install.packages("MASS")
 install.packages("ggplot2")
+
 # install mvpart from package archive file
+remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
 ```
 
-> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .zip for mvpart, which should download when you click the link in the list of packages above.
+> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, you can also download the .tar.gz version from [here](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz) and go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .tar.gz for mvpart.
 
 
 ```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
