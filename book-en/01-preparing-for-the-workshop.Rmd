@@ -11,7 +11,7 @@ assemblage across sites.
 
 # Preparing for the workshop
 
-All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10). This includes an [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R) which contains all code chunks showin in this book.
+All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10). This includes an [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R) which contains all code chunks shown in this book.
 
 For this workshop, we will be working with the following datasets:
 
@@ -30,11 +30,11 @@ You should also make sure you have downloaded, installed, and loaded these packa
      multivariate regression tree analysis)
 * [MASS](https://cran.r-project.org/package=MASS) (for linear discriminant
    analysis)
-* [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)*
+* [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)* (for multivariate regression trees)
 * [ggplot2](https://cran.r-project.org/package=ggplot2) (for plotting some results)
 
 
-```{r, echo = TRUE, eval = TRUE}
+```{r, echo = TRUE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
 # Install the required packages
 install.packages("vegan")
 install.packages("labdsv")
