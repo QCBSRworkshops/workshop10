@@ -225,32 +225,32 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><p><code>DoubsEnv.csv</code> is a data frame of environmental data for the same sites contained in the fish community data frame. Again, the first column contains site names from 1 to 30. The remaining columns contain measurements for <strong>11 abiotic variables</strong>.</p></li>
 <li><p>Note that most functions for ordination analyses expect data to be in <a href="http://en.wikipedia.org/wiki/Wide_and_narrow_data">wide format</a>.</p></li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="exploration.html#cb19-1"></a><span class="co"># Make sure the files are in your working directory!  If R</span></span>
-<span id="cb19-2"><a href="exploration.html#cb19-2"></a><span class="co"># cannot find the dataset, set your working directory with</span></span>
-<span id="cb19-3"><a href="exploration.html#cb19-3"></a><span class="co"># setwd() to the folder in which your data is stored (e.g.</span></span>
-<span id="cb19-4"><a href="exploration.html#cb19-4"></a><span class="co"># setwd(&#39;~/Desktop/workshop10&#39;))</span></span>
-<span id="cb19-5"><a href="exploration.html#cb19-5"></a></span>
-<span id="cb19-6"><a href="exploration.html#cb19-6"></a><span class="co"># Species community data frame (fish abundance)</span></span>
-<span id="cb19-7"><a href="exploration.html#cb19-7"></a>spe &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb19-8"><a href="exploration.html#cb19-8"></a>spe &lt;-<span class="st"> </span>spe[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Site number 8 contains no species, so we remove row 8 (site 8) </span></span>
-<span id="cb19-9"><a href="exploration.html#cb19-9"></a><span class="co"># Be careful to only run this command line once as you are</span></span>
-<span id="cb19-10"><a href="exploration.html#cb19-10"></a><span class="co"># overwriting &#39;spe&#39; each time!</span></span>
-<span id="cb19-11"><a href="exploration.html#cb19-11"></a></span>
-<span id="cb19-12"><a href="exploration.html#cb19-12"></a><span class="co"># Environmental data frame: “DoubsEnv.csv”</span></span>
-<span id="cb19-13"><a href="exploration.html#cb19-13"></a>env &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb19-14"><a href="exploration.html#cb19-14"></a>env &lt;-<span class="st"> </span>env[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Remove corresponding abiotic data for site 8 (because removed from fish data). </span></span>
-<span id="cb19-15"><a href="exploration.html#cb19-15"></a><span class="co"># Again, be careful to only run the last line once.</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="exploration.html#cb3-1"></a><span class="co"># Make sure the files are in your working directory!  If R</span></span>
+<span id="cb3-2"><a href="exploration.html#cb3-2"></a><span class="co"># cannot find the dataset, set your working directory with</span></span>
+<span id="cb3-3"><a href="exploration.html#cb3-3"></a><span class="co"># setwd() to the folder in which your data is stored (e.g.</span></span>
+<span id="cb3-4"><a href="exploration.html#cb3-4"></a><span class="co"># setwd(&#39;~/Desktop/workshop10&#39;))</span></span>
+<span id="cb3-5"><a href="exploration.html#cb3-5"></a></span>
+<span id="cb3-6"><a href="exploration.html#cb3-6"></a><span class="co"># Species community data frame (fish abundance)</span></span>
+<span id="cb3-7"><a href="exploration.html#cb3-7"></a>spe &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-8"><a href="exploration.html#cb3-8"></a>spe &lt;-<span class="st"> </span>spe[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Site number 8 contains no species, so we remove row 8 (site 8) </span></span>
+<span id="cb3-9"><a href="exploration.html#cb3-9"></a><span class="co"># Be careful to only run this command line once as you are</span></span>
+<span id="cb3-10"><a href="exploration.html#cb3-10"></a><span class="co"># overwriting &#39;spe&#39; each time!</span></span>
+<span id="cb3-11"><a href="exploration.html#cb3-11"></a></span>
+<span id="cb3-12"><a href="exploration.html#cb3-12"></a><span class="co"># Environmental data frame: “DoubsEnv.csv”</span></span>
+<span id="cb3-13"><a href="exploration.html#cb3-13"></a>env &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-14"><a href="exploration.html#cb3-14"></a>env &lt;-<span class="st"> </span>env[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Remove corresponding abiotic data for site 8 (because removed from fish data). </span></span>
+<span id="cb3-15"><a href="exploration.html#cb3-15"></a><span class="co"># Again, be careful to only run the last line once.</span></span></code></pre></div>
 <div id="exploring-the-fish-community-dataset" class="section level2">
 <h2><span class="header-section-number">4.1</span> Exploring the fish community dataset</h2>
 <p>We can begin by using summary functions to explore the <code>spe</code> data (fish community data), and get familiar with its dimensions, structure, column headings and some summary statistics. This is a review from <a href="https://github.com/QCBSRworkshops/workshop02">Workshop 2</a>.</p>
 <p>We can begin by getting a general overview of the matrix:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="exploration.html#cb20-1"></a><span class="kw">names</span>(spe)  <span class="co"># names of objects (species)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="exploration.html#cb4-1"></a><span class="kw">names</span>(spe)  <span class="co"># names of objects (species)</span></span></code></pre></div>
 <pre><code>##  [1] &quot;CHA&quot; &quot;TRU&quot; &quot;VAI&quot; &quot;LOC&quot; &quot;OMB&quot; &quot;BLA&quot; &quot;HOT&quot; &quot;TOX&quot; &quot;VAN&quot; &quot;CHE&quot; &quot;BAR&quot; &quot;SPI&quot;
 ## [13] &quot;GOU&quot; &quot;BRO&quot; &quot;PER&quot; &quot;BOU&quot; &quot;PSO&quot; &quot;ROT&quot; &quot;CAR&quot; &quot;TAN&quot; &quot;BCO&quot; &quot;PCH&quot; &quot;GRE&quot; &quot;GAR&quot;
 ## [25] &quot;BBO&quot; &quot;ABL&quot; &quot;ANG&quot;</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="exploration.html#cb22-1"></a><span class="kw">dim</span>(spe)  <span class="co"># dataset dimensions</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="exploration.html#cb6-1"></a><span class="kw">dim</span>(spe)  <span class="co"># dataset dimensions</span></span></code></pre></div>
 <pre><code>## [1] 29 27</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="exploration.html#cb24-1"></a><span class="kw">head</span>(spe)  <span class="co"># look at first 5 rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="exploration.html#cb8-1"></a><span class="kw">head</span>(spe)  <span class="co"># look at first 5 rows</span></span></code></pre></div>
 <pre><code>##   CHA TRU VAI LOC OMB BLA HOT TOX VAN CHE BAR SPI GOU BRO PER BOU PSO ROT CAR
 ## 1   0   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
 ## 2   0   5   4   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
@@ -266,40 +266,40 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## 5   3   0   0   0   5   0   0   0
 ## 6   2   0   0   0   1   0   0   0</code></pre>
 <p>Then, we can look a little more closely at the objects in the matrix, which are the species in this case:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="exploration.html#cb26-1"></a><span class="kw">str</span>(spe)  <span class="co"># structure of objects in dataset</span></span>
-<span id="cb26-2"><a href="exploration.html#cb26-2"></a><span class="kw">summary</span>(spe)  <span class="co"># summary statistics for all objects (min, mean, max, etc.)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="exploration.html#cb10-1"></a><span class="kw">str</span>(spe)  <span class="co"># structure of objects in dataset</span></span>
+<span id="cb10-2"><a href="exploration.html#cb10-2"></a><span class="kw">summary</span>(spe)  <span class="co"># summary statistics for all objects (min, mean, max, etc.)</span></span></code></pre></div>
 <p>It is also a good idea to take a quick look at how the community is structured by plotting the distribution of species’ abundances in the dataset.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="exploration.html#cb27-1"></a><span class="co"># Count number of species frequencies in each abundance class</span></span>
-<span id="cb27-2"><a href="exploration.html#cb27-2"></a>ab &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">unlist</span>(spe))</span>
-<span id="cb27-3"><a href="exploration.html#cb27-3"></a><span class="co"># Plot distribution of species frequencies</span></span>
-<span id="cb27-4"><a href="exploration.html#cb27-4"></a><span class="kw">barplot</span>(ab, <span class="dt">las =</span> <span class="dv">1</span>, <span class="co"># make axis labels perpendicular to axis</span></span>
-<span id="cb27-5"><a href="exploration.html#cb27-5"></a>        <span class="dt">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="co"># label axes</span></span>
-<span id="cb27-6"><a href="exploration.html#cb27-6"></a>        <span class="dt">col =</span> <span class="kw">grey</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">5</span>)) <span class="co"># 5-colour gradient for the bars</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="exploration.html#cb11-1"></a><span class="co"># Count number of species frequencies in each abundance class</span></span>
+<span id="cb11-2"><a href="exploration.html#cb11-2"></a>ab &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">unlist</span>(spe))</span>
+<span id="cb11-3"><a href="exploration.html#cb11-3"></a><span class="co"># Plot distribution of species frequencies</span></span>
+<span id="cb11-4"><a href="exploration.html#cb11-4"></a><span class="kw">barplot</span>(ab, <span class="dt">las =</span> <span class="dv">1</span>, <span class="co"># make axis labels perpendicular to axis</span></span>
+<span id="cb11-5"><a href="exploration.html#cb11-5"></a>        <span class="dt">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="co"># label axes</span></span>
+<span id="cb11-6"><a href="exploration.html#cb11-6"></a>        <span class="dt">col =</span> <span class="kw">grey</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">5</span>)) <span class="co"># 5-colour gradient for the bars</span></span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>You might notice that there are a lot of zeros in the abundance data.</p>
 <p>How many zeros are in the dataset?</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="exploration.html#cb28-1"></a><span class="co"># Count the number of zeros in the dataset</span></span>
-<span id="cb28-2"><a href="exploration.html#cb28-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="exploration.html#cb12-1"></a><span class="co"># Count the number of zeros in the dataset</span></span>
+<span id="cb12-2"><a href="exploration.html#cb12-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] 408</code></pre>
 <p>What proportion of the dataset does that represent?</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="exploration.html#cb30-1"></a><span class="co"># Calculate proportion of zeros in the dataset</span></span>
-<span id="cb30-2"><a href="exploration.html#cb30-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(<span class="kw">nrow</span>(spe) <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(spe))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="exploration.html#cb14-1"></a><span class="co"># Calculate proportion of zeros in the dataset</span></span>
+<span id="cb14-2"><a href="exploration.html#cb14-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(<span class="kw">nrow</span>(spe) <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(spe))</span></code></pre></div>
 <pre><code>## [1] 0.5210728</code></pre>
 <p>Over <strong>50%</strong> of our dataset consists of zeros! This is high, but not uncommon for species abundance data. However, many zeros can lead to a <strong>double zero problem</strong>, where common absences artificially increase the similarity between sites, in terms of their community composition. In other words, two sites might appear <em>more similar</em> just because they are both <em>missing</em> a species, even though a common absence does not make them ecologically similar. Instead, we want <em>common presences</em> to determine site similarity.</p>
 <p>To avoid this double zero problem, we will apply a transformation to the species data. <span class="citation">Legendre and Gallagher (<a href="#ref-legendre2001" role="doc-biblioref">2001</a>)</span> proposed five pre-transformations of the species data, four of which are available in the <code>decostand()</code> function from the <code>vegan</code> package.</p>
 <p>The <strong>Hellinger transformation</strong> expresses abundances as the square-root of their relative abundance at each site <span class="citation">(Borcard, Gillet, and Legendre <a href="#ref-borcard2011" role="doc-biblioref">2011</a>)</span>, solving the issue with double zeros. We will apply this transformation to the fish abundance dataset.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="exploration.html#cb32-1"></a><span class="co"># Apply Hellinger transformation to correct for the double</span></span>
-<span id="cb32-2"><a href="exploration.html#cb32-2"></a><span class="co"># zero problem</span></span>
-<span id="cb32-3"><a href="exploration.html#cb32-3"></a>spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="exploration.html#cb16-1"></a><span class="co"># Apply Hellinger transformation to correct for the double</span></span>
+<span id="cb16-2"><a href="exploration.html#cb16-2"></a><span class="co"># zero problem</span></span>
+<span id="cb16-3"><a href="exploration.html#cb16-3"></a>spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
 </div>
 <div id="exploring-the-environmental-dataset" class="section level2">
 <h2><span class="header-section-number">4.2</span> Exploring the environmental dataset</h2>
 <p>Now, let us get some familiarity with the abiotic environmental variables measured at the same sites. First, we can explore the matrix using the same function we used above.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="exploration.html#cb33-1"></a><span class="kw">names</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="exploration.html#cb17-1"></a><span class="kw">names</span>(env)</span></code></pre></div>
 <pre><code>##  [1] &quot;das&quot; &quot;alt&quot; &quot;pen&quot; &quot;deb&quot; &quot;pH&quot;  &quot;dur&quot; &quot;pho&quot; &quot;nit&quot; &quot;amm&quot; &quot;oxy&quot; &quot;dbo&quot;</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="exploration.html#cb35-1"></a><span class="kw">dim</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="exploration.html#cb19-1"></a><span class="kw">dim</span>(env)</span></code></pre></div>
 <pre><code>## [1] 29 11</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="exploration.html#cb37-1"></a><span class="kw">head</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="exploration.html#cb21-1"></a><span class="kw">head</span>(env)</span></code></pre></div>
 <pre><code>##    das alt  pen  deb  pH dur  pho  nit  amm  oxy dbo
 ## 1  0.3 934 48.0 0.84 7.9  45 0.01 0.20 0.00 12.2 2.7
 ## 2  2.2 932  3.0 1.00 8.0  40 0.02 0.20 0.10 10.3 1.9
@@ -308,21 +308,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## 5 21.5 849  2.3 2.64 8.1  84 0.38 0.52 0.20  8.0 6.2
 ## 6 32.4 846  3.2 2.86 7.9  60 0.20 0.15 0.00 10.2 5.3</code></pre>
 <p>We can then look a little closer at the objects, which are the environmental variables in this case.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="exploration.html#cb39-1"></a><span class="kw">str</span>(env)</span>
-<span id="cb39-2"><a href="exploration.html#cb39-2"></a><span class="kw">summary</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="exploration.html#cb23-1"></a><span class="kw">str</span>(env)</span>
+<span id="cb23-2"><a href="exploration.html#cb23-2"></a><span class="kw">summary</span>(env)</span></code></pre></div>
 <div id="collinearity" class="section level3">
 <h3><span class="header-section-number">4.2.1</span> Collinearity</h3>
 <p>It is also a good idea to check for correlations between variables, as the <strong>constrained ordination methods we will be using are highly sensitive to collinearities in the explanatory matrix</strong>. This means a variable might appear to be highly important just because it was treated <em>first</em> in the analysis if it is highly correlated with one or more other variables that help to explain the response variable.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploration.html#cb40-1"></a><span class="co"># We can visually look for correlations between variables:</span></span>
-<span id="cb40-2"><a href="exploration.html#cb40-2"></a><span class="kw">heatmap</span>(<span class="kw">abs</span>(<span class="kw">cor</span>(env)), </span>
-<span id="cb40-3"><a href="exploration.html#cb40-3"></a>        <span class="co"># Compute pearson correlation (note they are absolute values)</span></span>
-<span id="cb40-4"><a href="exploration.html#cb40-4"></a>        <span class="dt">col =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)), </span>
-<span id="cb40-5"><a href="exploration.html#cb40-5"></a>        <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">Rowv =</span> <span class="ot">NA</span>)</span>
-<span id="cb40-6"><a href="exploration.html#cb40-6"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
-<span id="cb40-7"><a href="exploration.html#cb40-7"></a>       <span class="dt">title =</span> <span class="st">&quot;Absolute Pearson R&quot;</span>,</span>
-<span id="cb40-8"><a href="exploration.html#cb40-8"></a>       <span class="dt">legend =</span>  <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
-<span id="cb40-9"><a href="exploration.html#cb40-9"></a>       <span class="dt">y.intersp =</span> <span class="fl">0.7</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb40-10"><a href="exploration.html#cb40-10"></a>       <span class="dt">fill =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="exploration.html#cb24-1"></a><span class="co"># We can visually look for correlations between variables:</span></span>
+<span id="cb24-2"><a href="exploration.html#cb24-2"></a><span class="kw">heatmap</span>(<span class="kw">abs</span>(<span class="kw">cor</span>(env)), </span>
+<span id="cb24-3"><a href="exploration.html#cb24-3"></a>        <span class="co"># Compute pearson correlation (note they are absolute values)</span></span>
+<span id="cb24-4"><a href="exploration.html#cb24-4"></a>        <span class="dt">col =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)), </span>
+<span id="cb24-5"><a href="exploration.html#cb24-5"></a>        <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">Rowv =</span> <span class="ot">NA</span>)</span>
+<span id="cb24-6"><a href="exploration.html#cb24-6"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb24-7"><a href="exploration.html#cb24-7"></a>       <span class="dt">title =</span> <span class="st">&quot;Absolute Pearson R&quot;</span>,</span>
+<span id="cb24-8"><a href="exploration.html#cb24-8"></a>       <span class="dt">legend =</span>  <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
+<span id="cb24-9"><a href="exploration.html#cb24-9"></a>       <span class="dt">y.intersp =</span> <span class="fl">0.7</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb24-10"><a href="exploration.html#cb24-10"></a>       <span class="dt">fill =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-14-1.png" width="768" /></p>
 <div class="noway">
 <p>Some variables look correlated… For example, <code>das</code> is highly correlated with <code>alt</code>, <code>deb</code>, <code>dur</code>, <code>nit</code>, among others!</p>
@@ -332,15 +332,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">4.2.2</span> Standardizing the environmental variables</h3>
 <p>You cannot compare the effects of variables with different units. For example, a variable measured in millimeters would appear more important than if it were measured in meters, simple because the value is larger (e.g. 1000 millimeters vs. 1 meter). <strong>Standardizing variables with different units is therefore crucial.</strong></p>
 <p>In this dataset, the environmental data are all in different units and will therefore need to be standardized prior to performing any ordinations. We can once again use the <code>decostand()</code> function to standardize the environmental variables.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="exploration.html#cb41-1"></a><span class="co"># Scale and center variables</span></span>
-<span id="cb41-2"><a href="exploration.html#cb41-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">decostand</span>(env, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
-<span id="cb41-3"><a href="exploration.html#cb41-3"></a></span>
-<span id="cb41-4"><a href="exploration.html#cb41-4"></a><span class="co"># Variables are now centered around a mean of 0</span></span>
-<span id="cb41-5"><a href="exploration.html#cb41-5"></a><span class="kw">round</span>(<span class="kw">apply</span>(env.z, <span class="dv">2</span>, mean), <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="exploration.html#cb25-1"></a><span class="co"># Scale and center variables</span></span>
+<span id="cb25-2"><a href="exploration.html#cb25-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">decostand</span>(env, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
+<span id="cb25-3"><a href="exploration.html#cb25-3"></a></span>
+<span id="cb25-4"><a href="exploration.html#cb25-4"></a><span class="co"># Variables are now centered around a mean of 0</span></span>
+<span id="cb25-5"><a href="exploration.html#cb25-5"></a><span class="kw">round</span>(<span class="kw">apply</span>(env.z, <span class="dv">2</span>, mean), <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
 ##   0   0   0   0   0   0   0   0   0   0   0</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="exploration.html#cb43-1"></a><span class="co"># and scaled to have a standard deviation of 1</span></span>
-<span id="cb43-2"><a href="exploration.html#cb43-2"></a><span class="kw">apply</span>(env.z, <span class="dv">2</span>, sd)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="exploration.html#cb27-1"></a><span class="co"># and scaled to have a standard deviation of 1</span></span>
+<span id="cb27-2"><a href="exploration.html#cb27-2"></a><span class="kw">apply</span>(env.z, <span class="dv">2</span>, sd)</span></code></pre></div>
 <pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
 ##   1   1   1   1   1   1   1   1   1   1   1</code></pre>
 

@@ -219,7 +219,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="preparing-for-the-workshop" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Preparing for the workshop</h1>
-<p>All workshop materials are found at <a href="https://github.com/QCBSRworkshops/workshop10">github.com/QCBSRworkshops/workshop10</a>. This includes an <a href="https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R">R script</a> which contains all code chunks showin in this book.</p>
+<p>All workshop materials are found at <a href="https://github.com/QCBSRworkshops/workshop10">github.com/QCBSRworkshops/workshop10</a>. This includes an <a href="https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R">R script</a> which contains all code chunks shown in this book.</p>
 <p>For this workshop, we will be working with the following datasets:</p>
 <ul>
 <li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv">DoubsEnv</a><br />
@@ -241,64 +241,27 @@ analyses)</li>
 multivariate regression tree analysis)</li>
 <li><a href="https://cran.r-project.org/package=MASS">MASS</a> (for linear discriminant
 analysis)</li>
-<li><a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">mvpart</a>*</li>
+<li><a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">mvpart</a>* (for multivariate regression trees)</li>
 <li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a> (for plotting some results)</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="preparing-for-the-workshop.html#cb1-1"></a><span class="co"># Install the required packages</span></span>
-<span id="cb1-2"><a href="preparing-for-the-workshop.html#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;vegan&quot;</span>)</span></code></pre></div>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
-<pre><code>## also installing the dependency &#39;permute&#39;</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="preparing-for-the-workshop.html#cb4-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;labdsv&quot;</span>)</span></code></pre></div>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
-<pre><code>## also installing the dependency &#39;Rtsne&#39;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="preparing-for-the-workshop.html#cb7-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span></code></pre></div>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="preparing-for-the-workshop.html#cb9-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
-<pre><code>## also installing the dependencies &#39;colorspace&#39;, &#39;farver&#39;, &#39;labeling&#39;, &#39;munsell&#39;, &#39;RColorBrewer&#39;, &#39;viridisLite&#39;, &#39;gtable&#39;, &#39;isoband&#39;, &#39;scales&#39;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="preparing-for-the-workshop.html#cb12-1"></a><span class="co"># install mvpart from package archive file</span></span>
-<span id="cb12-2"><a href="preparing-for-the-workshop.html#cb12-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span></code></pre></div>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="preparing-for-the-workshop.html#cb14-1"></a>remotes<span class="op">::</span><span class="kw">install_url</span>(<span class="st">&quot;https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz&quot;</span>)</span></code></pre></div>
-<pre><code>## Downloading package from url: https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz</code></pre>
-<pre><code>##   
-   checking for file ‘/tmp/RtmpiwojDF/remotes2f302f70c421/mvpart/DESCRIPTION’ ...
-  
-✔  checking for file ‘/tmp/RtmpiwojDF/remotes2f302f70c421/mvpart/DESCRIPTION’
-## 
-  
-─  preparing ‘mvpart’:
-## ✔  checking DESCRIPTION meta-information
-## ─  cleaning src
-## 
-  
-─  checking for LF line-endings in source and make files and shell scripts
-## 
-  
-─  checking for empty or unneeded directories
-## 
-  
-─  building ‘mvpart_1.6-2.tar.gz’
-## 
-  
-   
-## </code></pre>
-<pre><code>## Installing package into &#39;/home/runner/work/_temp/Library&#39;
-## (as &#39;lib&#39; is unspecified)</code></pre>
+<span id="cb1-2"><a href="preparing-for-the-workshop.html#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;vegan&quot;</span>)</span>
+<span id="cb1-3"><a href="preparing-for-the-workshop.html#cb1-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;labdsv&quot;</span>)</span>
+<span id="cb1-4"><a href="preparing-for-the-workshop.html#cb1-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb1-5"><a href="preparing-for-the-workshop.html#cb1-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb1-6"><a href="preparing-for-the-workshop.html#cb1-6"></a></span>
+<span id="cb1-7"><a href="preparing-for-the-workshop.html#cb1-7"></a><span class="co"># install mvpart from package archive file</span></span>
+<span id="cb1-8"><a href="preparing-for-the-workshop.html#cb1-8"></a><span class="kw">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb1-9"><a href="preparing-for-the-workshop.html#cb1-9"></a>remotes<span class="op">::</span><span class="kw">install_url</span>(<span class="st">&quot;https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz&quot;</span>)</span></code></pre></div>
 <blockquote>
 <p>*The <code>mvpart</code> package is no longer hosted on CRAN, but is still available from the archives. To install <code>mvpart</code>, you can also download the .tar.gz version from <a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">here</a> and go to the “Packages” tab on the bottom right panel of R Studio, and click on “Install Packages”. Choose to install from Package Archive file, and select the .tar.gz for mvpart.</p>
 </blockquote>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="preparing-for-the-workshop.html#cb18-1"></a><span class="co"># Load the required packages</span></span>
-<span id="cb18-2"><a href="preparing-for-the-workshop.html#cb18-2"></a><span class="kw">library</span>(vegan)</span>
-<span id="cb18-3"><a href="preparing-for-the-workshop.html#cb18-3"></a><span class="kw">library</span>(labdsv)</span>
-<span id="cb18-4"><a href="preparing-for-the-workshop.html#cb18-4"></a><span class="kw">library</span>(MASS)</span>
-<span id="cb18-5"><a href="preparing-for-the-workshop.html#cb18-5"></a><span class="kw">library</span>(mvpart)</span>
-<span id="cb18-6"><a href="preparing-for-the-workshop.html#cb18-6"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="preparing-for-the-workshop.html#cb2-1"></a><span class="co"># Load the required packages</span></span>
+<span id="cb2-2"><a href="preparing-for-the-workshop.html#cb2-2"></a><span class="kw">library</span>(vegan)</span>
+<span id="cb2-3"><a href="preparing-for-the-workshop.html#cb2-3"></a><span class="kw">library</span>(labdsv)</span>
+<span id="cb2-4"><a href="preparing-for-the-workshop.html#cb2-4"></a><span class="kw">library</span>(MASS)</span>
+<span id="cb2-5"><a href="preparing-for-the-workshop.html#cb2-5"></a><span class="kw">library</span>(mvpart)</span>
+<span id="cb2-6"><a href="preparing-for-the-workshop.html#cb2-6"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
 
 </div>
 <hr>
