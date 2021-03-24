@@ -67,7 +67,7 @@ anova.cca(spe.partial.rda, step = 1000)
 
 We can visualise the effects of the environmental variables on the fish community with the `ordiplot()` function.
 
-```{r, fig.height=4.5, fig.width=4.5}
+```{r, fig.height=4.5, fig.width=4.5, fig.align="center"}
 ordiplot(spe.partial.rda, 
          scaling = 2,
          main = "Doubs River partial RDA - Scaling 2")
