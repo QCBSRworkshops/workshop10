@@ -146,13 +146,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
 <li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
 <li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html"><i class="fa fa-check"></i><b>4</b> Exploring the dataset</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#species-data"><i class="fa fa-check"></i><b>4.1</b> Species data</a></li>
-<li class="chapter" data-level="4.2" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#environmental-data"><i class="fa fa-check"></i><b>4.2</b> Environmental data</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
+</ul></li>
 </ul></li>
 <li class="part"><span><b>Constrained ordinations</b></span></li>
 <li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
@@ -249,15 +262,15 @@ within-group SS over all leaves divided by the overall SS of the data).
 This is the solution maximizing the R2 so to speak. This approach is
 explanatory rather than predictive.</p>
 <p>Let’s create a multivariate regression tree on the Doubs data.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="multivariate-regression-tree.html#cb24-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(mvpart)</span>
-<span id="cb24-2"><a href="multivariate-regression-tree.html#cb24-2"></a></span>
-<span id="cb24-3"><a href="multivariate-regression-tree.html#cb24-3"></a><span class="co"># Prepare the data: remove “distance from source”</span></span>
-<span id="cb24-4"><a href="multivariate-regression-tree.html#cb24-4"></a>env &lt;-<span class="st"> </span><span class="kw">subset</span>(env, <span class="dt">select =</span> <span class="op">-</span>das)</span>
-<span id="cb24-5"><a href="multivariate-regression-tree.html#cb24-5"></a></span>
-<span id="cb24-6"><a href="multivariate-regression-tree.html#cb24-6"></a><span class="co"># Create the regression tree</span></span>
-<span id="cb24-7"><a href="multivariate-regression-tree.html#cb24-7"></a>doubs.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb24-8"><a href="multivariate-regression-tree.html#cb24-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb24-9"><a href="multivariate-regression-tree.html#cb24-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="multivariate-regression-tree.html#cb78-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(mvpart)</span>
+<span id="cb78-2"><a href="multivariate-regression-tree.html#cb78-2"></a></span>
+<span id="cb78-3"><a href="multivariate-regression-tree.html#cb78-3"></a><span class="co"># Prepare the data: remove “distance from source”</span></span>
+<span id="cb78-4"><a href="multivariate-regression-tree.html#cb78-4"></a>env &lt;-<span class="st"> </span><span class="kw">subset</span>(env, <span class="dt">select =</span> <span class="op">-</span>das)</span>
+<span id="cb78-5"><a href="multivariate-regression-tree.html#cb78-5"></a></span>
+<span id="cb78-6"><a href="multivariate-regression-tree.html#cb78-6"></a><span class="co"># Create the regression tree</span></span>
+<span id="cb78-7"><a href="multivariate-regression-tree.html#cb78-7"></a>doubs.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb78-8"><a href="multivariate-regression-tree.html#cb78-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
+<span id="cb78-9"><a href="multivariate-regression-tree.html#cb78-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
 <p>At this point, you will need to select the tree who’s size (number of
 groups) is appropriate to the aim of your study from the following
 graph. This step requires the argument xv="pick". In other words, you
@@ -291,22 +304,22 @@ the species, its number of sites and its relative error.</p>
 <p>We can compare this tree with the 10-group solution, as suggested by the
 CVRE criterion, or choose a solution in between, e.g. with 4 leaves to
 compare.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="multivariate-regression-tree.html#cb25-1"></a><span class="co"># Using the CVRE criterion</span></span>
-<span id="cb25-2"><a href="multivariate-regression-tree.html#cb25-2"></a>doubs.mrt.cvre &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb25-3"><a href="multivariate-regression-tree.html#cb25-3"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb25-4"><a href="multivariate-regression-tree.html#cb25-4"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
-<span id="cb25-5"><a href="multivariate-regression-tree.html#cb25-5"></a></span>
-<span id="cb25-6"><a href="multivariate-regression-tree.html#cb25-6"></a><span class="co"># Choosing ourself the best number of partitions</span></span>
-<span id="cb25-7"><a href="multivariate-regression-tree.html#cb25-7"></a>doubs.mrt<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb25-8"><a href="multivariate-regression-tree.html#cb25-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb25-9"><a href="multivariate-regression-tree.html#cb25-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="multivariate-regression-tree.html#cb79-1"></a><span class="co"># Using the CVRE criterion</span></span>
+<span id="cb79-2"><a href="multivariate-regression-tree.html#cb79-2"></a>doubs.mrt.cvre &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb79-3"><a href="multivariate-regression-tree.html#cb79-3"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
+<span id="cb79-4"><a href="multivariate-regression-tree.html#cb79-4"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
+<span id="cb79-5"><a href="multivariate-regression-tree.html#cb79-5"></a></span>
+<span id="cb79-6"><a href="multivariate-regression-tree.html#cb79-6"></a><span class="co"># Choosing ourself the best number of partitions</span></span>
+<span id="cb79-7"><a href="multivariate-regression-tree.html#cb79-7"></a>doubs.mrt<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb79-8"><a href="multivariate-regression-tree.html#cb79-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
+<span id="cb79-9"><a href="multivariate-regression-tree.html#cb79-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
 <p><img src="images/mrt_cvre.png" class="align-center" /> <img src="images/mrt_4.png" class="align-center" /></p>
 <p>The 10-group solution has a high EXPLANATORY power but its predictive
 power (indicated by the cross-validated error) is just slightly better
 than that of the 2-group solution. The 4-group solution seems to be a
 good compromise.</p>
 <p>More information can be obtained by looking at the summary output.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="multivariate-regression-tree.html#cb26-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="multivariate-regression-tree.html#cb80-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
 <p><img src="images/doubs_mrt_summary.png" class="align-center" /></p>
 <p>CP stands for “complexity parameter”, which is the equivalent of the
 variance explained by each node. The CP at nsplit 0 is the R2 of the
@@ -315,17 +328,17 @@ values to split the data. While informative, this output is very dense.
 A more detailed and yet more manageable output can be generated by using
 the wrapper from the function MRT() of the MVPARTwrap package. Plus,
 this other function allows identification of discriminant species.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="multivariate-regression-tree.html#cb27-1"></a><span class="co"># Find discriminant species with MRT results</span></span>
-<span id="cb27-2"><a href="multivariate-regression-tree.html#cb27-2"></a>doubs.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(doubs.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(spe.hel))</span>
-<span id="cb27-3"><a href="multivariate-regression-tree.html#cb27-3"></a><span class="kw">summary</span>(doubs.mrt.wrap)</span>
-<span id="cb27-4"><a href="multivariate-regression-tree.html#cb27-4"></a></span>
-<span id="cb27-5"><a href="multivariate-regression-tree.html#cb27-5"></a><span class="co"># Extract indval p-values</span></span>
-<span id="cb27-6"><a href="multivariate-regression-tree.html#cb27-6"></a>doubs.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(spe.hel, doubs.mrt<span class="op">$</span>where)</span>
-<span id="cb27-7"><a href="multivariate-regression-tree.html#cb27-7"></a>doubs.mrt.indval<span class="op">$</span>pval</span>
-<span id="cb27-8"><a href="multivariate-regression-tree.html#cb27-8"></a></span>
-<span id="cb27-9"><a href="multivariate-regression-tree.html#cb27-9"></a><span class="co"># Extract indicator species of each node, with its indval</span></span>
-<span id="cb27-10"><a href="multivariate-regression-tree.html#cb27-10"></a>doubs.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
-<span id="cb27-11"><a href="multivariate-regression-tree.html#cb27-11"></a>doubs.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="multivariate-regression-tree.html#cb81-1"></a><span class="co"># Find discriminant species with MRT results</span></span>
+<span id="cb81-2"><a href="multivariate-regression-tree.html#cb81-2"></a>doubs.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(doubs.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(spe.hel))</span>
+<span id="cb81-3"><a href="multivariate-regression-tree.html#cb81-3"></a><span class="kw">summary</span>(doubs.mrt.wrap)</span>
+<span id="cb81-4"><a href="multivariate-regression-tree.html#cb81-4"></a></span>
+<span id="cb81-5"><a href="multivariate-regression-tree.html#cb81-5"></a><span class="co"># Extract indval p-values</span></span>
+<span id="cb81-6"><a href="multivariate-regression-tree.html#cb81-6"></a>doubs.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(spe.hel, doubs.mrt<span class="op">$</span>where)</span>
+<span id="cb81-7"><a href="multivariate-regression-tree.html#cb81-7"></a>doubs.mrt.indval<span class="op">$</span>pval</span>
+<span id="cb81-8"><a href="multivariate-regression-tree.html#cb81-8"></a></span>
+<span id="cb81-9"><a href="multivariate-regression-tree.html#cb81-9"></a><span class="co"># Extract indicator species of each node, with its indval</span></span>
+<span id="cb81-10"><a href="multivariate-regression-tree.html#cb81-10"></a>doubs.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
+<span id="cb81-11"><a href="multivariate-regression-tree.html#cb81-11"></a>doubs.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <p><img src="images//doubs_mrt_discriminant.png" class="align-center" />
 <img src="images//doubs_mrt_finalpart.png" class="align-center" /></p>
 <p>The main discriminant species of the first split are TRU, VAI and ABL.
@@ -344,19 +357,19 @@ Select the minimum size of tree within one SE of the CVRE. What is the
 proportion of variance explained by this tree? How many leaves contain
 this tree? What are the discriminant species?</p>
 <p><strong>Challenge 4</strong> - Solution</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="multivariate-regression-tree.html#cb28-1"></a>mite.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">data.matrix</span>(mite.spe.hel) <span class="op">~</span><span class="st"> </span>., mite.env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb28-2"><a href="multivariate-regression-tree.html#cb28-2"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(mite.spe.hel), </span>
-<span id="cb28-3"><a href="multivariate-regression-tree.html#cb28-3"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
-<span id="cb28-4"><a href="multivariate-regression-tree.html#cb28-4"></a><span class="kw">summary</span>(mite.mrt)</span>
-<span id="cb28-5"><a href="multivariate-regression-tree.html#cb28-5"></a></span>
-<span id="cb28-6"><a href="multivariate-regression-tree.html#cb28-6"></a>mite.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(mite.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(mite.spe.hel))</span>
-<span id="cb28-7"><a href="multivariate-regression-tree.html#cb28-7"></a><span class="kw">summary</span>(mite.mrt.wrap)</span>
-<span id="cb28-8"><a href="multivariate-regression-tree.html#cb28-8"></a></span>
-<span id="cb28-9"><a href="multivariate-regression-tree.html#cb28-9"></a>mite.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(mite.spe.hel, mite.mrt<span class="op">$</span>where)</span>
-<span id="cb28-10"><a href="multivariate-regression-tree.html#cb28-10"></a>mite.mrt.indval<span class="op">$</span>pval</span>
-<span id="cb28-11"><a href="multivariate-regression-tree.html#cb28-11"></a></span>
-<span id="cb28-12"><a href="multivariate-regression-tree.html#cb28-12"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
-<span id="cb28-13"><a href="multivariate-regression-tree.html#cb28-13"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="multivariate-regression-tree.html#cb82-1"></a>mite.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">data.matrix</span>(mite.spe.hel) <span class="op">~</span><span class="st"> </span>., mite.env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb82-2"><a href="multivariate-regression-tree.html#cb82-2"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(mite.spe.hel), </span>
+<span id="cb82-3"><a href="multivariate-regression-tree.html#cb82-3"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
+<span id="cb82-4"><a href="multivariate-regression-tree.html#cb82-4"></a><span class="kw">summary</span>(mite.mrt)</span>
+<span id="cb82-5"><a href="multivariate-regression-tree.html#cb82-5"></a></span>
+<span id="cb82-6"><a href="multivariate-regression-tree.html#cb82-6"></a>mite.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(mite.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(mite.spe.hel))</span>
+<span id="cb82-7"><a href="multivariate-regression-tree.html#cb82-7"></a><span class="kw">summary</span>(mite.mrt.wrap)</span>
+<span id="cb82-8"><a href="multivariate-regression-tree.html#cb82-8"></a></span>
+<span id="cb82-9"><a href="multivariate-regression-tree.html#cb82-9"></a>mite.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(mite.spe.hel, mite.mrt<span class="op">$</span>where)</span>
+<span id="cb82-10"><a href="multivariate-regression-tree.html#cb82-10"></a>mite.mrt.indval<span class="op">$</span>pval</span>
+<span id="cb82-11"><a href="multivariate-regression-tree.html#cb82-11"></a></span>
+<span id="cb82-12"><a href="multivariate-regression-tree.html#cb82-12"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
+<span id="cb82-13"><a href="multivariate-regression-tree.html#cb82-13"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <p>25.6% of the variation in the mite species assemblage across sites is
 explained by the partition of the sites based on water content of the
 substrate (at 385.1 mg/l). LCIL is a discriminant species of sites with

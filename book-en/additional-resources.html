@@ -146,13 +146,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
 <li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
 <li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html"><i class="fa fa-check"></i><b>4</b> Exploring the dataset</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#species-data"><i class="fa fa-check"></i><b>4.1</b> Species data</a></li>
-<li class="chapter" data-level="4.2" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#environmental-data"><i class="fa fa-check"></i><b>4.2</b> Environmental data</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
+</ul></li>
 </ul></li>
 <li class="part"><span><b>Constrained ordinations</b></span></li>
 <li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
@@ -197,60 +210,60 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="additional-resources" class="section level1">
 <h1><span class="header-section-number">Chapter 12</span> Additional resources</h1>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="additional-resources.html#cb33-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co">#(constrained correspondence analysis)</span></span>
-<span id="cb33-2"><a href="additional-resources.html#cb33-2"></a>)</span>
-<span id="cb33-3"><a href="additional-resources.html#cb33-3"></a><span class="co"># Constrained Correspondence Analysis (CCA) is a canonical</span></span>
-<span id="cb33-4"><a href="additional-resources.html#cb33-4"></a><span class="co"># ordination method similar to RDA that preserve Chi-square</span></span>
-<span id="cb33-5"><a href="additional-resources.html#cb33-5"></a><span class="co"># distances among object (instead of Euclidean distances in</span></span>
-<span id="cb33-6"><a href="additional-resources.html#cb33-6"></a><span class="co"># RDA). This method is well suited for the analysis of large</span></span>
-<span id="cb33-7"><a href="additional-resources.html#cb33-7"></a><span class="co"># ecological gradients.</span></span>
-<span id="cb33-8"><a href="additional-resources.html#cb33-8"></a></span>
-<span id="cb33-9"><a href="additional-resources.html#cb33-9"></a></span>
-<span id="cb33-10"><a href="additional-resources.html#cb33-10"></a></span>
-<span id="cb33-11"><a href="additional-resources.html#cb33-11"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># Canonical Correlation Analysis</span></span>
-<span id="cb33-12"><a href="additional-resources.html#cb33-12"></a>)</span>
-<span id="cb33-13"><a href="additional-resources.html#cb33-13"></a></span>
-<span id="cb33-14"><a href="additional-resources.html#cb33-14"></a><span class="co"># Canonical Correlation Analysis (CCorA) differs from RDA</span></span>
-<span id="cb33-15"><a href="additional-resources.html#cb33-15"></a><span class="co"># given that the two matrices are considered symmetric while</span></span>
-<span id="cb33-16"><a href="additional-resources.html#cb33-16"></a><span class="co"># in RDA the Y matrix is dependent on the X matrix. The main</span></span>
-<span id="cb33-17"><a href="additional-resources.html#cb33-17"></a><span class="co"># use of this technique is to test the significance of the</span></span>
-<span id="cb33-18"><a href="additional-resources.html#cb33-18"></a><span class="co"># correlation between two multidimensional data sets, then</span></span>
-<span id="cb33-19"><a href="additional-resources.html#cb33-19"></a><span class="co"># explore the structure of the data by computing the</span></span>
-<span id="cb33-20"><a href="additional-resources.html#cb33-20"></a><span class="co"># correlations (which are the square roots of the CCorA</span></span>
-<span id="cb33-21"><a href="additional-resources.html#cb33-21"></a><span class="co"># eigenvalues) that can be found between linear functions of</span></span>
-<span id="cb33-22"><a href="additional-resources.html#cb33-22"></a><span class="co"># two groups of descriptors.</span></span>
-<span id="cb33-23"><a href="additional-resources.html#cb33-23"></a></span>
-<span id="cb33-24"><a href="additional-resources.html#cb33-24"></a></span>
-<span id="cb33-25"><a href="additional-resources.html#cb33-25"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># Coinertia Analysis</span></span>
-<span id="cb33-26"><a href="additional-resources.html#cb33-26"></a></span>
-<span id="cb33-27"><a href="additional-resources.html#cb33-27"></a><span class="co"># Coinertia Analysis (CoIA) is a symmetric canonical</span></span>
-<span id="cb33-28"><a href="additional-resources.html#cb33-28"></a><span class="co"># ordination method that is appropriate to compare pairs of</span></span>
-<span id="cb33-29"><a href="additional-resources.html#cb33-29"></a><span class="co"># data sets that play equivalent roles in the analysis. The</span></span>
-<span id="cb33-30"><a href="additional-resources.html#cb33-30"></a><span class="co"># method finds a common space onto which the objects and</span></span>
-<span id="cb33-31"><a href="additional-resources.html#cb33-31"></a><span class="co"># variables of these data sets can be projected and compared.</span></span>
-<span id="cb33-32"><a href="additional-resources.html#cb33-32"></a><span class="co"># Compared to CCorA, co-inertia analysis imposes no</span></span>
-<span id="cb33-33"><a href="additional-resources.html#cb33-33"></a><span class="co"># constraint regarding the number of variables in the two</span></span>
-<span id="cb33-34"><a href="additional-resources.html#cb33-34"></a><span class="co"># sets, so that it can be used to compare ecological</span></span>
-<span id="cb33-35"><a href="additional-resources.html#cb33-35"></a><span class="co"># communities even when they are species-rich. Co-inertia</span></span>
-<span id="cb33-36"><a href="additional-resources.html#cb33-36"></a><span class="co"># analysis is not well-suited, however, to analyse pairs of</span></span>
-<span id="cb33-37"><a href="additional-resources.html#cb33-37"></a><span class="co"># data sets that contain the same variables, because the</span></span>
-<span id="cb33-38"><a href="additional-resources.html#cb33-38"></a><span class="co"># analysis does not establish one-to-one correspondences</span></span>
-<span id="cb33-39"><a href="additional-resources.html#cb33-39"></a><span class="co"># between variables in the two data sets; the method does not</span></span>
-<span id="cb33-40"><a href="additional-resources.html#cb33-40"></a><span class="co"># ‘know’ that the first variable is the same in the first and</span></span>
-<span id="cb33-41"><a href="additional-resources.html#cb33-41"></a><span class="co"># the second data sets, and likewise for the other variables.</span></span>
-<span id="cb33-42"><a href="additional-resources.html#cb33-42"></a></span>
-<span id="cb33-43"><a href="additional-resources.html#cb33-43"></a></span>
-<span id="cb33-44"><a href="additional-resources.html#cb33-44"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># Multiple Factorial Analysis</span></span>
-<span id="cb33-45"><a href="additional-resources.html#cb33-45"></a></span>
-<span id="cb33-46"><a href="additional-resources.html#cb33-46"></a><span class="co"># Multiple factor analysis (MFA) can be used to compare</span></span>
-<span id="cb33-47"><a href="additional-resources.html#cb33-47"></a><span class="co"># several data sets describing the same objects. MFA consists</span></span>
-<span id="cb33-48"><a href="additional-resources.html#cb33-48"></a><span class="co"># in projecting objects and variables of two or more data</span></span>
-<span id="cb33-49"><a href="additional-resources.html#cb33-49"></a><span class="co"># sets on a global PCA, computed from all data sets, in which</span></span>
-<span id="cb33-50"><a href="additional-resources.html#cb33-50"></a><span class="co"># the sets receive equal weights.</span></span>
-<span id="cb33-51"><a href="additional-resources.html#cb33-51"></a></span>
-<span id="cb33-52"><a href="additional-resources.html#cb33-52"></a></span>
-<span id="cb33-53"><a href="additional-resources.html#cb33-53"></a><span class="co"># Spatial analysis can be performed using packages AEM and</span></span>
-<span id="cb33-54"><a href="additional-resources.html#cb33-54"></a><span class="co"># PCNM : http://r-forge.r-project.org/R/?group_id=195</span></span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="additional-resources.html#cb87-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co">#(constrained correspondence analysis)</span></span>
+<span id="cb87-2"><a href="additional-resources.html#cb87-2"></a>)</span>
+<span id="cb87-3"><a href="additional-resources.html#cb87-3"></a><span class="co"># Constrained Correspondence Analysis (CCA) is a canonical</span></span>
+<span id="cb87-4"><a href="additional-resources.html#cb87-4"></a><span class="co"># ordination method similar to RDA that preserve Chi-square</span></span>
+<span id="cb87-5"><a href="additional-resources.html#cb87-5"></a><span class="co"># distances among object (instead of Euclidean distances in</span></span>
+<span id="cb87-6"><a href="additional-resources.html#cb87-6"></a><span class="co"># RDA). This method is well suited for the analysis of large</span></span>
+<span id="cb87-7"><a href="additional-resources.html#cb87-7"></a><span class="co"># ecological gradients.</span></span>
+<span id="cb87-8"><a href="additional-resources.html#cb87-8"></a></span>
+<span id="cb87-9"><a href="additional-resources.html#cb87-9"></a></span>
+<span id="cb87-10"><a href="additional-resources.html#cb87-10"></a></span>
+<span id="cb87-11"><a href="additional-resources.html#cb87-11"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># Canonical Correlation Analysis</span></span>
+<span id="cb87-12"><a href="additional-resources.html#cb87-12"></a>)</span>
+<span id="cb87-13"><a href="additional-resources.html#cb87-13"></a></span>
+<span id="cb87-14"><a href="additional-resources.html#cb87-14"></a><span class="co"># Canonical Correlation Analysis (CCorA) differs from RDA</span></span>
+<span id="cb87-15"><a href="additional-resources.html#cb87-15"></a><span class="co"># given that the two matrices are considered symmetric while</span></span>
+<span id="cb87-16"><a href="additional-resources.html#cb87-16"></a><span class="co"># in RDA the Y matrix is dependent on the X matrix. The main</span></span>
+<span id="cb87-17"><a href="additional-resources.html#cb87-17"></a><span class="co"># use of this technique is to test the significance of the</span></span>
+<span id="cb87-18"><a href="additional-resources.html#cb87-18"></a><span class="co"># correlation between two multidimensional data sets, then</span></span>
+<span id="cb87-19"><a href="additional-resources.html#cb87-19"></a><span class="co"># explore the structure of the data by computing the</span></span>
+<span id="cb87-20"><a href="additional-resources.html#cb87-20"></a><span class="co"># correlations (which are the square roots of the CCorA</span></span>
+<span id="cb87-21"><a href="additional-resources.html#cb87-21"></a><span class="co"># eigenvalues) that can be found between linear functions of</span></span>
+<span id="cb87-22"><a href="additional-resources.html#cb87-22"></a><span class="co"># two groups of descriptors.</span></span>
+<span id="cb87-23"><a href="additional-resources.html#cb87-23"></a></span>
+<span id="cb87-24"><a href="additional-resources.html#cb87-24"></a></span>
+<span id="cb87-25"><a href="additional-resources.html#cb87-25"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># Coinertia Analysis</span></span>
+<span id="cb87-26"><a href="additional-resources.html#cb87-26"></a></span>
+<span id="cb87-27"><a href="additional-resources.html#cb87-27"></a><span class="co"># Coinertia Analysis (CoIA) is a symmetric canonical</span></span>
+<span id="cb87-28"><a href="additional-resources.html#cb87-28"></a><span class="co"># ordination method that is appropriate to compare pairs of</span></span>
+<span id="cb87-29"><a href="additional-resources.html#cb87-29"></a><span class="co"># data sets that play equivalent roles in the analysis. The</span></span>
+<span id="cb87-30"><a href="additional-resources.html#cb87-30"></a><span class="co"># method finds a common space onto which the objects and</span></span>
+<span id="cb87-31"><a href="additional-resources.html#cb87-31"></a><span class="co"># variables of these data sets can be projected and compared.</span></span>
+<span id="cb87-32"><a href="additional-resources.html#cb87-32"></a><span class="co"># Compared to CCorA, co-inertia analysis imposes no</span></span>
+<span id="cb87-33"><a href="additional-resources.html#cb87-33"></a><span class="co"># constraint regarding the number of variables in the two</span></span>
+<span id="cb87-34"><a href="additional-resources.html#cb87-34"></a><span class="co"># sets, so that it can be used to compare ecological</span></span>
+<span id="cb87-35"><a href="additional-resources.html#cb87-35"></a><span class="co"># communities even when they are species-rich. Co-inertia</span></span>
+<span id="cb87-36"><a href="additional-resources.html#cb87-36"></a><span class="co"># analysis is not well-suited, however, to analyse pairs of</span></span>
+<span id="cb87-37"><a href="additional-resources.html#cb87-37"></a><span class="co"># data sets that contain the same variables, because the</span></span>
+<span id="cb87-38"><a href="additional-resources.html#cb87-38"></a><span class="co"># analysis does not establish one-to-one correspondences</span></span>
+<span id="cb87-39"><a href="additional-resources.html#cb87-39"></a><span class="co"># between variables in the two data sets; the method does not</span></span>
+<span id="cb87-40"><a href="additional-resources.html#cb87-40"></a><span class="co"># ‘know’ that the first variable is the same in the first and</span></span>
+<span id="cb87-41"><a href="additional-resources.html#cb87-41"></a><span class="co"># the second data sets, and likewise for the other variables.</span></span>
+<span id="cb87-42"><a href="additional-resources.html#cb87-42"></a></span>
+<span id="cb87-43"><a href="additional-resources.html#cb87-43"></a></span>
+<span id="cb87-44"><a href="additional-resources.html#cb87-44"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># Multiple Factorial Analysis</span></span>
+<span id="cb87-45"><a href="additional-resources.html#cb87-45"></a></span>
+<span id="cb87-46"><a href="additional-resources.html#cb87-46"></a><span class="co"># Multiple factor analysis (MFA) can be used to compare</span></span>
+<span id="cb87-47"><a href="additional-resources.html#cb87-47"></a><span class="co"># several data sets describing the same objects. MFA consists</span></span>
+<span id="cb87-48"><a href="additional-resources.html#cb87-48"></a><span class="co"># in projecting objects and variables of two or more data</span></span>
+<span id="cb87-49"><a href="additional-resources.html#cb87-49"></a><span class="co"># sets on a global PCA, computed from all data sets, in which</span></span>
+<span id="cb87-50"><a href="additional-resources.html#cb87-50"></a><span class="co"># the sets receive equal weights.</span></span>
+<span id="cb87-51"><a href="additional-resources.html#cb87-51"></a></span>
+<span id="cb87-52"><a href="additional-resources.html#cb87-52"></a></span>
+<span id="cb87-53"><a href="additional-resources.html#cb87-53"></a><span class="co"># Spatial analysis can be performed using packages AEM and</span></span>
+<span id="cb87-54"><a href="additional-resources.html#cb87-54"></a><span class="co"># PCNM : http://r-forge.r-project.org/R/?group_id=195</span></span></code></pre></div>
 <p>Add the references below to the BibTeX file.</p>
 <p>Alday &amp; Marrs (2014). A simple test for alternative states in ecological
 restoration: the use of principal response curves. Journal of Vegetation

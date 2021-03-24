@@ -146,13 +146,26 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
 <li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
 <li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html"><i class="fa fa-check"></i><b>4</b> Exploring the dataset</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#species-data"><i class="fa fa-check"></i><b>4.1</b> Species data</a></li>
-<li class="chapter" data-level="4.2" data-path="exploring-the-dataset.html"><a href="exploring-the-dataset.html#environmental-data"><i class="fa fa-check"></i><b>4.2</b> Environmental data</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
+</ul></li>
 </ul></li>
 <li class="part"><span><b>Constrained ordinations</b></span></li>
 <li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
@@ -197,237 +210,338 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="redundancy-analysis" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Redundancy analysis</h1>
-<p>Redundancy Analysis is a direct extension of multiple regression, as it
-models the effect of an explanatory matrix X (n x p) on a response
-matrix Y (n x m). This is done by preforming an ordination of Y to
-obtain ordination axes that are linear combinations of the variables in
-X. In RDA, ordination axes are calculating from a PCA of a matrix Yfit,
-computed by fitting the Y variables to X by multivariate linear
-regression. Note that the explanatory variables in X can be
-quantitative, qualitative or binary variables. Prior to RDA, explanatory
-variables in Y must be centered, standardized (if explanatory variables
-are not dimensionally homogeneous, i.e. in different units), transformed
-(to limit the skew of explanatory variables) or normalized (to linearize
-relationships) following the same principles as in PCA. Collinearity
-between the X variables should also be reduced before RDA.</p>
-<p>In order to obtain the best model of RDA, explanatory variables can be
-selected by forward, backward or stepwise selection that remove
-non-significant explanatory variables.</p>
-<p>RDA involves two computational steps. In the first step, a matrix of
-fitted values Yfit is calculated trough the linear equation: Yfit =
-X<span class="math display">\[X&#39;X\]</span>-1 <span class="math display">\[X&#39;Y\]</span></p>
-<p>In the second step, a PCA of the fitted matrix Yfit is calculated (see
-equations in the figure below) and produce the canonical eigenvalues and
-eigenvectors together with the matrix Z containing the canonical axes.
-These canonical axes correspond to linear combinations of the
-explanatory variables in X. This linearity of the combinations of the X
-variables is a fundamental property of RDA. In the analysis of community
-composition, these canonical axes are interpreted as complex
-environmental gradients.</p>
-<p><img src="images/constrained_ord_diagram.png" class="align-center" /></p>
-<p>Redundancy analysis as a two-step process (from Legendre and Legendre
-2012) Several statistics can be computed from RDA:</p>
-<p>- The R² measures the strength of the canonical relationship between Y
-and X by calculating the proportion of the variation of Y explained by
-the variables in X, - The adjusted R² also measures the strength of the
-relationship between Y and X, but applies a correction of the R² to take
-into account the number of explanatory variables, - The F-statistic
-corresponds to an overall test of significance of an RDA by comparing
-the computed model to a null model. This test is based on the null
-hypothesis that the strength of the linear relationship calculated by
-the R² is not larger than the value that would be obtained for unrelated
-Y and X matrices of the same size. Note that F-statistics can also be
-used to sequentially test the significance of each canonical axis.</p>
-<p>In R, RDA can be computed using the function rda from package vegan, as
-follows:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="redundancy-analysis.html#cb10-1"></a><span class="co"># Preparing the data prior to RDA</span></span>
-<span id="cb10-2"><a href="redundancy-analysis.html#cb10-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="op">-</span>das)  <span class="co"># remove the &#39;distance from the source&#39; variable</span></span>
-<span id="cb10-3"><a href="redundancy-analysis.html#cb10-3"></a></span>
-<span id="cb10-4"><a href="redundancy-analysis.html#cb10-4"></a><span class="co"># Running the RDA</span></span>
-<span id="cb10-5"><a href="redundancy-analysis.html#cb10-5"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(rda)</span>
-<span id="cb10-6"><a href="redundancy-analysis.html#cb10-6"></a>spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.z)</span>
-<span id="cb10-7"><a href="redundancy-analysis.html#cb10-7"></a></span>
-<span id="cb10-8"><a href="redundancy-analysis.html#cb10-8"></a><span class="co">### Extract the results</span></span>
-<span id="cb10-9"><a href="redundancy-analysis.html#cb10-9"></a><span class="kw">summary</span>(spe.rda, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
-<span id="cb10-10"><a href="redundancy-analysis.html#cb10-10"></a></span>
-<span id="cb10-11"><a href="redundancy-analysis.html#cb10-11"></a><span class="co"># The results are called using summary:</span></span>
-<span id="cb10-12"><a href="redundancy-analysis.html#cb10-12"></a><span class="kw">summary</span>(spe.rda, <span class="dt">display =</span> <span class="ot">NULL</span>)  <span class="co">#display = NULL optional  </span></span></code></pre></div>
-<p>The summary of the output looks like this:</p>
-<p><img src="images/rda_output_1.png" class="align-center" /></p>
-<p>These results contain the proportion of variance of Y explained by the X
-variables (constrained proportion, 73.41% here), the unexplained
-variance of Y (unconstrained proportion, 26.59% here) and then summarize
-the eigenvalues, the proportions explained and the cumulative proportion
-of each canonical axis (each canonical axis = each constraining
-variable, in this case, the environmental variables from env).</p>
-<p>To select the significant explanatory variables, you can then perform a
-forward selection (or backwards or stepwise), using the ordiR2step()
-function (or using the forward.sel function of package packfor):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="redundancy-analysis.html#cb11-1"></a><span class="co">### Select the significant explanatory variables by forward</span></span>
-<span id="cb11-2"><a href="redundancy-analysis.html#cb11-2"></a><span class="co">### selection</span></span>
-<span id="cb11-3"><a href="redundancy-analysis.html#cb11-3"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(ordiR2step)</span>
-<span id="cb11-4"><a href="redundancy-analysis.html#cb11-4"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> env.z), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.rda), </span>
-<span id="cb11-5"><a href="redundancy-analysis.html#cb11-5"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb11-6"><a href="redundancy-analysis.html#cb11-6"></a>env.signif &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;alt&quot;</span>, <span class="st">&quot;oxy&quot;</span>, <span class="st">&quot;dbo&quot;</span>))</span></code></pre></div>
-<p>The resulting output reads: rda(formula = spe.hel ~ alt + oxy + dbo,
-data = env.z) with the proportion of variation explained by the three
-constraining variables being 0.59. So in this case, only three variables
-are retained by the forward selection, i.e. alt, oxy and dbo. These
-three variables can be placed in a new data frame env.signif to perform
-the new RDA including only significant X variables:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="redundancy-analysis.html#cb12-1"></a>spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.signif)</span>
-<span id="cb12-2"><a href="redundancy-analysis.html#cb12-2"></a><span class="kw">summary</span>(spe.rda.signif, <span class="dt">display =</span> <span class="ot">NULL</span>)</span></code></pre></div>
-<p>The explanatory variables (altitude, oxygen and biological oxygen
-demand) now explain 59% of the variance in Y (species). The adjusted R²
-of this RDA is calculated using the function RsquareAdj:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="redundancy-analysis.html#cb13-1"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.rda.signif)<span class="op">$</span>adj.r.squared)</span>
-<span id="cb13-2"><a href="redundancy-analysis.html#cb13-2"></a><span class="co"># Here the strength of the relationship between X and Y</span></span>
-<span id="cb13-3"><a href="redundancy-analysis.html#cb13-3"></a><span class="co"># corrected for the number of X variables is 0.54.</span></span></code></pre></div>
-<p>The significance of the model and of each canonical axis can be tested
-using the function anova (note this is different from retaining
-significant variables as was done with forward selection, now we’re
-testing the significance of the RDA axes):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="redundancy-analysis.html#cb14-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(anova.cca)</span>
-<span id="cb14-2"><a href="redundancy-analysis.html#cb14-2"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
-<span id="cb14-3"><a href="redundancy-analysis.html#cb14-3"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
-<span id="cb14-4"><a href="redundancy-analysis.html#cb14-4"></a><span class="co"># In this case, the RDA model is highly significant (p=0.001)</span></span>
-<span id="cb14-5"><a href="redundancy-analysis.html#cb14-5"></a><span class="co"># as well as all three canonical axes.</span></span></code></pre></div>
-<p>To visualize the results of the RDA, triplots can be drawn using the
-plot(). Note that as in PCA, users can create scaling 1 and scaling 2
-triplots. In scaling 1, distance among objects approximate their
-Euclidean distances while in scaling 2, angles between variables X and Y
-reflect their correlation. Thus, scaling 1 triplots can be used to
-interpret distances among objects and scaling 2 triplots to interpret
-the relationships between X and Y. To plot the scaling 1 triplots of the
-RDA, the following code can be used:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="redundancy-analysis.html#cb15-1"></a><span class="co"># Quick plots scaling 1 and 2</span></span>
-<span id="cb15-2"><a href="redundancy-analysis.html#cb15-2"></a><span class="kw">windows</span>()</span>
-<span id="cb15-3"><a href="redundancy-analysis.html#cb15-3"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA (scaling 1)&quot;</span>)</span>
-<span id="cb15-4"><a href="redundancy-analysis.html#cb15-4"></a><span class="kw">windows</span>()</span>
-<span id="cb15-5"><a href="redundancy-analysis.html#cb15-5"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA (scaling 2)&quot;</span>)</span>
-<span id="cb15-6"><a href="redundancy-analysis.html#cb15-6"></a></span>
-<span id="cb15-7"><a href="redundancy-analysis.html#cb15-7"></a><span class="co"># Advanced plots scaling 1</span></span>
-<span id="cb15-8"><a href="redundancy-analysis.html#cb15-8"></a><span class="kw">windows</span>()</span>
-<span id="cb15-9"><a href="redundancy-analysis.html#cb15-9"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 1&quot;</span>, </span>
-<span id="cb15-10"><a href="redundancy-analysis.html#cb15-10"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb15-11"><a href="redundancy-analysis.html#cb15-11"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb15-12"><a href="redundancy-analysis.html#cb15-12"></a><span class="kw">points</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb15-13"><a href="redundancy-analysis.html#cb15-13"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb15-14"><a href="redundancy-analysis.html#cb15-14"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb15-15"><a href="redundancy-analysis.html#cb15-15"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-16"><a href="redundancy-analysis.html#cb15-16"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb15-17"><a href="redundancy-analysis.html#cb15-17"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb15-18"><a href="redundancy-analysis.html#cb15-18"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-19"><a href="redundancy-analysis.html#cb15-19"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb15-20"><a href="redundancy-analysis.html#cb15-20"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
-<span id="cb15-21"><a href="redundancy-analysis.html#cb15-21"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb15-22"><a href="redundancy-analysis.html#cb15-22"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-23"><a href="redundancy-analysis.html#cb15-23"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb15-24"><a href="redundancy-analysis.html#cb15-24"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb15-25"><a href="redundancy-analysis.html#cb15-25"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-26"><a href="redundancy-analysis.html#cb15-26"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb15-27"><a href="redundancy-analysis.html#cb15-27"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
-<span id="cb15-28"><a href="redundancy-analysis.html#cb15-28"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb15-29"><a href="redundancy-analysis.html#cb15-29"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span>
-<span id="cb15-30"><a href="redundancy-analysis.html#cb15-30"></a></span>
-<span id="cb15-31"><a href="redundancy-analysis.html#cb15-31"></a><span class="co"># Advanced plots scaling 2</span></span>
-<span id="cb15-32"><a href="redundancy-analysis.html#cb15-32"></a><span class="kw">windows</span>()</span>
-<span id="cb15-33"><a href="redundancy-analysis.html#cb15-33"></a><span class="kw">plot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 2&quot;</span>, </span>
-<span id="cb15-34"><a href="redundancy-analysis.html#cb15-34"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb15-35"><a href="redundancy-analysis.html#cb15-35"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb15-36"><a href="redundancy-analysis.html#cb15-36"></a><span class="kw">points</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb15-37"><a href="redundancy-analysis.html#cb15-37"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb15-38"><a href="redundancy-analysis.html#cb15-38"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb15-39"><a href="redundancy-analysis.html#cb15-39"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-40"><a href="redundancy-analysis.html#cb15-40"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb15-41"><a href="redundancy-analysis.html#cb15-41"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb15-42"><a href="redundancy-analysis.html#cb15-42"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-43"><a href="redundancy-analysis.html#cb15-43"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.1</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb15-44"><a href="redundancy-analysis.html#cb15-44"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="fl">2.1</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
-<span id="cb15-45"><a href="redundancy-analysis.html#cb15-45"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb15-46"><a href="redundancy-analysis.html#cb15-46"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb15-47"><a href="redundancy-analysis.html#cb15-47"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb15-48"><a href="redundancy-analysis.html#cb15-48"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb15-49"><a href="redundancy-analysis.html#cb15-49"></a><span class="kw">text</span>(<span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb15-50"><a href="redundancy-analysis.html#cb15-50"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb15-51"><a href="redundancy-analysis.html#cb15-51"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spe.rda.signif, </span>
-<span id="cb15-52"><a href="redundancy-analysis.html#cb15-52"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb15-53"><a href="redundancy-analysis.html#cb15-53"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>And the final triplots would look like this:</p>
-<p><img src="images/doubs_rda1.png" class="align-center" /> <img src="images/doubs_rda2.png" class="align-center" /></p>
-<p><strong>Challenge 1</strong>: Run an RDA of the mite environmental variables
-constraining the mite species abundances. Use:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="redundancy-analysis.html#cb16-1"></a><span class="co"># Load the mite species and environmental data from vegan</span></span>
-<span id="cb16-2"><a href="redundancy-analysis.html#cb16-2"></a><span class="co"># package</span></span>
-<span id="cb16-3"><a href="redundancy-analysis.html#cb16-3"></a><span class="kw">data</span>(mite)</span>
-<span id="cb16-4"><a href="redundancy-analysis.html#cb16-4"></a>mite.spe &lt;-<span class="st"> </span>mite</span>
-<span id="cb16-5"><a href="redundancy-analysis.html#cb16-5"></a>mite.spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span>
-<span id="cb16-6"><a href="redundancy-analysis.html#cb16-6"></a></span>
-<span id="cb16-7"><a href="redundancy-analysis.html#cb16-7"></a><span class="kw">data</span>(mite.env)</span></code></pre></div>
-<p>What are the significant explanatory variables? How much of the
-variation in species data is explain by significant explanatory
-variables (i.e. those that were selected)? What are the significant
-axes? What group(s) of sites can you identify? What species are related
-to each group(s) of sites?</p>
-<p><strong>Challenge 1</strong>: Solution</p>
-<p>Your code probably looks something like this:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="redundancy-analysis.html#cb17-1"></a><span class="co"># Initial RDA with ALL of the environmental data</span></span>
-<span id="cb17-2"><a href="redundancy-analysis.html#cb17-2"></a>mite.spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env)</span>
-<span id="cb17-3"><a href="redundancy-analysis.html#cb17-3"></a></span>
-<span id="cb17-4"><a href="redundancy-analysis.html#cb17-4"></a><span class="co"># Select significant environmental variables</span></span>
-<span id="cb17-5"><a href="redundancy-analysis.html#cb17-5"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env), <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), </span>
-<span id="cb17-6"><a href="redundancy-analysis.html#cb17-6"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb17-7"><a href="redundancy-analysis.html#cb17-7"></a></span>
-<span id="cb17-8"><a href="redundancy-analysis.html#cb17-8"></a><span class="co"># Create a new dataframe with only the significant variables</span></span>
-<span id="cb17-9"><a href="redundancy-analysis.html#cb17-9"></a><span class="co"># that you identified above</span></span>
-<span id="cb17-10"><a href="redundancy-analysis.html#cb17-10"></a>mite.env.signif &lt;-<span class="st"> </span><span class="kw">subset</span>(mite.env, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;WatrCont&quot;</span>, <span class="st">&quot;Shrub&quot;</span>, </span>
-<span id="cb17-11"><a href="redundancy-analysis.html#cb17-11"></a>    <span class="st">&quot;Substrate&quot;</span>, <span class="st">&quot;Topo&quot;</span>, <span class="st">&quot;SubsDens&quot;</span>))</span>
-<span id="cb17-12"><a href="redundancy-analysis.html#cb17-12"></a></span>
-<span id="cb17-13"><a href="redundancy-analysis.html#cb17-13"></a><span class="co"># Re-run the RDA with the significant variables and look at</span></span>
-<span id="cb17-14"><a href="redundancy-analysis.html#cb17-14"></a><span class="co"># the summary</span></span>
-<span id="cb17-15"><a href="redundancy-analysis.html#cb17-15"></a>mite.spe.rda.signif =<span class="st"> </span><span class="kw">rda</span>(mite.spe <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env.signif)</span>
-<span id="cb17-16"><a href="redundancy-analysis.html#cb17-16"></a><span class="kw">summary</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
-<span id="cb17-17"><a href="redundancy-analysis.html#cb17-17"></a></span>
-<span id="cb17-18"><a href="redundancy-analysis.html#cb17-18"></a><span class="co"># Find the R2 adjusted of the model with the retained</span></span>
-<span id="cb17-19"><a href="redundancy-analysis.html#cb17-19"></a><span class="co"># environmental variables</span></span>
-<span id="cb17-20"><a href="redundancy-analysis.html#cb17-20"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared)</span>
-<span id="cb17-21"><a href="redundancy-analysis.html#cb17-21"></a></span>
-<span id="cb17-22"><a href="redundancy-analysis.html#cb17-22"></a><span class="co"># Determine the significant canonical (constrained) axes)</span></span>
-<span id="cb17-23"><a href="redundancy-analysis.html#cb17-23"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
-<span id="cb17-24"><a href="redundancy-analysis.html#cb17-24"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
-<span id="cb17-25"><a href="redundancy-analysis.html#cb17-25"></a></span>
-<span id="cb17-26"><a href="redundancy-analysis.html#cb17-26"></a><span class="co"># Plot the RDA</span></span>
-<span id="cb17-27"><a href="redundancy-analysis.html#cb17-27"></a><span class="kw">windows</span>()</span>
-<span id="cb17-28"><a href="redundancy-analysis.html#cb17-28"></a><span class="kw">plot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 1&quot;</span>, </span>
-<span id="cb17-29"><a href="redundancy-analysis.html#cb17-29"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb17-30"><a href="redundancy-analysis.html#cb17-30"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb17-31"><a href="redundancy-analysis.html#cb17-31"></a><span class="kw">points</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb17-32"><a href="redundancy-analysis.html#cb17-32"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb17-33"><a href="redundancy-analysis.html#cb17-33"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb17-34"><a href="redundancy-analysis.html#cb17-34"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb17-35"><a href="redundancy-analysis.html#cb17-35"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb17-36"><a href="redundancy-analysis.html#cb17-36"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.rda.signif, </span>
-<span id="cb17-37"><a href="redundancy-analysis.html#cb17-37"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb17-38"><a href="redundancy-analysis.html#cb17-38"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb17-39"><a href="redundancy-analysis.html#cb17-39"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, </span>
-<span id="cb17-40"><a href="redundancy-analysis.html#cb17-40"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb17-41"><a href="redundancy-analysis.html#cb17-41"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb17-42"><a href="redundancy-analysis.html#cb17-42"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="kw">scores</span>(mite.spe.rda.signif, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, </span>
-<span id="cb17-43"><a href="redundancy-analysis.html#cb17-43"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.rda.signif, </span>
-<span id="cb17-44"><a href="redundancy-analysis.html#cb17-44"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb17-45"><a href="redundancy-analysis.html#cb17-45"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>Five explanatory variables are significant: WatrCont, Shrub, Substrate,
-Topo, and SubsDens. The proportion of the variance explained by these
-variables is 32.08% and the adjusted R² of this model is 19.20%. While
-the first canonical is significant (p&lt;0.001), the overall model is
-however not significant (p=0.107). Three groups of sites appear on the
-triplot. One group of sites with high water content (top right) have
-high abundance of species 9 and 25. Species 6, 12, 19 and 26 are related
-to another group of sites with hummock topography (bottom left). The
-last group of sites (top left) have not characteristic species and
-heterogeneous environmental conditions. See the triplot below:</p>
-<p><img src="images/mite_rda1.png" class="align-center" /></p>
+<p>Redundancy Analysis (RDA) is a direct extension of multiple regression, as it models the effect of an explanatory matrix <span class="math inline">\(X\)</span> (n x p) on a response matrix <span class="math inline">\(Y\)</span> (n x m). The difference here is that we can model effect of an explanatory matrix on a <strong>response <em>matrix</em></strong>, rather than a single response variable. For example, RDA allows us to model the effect of environmental variables on the entire community, rather than on species richness. This is done by performing an ordination of <span class="math inline">\(Y\)</span> to obtain ordination axes that are linear combinations of the variables in <span class="math inline">\(X\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="images/RDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
+<p class="caption">
+Figure 6.1: The basic structure of a redundancy analysis (RDA).
+</p>
+</div>
+<p>Note that the explanatory variables in <span class="math inline">\(X\)</span> can be <strong>quantitative, qualitative or binary variables</strong>. If they are quantitative, explanatory variables in <span class="math inline">\(X\)</span> must be <strong>centered</strong>, <strong>standardized</strong> (if explanatory variables are in different units), <strong>transformed</strong> (to limit the skew of explanatory variables) or <strong>normalized</strong> (to linearize relationships) following the same principles as in PCA. Collinearity between the <span class="math inline">\(X\)</span> variables should also be reduced before RDA. We began this process while exploring the data: our community data is Hellinger-transformed, and our environmental variables are centered and standardized. However, we still have some collinearity issues that have not been solved.</p>
+<p>Sometimes, we have more explanatory variables than we need to understand the drivers of our response variable. The best way to build a model is always to use <strong>ecological reasoning</strong> when determining which variables should be included or excluded. However, if there are still too many variables included in the model, or if some of them are highly collinear, explanatory variables can be selected by forward, backward or stepwise <strong>selection</strong> that remove non-significant explanatory variables. However, this approach should always be taken after the <em>ecological</em> selection of variables, according to your knowledge of the system. We will see more about this later!</p>
+<div id="how-the-rda-works" class="section level2">
+<h2><span class="header-section-number">6.1</span> How the RDA works</h2>
+<p>Redundancy analysis as a two-step process <span class="citation">(Legendre and Legendre <a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span>. The first step is a multiple regression, where each object in <span class="math inline">\(Y\)</span> is regressed on the explanatory variables in <span class="math inline">\(X\)</span>, which results in a matrix of fitted values <span class="math inline">\(Y_{fit}\)</span>. This step is calculated through the following linear equation:</p>
+<p><span class="math display">\[Y_{fit} = X[X&#39;X]^{-1}X&#39;Y\]</span></p>
+<p>In the second step, we apply a principal components analysis (PCA) on the fitted matrix <span class="math inline">\(Y_{fit}\)</span> to reduce dimensionality, i.e. to obtain the eigenvalues and eigenvectors. We then obtain a matrix <span class="math inline">\(Z\)</span> which contains the canonical axes, which correspond to <em>linear</em> combinations of the explanatory variables in the space of <span class="math inline">\(X\)</span>. The <em>linearity</em> of the combinations of the <span class="math inline">\(X\)</span> variables is a fundamental property of RDA. In the analysis of community composition, these canonical axes are interpreted as complex environmental gradients.</p>
+<div class="figure" style="text-align: center"><span id="fig:ord-diagram"></span>
+<img src="images/constrained_ord_diagram.png" alt="The computation process of an RDA, from Legendre &amp; Legendre (2012)." width="70%" />
+<p class="caption">
+Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (2012).
+</p>
+</div>
+<p>Once the RDA is computed, several statistics can be computed to interpret the explanatory power of the included variables and whether the observed relationships are significant. These include:</p>
+<ul>
+<li><span class="math inline">\(R^2\)</span>, which measures the strength of the canonical relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> by calculating the proportion of the variation of <span class="math inline">\(Y\)</span> explained by the variables in <span class="math inline">\(X\)</span>,<br />
+</li>
+<li>Adjusted <span class="math inline">\(R^2\)</span>, which also measures the strength of the relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span>, but applies a <strong>correction</strong> of the <span class="math inline">\(R^2\)</span> to take into account the number of explanatory variables. <em>This is the statistic that should be reported.</em></li>
+<li>The F-statistic corresponds to an overall test of significance of an RDA by comparing the computed model to a null model. This test is based on the null hypothesis that the strength of the linear relationship calculated by the <span class="math inline">\(R^2\)</span> is not larger than the value that would be obtained for unrelated <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> matrices of the same size. Note that F-statistics can also be used to sequentially test the significance of each canonical axis.</li>
+</ul>
+</div>
+<div id="running-an-rda-in-r" class="section level2">
+<h2><span class="header-section-number">6.2</span> Running an RDA in R</h2>
+<p>An RDA can be computed using the function <code>rda()</code> from the <code>vegan</code> package, as follows:</p>
+<p><strong>Step 1</strong>: Standardize and/or transform the data.</p>
+<p>We already applied a Hellinger transformation to our community matrix, and standardized our explanatory variables in the section: <a href="exploration.html#exploration">4</a>. However, we noticed that the variable <code>das</code> was collinear with several other variables. We will begin by removing this variable:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="redundancy-analysis.html#cb45-1"></a><span class="co"># We&#39;ll use our standardized environmental data, but we will</span></span>
+<span id="cb45-2"><a href="redundancy-analysis.html#cb45-2"></a><span class="co"># remove &#39;das&#39;, which was correlated with many other</span></span>
+<span id="cb45-3"><a href="redundancy-analysis.html#cb45-3"></a><span class="co"># variables:</span></span>
+<span id="cb45-4"><a href="redundancy-analysis.html#cb45-4"></a>env.z &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="op">-</span>das)</span></code></pre></div>
+<p><strong>Step 2</strong>: Run the RDA.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="redundancy-analysis.html#cb46-1"></a><span class="co"># Model the effect of all environmental variables on fish</span></span>
+<span id="cb46-2"><a href="redundancy-analysis.html#cb46-2"></a><span class="co"># community composition</span></span>
+<span id="cb46-3"><a href="redundancy-analysis.html#cb46-3"></a>spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.z)</span></code></pre></div>
+<p><strong>Step 3</strong>: Extract key results of the RDA.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="redundancy-analysis.html#cb47-1"></a><span class="kw">summary</span>(spe.rda)</span></code></pre></div>
+<p>The first section of the summary contains the pieces we need to verify the performance of our RDA. Let us break it down:</p>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          0.5025     1.0000
+## Constrained    0.3689     0.7341
+## Unconstrained  0.1336     0.2659
+...</code></pre>
+<ul>
+<li><strong>Constrained Proportion</strong>: variance of <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(X\)</span> (73.41%)</li>
+<li><strong>Unconstrained Proportion</strong>: unexplained variance in <span class="math inline">\(Y\)</span> (26.59%)</li>
+</ul>
+<blockquote>
+<p>How would you report these results? You could say: “The included environmental variables explain <strong>73.41%</strong> of the variation in fish community composition across sites.”</p>
+</blockquote>
+<p>The rest of the RDA summary is not printed here, because it is long. Aside from the section printed above, the summary contains:</p>
+<ul>
+<li><strong>Eigenvalues, and their contribution to the variance </strong><br />
+</li>
+<li><strong>Accumulated constrained eigenvalues</strong>, including the cumulative proportion of explained variance by each axis in the final RDA ordination. These axes represent the rescaled environmental variables. If you need to select a subset of axes for other analyses, you can use this cumulative proportion to select the first few axes until you reach a threshold of your choice.<br />
+</li>
+<li><strong>Scores</strong> for species, sites, and the explanatory variables, which are the coordinates of each of these objects in the RDA space. The default scaling is of type 2 (we will come back to this).</li>
+</ul>
+<div id="selecting-variables" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Selecting variables</h3>
+<p>If we want to simplify this model, we can perform a forward selection (or backwards or stepwise). These types of selections help us select variables that are <strong>statistically important</strong>. <em>However, it is important to note that selecting variables ecologically is much more important than performing selection in this way. If a variable of ecological interest is not selected, this does not mean it has to be removed from the RDA.</em></p>
+<p>Here, we will be performing forward selection on our 11 environmental variables. To do this, we can use the <code>ordiR2step()</code> function (or using the <code>forward.sel</code> function of package <code>packfor</code>):</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="redundancy-analysis.html#cb49-1"></a><span class="co"># Forward selection of variables:</span></span>
+<span id="cb49-2"><a href="redundancy-analysis.html#cb49-2"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> env.z), <span class="co"># lower model limit (simple!)</span></span>
+<span id="cb49-3"><a href="redundancy-analysis.html#cb49-3"></a>               <span class="dt">scope =</span> <span class="kw">formula</span>(spe.rda), <span class="co"># upper model limit (the &quot;full&quot; model)</span></span>
+<span id="cb49-4"><a href="redundancy-analysis.html#cb49-4"></a>               <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>,</span>
+<span id="cb49-5"><a href="redundancy-analysis.html#cb49-5"></a>               <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="co"># can&#39;t surpass the &quot;full&quot; model&#39;s R2</span></span>
+<span id="cb49-6"><a href="redundancy-analysis.html#cb49-6"></a>               <span class="dt">pstep =</span> <span class="dv">1000</span>,</span>
+<span id="cb49-7"><a href="redundancy-analysis.html#cb49-7"></a>               <span class="dt">trace =</span> <span class="ot">FALSE</span>) <span class="co"># change to TRUE to see the selection process!</span></span></code></pre></div>
+<blockquote>
+<p>Here, we are essentially adding one variable at a time, and retaining it if it significantly increases the model’s adjusted <span class="math inline">\(R^2\)</span>.</p>
+</blockquote>
+<p><strong>Which variables are retained by the forward selection?</strong></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="redundancy-analysis.html#cb50-1"></a><span class="co"># Check the new model with forward-selected variables</span></span>
+<span id="cb50-2"><a href="redundancy-analysis.html#cb50-2"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
+<pre><code>## rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)</code></pre>
+<p><strong>What is the adjusted R2 of the RDA with the selected variables?</strong></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="redundancy-analysis.html#cb52-1"></a><span class="co"># Write our new model</span></span>
+<span id="cb52-2"><a href="redundancy-analysis.html#cb52-2"></a>spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>alt <span class="op">+</span><span class="st"> </span>oxy <span class="op">+</span><span class="st"> </span>dbo, <span class="dt">data =</span> env.z)</span>
+<span id="cb52-3"><a href="redundancy-analysis.html#cb52-3"></a><span class="co"># check the adjusted R2 (corrected for the number of</span></span>
+<span id="cb52-4"><a href="redundancy-analysis.html#cb52-4"></a><span class="co"># explanatory variables)</span></span>
+<span id="cb52-5"><a href="redundancy-analysis.html#cb52-5"></a><span class="kw">RsquareAdj</span>(spe.rda.signif)</span></code></pre></div>
+<pre><code>## $r.squared
+## [1] 0.5894243
+## 
+## $adj.r.squared
+## [1] 0.5401552</code></pre>
+<p>The explanatory variables (altitude, oxygen and biological oxygen demand) now explain <em>59%</em> of the variance in <span class="math inline">\(Y\)</span> (species abundances across sites, or community composition). When we correct for the number of variables in <span class="math inline">\(X\)</span>, the adjusted <span class="math inline">\(R^2\)</span> tells us that three selected variables explain <em>54%</em> of the variance in species abundances.</p>
+<blockquote>
+<p>Because the adjusted <span class="math inline">\(R^2\)</span> is corrected for the number of explanatory variables, it is comparable across models and datasets. For this reason, you should report the adjusted <span class="math inline">\(R^2\)</span> when writing up the result of an RDA for an article, or in a study which compares the explanatory power of different models.</p>
+</blockquote>
+</div>
+<div id="significance-testing" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Significance testing</h3>
+<p>The significance of your RDA can be tested using the function <code>anova.cca()</code>.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="redundancy-analysis.html#cb54-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>...
+##          Df Variance      F Pr(&gt;F)    
+## Model     3  0.29619 11.963  0.001 ***
+## Residual 25  0.20632                  
+## ---
+...</code></pre>
+<p>You can also test the significance of each variable with <code>by = "term"</code>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="redundancy-analysis.html#cb56-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;term&quot;</span>)</span></code></pre></div>
+<pre><code>...
+## Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+##          Df Variance       F Pr(&gt;F)    
+## alt       1 0.164856 19.9759  0.001 ***
+## oxy       1 0.082426  9.9877  0.001 ***
+## dbo       1 0.048909  5.9264  0.002 ** 
+## Residual 25 0.206319                   
+...</code></pre>
+<p>You can also test the significance of each canonical axis with <code>by = "axis"</code>. Recall that these axes represent the variation in explanatory variables in fewer dimensions.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="redundancy-analysis.html#cb58-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
+<pre><code>...
+## Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+##          Df Variance       F Pr(&gt;F)    
+## RDA1      1 0.218022 26.4181  0.001 ***
+## RDA2      1 0.050879  6.1651  0.001 ***
+## RDA3      1 0.027291  3.3069  0.001 ***
+## Residual 25 0.206319                   
+...</code></pre>
+<p>Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001).</p>
+</div>
+<div id="rda-plot" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> RDA plot</h3>
+<p>One of the most powerful aspects of RDA is the <strong>simultaneous visualization</strong> of your response and explanatory variables (<em>i.e.</em> species and environmental variables).</p>
+<p>As with the PCA in (Workshop 9)[<a href="https://github.com/QCBSRworkshops/workshop09" class="uri">https://github.com/QCBSRworkshops/workshop09</a>], there are two types of scaling:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type 1</th>
+<th>Type 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Distances among objects reflect their similarities</td>
+<td>Angles between variables reflect their correlation</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="redundancy-analysis.html#cb60-1"></a><span class="co"># Type 1 scaling</span></span>
+<span id="cb60-2"><a href="redundancy-analysis.html#cb60-2"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb60-3"><a href="redundancy-analysis.html#cb60-3"></a><span class="co"># Type 2 scaling</span></span>
+<span id="cb60-4"><a href="redundancy-analysis.html#cb60-4"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-27-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-27-2.png" width="50%" /></p>
+<div class="split">
+<div class="split-left">
+<p><strong><em>Scaling 1</em></strong> shows similarities between objects in the <strong>response matrix</strong>.</p>
+<ul>
+<li>Sites (numbers) that are closer together have <em>more similar</em> communities.<br />
+</li>
+<li>Species that are closer together occupy more sites <em>in common</em>.</li>
+</ul>
+</div>
+<div class="split-right">
+<p><strong><em>Scaling 2</em></strong> shows the effects of <strong>explanatory variables</strong>.</p>
+<ul>
+<li>Longer arrows mean this variable <em>strongly</em> drives the variation in the community matrix.<br />
+</li>
+<li>Arrows pointing in opposite directions have a <em>negative</em> relationship.<br />
+</li>
+<li>Arrows pointing in the same direction have a <em>positive</em> relationship.</li>
+</ul>
+</div>
+</div>
+<div id="customizing-rda-plots" class="section level4">
+<h4><span class="header-section-number">6.2.3.1</span> Customizing RDA plots</h4>
+<p>Both <code>plot()</code> and <code>ordiplot()</code> make quick and simple ordination plots, but you can customize your plots by extracting scores with <code>scores()</code> and manually setting the aesthetics of <code>points()</code>, <code>text()</code>, and <code>arrows()</code>. Here is an example of a custom triplot. Feel free to play around with the colours and other parameters to make it your own!</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="redundancy-analysis.html#cb61-1"></a><span class="co">## extract % explained by the first 2 axes</span></span>
+<span id="cb61-2"><a href="redundancy-analysis.html#cb61-2"></a>perc &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span>(<span class="kw">summary</span>(spe.rda.signif)<span class="op">$</span>cont<span class="op">$</span>importance[<span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]), <span class="dv">2</span>)</span>
+<span id="cb61-3"><a href="redundancy-analysis.html#cb61-3"></a></span>
+<span id="cb61-4"><a href="redundancy-analysis.html#cb61-4"></a><span class="co">## extract scores - these are coordinates in the RDA space</span></span>
+<span id="cb61-5"><a href="redundancy-analysis.html#cb61-5"></a>sc_si &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;sites&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb61-6"><a href="redundancy-analysis.html#cb61-6"></a>sc_sp &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;species&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb61-7"><a href="redundancy-analysis.html#cb61-7"></a>sc_bp &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;bp&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb61-8"><a href="redundancy-analysis.html#cb61-8"></a></span>
+<span id="cb61-9"><a href="redundancy-analysis.html#cb61-9"></a><span class="co">## Custom triplot, step by step</span></span>
+<span id="cb61-10"><a href="redundancy-analysis.html#cb61-10"></a></span>
+<span id="cb61-11"><a href="redundancy-analysis.html#cb61-11"></a><span class="co"># Set up a blank plot with scaling, axes, and labels</span></span>
+<span id="cb61-12"><a href="redundancy-analysis.html#cb61-12"></a><span class="kw">plot</span>(spe.rda.signif,</span>
+<span id="cb61-13"><a href="redundancy-analysis.html#cb61-13"></a>     <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="co"># set scaling type </span></span>
+<span id="cb61-14"><a href="redundancy-analysis.html#cb61-14"></a>     <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="co"># this excludes the plotting of any points from the results</span></span>
+<span id="cb61-15"><a href="redundancy-analysis.html#cb61-15"></a>     <span class="dt">frame =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb61-16"><a href="redundancy-analysis.html#cb61-16"></a>     <span class="co"># set axis limits</span></span>
+<span id="cb61-17"><a href="redundancy-analysis.html#cb61-17"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), </span>
+<span id="cb61-18"><a href="redundancy-analysis.html#cb61-18"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb61-19"><a href="redundancy-analysis.html#cb61-19"></a>     <span class="co"># label the plot (title, and axes)</span></span>
+<span id="cb61-20"><a href="redundancy-analysis.html#cb61-20"></a>     <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - scaling 1&quot;</span>,</span>
+<span id="cb61-21"><a href="redundancy-analysis.html#cb61-21"></a>     <span class="dt">xlab =</span> <span class="kw">paste0</span>(<span class="st">&quot;RDA1 (&quot;</span>, perc[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>), </span>
+<span id="cb61-22"><a href="redundancy-analysis.html#cb61-22"></a>     <span class="dt">ylab =</span> <span class="kw">paste0</span>(<span class="st">&quot;RDA2 (&quot;</span>, perc[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>) </span>
+<span id="cb61-23"><a href="redundancy-analysis.html#cb61-23"></a>)</span>
+<span id="cb61-24"><a href="redundancy-analysis.html#cb61-24"></a><span class="co"># add points for site scores</span></span>
+<span id="cb61-25"><a href="redundancy-analysis.html#cb61-25"></a><span class="kw">points</span>(sc_si, </span>
+<span id="cb61-26"><a href="redundancy-analysis.html#cb61-26"></a>       <span class="dt">pch =</span> <span class="dv">21</span>, <span class="co"># set shape (here, circle with a fill colour)</span></span>
+<span id="cb61-27"><a href="redundancy-analysis.html#cb61-27"></a>       <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="co"># outline colour</span></span>
+<span id="cb61-28"><a href="redundancy-analysis.html#cb61-28"></a>       <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="co"># fill colour</span></span>
+<span id="cb61-29"><a href="redundancy-analysis.html#cb61-29"></a>       <span class="dt">cex =</span> <span class="fl">1.2</span>) <span class="co"># size</span></span>
+<span id="cb61-30"><a href="redundancy-analysis.html#cb61-30"></a><span class="co"># add points for species scores</span></span>
+<span id="cb61-31"><a href="redundancy-analysis.html#cb61-31"></a><span class="kw">points</span>(sc_sp, </span>
+<span id="cb61-32"><a href="redundancy-analysis.html#cb61-32"></a>       <span class="dt">pch =</span> <span class="dv">22</span>, <span class="co"># set shape (here, square with a fill colour)</span></span>
+<span id="cb61-33"><a href="redundancy-analysis.html#cb61-33"></a>       <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb61-34"><a href="redundancy-analysis.html#cb61-34"></a>       <span class="dt">bg =</span> <span class="st">&quot;#f2bd33&quot;</span>, </span>
+<span id="cb61-35"><a href="redundancy-analysis.html#cb61-35"></a>       <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb61-36"><a href="redundancy-analysis.html#cb61-36"></a><span class="co"># add text labels for species abbreviations</span></span>
+<span id="cb61-37"><a href="redundancy-analysis.html#cb61-37"></a><span class="kw">text</span>(sc_sp <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="fl">0.03</span>, <span class="fl">0.09</span>), <span class="co"># adjust text coordinates to avoid overlap with points </span></span>
+<span id="cb61-38"><a href="redundancy-analysis.html#cb61-38"></a>     <span class="dt">labels =</span> <span class="kw">rownames</span>(sc_sp), </span>
+<span id="cb61-39"><a href="redundancy-analysis.html#cb61-39"></a>     <span class="dt">col =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb61-40"><a href="redundancy-analysis.html#cb61-40"></a>     <span class="dt">font =</span> <span class="dv">2</span>, <span class="co"># bold</span></span>
+<span id="cb61-41"><a href="redundancy-analysis.html#cb61-41"></a>     <span class="dt">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb61-42"><a href="redundancy-analysis.html#cb61-42"></a><span class="co"># add arrows for effects of the expanatory variables</span></span>
+<span id="cb61-43"><a href="redundancy-analysis.html#cb61-43"></a><span class="kw">arrows</span>(<span class="dv">0</span>,<span class="dv">0</span>, <span class="co"># start them from (0,0)</span></span>
+<span id="cb61-44"><a href="redundancy-analysis.html#cb61-44"></a>       sc_bp[,<span class="dv">1</span>], sc_bp[,<span class="dv">2</span>], <span class="co"># end them at the score value</span></span>
+<span id="cb61-45"><a href="redundancy-analysis.html#cb61-45"></a>       <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb61-46"><a href="redundancy-analysis.html#cb61-46"></a>       <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb61-47"><a href="redundancy-analysis.html#cb61-47"></a><span class="co"># add text labels for arrows</span></span>
+<span id="cb61-48"><a href="redundancy-analysis.html#cb61-48"></a><span class="kw">text</span>(<span class="dt">x =</span> sc_bp[,<span class="dv">1</span>] <span class="fl">-0.1</span>, <span class="co"># adjust text coordinate to avoid overlap with arrow tip</span></span>
+<span id="cb61-49"><a href="redundancy-analysis.html#cb61-49"></a>     <span class="dt">y =</span> sc_bp[,<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.03</span>, </span>
+<span id="cb61-50"><a href="redundancy-analysis.html#cb61-50"></a>     <span class="dt">labels =</span> <span class="kw">rownames</span>(sc_bp), </span>
+<span id="cb61-51"><a href="redundancy-analysis.html#cb61-51"></a>     <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb61-52"><a href="redundancy-analysis.html#cb61-52"></a>     <span class="dt">cex =</span> <span class="dv">1</span>, </span>
+<span id="cb61-53"><a href="redundancy-analysis.html#cb61-53"></a>     <span class="dt">font =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="challenge-1" class="section level2">
+<h2><span class="header-section-number">6.3</span> Challenge 1</h2>
+<p>Run an RDA to model the effects of environmental variables on mite species abundances.</p>
+<blockquote>
+<p>The <code>mite</code> dataset is part of the <code>vegan</code> package, so you do not need to have it stored as a .csv in your repository.</p>
+</blockquote>
+<p>To get started, load the <code>mite</code> data:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="redundancy-analysis.html#cb62-1"></a><span class="co"># Load mite species abundance data</span></span>
+<span id="cb62-2"><a href="redundancy-analysis.html#cb62-2"></a><span class="kw">data</span>(<span class="st">&quot;mite&quot;</span>)</span>
+<span id="cb62-3"><a href="redundancy-analysis.html#cb62-3"></a></span>
+<span id="cb62-4"><a href="redundancy-analysis.html#cb62-4"></a><span class="co"># Load environmental data</span></span>
+<span id="cb62-5"><a href="redundancy-analysis.html#cb62-5"></a><span class="kw">data</span>(<span class="st">&quot;mite.env&quot;</span>)</span></code></pre></div>
+<p>Recall some useful functions:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="redundancy-analysis.html#cb63-1"></a><span class="kw">decostand</span>()</span>
+<span id="cb63-2"><a href="redundancy-analysis.html#cb63-2"></a><span class="kw">rda</span>()</span>
+<span id="cb63-3"><a href="redundancy-analysis.html#cb63-3"></a><span class="kw">ordiR2step</span>()</span>
+<span id="cb63-4"><a href="redundancy-analysis.html#cb63-4"></a><span class="kw">anova.cca</span>()</span>
+<span id="cb63-5"><a href="redundancy-analysis.html#cb63-5"></a><span class="kw">ordiplot</span>()</span></code></pre></div>
+<div id="challenge-1-solution" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Challenge 1: Solution</h3>
+<p><strong>Step 1:</strong> Transform and standardize the data.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="redundancy-analysis.html#cb64-1"></a><span class="co"># Hellinger transform the community data</span></span>
+<span id="cb64-2"><a href="redundancy-analysis.html#cb64-2"></a>mite.spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span>
+<span id="cb64-3"><a href="redundancy-analysis.html#cb64-3"></a></span>
+<span id="cb64-4"><a href="redundancy-analysis.html#cb64-4"></a><span class="co"># Standardize quantitative environmental data</span></span>
+<span id="cb64-5"><a href="redundancy-analysis.html#cb64-5"></a>mite.env<span class="op">$</span>SubsDens &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.env<span class="op">$</span>SubsDens, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
+<span id="cb64-6"><a href="redundancy-analysis.html#cb64-6"></a>mite.env<span class="op">$</span>WatrCont &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.env<span class="op">$</span>WatrCont, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span></code></pre></div>
+<p><strong>Step 2:</strong> Select environmental variables.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="redundancy-analysis.html#cb65-1"></a><span class="co"># Initial RDA with ALL of the environmental data</span></span>
+<span id="cb65-2"><a href="redundancy-analysis.html#cb65-2"></a>mite.spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env)</span>
+<span id="cb65-3"><a href="redundancy-analysis.html#cb65-3"></a></span>
+<span id="cb65-4"><a href="redundancy-analysis.html#cb65-4"></a><span class="co"># Forward selection of environmental variables</span></span>
+<span id="cb65-5"><a href="redundancy-analysis.html#cb65-5"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env), </span>
+<span id="cb65-6"><a href="redundancy-analysis.html#cb65-6"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb65-7"><a href="redundancy-analysis.html#cb65-7"></a>    <span class="dt">pstep =</span> <span class="dv">1000</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb65-8"><a href="redundancy-analysis.html#cb65-8"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
+<pre><code>## rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo, 
+##     data = mite.env)</code></pre>
+<p><strong>Step 3:</strong> Run the RDA and check its explanatory power.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="redundancy-analysis.html#cb67-1"></a><span class="co"># Re-run the RDA with the significant variables</span></span>
+<span id="cb67-2"><a href="redundancy-analysis.html#cb67-2"></a>mite.spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span></span>
+<span id="cb67-3"><a href="redundancy-analysis.html#cb67-3"></a><span class="st">    </span>Substrate <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>SubsDens, <span class="dt">data =</span> mite.env)</span>
+<span id="cb67-4"><a href="redundancy-analysis.html#cb67-4"></a></span>
+<span id="cb67-5"><a href="redundancy-analysis.html#cb67-5"></a><span class="co"># Find the adjusted R2 of the model with the retained env</span></span>
+<span id="cb67-6"><a href="redundancy-analysis.html#cb67-6"></a><span class="co"># variables</span></span>
+<span id="cb67-7"><a href="redundancy-analysis.html#cb67-7"></a><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.4367038</code></pre>
+<p><strong>Step 4:</strong> Test model significance.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="redundancy-analysis.html#cb69-1"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo + SubsDens, data = mite.env)
+##          Df Variance     F Pr(&gt;F)    
+## Model    11  0.20759 5.863  0.001 ***
+## Residual 58  0.18669                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We find that four explanatory variables are retained after forward selection: WatrCont, Shrub, Substrate, and Topo. The selected environmental variables significantly explain <strong>43.7% (p = 0.001)</strong> of the variation in mite species abundances.</p>
+<p><strong>Step 5:</strong> Plot the RDA results!</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="redundancy-analysis.html#cb71-1"></a><span class="co"># Scaling 1</span></span>
+<span id="cb71-2"><a href="redundancy-analysis.html#cb71-2"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Mite RDA - Scaling 1&quot;</span>)</span>
+<span id="cb71-3"><a href="redundancy-analysis.html#cb71-3"></a><span class="co"># Scaling 2</span></span>
+<span id="cb71-4"><a href="redundancy-analysis.html#cb71-4"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Mite RDA - Scaling 2&quot;</span>)</span></code></pre></div>
+<img src="book-en_files/figure-html/unnamed-chunk-37-1.png" width="50%" /><img src="book-en_files/figure-html/unnamed-chunk-37-2.png" width="50%" />
+<div class="split">
+<div class="split-left">
+<p><strong><em>Scaling 1</em></strong> shows similarities between objects in the <strong>response matrix</strong>.</p>
+<ul>
+<li>The sites (black circles) are overall similar<br />
+</li>
+<li>A few species (red +) stand out from the cluster near the middle, meaning they do not occupy many sites in common with other species. These species might therefore be rare or unique in some ecological way.</li>
+</ul>
+</div>
+<div class="split-right">
+<p><strong><em>Scaling 2</em></strong> shows the effects of <strong>explanatory variables</strong>.</p>
+<ul>
+<li>Substrate density and water content have long arrows, and therefore strong effects</li>
+<li>Shrubs have an opposite effect to WatrCont and SubsDens, because Shrub arrows are in opposite directions to these variables.</li>
+<li>Sites vary a lot in terms of SubsDens, and less in terms of WatrCont.</li>
+</ul>
+</div>
+</div>
 
+</div>
+</div>
+</div>
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-legendre2012">
+<p>Legendre, P., and Louis Legendre. 2012. <em>Numerical Ecology</em>. Elsevier.</p>
+</div>
 </div>
 <hr>
 <center> 

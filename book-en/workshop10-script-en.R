@@ -1,25 +1,21 @@
 ##Section: 01-preparing-for-the-workshop.R 
 
+# Install the required packages
 install.packages("vegan")
-install.packages("mvpart")
 install.packages("labdsv")
-install.packages("plyr")
 install.packages("MASS")
+install.packages("ggplot2")
 
-# For the two following packages, upload the file provided on the wiki page.
-# To do so, go to Packages tab on the bottom right panel of R Studio
-# Click on Install Packages
-# Choose to install from Package Archive file and upload these two files
-install.packages("MVPARTwrap")
-install.packages("rdaTest")
+# install mvpart from package archive file
+install.packages("remotes")
+remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
 
+# Load the required packages
 library(vegan)
-library(mvpart)
-library(MVPARTwrap)
-library(rdaTest)
 library(labdsv)
-library(plyr)
 library(MASS)
+library(mvpart)
+library(ggplot2)
 
 
 ##Section: 02-introduction.R 
@@ -29,43 +25,69 @@ library(MASS)
 
 ##Section: 03-data-exploration.R 
 
-#Species community data frame (fish abundance): “DoubsSpe.csv”
-spe<- read.csv(file.choose(), row.names=1)
-spe<- spe[-8,] #Site number 8 contains no species and so row 8 (site 8) is removed. Be careful to
-#only run this command line once as you are overwriting "spe" each time.
+# Make sure the files are in your working directory! 
+# If R cannot find the dataset, set your working directory with setwd()
+# to the folder in which your data is stored (e.g. setwd("~/Desktop/workshop10"))
 
-#Environmental data frame: “DoubsEnv.csv”
-env<- read.csv(file.choose(), row.names=1)
-env<- env[-8,] #Remove corresponding abiotic data for site 8 (since removed from fish data).
-#Again, be careful to only run the last line once.
+# Species community data frame (fish abundance)
+spe <- read.csv("data/doubsspe.csv", row.names = 1)
+spe <- spe[-8,] # Site number 8 contains no species, so we remove row 8 (site 8) 
+# Be careful to only run this command line once as you are overwriting "spe" each time! 
 
-names(spe) #see names of columns in spe
-dim(spe) #dimensions of spe; number of columns and rows
-str(spe) #displays internal structure of objects
-head(spe) #first few rows of the data frame
-summary(spe) #summary statistics for each column; min value, median value, max value, mean value etc.
+# Environmental data frame: “DoubsEnv.csv”
+env <- read.csv("data/doubsenv.csv", row.names = 1)
+env <- env[-8,] # Remove corresponding abiotic data for site 8 (because removed from fish data). 
+# Again, be careful to only run the last line once.
 
-#Species distribution
-(ab <- table(unlist(spe))) #note that when you put an entire line of code in brackets like this, the output for that operation is displayed right away in the R console
+names(spe) # names of objects (species)
+dim(spe) # dataset dimensions
+head(spe) # look at first 5 rows
 
-barplot(ab, las=1, xlab="Abundance class", ylab="Frequency", col=grey(5:0/5))
+str(spe) # structure of objects in dataset
+summary(spe) # summary statistics for all objects (min, mean, max, etc.)
 
-sum(spe==0)
+# Count number of species frequencies in each abundance class
+ab <- table(unlist(spe))
+# Plot distribution of species frequencies
+barplot(ab, las = 1, # make axis labels perpendicular to axis
+        xlab = "Abundance class", ylab = "Frequency", # label axes
+        col = grey(5:0/5)) # 5-colour gradient for the bars
 
-sum(spe==0)/(nrow(spe)*ncol(spe))
+# Count the number of zeros in the dataset
+sum(spe == 0) 
 
-spe.hel <- decostand(spe, method="hellinger") # you can also use method="hell"
+# Calculate proportion of zeros in the dataset
+sum(spe == 0)/(nrow(spe)*ncol(spe))
+
+# Apply Hellinger transformation to correct for the double zero problem
+spe.hel <- decostand(spe, method = "hellinger")
 
 names(env)
 dim(env)
-str(env)
 head(env)
-summary(env)
-pairs(env, main="Bivariate Plots of the Environmental Data" )
 
-env.z <- decostand(env, method="standardize")
-apply(env.z, 2, mean) # the data are now centered (means~0)
-apply(env.z, 2, sd)   # the data are now scaled (standard deviations=1)
+str(env)
+summary(env)
+
+# We can visually look for correlations between variables:
+heatmap(abs(cor(env)), 
+        # Compute pearson correlation (note they are absolute values)
+        col = rev(heat.colors(6)), 
+        Colv = NA, Rowv = NA)
+legend("topright", 
+       title = "Absolute Pearson R",
+       legend =  round(seq(0,1, length.out = 6),1),
+       y.intersp = 0.7, bty = "n",
+       fill = rev(heat.colors(6)))
+
+# Scale and center variables
+env.z <- decostand(env, method = "standardize")
+
+# Variables are now centered around a mean of 0
+round(apply(env.z, 2, mean), 1)
+
+# and scaled to have a standard deviation of 1
+apply(env.z, 2, sd)
 
 
 ##Section: 04-canonical-analysis.R 
@@ -75,131 +97,177 @@ apply(env.z, 2, sd)   # the data are now scaled (standard deviations=1)
 
 ##Section: 05-redundancy-analysis.R 
 
-#Preparing the data prior to RDA
-env.z <- subset(env.z, select = -das) # remove the "distance from the source" variable
+# sometimes cache needs to be set to true in the knitr setup chunk for this to take effect
+# in xaringan::infinite_moon_reader()
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
 
-#Running the RDA
-?rda
-spe.rda <- rda(spe.hel~., data=env.z)
+knitr::include_graphics("images/RDA.png")
 
-#Extract the results
-summary(spe.rda, display=NULL)
+knitr::include_graphics("images/constrained_ord_diagram.png")
 
-#The results are called using summary:
-summary(spe.rda, display=NULL) #display = NULL optional
+# We'll use our standardized environmental data, but we will remove 'das', which was correlated with many other variables:
+env.z <- subset(env.z, select = -das)
 
-#Select the significant explanatory variables by forward selection
-?ordiR2step
-ordiR2step(rda(spe.hel~1, data=env.z), scope= formula(spe.rda), direction= "forward", R2scope=TRUE, pstep=1000)
-env.signif <- subset(env.z, select = c("alt", "oxy", "dbo"))
+# Model the effect of all environmental variables on fish community composition
+spe.rda <- rda(spe.hel ~ ., data = env.z)
 
-spe.rda.signif <- rda(spe.hel~., data=env.signif)
-summary(spe.rda.signif, display=NULL)
+summary(spe.rda)
 
-(R2adj <- RsquareAdj(spe.rda.signif)$adj.r.squared)
-#Here the strength of the relationship between X and Y corrected for the number of X variables is 0.54.
+summary(spe.rda)
 
-?anova.cca
-anova.cca(spe.rda.signif, step=1000)
-anova.cca(spe.rda.signif, step=1000, by="axis")
-#In this case, the RDA model is highly significant (p=0.001) as well as all three canonical axes.
+# Forward selection of variables:
+fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (simple!)
+               scope = formula(spe.rda), # upper model limit (the "full" model)
+               direction = "forward",
+               R2scope = TRUE, # can't surpass the "full" model's R2
+               pstep = 1000,
+               trace = FALSE) # change to TRUE to see the selection process!
 
-#Quick plots scaling 1 and 2
-windows()
-plot(spe.rda.signif, scaling=1, main="Triplot RDA (scaling 1)")
-windows()
-plot(spe.rda.signif, scaling=2, main="Triplot RDA (scaling 2)")
+# Check the new model with forward-selected variables
+fwd.sel$call
 
-#Advanced plots scaling 1
-windows()
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spe.rda.signif, display="species", choices=c(1), scaling=1),
-       scores(spe.rda.signif, display="species", choices=c(2), scaling=1),
-       col="black",length=0)
-text(scores(spe.rda.signif, display="species", choices=c(1), scaling=1),
-     scores(spe.rda.signif, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(spe.rda.signif, display="species", scaling=1)),
-     col="black", cex=0.8)
-arrows(0,0,
-       scores(spe.rda.signif, display="bp", choices=c(1), scaling=1),
-       scores(spe.rda.signif, display="bp", choices=c(2), scaling=1),
-       col="red")
-text(scores(spe.rda.signif, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1)
+# Write our new model
+spe.rda.signif <- rda(spe.hel ~ alt + oxy + dbo, data = env.z)
+# check the adjusted R2 (corrected for the number of explanatory variables)
+RsquareAdj(spe.rda.signif)
 
-#Advanced plots scaling 2
-windows()
-plot(spe.rda.signif, scaling=2, main="Triplot RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=2),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spe.rda.signif, display="species", choices=c(1), scaling=2)*2,
-       scores(spe.rda.signif, display="species", choices=c(2), scaling=2)*2,
-       col="black",length=0)
-text(scores(spe.rda.signif, display="species", choices=c(1), scaling=2)*2.1,
-     scores(spe.rda.signif, display="species", choices=c(2), scaling=2)*2.1,
-     labels=rownames(scores(spe.rda.signif, display="species", scaling=2)),
-     col="black", cex=0.8)
-arrows(0,0,
-       scores(spe.rda.signif, display="bp", choices=c(1), scaling=2),
-       scores(spe.rda.signif, display="bp", choices=c(2), scaling=2),
-       col="red")
-text(scores(spe.rda.signif, display="bp", choices=c(1), scaling=2)+0.05,
-     scores(spe.rda.signif, display="bp", choices=c(2), scaling=2)+0.05,
-     labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=2)),
-     col="red", cex=1)
+anova.cca(spe.rda.signif, step = 1000)
 
-#Load the mite species and environmental data from vegan package
-data(mite)
-mite.spe<-mite
-mite.spe.hel <- decostand(mite.spe, method="hellinger")
+anova.cca(spe.rda.signif, step = 1000, by = "term")
 
-data(mite.env)
+anova.cca(spe.rda.signif, step = 1000, by = "axis")
 
-#Initial RDA with ALL of the environmental data
-mite.spe.rda<-rda(mite.spe.hel~., data=mite.env)
+# Type 1 scaling
+ordiplot(spe.rda.signif, scaling = 1, type = "text")
+# Type 2 scaling
+ordiplot(spe.rda.signif, scaling = 2, type = "text")
 
-#Select significant environmental variables
-ordiR2step(rda(mite.spe.hel~1, data=mite.env),
-           scope= formula(mite.spe.rda), direction= "forward", R2scope=TRUE, pstep=1000)
+extract % explained by the first 2 axes
+perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
 
-#Create a new dataframe with only the significant variables that you identified above
-mite.env.signif <- subset(mite.env,
-                          select = c("WatrCont", "Shrub", "Substrate", "Topo", "SubsDens"))
+extract scores - these are coordinates in the RDA space
+sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
+sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
+sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
 
-#Re-run the RDA with the significant variables and look at the summary
-mite.spe.rda.signif=rda(mite.spe~., data=mite.env.signif)
-summary(mite.spe.rda.signif, display=NULL)
+Custom triplot, step by step
 
-#Find the R2 adjusted of the model with the retained environmental variables
-(R2adj <- RsquareAdj(mite.spe.rda.signif)$adj.r.squared)
+# Set up a blank plot with scaling, axes, and labels
+plot(spe.rda.signif,
+     scaling = 1, # set scaling type 
+     type = "none", # this excludes the plotting of any points from the results
+     frame = FALSE,
+     # set axis limits
+     xlim = c(-1,1), 
+     ylim = c(-1,1),
+     # label the plot (title, and axes)
+     main = "Triplot RDA - scaling 1",
+     xlab = paste0("RDA1 (", perc[1], "%)"), 
+     ylab = paste0("RDA2 (", perc[2], "%)") 
+)
+# add points for site scores
+points(sc_si, 
+       pch = 21, # set shape (here, circle with a fill colour)
+       col = "black", # outline colour
+       bg = "steelblue", # fill colour
+       cex = 1.2) # size
+# add points for species scores
+points(sc_sp, 
+       pch = 22, # set shape (here, square with a fill colour)
+       col = "black",
+       bg = "#f2bd33", 
+       cex = 1.2)
+# add text labels for species abbreviations
+text(sc_sp + c(0.03, 0.09), # adjust text coordinates to avoid overlap with points 
+     labels = rownames(sc_sp), 
+     col = "grey40", 
+     font = 2, # bold
+     cex = 0.6)
+# add arrows for effects of the expanatory variables
+arrows(0,0, # start them from (0,0)
+       sc_bp[,1], sc_bp[,2], # end them at the score value
+       col = "red", 
+       lwd = 3)
+# add text labels for arrows
+text(x = sc_bp[,1] -0.1, # adjust text coordinate to avoid overlap with arrow tip
+     y = sc_bp[,2] - 0.03, 
+     labels = rownames(sc_bp), 
+     col = "red", 
+     cex = 1, 
+     font = 2)
 
-#Determine the significant canonical (constrained) axes)
-anova.cca(mite.spe.rda.signif, step=1000)
-anova.cca(mite.spe.rda.signif, step=1000, by="axis")
+# Challenge 1: Run an RDA to model the effects of environmental variables on mite species abundances.
 
-#Plot the RDA
-windows()
-plot(mite.spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(mite.spe.rda.signif, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-text(scores(mite.spe.rda.signif, display="species", choices=c(1), scaling=1),
-     scores(mite.spe.rda.signif, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(mite.spe.rda.signif, display="species", scaling=1)),
-     col="grey", cex=0.8)
-arrows(0,0,
-      scores(mite.spe.rda.signif, display="bp", choices=c(1), scaling=1),
-      scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1),
-      col="red")
-text(scores(mite.spe.rda.signif, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1)
+# Load mite species abundance data
+data("mite")
+
+# Load environmental data
+data("mite.env")
+
+decostand()
+rda()
+ordiR2step()
+anova.cca()
+ordiplot()
+
+# Challenge 1: Solution! Spoilers ahead!!
+
+# Hellinger transform the community data
+mite.spe.hel <- decostand(mite, method = "hellinger")
+
+# Standardize quantitative environmental data
+mite.env$SubsDens <- decostand(mite.env$SubsDens, method = "standardize")
+mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
+
+# Initial RDA with ALL of the environmental data
+mite.spe.rda <- rda(mite.spe.hel ~ ., data = mite.env)
+
+# Forward selection of environmental variables
+fwd.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env),
+                      scope = formula(mite.spe.rda),
+                      direction = "forward",
+                      R2scope = TRUE, pstep = 1000, trace = FALSE)
+fwd.sel$call
+
+# Re-run the RDA with the significant variables
+mite.spe.rda.signif <- rda(mite.spe.hel ~ WatrCont + Shrub +
+                           Substrate + Topo + SubsDens,
+                           data = mite.env)
+
+# Find the adjusted R2 of the model with the retained env variables
+RsquareAdj(mite.spe.rda.signif)$adj.r.squared
+
+
+anova.cca(mite.spe.rda.signif, step = 1000)
+
+# Scaling 1
+ordiplot(mite.spe.rda.signif,
+         scaling = 1,
+         main = "Mite RDA - Scaling 1")
+# Scaling 2
+ordiplot(mite.spe.rda.signif,
+         scaling = 2,
+         main = "Mite RDA - Scaling 2")
 
 
 ##Section: 06-partial-redundancy-analysis.R 

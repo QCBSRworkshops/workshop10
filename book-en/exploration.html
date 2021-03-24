@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Exploring the Doubs River dataset | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <meta name="description" content="Advanced Multivariate Analyses in R" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Exploring the Doubs River dataset | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop10" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Exploring the Doubs River dataset | Workshop 10: Advanced Multivariate Analyses in R" />
+  
+  <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="why-advanced-multivariate-methods.html"/>
+<link rel="next" href="what-are-constrained-ordinations.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+</ul></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
+<li class="part"><span><b>Final considerations</b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 10: Advanced Multivariate Analyses in <code>R</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+<div id="exploration" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Exploring the Doubs River dataset</h1>
+<p>We will be using the Doubs River dataset <span class="citation">(Verneaux <a href="#ref-verneaux1973" role="doc-biblioref">1973</a>)</span> for this workshop.</p>
+<ul>
+<li><p><code>DoubsSpe.csv</code> is a data frame of fish community data where the first column contains <strong>site names from 1 to 30</strong> and the remaining columns are fish taxa (<strong>27 species</strong>). The taxa columns are populated by fish abundance data (counts).</p></li>
+<li><p><code>DoubsEnv.csv</code> is a data frame of environmental data for the same sites contained in the fish community data frame. Again, the first column contains site names from 1 to 30. The remaining columns contain measurements for <strong>11 abiotic variables</strong>.</p></li>
+<li><p>Note that most functions for ordination analyses expect data to be in <a href="http://en.wikipedia.org/wiki/Wide_and_narrow_data">wide format</a>.</p></li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="exploration.html#cb19-1"></a><span class="co"># Make sure the files are in your working directory!  If R</span></span>
+<span id="cb19-2"><a href="exploration.html#cb19-2"></a><span class="co"># cannot find the dataset, set your working directory with</span></span>
+<span id="cb19-3"><a href="exploration.html#cb19-3"></a><span class="co"># setwd() to the folder in which your data is stored (e.g.</span></span>
+<span id="cb19-4"><a href="exploration.html#cb19-4"></a><span class="co"># setwd(&#39;~/Desktop/workshop10&#39;))</span></span>
+<span id="cb19-5"><a href="exploration.html#cb19-5"></a></span>
+<span id="cb19-6"><a href="exploration.html#cb19-6"></a><span class="co"># Species community data frame (fish abundance)</span></span>
+<span id="cb19-7"><a href="exploration.html#cb19-7"></a>spe &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb19-8"><a href="exploration.html#cb19-8"></a>spe &lt;-<span class="st"> </span>spe[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Site number 8 contains no species, so we remove row 8 (site 8) </span></span>
+<span id="cb19-9"><a href="exploration.html#cb19-9"></a><span class="co"># Be careful to only run this command line once as you are</span></span>
+<span id="cb19-10"><a href="exploration.html#cb19-10"></a><span class="co"># overwriting &#39;spe&#39; each time!</span></span>
+<span id="cb19-11"><a href="exploration.html#cb19-11"></a></span>
+<span id="cb19-12"><a href="exploration.html#cb19-12"></a><span class="co"># Environmental data frame: “DoubsEnv.csv”</span></span>
+<span id="cb19-13"><a href="exploration.html#cb19-13"></a>env &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb19-14"><a href="exploration.html#cb19-14"></a>env &lt;-<span class="st"> </span>env[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Remove corresponding abiotic data for site 8 (because removed from fish data). </span></span>
+<span id="cb19-15"><a href="exploration.html#cb19-15"></a><span class="co"># Again, be careful to only run the last line once.</span></span></code></pre></div>
+<div id="exploring-the-fish-community-dataset" class="section level2">
+<h2><span class="header-section-number">4.1</span> Exploring the fish community dataset</h2>
+<p>We can begin by using summary functions to explore the <code>spe</code> data (fish community data), and get familiar with its dimensions, structure, column headings and some summary statistics. This is a review from <a href="https://github.com/QCBSRworkshops/workshop02">Workshop 2</a>.</p>
+<p>We can begin by getting a general overview of the matrix:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="exploration.html#cb20-1"></a><span class="kw">names</span>(spe)  <span class="co"># names of objects (species)</span></span></code></pre></div>
+<pre><code>##  [1] &quot;CHA&quot; &quot;TRU&quot; &quot;VAI&quot; &quot;LOC&quot; &quot;OMB&quot; &quot;BLA&quot; &quot;HOT&quot; &quot;TOX&quot; &quot;VAN&quot; &quot;CHE&quot; &quot;BAR&quot; &quot;SPI&quot;
+## [13] &quot;GOU&quot; &quot;BRO&quot; &quot;PER&quot; &quot;BOU&quot; &quot;PSO&quot; &quot;ROT&quot; &quot;CAR&quot; &quot;TAN&quot; &quot;BCO&quot; &quot;PCH&quot; &quot;GRE&quot; &quot;GAR&quot;
+## [25] &quot;BBO&quot; &quot;ABL&quot; &quot;ANG&quot;</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="exploration.html#cb22-1"></a><span class="kw">dim</span>(spe)  <span class="co"># dataset dimensions</span></span></code></pre></div>
+<pre><code>## [1] 29 27</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="exploration.html#cb24-1"></a><span class="kw">head</span>(spe)  <span class="co"># look at first 5 rows</span></span></code></pre></div>
+<pre><code>##   CHA TRU VAI LOC OMB BLA HOT TOX VAN CHE BAR SPI GOU BRO PER BOU PSO ROT CAR
+## 1   0   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## 2   0   5   4   3   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+## 3   0   5   5   5   0   0   0   0   0   0   0   0   0   1   0   0   0   0   0
+## 4   0   4   5   5   0   0   0   0   0   1   0   0   1   2   2   0   0   0   0
+## 5   0   2   3   2   0   0   0   0   5   2   0   0   2   4   4   0   0   2   0
+## 6   0   3   4   5   0   0   0   0   1   2   0   0   1   1   1   0   0   0   0
+##   TAN BCO PCH GRE GAR BBO ABL ANG
+## 1   0   0   0   0   0   0   0   0
+## 2   0   0   0   0   0   0   0   0
+## 3   0   0   0   0   0   0   0   0
+## 4   1   0   0   0   0   0   0   0
+## 5   3   0   0   0   5   0   0   0
+## 6   2   0   0   0   1   0   0   0</code></pre>
+<p>Then, we can look a little more closely at the objects in the matrix, which are the species in this case:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="exploration.html#cb26-1"></a><span class="kw">str</span>(spe)  <span class="co"># structure of objects in dataset</span></span>
+<span id="cb26-2"><a href="exploration.html#cb26-2"></a><span class="kw">summary</span>(spe)  <span class="co"># summary statistics for all objects (min, mean, max, etc.)</span></span></code></pre></div>
+<p>It is also a good idea to take a quick look at how the community is structured by plotting the distribution of species’ abundances in the dataset.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="exploration.html#cb27-1"></a><span class="co"># Count number of species frequencies in each abundance class</span></span>
+<span id="cb27-2"><a href="exploration.html#cb27-2"></a>ab &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">unlist</span>(spe))</span>
+<span id="cb27-3"><a href="exploration.html#cb27-3"></a><span class="co"># Plot distribution of species frequencies</span></span>
+<span id="cb27-4"><a href="exploration.html#cb27-4"></a><span class="kw">barplot</span>(ab, <span class="dt">las =</span> <span class="dv">1</span>, <span class="co"># make axis labels perpendicular to axis</span></span>
+<span id="cb27-5"><a href="exploration.html#cb27-5"></a>        <span class="dt">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="co"># label axes</span></span>
+<span id="cb27-6"><a href="exploration.html#cb27-6"></a>        <span class="dt">col =</span> <span class="kw">grey</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">5</span>)) <span class="co"># 5-colour gradient for the bars</span></span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>You might notice that there are a lot of zeros in the abundance data.</p>
+<p>How many zeros are in the dataset?</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="exploration.html#cb28-1"></a><span class="co"># Count the number of zeros in the dataset</span></span>
+<span id="cb28-2"><a href="exploration.html#cb28-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 408</code></pre>
+<p>What proportion of the dataset does that represent?</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="exploration.html#cb30-1"></a><span class="co"># Calculate proportion of zeros in the dataset</span></span>
+<span id="cb30-2"><a href="exploration.html#cb30-2"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(<span class="kw">nrow</span>(spe) <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(spe))</span></code></pre></div>
+<pre><code>## [1] 0.5210728</code></pre>
+<p>Over <strong>50%</strong> of our dataset consists of zeros! This is high, but not uncommon for species abundance data. However, many zeros can lead to a <strong>double zero problem</strong>, where common absences artificially increase the similarity between sites, in terms of their community composition. In other words, two sites might appear <em>more similar</em> just because they are both <em>missing</em> a species, even though a common absence does not make them ecologically similar. Instead, we want <em>common presences</em> to determine site similarity.</p>
+<p>To avoid this double zero problem, we will apply a transformation to the species data. <span class="citation">Legendre and Gallagher (<a href="#ref-legendre2001" role="doc-biblioref">2001</a>)</span> proposed five pre-transformations of the species data, four of which are available in the <code>decostand()</code> function from the <code>vegan</code> package.</p>
+<p>The <strong>Hellinger transformation</strong> expresses abundances as the square-root of their relative abundance at each site <span class="citation">(Borcard, Gillet, and Legendre <a href="#ref-borcard2011" role="doc-biblioref">2011</a>)</span>, solving the issue with double zeros. We will apply this transformation to the fish abundance dataset.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="exploration.html#cb32-1"></a><span class="co"># Apply Hellinger transformation to correct for the double</span></span>
+<span id="cb32-2"><a href="exploration.html#cb32-2"></a><span class="co"># zero problem</span></span>
+<span id="cb32-3"><a href="exploration.html#cb32-3"></a>spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
+</div>
+<div id="exploring-the-environmental-dataset" class="section level2">
+<h2><span class="header-section-number">4.2</span> Exploring the environmental dataset</h2>
+<p>Now, let us get some familiarity with the abiotic environmental variables measured at the same sites. First, we can explore the matrix using the same function we used above.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="exploration.html#cb33-1"></a><span class="kw">names</span>(env)</span></code></pre></div>
+<pre><code>##  [1] &quot;das&quot; &quot;alt&quot; &quot;pen&quot; &quot;deb&quot; &quot;pH&quot;  &quot;dur&quot; &quot;pho&quot; &quot;nit&quot; &quot;amm&quot; &quot;oxy&quot; &quot;dbo&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="exploration.html#cb35-1"></a><span class="kw">dim</span>(env)</span></code></pre></div>
+<pre><code>## [1] 29 11</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="exploration.html#cb37-1"></a><span class="kw">head</span>(env)</span></code></pre></div>
+<pre><code>##    das alt  pen  deb  pH dur  pho  nit  amm  oxy dbo
+## 1  0.3 934 48.0 0.84 7.9  45 0.01 0.20 0.00 12.2 2.7
+## 2  2.2 932  3.0 1.00 8.0  40 0.02 0.20 0.10 10.3 1.9
+## 3 10.2 914  3.7 1.80 8.3  52 0.05 0.22 0.05 10.5 3.5
+## 4 18.5 854  3.2 2.53 8.0  72 0.10 0.21 0.00 11.0 1.3
+## 5 21.5 849  2.3 2.64 8.1  84 0.38 0.52 0.20  8.0 6.2
+## 6 32.4 846  3.2 2.86 7.9  60 0.20 0.15 0.00 10.2 5.3</code></pre>
+<p>We can then look a little closer at the objects, which are the environmental variables in this case.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="exploration.html#cb39-1"></a><span class="kw">str</span>(env)</span>
+<span id="cb39-2"><a href="exploration.html#cb39-2"></a><span class="kw">summary</span>(env)</span></code></pre></div>
+<div id="collinearity" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Collinearity</h3>
+<p>It is also a good idea to check for correlations between variables, as the <strong>constrained ordination methods we will be using are highly sensitive to collinearities in the explanatory matrix</strong>. This means a variable might appear to be highly important just because it was treated <em>first</em> in the analysis if it is highly correlated with one or more other variables that help to explain the response variable.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="exploration.html#cb40-1"></a><span class="co"># We can visually look for correlations between variables:</span></span>
+<span id="cb40-2"><a href="exploration.html#cb40-2"></a><span class="kw">heatmap</span>(<span class="kw">abs</span>(<span class="kw">cor</span>(env)), </span>
+<span id="cb40-3"><a href="exploration.html#cb40-3"></a>        <span class="co"># Compute pearson correlation (note they are absolute values)</span></span>
+<span id="cb40-4"><a href="exploration.html#cb40-4"></a>        <span class="dt">col =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)), </span>
+<span id="cb40-5"><a href="exploration.html#cb40-5"></a>        <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">Rowv =</span> <span class="ot">NA</span>)</span>
+<span id="cb40-6"><a href="exploration.html#cb40-6"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb40-7"><a href="exploration.html#cb40-7"></a>       <span class="dt">title =</span> <span class="st">&quot;Absolute Pearson R&quot;</span>,</span>
+<span id="cb40-8"><a href="exploration.html#cb40-8"></a>       <span class="dt">legend =</span>  <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
+<span id="cb40-9"><a href="exploration.html#cb40-9"></a>       <span class="dt">y.intersp =</span> <span class="fl">0.7</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb40-10"><a href="exploration.html#cb40-10"></a>       <span class="dt">fill =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-14-1.png" width="768" /></p>
+<div class="noway">
+<p>Some variables look correlated… For example, <code>das</code> is highly correlated with <code>alt</code>, <code>deb</code>, <code>dur</code>, <code>nit</code>, among others!</p>
+</div>
+</div>
+<div id="standardizing-the-environmental-variables" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Standardizing the environmental variables</h3>
+<p>You cannot compare the effects of variables with different units. For example, a variable measured in millimeters would appear more important than if it were measured in meters, simple because the value is larger (e.g. 1000 millimeters vs. 1 meter). <strong>Standardizing variables with different units is therefore crucial.</strong></p>
+<p>In this dataset, the environmental data are all in different units and will therefore need to be standardized prior to performing any ordinations. We can once again use the <code>decostand()</code> function to standardize the environmental variables.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="exploration.html#cb41-1"></a><span class="co"># Scale and center variables</span></span>
+<span id="cb41-2"><a href="exploration.html#cb41-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">decostand</span>(env, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
+<span id="cb41-3"><a href="exploration.html#cb41-3"></a></span>
+<span id="cb41-4"><a href="exploration.html#cb41-4"></a><span class="co"># Variables are now centered around a mean of 0</span></span>
+<span id="cb41-5"><a href="exploration.html#cb41-5"></a><span class="kw">round</span>(<span class="kw">apply</span>(env.z, <span class="dv">2</span>, mean), <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
+##   0   0   0   0   0   0   0   0   0   0   0</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="exploration.html#cb43-1"></a><span class="co"># and scaled to have a standard deviation of 1</span></span>
+<span id="cb43-2"><a href="exploration.html#cb43-2"></a><span class="kw">apply</span>(env.z, <span class="dv">2</span>, sd)</span></code></pre></div>
+<pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
+##   1   1   1   1   1   1   1   1   1   1   1</code></pre>
+
+</div>
+</div>
+</div>
+
+
+
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-borcard2011">
+<p>Borcard, Daniel, François Gillet, and Pierre Legendre. 2011. <em>Numerical Ecology with R</em>. Use R! New York: Springer-Verlag. <a href="https://doi.org/10.1007/978-1-4419-7976-6">https://doi.org/10.1007/978-1-4419-7976-6</a>.</p>
+</div>
+<div id="ref-legendre2001">
+<p>Legendre, Pierre, and Eugene D. Gallagher. 2001. “Ecologically Meaningful Transformations for Ordination of Species Data.” <em>Oecologia</em> 129 (2): 271–80. <a href="https://doi.org/10.1007/s004420100716">https://doi.org/10.1007/s004420100716</a>.</p>
+</div>
+<div id="ref-verneaux1973">
+<p>Verneaux, J. 1973. In, Thèse d’état:257. Essai de Biotypologie. Besançon.</p>
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="why-advanced-multivariate-methods.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="what-are-constrained-ordinations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
