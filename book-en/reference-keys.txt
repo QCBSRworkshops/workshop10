@@ -1,5 +1,6 @@
 fig:unnamed-chunk-16
 fig:ord-diagram
+fig:unnamed-chunk-38
 code-of-conduct
 expected-behaviour
 unacceptable-behaviour
@@ -24,6 +25,12 @@ customizing-rda-plots
 challenge-1
 challenge-1-solution
 partial-redundancy-analysis
+example-partial-rda-on-doubs-river-data
+interpreting-partial-rda-output-in-r
+significance-testing-1
+partial-rda-plot
+challenge-2
+challenge-2-solution
 variation-partitioning
 multivariate-regression-tree
 linear-discriminant-analysis

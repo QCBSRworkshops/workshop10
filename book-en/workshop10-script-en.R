@@ -272,129 +272,55 @@ ordiplot(mite.spe.rda.signif,
 
 ##Section: 06-partial-redundancy-analysis.R 
 
-#Divide the env2 dataframe into two dataframes:
-envtopo <- env[, c(1:3)] # Physiography : explanatory dataset 1
-names(envtopo)
-envchem <- env[, c(4:10)] # Water quality : explanatory dataset 2
-names(envchem)
+knitr::include_graphics("images/PartialRDA.png")
 
-#Run the partial RDA
-spechem.physio=rda(spe.hel, envchem, envtopo)
-summary(spechem.physio, display=NULL)
-#or
-spechem.physio2=rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo
-                    + Condition(alt + pen + deb), data=env)
+# Subset environmental data into topography variables and chemistry variables
+env.topo <- subset(env.z, select = c(alt, pen, deb))
+env.chem <- subset(env.z, select = c(pH, dur, pho, nit, amm, oxy, dbo))
 
-#Extract the results
-summary(spechem.physio, display=NULL)
+# Run a partial RDA
+spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
 
-#Calculate the adjusted R2 of the partial RDA
-(R2adj <- RsquareAdj(spechem.physio)$adj.r.squared)
+# Alternative syntax for the partial RDA:
+spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo + # these are the effects we are interested in
+                       Condition(alt + pen + deb), # these are the covariates
+                       data = env.z)
 
-#Test the significance of the axes in partial RDA
-anova.cca(spechem.physio, step=1000)
-anova.cca(spechem.physio2, step=1000, by="axis")
+summary(spe.partial.rda)
 
-#Construct the triplots
-#Scaling 1
-windows(title="Partial RDA scaling 1")
-plot(spechem.physio, scaling=1, main="Triplot partial RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spechem.physio, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spechem.physio, display="species", choices=c(1), scaling=1),
-       scores(spechem.physio, display="species", choices=c(2), scaling=1),
-       col="black",length=0)
-text(scores(spechem.physio, display="species", choices=c(1), scaling=1),
-     scores(spechem.physio, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(spechem.physio, display="species", scaling=1)),
-     col="black", cex=0.8)
-arrows(0,0,
-      scores(spechem.physio, display="bp", choices=c(1), scaling=1),
-      scores(spechem.physio, display="bp", choices=c(2), scaling=1),
-      col="red")
-text(scores(spechem.physio, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(spechem.physio, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(spechem.physio, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1)
+# Extract the model's adjusted R2
+RsquareAdj(spe.partial.rda)$adj.r.squared
 
-#Scaling 2
-windows(title="Partial RDA scaling 2")
-plot(spechem.physio, scaling=2, main="Triplot partial RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spechem.physio, display="sites", choices=c(1,2), scaling=2),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spechem.physio, display="species", choices=c(1), scaling=2),
-       scores(spechem.physio, display="species", choices=c(2), scaling=2),
-       col="black",length=0)
-text(scores(spechem.physio, display="species", choices=c(1), scaling=2),
-     scores(spechem.physio, display="species", choices=c(2), scaling=2),
-     labels=rownames(scores(spechem.physio, display="species", scaling=2)),
-     col="black", cex=0.8)
-arrows(0,0,
-       scores(spechem.physio, display="bp", choices=c(1), scaling=2),
-       scores(spechem.physio, display="bp", choices=c(2), scaling=2),
-       col="red")
-text(scores(spechem.physio, display="bp", choices=c(1), scaling=2)+0.05,
-     scores(spechem.physio, display="bp", choices=c(2), scaling=2)+0.05,
-     labels=rownames(scores(spechem.physio, display="bp", choices=c(2), scaling=2)),
-     col="red", cex=1)
+# Test whether the model is statistically significant
+anova.cca(spe.partial.rda, step = 1000)
 
-#Partial RDA
-mite.spe.subs=rda(mite.spe.hel ~ Shrub + Topo
-                  + Condition(SubsDens + WatrCont + Substrate), data=mite.env)
+ordiplot(spe.partial.rda, 
+         scaling = 2,
+         main = "Doubs River partial RDA - Scaling 2")
 
-#Summary
-summary(mite.spe.subs, display=NULL)
-(R2adj <- RsquareAdj(mite.spe.subs)$adj.r.squared)
+# Challenge 2:
+# Run a partial RDA to model the effects of environmental variables on mite species abundances (`mite.spe.hel`), while controlling for substrate variables (`SubsDens`, `WatrCont`, and `Substrate`).
 
-#Significant axes
-anova.cca(mite.spe.subs, step=1000)
-anova.cca(mite.spe.subs, step=1000, by="axis")
+rda()
+summary()
+RsquareAdj()
+anova.cca() # hint: see the 'by' argument in ?anova.cca
 
-#Triplot scaling 1
-windows(title="Partial RDA scaling 1")
-plot(mite.spe.subs, scaling=1, main="Triplot partial RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(mite.spe.subs, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(mite.spe.subs, display="species", choices=c(1), scaling=1),
-       scores(mite.spe.subs, display="species", choices=c(2), scaling=1),
-       col="black",length=0)
-text(scores(mite.spe.subs, display="species", choices=c(1), scaling=1),
-     scores(mite.spe.subs, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(mite.spe.subs, display="species", scaling=1)),
-     col="black", cex=0.8)
-arrows(0,0,
-       scores(mite.spe.subs, display="bp", choices=c(1), scaling=1),
-       scores(mite.spe.subs, display="bp", choices=c(2), scaling=1),
-       col="red")
-text(scores(mite.spe.subs, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(mite.spe.subs, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(mite.spe.subs, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1)
+# Challenge 2: Solution! Spoilers ahead!!
 
-#Triplot scaling 2
-windows(title="Partial RDA scaling 2")
-plot(mite.spe.subs, scaling=2, main="Triplot partial RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(mite.spe.subs, display="sites", choices=c(1,2), scaling=2),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(mite.spe.subs, display="species", choices=c(1), scaling=2),
-       scores(mite.spe.subs, display="species", choices=c(2), scaling=2),
-       col="black",length=0)
-text(scores(mite.spe.subs, display="species", choices=c(1), scaling=2),
-     scores(mite.spe.subs, display="species", choices=c(2), scaling=2),
-     labels=rownames(scores(mite.spe.subs, display="species", scaling=2)),
-     col="black", cex=0.8)
-arrows(0,0,
-       scores(mite.spe.subs, display="bp", choices=c(1), scaling=2),
-       scores(mite.spe.subs, display="bp", choices=c(2), scaling=2),
-       col="red")
-text(scores(mite.spe.subs, display="bp", choices=c(1), scaling=2)+0.05,
-     scores(mite.spe.subs, display="bp", choices=c(2), scaling=2)+0.05,
-     labels=rownames(scores(mite.spe.subs, display="bp", choices=c(2), scaling=2)),
-     col="red", cex=1)
+# Compute partial RDA
+mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
+                     + Condition(SubsDens + WatrCont + Substrate),
+                     data = mite.env)
+
+# Check summary
+summary(mite.spe.subs)
+
+RsquareAdj(mite.spe.subs)$adj.r.squared
+
+anova.cca(mite.spe.subs, step = 1000)
+
+anova.cca(mite.spe.subs, step = 1000, by = "axis")
 
 
 ##Section: 07-variation-partitioning.R 

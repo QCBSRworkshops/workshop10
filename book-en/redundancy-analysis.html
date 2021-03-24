@@ -166,7 +166,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
@@ -225,7 +234,7 @@ Figure 6.1: The basic structure of a redundancy analysis (RDA).
 <p><span class="math display">\[Y_{fit} = X[X&#39;X]^{-1}X&#39;Y\]</span></p>
 <p>In the second step, we apply a principal components analysis (PCA) on the fitted matrix <span class="math inline">\(Y_{fit}\)</span> to reduce dimensionality, i.e. to obtain the eigenvalues and eigenvectors. We then obtain a matrix <span class="math inline">\(Z\)</span> which contains the canonical axes, which correspond to <em>linear</em> combinations of the explanatory variables in the space of <span class="math inline">\(X\)</span>. The <em>linearity</em> of the combinations of the <span class="math inline">\(X\)</span> variables is a fundamental property of RDA. In the analysis of community composition, these canonical axes are interpreted as complex environmental gradients.</p>
 <div class="figure" style="text-align: center"><span id="fig:ord-diagram"></span>
-<img src="images/constrained_ord_diagram.png" alt="The computation process of an RDA, from Legendre &amp; Legendre (2012)." width="70%" />
+<img src="images/constrained_ord_diagram.png" alt="The computation process of an RDA, from Legendre &amp; Legendre (2012)." width="50%" />
 <p class="caption">
 Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (2012).
 </p>
@@ -337,7 +346,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.001 ***
+## RDA3      1 0.027291  3.3069  0.006 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001).</p>

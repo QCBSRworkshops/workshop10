@@ -166,7 +166,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
@@ -210,175 +219,170 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="partial-redundancy-analysis" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> Partial Redundancy Analysis</h1>
-<p>Partial RDA is a special case of RDA in which the response variables Y
-are related to explanatory variables X in the presence of additional
-explanatory variables, W, called covariables. As in partial linear
-regression, the linear effect of X variables on the Y variables are
-adjusted for the effects of the covariables W. For this, a RDA of the
-covariables W on the response variables Y is first performed. The
-residuals of this RDA are then extracted, i.e. a matrix Yres|W
-containing the Y response variables in which the effect of W were
-removed. The partial RDA finally correspond to the RDA of X on Yres|W.
-All statistics previously presented for RDA also apply for partial RDA.</p>
-<p>Partial RDA is thus a powerful tool when users what to assess the effect
-of environmental variables on species composition while taking into
-account the species variation due to other environmental variables with
-no interest. It can also be used to control for well-known linear
-effects, isolate the effect of a single explanatory variable or analyse
-related samples. In the example below, we will assess the effect of
-water chemistry on fish species abundances partialling out the effect of
-physiography.</p>
-<p>In R, partial RDA is performed in the same way as RDA using rda() with
-the addition of a condition term:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="partial-redundancy-analysis.html#cb72-1"></a><span class="co"># Divide the env2 dataframe into two dataframes:</span></span>
-<span id="cb72-2"><a href="partial-redundancy-analysis.html#cb72-2"></a>envtopo &lt;-<span class="st"> </span>env[, <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)]  <span class="co"># Physiography : explanatory dataset 1</span></span>
-<span id="cb72-3"><a href="partial-redundancy-analysis.html#cb72-3"></a><span class="kw">names</span>(envtopo)</span>
-<span id="cb72-4"><a href="partial-redundancy-analysis.html#cb72-4"></a>envchem &lt;-<span class="st"> </span>env[, <span class="kw">c</span>(<span class="dv">4</span><span class="op">:</span><span class="dv">10</span>)]  <span class="co"># Water quality : explanatory dataset 2</span></span>
-<span id="cb72-5"><a href="partial-redundancy-analysis.html#cb72-5"></a><span class="kw">names</span>(envchem)</span>
+<p>Partial RDA is a special case of RDA in which the response variables <span class="math inline">\(Y\)</span> are related to explanatory variables <span class="math inline">\(X\)</span> in the presence of additional explanatory variables <span class="math inline">\(W\)</span>, called <strong>covariates (</strong>or covariables). As in partial linear regression, the linear effect of <span class="math inline">\(X\)</span> variables on the <span class="math inline">\(Y\)</span> variables are <em>adjusted</em> for the effects of the covariates <span class="math inline">\(W\)</span>. For this, a RDA of the covariables <span class="math inline">\(W\)</span> on the response variables <span class="math inline">\(Y\)</span> is first performed. The residuals of this RDA are then extracted, i.e. a matrix <span class="math inline">\(Y_{res}|W\)</span> containing the <span class="math inline">\(Y\)</span> response variables in which the effect of <span class="math inline">\(W\)</span> was removed. The partial RDA corresponds to the RDA of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y_{res}|W\)</span>. All statistics previously presented for RDA also apply for partial RDA.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
+<img src="images/PartialRDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
+<p class="caption">
+Figure 7.1: The basic structure of a redundancy analysis (RDA).
+</p>
+</div>
+<p>Partial RDA has several applications. It is a powerful tool when users what to assess the effect of environmental variables on species composition while taking into account the variation due to other environmental variables that are <strong>not the focus</strong> of the study. A common example of this in community ecology is to test the importance of environmental variables while controlling for the effect of space. Partial RDA can also be used to control for well-known linear effects, to isolate the effect of a single explanatory variable, or to analyse related samples.</p>
+<div id="example-partial-rda-on-doubs-river-data" class="section level2">
+<h2><span class="header-section-number">7.1</span> Example: Partial RDA on Doubs River data</h2>
+<p>In <code>R</code>, a partial RDA is performed in the same way as the RDA we used previously, using <code>rda()</code>. As a demonstration, let’s assess the effect of water chemistry on fish species abundances (<code>spe.hel</code>) while controlling for the effect of topography.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="partial-redundancy-analysis.html#cb72-1"></a><span class="co"># Subset environmental data into topography variables and</span></span>
+<span id="cb72-2"><a href="partial-redundancy-analysis.html#cb72-2"></a><span class="co"># chemistry variables</span></span>
+<span id="cb72-3"><a href="partial-redundancy-analysis.html#cb72-3"></a>env.topo &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(alt, pen, deb))</span>
+<span id="cb72-4"><a href="partial-redundancy-analysis.html#cb72-4"></a>env.chem &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(pH, dur, pho, nit, amm, </span>
+<span id="cb72-5"><a href="partial-redundancy-analysis.html#cb72-5"></a>    oxy, dbo))</span>
 <span id="cb72-6"><a href="partial-redundancy-analysis.html#cb72-6"></a></span>
-<span id="cb72-7"><a href="partial-redundancy-analysis.html#cb72-7"></a><span class="co"># Run the partial RDA</span></span>
-<span id="cb72-8"><a href="partial-redundancy-analysis.html#cb72-8"></a>spechem.physio =<span class="st"> </span><span class="kw">rda</span>(spe.hel, envchem, envtopo)</span>
-<span id="cb72-9"><a href="partial-redundancy-analysis.html#cb72-9"></a><span class="kw">summary</span>(spechem.physio, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
-<span id="cb72-10"><a href="partial-redundancy-analysis.html#cb72-10"></a><span class="co"># or</span></span>
-<span id="cb72-11"><a href="partial-redundancy-analysis.html#cb72-11"></a>spechem.physio2 =<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>dur <span class="op">+</span><span class="st"> </span>pho <span class="op">+</span><span class="st"> </span>nit <span class="op">+</span><span class="st"> </span>amm <span class="op">+</span><span class="st"> </span></span>
-<span id="cb72-12"><a href="partial-redundancy-analysis.html#cb72-12"></a><span class="st">    </span>oxy <span class="op">+</span><span class="st"> </span>dbo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(alt <span class="op">+</span><span class="st"> </span>pen <span class="op">+</span><span class="st"> </span>deb), <span class="dt">data =</span> env)</span>
-<span id="cb72-13"><a href="partial-redundancy-analysis.html#cb72-13"></a></span>
-<span id="cb72-14"><a href="partial-redundancy-analysis.html#cb72-14"></a><span class="co"># Extract the results</span></span>
-<span id="cb72-15"><a href="partial-redundancy-analysis.html#cb72-15"></a><span class="kw">summary</span>(spechem.physio, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
-<span id="cb72-16"><a href="partial-redundancy-analysis.html#cb72-16"></a></span>
-<span id="cb72-17"><a href="partial-redundancy-analysis.html#cb72-17"></a><span class="co"># Calculate the adjusted R2 of the partial RDA</span></span>
-<span id="cb72-18"><a href="partial-redundancy-analysis.html#cb72-18"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spechem.physio)<span class="op">$</span>adj.r.squared)</span>
-<span id="cb72-19"><a href="partial-redundancy-analysis.html#cb72-19"></a></span>
-<span id="cb72-20"><a href="partial-redundancy-analysis.html#cb72-20"></a><span class="co"># Test the significance of the axes in partial RDA</span></span>
-<span id="cb72-21"><a href="partial-redundancy-analysis.html#cb72-21"></a><span class="kw">anova.cca</span>(spechem.physio, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
-<span id="cb72-22"><a href="partial-redundancy-analysis.html#cb72-22"></a><span class="kw">anova.cca</span>(spechem.physio2, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
-<span id="cb72-23"><a href="partial-redundancy-analysis.html#cb72-23"></a></span>
-<span id="cb72-24"><a href="partial-redundancy-analysis.html#cb72-24"></a><span class="co"># Construct the triplots Scaling 1</span></span>
-<span id="cb72-25"><a href="partial-redundancy-analysis.html#cb72-25"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Partial RDA scaling 1&quot;</span>)</span>
-<span id="cb72-26"><a href="partial-redundancy-analysis.html#cb72-26"></a><span class="kw">plot</span>(spechem.physio, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot partial RDA - scaling 1&quot;</span>, </span>
-<span id="cb72-27"><a href="partial-redundancy-analysis.html#cb72-27"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb72-28"><a href="partial-redundancy-analysis.html#cb72-28"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb72-29"><a href="partial-redundancy-analysis.html#cb72-29"></a><span class="kw">points</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb72-30"><a href="partial-redundancy-analysis.html#cb72-30"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb72-31"><a href="partial-redundancy-analysis.html#cb72-31"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb72-32"><a href="partial-redundancy-analysis.html#cb72-32"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-33"><a href="partial-redundancy-analysis.html#cb72-33"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb72-34"><a href="partial-redundancy-analysis.html#cb72-34"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb72-35"><a href="partial-redundancy-analysis.html#cb72-35"></a><span class="kw">text</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-36"><a href="partial-redundancy-analysis.html#cb72-36"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb72-37"><a href="partial-redundancy-analysis.html#cb72-37"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spechem.physio, </span>
-<span id="cb72-38"><a href="partial-redundancy-analysis.html#cb72-38"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb72-39"><a href="partial-redundancy-analysis.html#cb72-39"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-40"><a href="partial-redundancy-analysis.html#cb72-40"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb72-41"><a href="partial-redundancy-analysis.html#cb72-41"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb72-42"><a href="partial-redundancy-analysis.html#cb72-42"></a><span class="kw">text</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb72-43"><a href="partial-redundancy-analysis.html#cb72-43"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb72-44"><a href="partial-redundancy-analysis.html#cb72-44"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spechem.physio, </span>
-<span id="cb72-45"><a href="partial-redundancy-analysis.html#cb72-45"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb72-46"><a href="partial-redundancy-analysis.html#cb72-46"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span>
-<span id="cb72-47"><a href="partial-redundancy-analysis.html#cb72-47"></a></span>
-<span id="cb72-48"><a href="partial-redundancy-analysis.html#cb72-48"></a><span class="co"># Scaling 2</span></span>
-<span id="cb72-49"><a href="partial-redundancy-analysis.html#cb72-49"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Partial RDA scaling 2&quot;</span>)</span>
-<span id="cb72-50"><a href="partial-redundancy-analysis.html#cb72-50"></a><span class="kw">plot</span>(spechem.physio, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot partial RDA - scaling 2&quot;</span>, </span>
-<span id="cb72-51"><a href="partial-redundancy-analysis.html#cb72-51"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb72-52"><a href="partial-redundancy-analysis.html#cb72-52"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb72-53"><a href="partial-redundancy-analysis.html#cb72-53"></a><span class="kw">points</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb72-54"><a href="partial-redundancy-analysis.html#cb72-54"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb72-55"><a href="partial-redundancy-analysis.html#cb72-55"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb72-56"><a href="partial-redundancy-analysis.html#cb72-56"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-57"><a href="partial-redundancy-analysis.html#cb72-57"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb72-58"><a href="partial-redundancy-analysis.html#cb72-58"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb72-59"><a href="partial-redundancy-analysis.html#cb72-59"></a><span class="kw">text</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-60"><a href="partial-redundancy-analysis.html#cb72-60"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb72-61"><a href="partial-redundancy-analysis.html#cb72-61"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spechem.physio, </span>
-<span id="cb72-62"><a href="partial-redundancy-analysis.html#cb72-62"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb72-63"><a href="partial-redundancy-analysis.html#cb72-63"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb72-64"><a href="partial-redundancy-analysis.html#cb72-64"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb72-65"><a href="partial-redundancy-analysis.html#cb72-65"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb72-66"><a href="partial-redundancy-analysis.html#cb72-66"></a><span class="kw">text</span>(<span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb72-67"><a href="partial-redundancy-analysis.html#cb72-67"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(spechem.physio, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb72-68"><a href="partial-redundancy-analysis.html#cb72-68"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(spechem.physio, </span>
-<span id="cb72-69"><a href="partial-redundancy-analysis.html#cb72-69"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb72-70"><a href="partial-redundancy-analysis.html#cb72-70"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p>This RDA is significant (p&lt;0.001) as well as the two first canonical
-axis. Water chemistry explained 31.89% of the variance of fish species
-composition, physiographic covariables explained 41.53% of this
-variation and the unexplained variation is 26.59%. The adjusted R² of
-this RDA is 24.13%. The triplot looks like:</p>
-<p><img src="images/doubs_rdapart2.png" class="align-center" /></p>
-<p><strong>Challenge 2</strong></p>
-<p>Run the partial RDA of the mite environmental variables of the mite
-species abundances partialling out for the substrate variables
-(SubsDens, WaterCont and Substrate). Is the model significant? Which are
-the significant axes? Interpret the obtained triplot.</p>
-<p><strong>Challenge 2</strong>: Solution</p>
-<p>Here is some potential code:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="partial-redundancy-analysis.html#cb73-1"></a><span class="co"># Partial RDA</span></span>
-<span id="cb73-2"><a href="partial-redundancy-analysis.html#cb73-2"></a>mite.spe.subs =<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span><span class="st"> </span></span>
-<span id="cb73-3"><a href="partial-redundancy-analysis.html#cb73-3"></a><span class="st">    </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate), <span class="dt">data =</span> mite.env)</span>
-<span id="cb73-4"><a href="partial-redundancy-analysis.html#cb73-4"></a></span>
-<span id="cb73-5"><a href="partial-redundancy-analysis.html#cb73-5"></a><span class="co"># Summary</span></span>
-<span id="cb73-6"><a href="partial-redundancy-analysis.html#cb73-6"></a><span class="kw">summary</span>(mite.spe.subs, <span class="dt">display =</span> <span class="ot">NULL</span>)</span>
-<span id="cb73-7"><a href="partial-redundancy-analysis.html#cb73-7"></a>(R2adj &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(mite.spe.subs)<span class="op">$</span>adj.r.squared)</span>
-<span id="cb73-8"><a href="partial-redundancy-analysis.html#cb73-8"></a></span>
-<span id="cb73-9"><a href="partial-redundancy-analysis.html#cb73-9"></a><span class="co"># Significant axes</span></span>
-<span id="cb73-10"><a href="partial-redundancy-analysis.html#cb73-10"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>)</span>
-<span id="cb73-11"><a href="partial-redundancy-analysis.html#cb73-11"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span>
-<span id="cb73-12"><a href="partial-redundancy-analysis.html#cb73-12"></a></span>
-<span id="cb73-13"><a href="partial-redundancy-analysis.html#cb73-13"></a><span class="co"># Triplot scaling 1</span></span>
-<span id="cb73-14"><a href="partial-redundancy-analysis.html#cb73-14"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Partial RDA scaling 1&quot;</span>)</span>
-<span id="cb73-15"><a href="partial-redundancy-analysis.html#cb73-15"></a><span class="kw">plot</span>(mite.spe.subs, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot partial RDA - scaling 1&quot;</span>, </span>
-<span id="cb73-16"><a href="partial-redundancy-analysis.html#cb73-16"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb73-17"><a href="partial-redundancy-analysis.html#cb73-17"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb73-18"><a href="partial-redundancy-analysis.html#cb73-18"></a><span class="kw">points</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb73-19"><a href="partial-redundancy-analysis.html#cb73-19"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb73-20"><a href="partial-redundancy-analysis.html#cb73-20"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb73-21"><a href="partial-redundancy-analysis.html#cb73-21"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-22"><a href="partial-redundancy-analysis.html#cb73-22"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb73-23"><a href="partial-redundancy-analysis.html#cb73-23"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb73-24"><a href="partial-redundancy-analysis.html#cb73-24"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-25"><a href="partial-redundancy-analysis.html#cb73-25"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb73-26"><a href="partial-redundancy-analysis.html#cb73-26"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.subs, </span>
-<span id="cb73-27"><a href="partial-redundancy-analysis.html#cb73-27"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb73-28"><a href="partial-redundancy-analysis.html#cb73-28"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-29"><a href="partial-redundancy-analysis.html#cb73-29"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb73-30"><a href="partial-redundancy-analysis.html#cb73-30"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb73-31"><a href="partial-redundancy-analysis.html#cb73-31"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb73-32"><a href="partial-redundancy-analysis.html#cb73-32"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb73-33"><a href="partial-redundancy-analysis.html#cb73-33"></a>    <span class="dt">scaling =</span> <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.subs, </span>
-<span id="cb73-34"><a href="partial-redundancy-analysis.html#cb73-34"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">1</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb73-35"><a href="partial-redundancy-analysis.html#cb73-35"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span>
-<span id="cb73-36"><a href="partial-redundancy-analysis.html#cb73-36"></a></span>
-<span id="cb73-37"><a href="partial-redundancy-analysis.html#cb73-37"></a><span class="co"># Triplot scaling 2</span></span>
-<span id="cb73-38"><a href="partial-redundancy-analysis.html#cb73-38"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Partial RDA scaling 2&quot;</span>)</span>
-<span id="cb73-39"><a href="partial-redundancy-analysis.html#cb73-39"></a><span class="kw">plot</span>(mite.spe.subs, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Triplot partial RDA - scaling 2&quot;</span>, </span>
-<span id="cb73-40"><a href="partial-redundancy-analysis.html#cb73-40"></a>    <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="dt">xlab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA1&quot;</span>), <span class="dt">ylab =</span> <span class="kw">c</span>(<span class="st">&quot;RDA2&quot;</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, </span>
-<span id="cb73-41"><a href="partial-redundancy-analysis.html#cb73-41"></a>        <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb73-42"><a href="partial-redundancy-analysis.html#cb73-42"></a><span class="kw">points</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>, </span>
-<span id="cb73-43"><a href="partial-redundancy-analysis.html#cb73-43"></a>    <span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, </span>
-<span id="cb73-44"><a href="partial-redundancy-analysis.html#cb73-44"></a>    <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb73-45"><a href="partial-redundancy-analysis.html#cb73-45"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-46"><a href="partial-redundancy-analysis.html#cb73-46"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb73-47"><a href="partial-redundancy-analysis.html#cb73-47"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">length =</span> <span class="dv">0</span>)</span>
-<span id="cb73-48"><a href="partial-redundancy-analysis.html#cb73-48"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-49"><a href="partial-redundancy-analysis.html#cb73-49"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, </span>
-<span id="cb73-50"><a href="partial-redundancy-analysis.html#cb73-50"></a>    <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.subs, </span>
-<span id="cb73-51"><a href="partial-redundancy-analysis.html#cb73-51"></a>    <span class="dt">display =</span> <span class="st">&quot;species&quot;</span>, <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb73-52"><a href="partial-redundancy-analysis.html#cb73-52"></a><span class="kw">arrows</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), </span>
-<span id="cb73-53"><a href="partial-redundancy-analysis.html#cb73-53"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb73-54"><a href="partial-redundancy-analysis.html#cb73-54"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb73-55"><a href="partial-redundancy-analysis.html#cb73-55"></a><span class="kw">text</span>(<span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">1</span>), <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb73-56"><a href="partial-redundancy-analysis.html#cb73-56"></a><span class="st">    </span><span class="fl">0.05</span>, <span class="kw">scores</span>(mite.spe.subs, <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), </span>
-<span id="cb73-57"><a href="partial-redundancy-analysis.html#cb73-57"></a>    <span class="dt">scaling =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.05</span>, <span class="dt">labels =</span> <span class="kw">rownames</span>(<span class="kw">scores</span>(mite.spe.subs, </span>
-<span id="cb73-58"><a href="partial-redundancy-analysis.html#cb73-58"></a>    <span class="dt">display =</span> <span class="st">&quot;bp&quot;</span>, <span class="dt">choices =</span> <span class="kw">c</span>(<span class="dv">2</span>), <span class="dt">scaling =</span> <span class="dv">2</span>)), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
-<span id="cb73-59"><a href="partial-redundancy-analysis.html#cb73-59"></a>    <span class="dt">cex =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p><img src="images/partial_rda_ch6.png" class="align-center" /></p>
-<p>This RDA is significant (p&lt;0.001) as well as the first canonical axis.
-Environmental variables explained 9.81% of the variance of mite species
-composition, substrate covariables explained 42.84% of this variation
-and the unexplained variation is 47.35%. The adjusted R² of this RDA is
-8.33%.</p>
+<span id="cb72-7"><a href="partial-redundancy-analysis.html#cb72-7"></a><span class="co"># Run a partial RDA</span></span>
+<span id="cb72-8"><a href="partial-redundancy-analysis.html#cb72-8"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel, env.chem, env.topo)</span></code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> You can also use a formula syntax like <code>Y ~ X + Condition(W)</code>, where <code>Condition()</code> allows you to control for the covariates.</p>
+</blockquote>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="partial-redundancy-analysis.html#cb73-1"></a><span class="co"># Alternative syntax for the partial RDA:</span></span>
+<span id="cb73-2"><a href="partial-redundancy-analysis.html#cb73-2"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>dur <span class="op">+</span><span class="st"> </span>pho <span class="op">+</span><span class="st"> </span>nit <span class="op">+</span><span class="st"> </span>amm <span class="op">+</span><span class="st"> </span>oxy <span class="op">+</span><span class="st"> </span>dbo <span class="op">+</span><span class="st"> </span><span class="co"># these are the effects we are interested in</span></span>
+<span id="cb73-3"><a href="partial-redundancy-analysis.html#cb73-3"></a><span class="st">                       </span><span class="kw">Condition</span>(alt <span class="op">+</span><span class="st"> </span>pen <span class="op">+</span><span class="st"> </span>deb), <span class="co"># these are the covariates</span></span>
+<span id="cb73-4"><a href="partial-redundancy-analysis.html#cb73-4"></a>                       <span class="dt">data =</span> env.z)</span></code></pre></div>
+<div id="interpreting-partial-rda-output-in-r" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Interpreting partial RDA output in R</h3>
+<p>The output of a partial RDA is very similar to the output discussed in the previous section on RDA. The key difference is that we have covariates in our model, which means we can see how much variation is explained by these additional, but not “<em>interesting</em>” variables. Once again, the first section of the summary contains the pieces we need to verify the performance of our partial RDA. Let us break it down:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="partial-redundancy-analysis.html#cb74-1"></a><span class="kw">summary</span>(spe.partial.rda)</span></code></pre></div>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          0.5025     1.0000
+## Conditioned    0.2087     0.4153
+## Constrained    0.1602     0.3189
+## Unconstrained  0.1336     0.2659
+...</code></pre>
+<ul>
+<li><strong>Conditioned Proportion</strong>: variance of <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(W\)</span> (41.53%)</li>
+<li><strong>Constrained Proportion</strong>: variance of <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(X\)</span> .(31.89%)</li>
+<li><strong>Unconstained Proportion</strong>: unexplained variance in <span class="math inline">\(Y\)</span> (26.59%)</li>
+</ul>
+<blockquote>
+<p>How would you report these results? You could say something like: “Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.”</p>
+</blockquote>
+</div>
+<div id="significance-testing-1" class="section level3">
+<h3><span class="header-section-number">7.1.2</span> Significance testing</h3>
+<p>As with the RDA, we can interpret the significance of our model with two key pieces of information.</p>
+<ol style="list-style-type: decimal">
+<li>What is the model’s <strong>explanatory power</strong>?</li>
+</ol>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="partial-redundancy-analysis.html#cb76-1"></a><span class="co"># Extract the model&#39;s adjusted R2</span></span>
+<span id="cb76-2"><a href="partial-redundancy-analysis.html#cb76-2"></a><span class="kw">RsquareAdj</span>(spe.partial.rda)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.2413464</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Is the model <strong>statistically significant</strong>?</li>
+</ol>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="partial-redundancy-analysis.html#cb78-1"></a><span class="co"># Test whether the model is statistically significant</span></span>
+<span id="cb78-2"><a href="partial-redundancy-analysis.html#cb78-2"></a><span class="kw">anova.cca</span>(spe.partial.rda, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>...
+## Permutation test for rda under reduced model
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.chem, Z = env.topo)
+##          Df Variance      F Pr(&gt;F)    
+## Model     7  0.16024 3.0842  0.001 ***
+## Residual 18  0.13360                  
+...</code></pre>
+<blockquote>
+<p>Our model explains .alert[24.1%] of the variation in fish abundance across sites. It is also statistically significant (.alert[p = 0.001])!</p>
+</blockquote>
+</div>
+<div id="partial-rda-plot" class="section level3">
+<h3><span class="header-section-number">7.1.3</span> Partial RDA plot</h3>
+<p>We can visualise the effects of the environmental variables on the fish community with the <code>ordiplot()</code> function.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="partial-redundancy-analysis.html#cb80-1"></a><span class="kw">ordiplot</span>(spe.partial.rda, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Doubs River partial RDA - Scaling 2&quot;</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-44-1.png" width="432" /></p>
+<blockquote>
+<p>Recall: Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for).</p>
+</blockquote>
+<div class="puzzle">
+<p><strong>Note:</strong> <em>The topography variables (covariates) aren’t plotted. Why is that?</em></p>
+<p>The partial RDA only <em>adjusts</em> the effects of the explanatory variables according to the covariates. The covariates are not <em>of interest</em>, and are therefore not plotted.</p>
+</div>
+</div>
+</div>
+<div id="challenge-2" class="section level2">
+<h2><span class="header-section-number">7.2</span> Challenge 2</h2>
+<p>Run a partial RDA to model the effects of environmental variables on mite species abundances (<code>mite.spe.hel</code>), while controlling for substrate variables (<code>SubsDens</code>, <code>WatrCont</code>, and <code>Substrate</code>).
+* What is the variance explained by substrate variables?
+* Is the model significant?
+* Which axes are significant?</p>
+<p>Recall some useful functions:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="partial-redundancy-analysis.html#cb81-1"></a><span class="kw">rda</span>()</span>
+<span id="cb81-2"><a href="partial-redundancy-analysis.html#cb81-2"></a><span class="kw">summary</span>()</span>
+<span id="cb81-3"><a href="partial-redundancy-analysis.html#cb81-3"></a><span class="kw">RsquareAdj</span>()</span>
+<span id="cb81-4"><a href="partial-redundancy-analysis.html#cb81-4"></a><span class="kw">anova.cca</span>()  <span class="co"># hint: see the &#39;by&#39; argument in ?anova.cca</span></span></code></pre></div>
+<div id="challenge-2-solution" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Challenge 2: Solution</h3>
+<p><strong>Step 1:</strong> Transform and standardize the data.</p>
+<p>Our datasets have already been transformed and standardized.</p>
+<p><strong>Step 2:</strong> Run a partial RDA.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="partial-redundancy-analysis.html#cb82-1"></a><span class="co"># Compute partial RDA</span></span>
+<span id="cb82-2"><a href="partial-redundancy-analysis.html#cb82-2"></a>mite.spe.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span><span class="st"> </span></span>
+<span id="cb82-3"><a href="partial-redundancy-analysis.html#cb82-3"></a><span class="st">    </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate), <span class="dt">data =</span> mite.env)</span>
+<span id="cb82-4"><a href="partial-redundancy-analysis.html#cb82-4"></a></span>
+<span id="cb82-5"><a href="partial-redundancy-analysis.html#cb82-5"></a><span class="co"># Check summary</span></span>
+<span id="cb82-6"><a href="partial-redundancy-analysis.html#cb82-6"></a><span class="kw">summary</span>(mite.spe.subs)</span></code></pre></div>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total         0.39428    1.00000
+## Conditioned   0.16891    0.42839
+## Constrained   0.03868    0.09811
+## Unconstrained 0.18669    0.47350
+...</code></pre>
+<blockquote>
+<p>Shrub and Topo explain <strong>9.8%</strong> of the variation in mite species abundances, while substrate covariables explain <strong>42.8%</strong> of this variation.</p>
+</blockquote>
+<p><strong>Step 3:</strong> Interpret the results!</p>
+<ul>
+<li>What is the variance explained by substrate variables?</li>
+</ul>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="partial-redundancy-analysis.html#cb84-1"></a><span class="kw">RsquareAdj</span>(mite.spe.subs)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.08327533</code></pre>
+<ul>
+<li>Is the model significant?</li>
+</ul>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="partial-redundancy-analysis.html#cb86-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
+##          Df Variance     F Pr(&gt;F)    
+## Model     3 0.038683 4.006  0.001 ***
+## Residual 58 0.186688                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>Which axes are significant?</li>
+</ul>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="partial-redundancy-analysis.html#cb88-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Forward tests for axes
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
+##          Df Variance      F Pr(&gt;F)    
+## RDA1      1 0.027236 8.4618  0.001 ***
+## RDA2      1 0.008254 2.5643  0.031 *  
+## RDA3      1 0.003193 0.9919  0.426    
+## Residual 58 0.186688                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<blockquote>
+<p>The RDA’s adjusted <span class="math inline">\(R^2\)</span> is <strong>8.33%</strong>, and is significant (p = 0.001). Environmental variables explained <strong>9.81%</strong> of the variance in mite species composition across sites, while substrate covariates explained <strong>42.84%</strong> of this variation. Still, <strong>47.35%</strong> of the variation is left unexplained. The first two canonical axes are significant.</p>
+</blockquote>
 
+</div>
+</div>
 </div>
 <hr>
 <center> 

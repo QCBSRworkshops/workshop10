@@ -166,7 +166,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
@@ -237,14 +246,14 @@ will partition the variation of fish species composition between
 chemical and physiographic variables.</p>
 <p>In R, variation partitioning is performed using the function varpart().
 Venn diagrams can also be drawn using the function plot().</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="variation-partitioning.html#cb74-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(varpart)</span>
-<span id="cb74-2"><a href="variation-partitioning.html#cb74-2"></a><span class="kw">vegandocs</span>(<span class="st">&quot;partitioning.pdf&quot;</span>)</span>
-<span id="cb74-3"><a href="variation-partitioning.html#cb74-3"></a></span>
-<span id="cb74-4"><a href="variation-partitioning.html#cb74-4"></a><span class="co"># Variation partitioning with all explanatory variables</span></span>
-<span id="cb74-5"><a href="variation-partitioning.html#cb74-5"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, envchem, envtopo)</span>
-<span id="cb74-6"><a href="variation-partitioning.html#cb74-6"></a>spe.part.all</span>
-<span id="cb74-7"><a href="variation-partitioning.html#cb74-7"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - all variables&quot;</span>)</span>
-<span id="cb74-8"><a href="variation-partitioning.html#cb74-8"></a><span class="kw">plot</span>(spe.part.all, <span class="dt">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="variation-partitioning.html#cb90-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(varpart)</span>
+<span id="cb90-2"><a href="variation-partitioning.html#cb90-2"></a><span class="kw">vegandocs</span>(<span class="st">&quot;partitioning.pdf&quot;</span>)</span>
+<span id="cb90-3"><a href="variation-partitioning.html#cb90-3"></a></span>
+<span id="cb90-4"><a href="variation-partitioning.html#cb90-4"></a><span class="co"># Variation partitioning with all explanatory variables</span></span>
+<span id="cb90-5"><a href="variation-partitioning.html#cb90-5"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, envchem, envtopo)</span>
+<span id="cb90-6"><a href="variation-partitioning.html#cb90-6"></a>spe.part.all</span>
+<span id="cb90-7"><a href="variation-partitioning.html#cb90-7"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - all variables&quot;</span>)</span>
+<span id="cb90-8"><a href="variation-partitioning.html#cb90-8"></a><span class="kw">plot</span>(spe.part.all, <span class="dt">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p>The output looks like: <img src="images/varpart_output.png" class="align-center" />
 <img src="images/varpart_output_venn.png" class="align-center" /></p>
 <p>In this case, the chemical variables explain 24.10% of the fish species
@@ -255,36 +264,36 @@ varpart() function also identify the fractions that can be tested for
 significance using the function anova.cca().</p>
 <p>Users can also perform variation partitioning between data sets that
 only contain significant environmental variables:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="variation-partitioning.html#cb75-1"></a><span class="co"># RDA of chemistry variables</span></span>
-<span id="cb75-2"><a href="variation-partitioning.html#cb75-2"></a>spe.chem &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> envchem)</span>
-<span id="cb75-3"><a href="variation-partitioning.html#cb75-3"></a></span>
-<span id="cb75-4"><a href="variation-partitioning.html#cb75-4"></a><span class="co"># Select significant chemistry variables</span></span>
-<span id="cb75-5"><a href="variation-partitioning.html#cb75-5"></a>R2a.all.chem &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.chem)<span class="op">$</span>adj.r.squared</span>
-<span id="cb75-6"><a href="variation-partitioning.html#cb75-6"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> envchem), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.chem), </span>
-<span id="cb75-7"><a href="variation-partitioning.html#cb75-7"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb75-8"><a href="variation-partitioning.html#cb75-8"></a><span class="kw">names</span>(envchem)</span>
-<span id="cb75-9"><a href="variation-partitioning.html#cb75-9"></a>(envchem.pars &lt;-<span class="st"> </span>envchem[, <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>)])</span>
-<span id="cb75-10"><a href="variation-partitioning.html#cb75-10"></a></span>
-<span id="cb75-11"><a href="variation-partitioning.html#cb75-11"></a><span class="co"># RDA with other environmental variables</span></span>
-<span id="cb75-12"><a href="variation-partitioning.html#cb75-12"></a>spe.topo &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> envtopo)</span>
-<span id="cb75-13"><a href="variation-partitioning.html#cb75-13"></a>R2a.all.topo &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.topo)<span class="op">$</span>adj.r.squared</span>
-<span id="cb75-14"><a href="variation-partitioning.html#cb75-14"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> envtopo), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.topo), </span>
-<span id="cb75-15"><a href="variation-partitioning.html#cb75-15"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb75-16"><a href="variation-partitioning.html#cb75-16"></a><span class="kw">names</span>(envtopo)</span>
-<span id="cb75-17"><a href="variation-partitioning.html#cb75-17"></a>envtopo.pars &lt;-<span class="st"> </span>envtopo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span>
-<span id="cb75-18"><a href="variation-partitioning.html#cb75-18"></a></span>
-<span id="cb75-19"><a href="variation-partitioning.html#cb75-19"></a><span class="co"># Varpart</span></span>
-<span id="cb75-20"><a href="variation-partitioning.html#cb75-20"></a>spe.part &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, envchem.pars, envtopo.pars)</span>
-<span id="cb75-21"><a href="variation-partitioning.html#cb75-21"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - parsimonious subsets&quot;</span>)</span>
-<span id="cb75-22"><a href="variation-partitioning.html#cb75-22"></a><span class="kw">plot</span>(spe.part, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb75-23"><a href="variation-partitioning.html#cb75-23"></a></span>
-<span id="cb75-24"><a href="variation-partitioning.html#cb75-24"></a><span class="co"># Tests of significance</span></span>
-<span id="cb75-25"><a href="variation-partitioning.html#cb75-25"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envchem.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b]</span></span>
-<span id="cb75-26"><a href="variation-partitioning.html#cb75-26"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envtopo.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [b+c]</span></span>
-<span id="cb75-27"><a href="variation-partitioning.html#cb75-27"></a>env.pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(envchem.pars, envtopo.pars)</span>
-<span id="cb75-28"><a href="variation-partitioning.html#cb75-28"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b+c]</span></span>
-<span id="cb75-29"><a href="variation-partitioning.html#cb75-29"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envchem.pars, envtopo.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [a]</span></span>
-<span id="cb75-30"><a href="variation-partitioning.html#cb75-30"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envtopo.pars, envchem.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [c]</span></span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="variation-partitioning.html#cb91-1"></a><span class="co"># RDA of chemistry variables</span></span>
+<span id="cb91-2"><a href="variation-partitioning.html#cb91-2"></a>spe.chem &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> envchem)</span>
+<span id="cb91-3"><a href="variation-partitioning.html#cb91-3"></a></span>
+<span id="cb91-4"><a href="variation-partitioning.html#cb91-4"></a><span class="co"># Select significant chemistry variables</span></span>
+<span id="cb91-5"><a href="variation-partitioning.html#cb91-5"></a>R2a.all.chem &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.chem)<span class="op">$</span>adj.r.squared</span>
+<span id="cb91-6"><a href="variation-partitioning.html#cb91-6"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> envchem), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.chem), </span>
+<span id="cb91-7"><a href="variation-partitioning.html#cb91-7"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb91-8"><a href="variation-partitioning.html#cb91-8"></a><span class="kw">names</span>(envchem)</span>
+<span id="cb91-9"><a href="variation-partitioning.html#cb91-9"></a>(envchem.pars &lt;-<span class="st"> </span>envchem[, <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>)])</span>
+<span id="cb91-10"><a href="variation-partitioning.html#cb91-10"></a></span>
+<span id="cb91-11"><a href="variation-partitioning.html#cb91-11"></a><span class="co"># RDA with other environmental variables</span></span>
+<span id="cb91-12"><a href="variation-partitioning.html#cb91-12"></a>spe.topo &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> envtopo)</span>
+<span id="cb91-13"><a href="variation-partitioning.html#cb91-13"></a>R2a.all.topo &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(spe.topo)<span class="op">$</span>adj.r.squared</span>
+<span id="cb91-14"><a href="variation-partitioning.html#cb91-14"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> envtopo), <span class="dt">scope =</span> <span class="kw">formula</span>(spe.topo), </span>
+<span id="cb91-15"><a href="variation-partitioning.html#cb91-15"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb91-16"><a href="variation-partitioning.html#cb91-16"></a><span class="kw">names</span>(envtopo)</span>
+<span id="cb91-17"><a href="variation-partitioning.html#cb91-17"></a>envtopo.pars &lt;-<span class="st"> </span>envtopo[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span>
+<span id="cb91-18"><a href="variation-partitioning.html#cb91-18"></a></span>
+<span id="cb91-19"><a href="variation-partitioning.html#cb91-19"></a><span class="co"># Varpart</span></span>
+<span id="cb91-20"><a href="variation-partitioning.html#cb91-20"></a>spe.part &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, envchem.pars, envtopo.pars)</span>
+<span id="cb91-21"><a href="variation-partitioning.html#cb91-21"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - parsimonious subsets&quot;</span>)</span>
+<span id="cb91-22"><a href="variation-partitioning.html#cb91-22"></a><span class="kw">plot</span>(spe.part, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb91-23"><a href="variation-partitioning.html#cb91-23"></a></span>
+<span id="cb91-24"><a href="variation-partitioning.html#cb91-24"></a><span class="co"># Tests of significance</span></span>
+<span id="cb91-25"><a href="variation-partitioning.html#cb91-25"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envchem.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b]</span></span>
+<span id="cb91-26"><a href="variation-partitioning.html#cb91-26"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envtopo.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [b+c]</span></span>
+<span id="cb91-27"><a href="variation-partitioning.html#cb91-27"></a>env.pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(envchem.pars, envtopo.pars)</span>
+<span id="cb91-28"><a href="variation-partitioning.html#cb91-28"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b+c]</span></span>
+<span id="cb91-29"><a href="variation-partitioning.html#cb91-29"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envchem.pars, envtopo.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [a]</span></span>
+<span id="cb91-30"><a href="variation-partitioning.html#cb91-30"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, envtopo.pars, envchem.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [c]</span></span></code></pre></div>
 <p>Now, the chemical variables explain 25.30% of the fish species
 composition, the physiographic variables explain 14.20% of the fish
 species composition and the interaction of these two types of variables
@@ -298,48 +307,48 @@ variation are explained by each dataset? What are the significant
 fractions ?</p>
 <p><strong>Challenge 3</strong>: Solution</p>
 <p>This is what your code may look like:</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="variation-partitioning.html#cb76-1"></a><span class="kw">str</span>(mite.env)</span>
-<span id="cb76-2"><a href="variation-partitioning.html#cb76-2"></a>(<span class="dt">mite.subs =</span> mite.env[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)])  <span class="co">#First set of variables outlined in challenge </span></span>
-<span id="cb76-3"><a href="variation-partitioning.html#cb76-3"></a>(<span class="dt">mite.other =</span> mite.env[, <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)])  <span class="co">#Second set of variables outlined in challenge </span></span>
-<span id="cb76-4"><a href="variation-partitioning.html#cb76-4"></a></span>
-<span id="cb76-5"><a href="variation-partitioning.html#cb76-5"></a><span class="co"># RDA for mite.subs</span></span>
-<span id="cb76-6"><a href="variation-partitioning.html#cb76-6"></a>rda.mite.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.subs)</span>
-<span id="cb76-7"><a href="variation-partitioning.html#cb76-7"></a>R2a.all.subs &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(rda.mite.subs)<span class="op">$</span>adj.r.squared</span>
-<span id="cb76-8"><a href="variation-partitioning.html#cb76-8"></a></span>
-<span id="cb76-9"><a href="variation-partitioning.html#cb76-9"></a><span class="co"># Forward selection for mite.subs</span></span>
-<span id="cb76-10"><a href="variation-partitioning.html#cb76-10"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.subs), <span class="dt">scope =</span> <span class="kw">formula</span>(rda.mite.subs), </span>
-<span id="cb76-11"><a href="variation-partitioning.html#cb76-11"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb76-12"><a href="variation-partitioning.html#cb76-12"></a><span class="kw">names</span>(mite.subs)</span>
-<span id="cb76-13"><a href="variation-partitioning.html#cb76-13"></a>(mite.subs.pars &lt;-<span class="st"> </span>mite.subs[, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)])</span>
-<span id="cb76-14"><a href="variation-partitioning.html#cb76-14"></a></span>
-<span id="cb76-15"><a href="variation-partitioning.html#cb76-15"></a><span class="co"># RDA for mite.other</span></span>
-<span id="cb76-16"><a href="variation-partitioning.html#cb76-16"></a>rda.mite.other &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.other)</span>
-<span id="cb76-17"><a href="variation-partitioning.html#cb76-17"></a>R2a.all.other &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(rda.mite.other)<span class="op">$</span>adj.r.squared</span>
-<span id="cb76-18"><a href="variation-partitioning.html#cb76-18"></a></span>
-<span id="cb76-19"><a href="variation-partitioning.html#cb76-19"></a><span class="co"># Forward selection for mite.other</span></span>
-<span id="cb76-20"><a href="variation-partitioning.html#cb76-20"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.other), <span class="dt">scope =</span> <span class="kw">formula</span>(rda.mite.other), </span>
-<span id="cb76-21"><a href="variation-partitioning.html#cb76-21"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
-<span id="cb76-22"><a href="variation-partitioning.html#cb76-22"></a><span class="kw">names</span>(mite.other)</span>
-<span id="cb76-23"><a href="variation-partitioning.html#cb76-23"></a>(mite.other.pars &lt;-<span class="st"> </span>mite.other[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)])</span>
-<span id="cb76-24"><a href="variation-partitioning.html#cb76-24"></a></span>
-<span id="cb76-25"><a href="variation-partitioning.html#cb76-25"></a><span class="co"># Variation partitioning</span></span>
-<span id="cb76-26"><a href="variation-partitioning.html#cb76-26"></a>(mite.spe.part &lt;-<span class="st"> </span><span class="kw">varpart</span>(mite.spe.hel, <span class="op">~</span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate, </span>
-<span id="cb76-27"><a href="variation-partitioning.html#cb76-27"></a>    <span class="op">~</span>Shrub <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mite.env))</span>
-<span id="cb76-28"><a href="variation-partitioning.html#cb76-28"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - parsimonious subsets&quot;</span>)</span>
-<span id="cb76-29"><a href="variation-partitioning.html#cb76-29"></a><span class="kw">plot</span>(mite.spe.part, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb76-30"><a href="variation-partitioning.html#cb76-30"></a></span>
-<span id="cb76-31"><a href="variation-partitioning.html#cb76-31"></a><span class="co"># Tests of all testable fractions</span></span>
-<span id="cb76-32"><a href="variation-partitioning.html#cb76-32"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate, <span class="dt">data =</span> mite.env), </span>
-<span id="cb76-33"><a href="variation-partitioning.html#cb76-33"></a>    <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b]</span></span>
-<span id="cb76-34"><a href="variation-partitioning.html#cb76-34"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mite.env), </span>
-<span id="cb76-35"><a href="variation-partitioning.html#cb76-35"></a>    <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [b+c]</span></span>
-<span id="cb76-36"><a href="variation-partitioning.html#cb76-36"></a>(env.pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(mite.env[, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)]))</span>
-<span id="cb76-37"><a href="variation-partitioning.html#cb76-37"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo, </span>
-<span id="cb76-38"><a href="variation-partitioning.html#cb76-38"></a>    <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b+c]</span></span>
-<span id="cb76-39"><a href="variation-partitioning.html#cb76-39"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(Shrub <span class="op">+</span><span class="st"> </span></span>
-<span id="cb76-40"><a href="variation-partitioning.html#cb76-40"></a><span class="st">    </span>Topo), <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [a]</span></span>
-<span id="cb76-41"><a href="variation-partitioning.html#cb76-41"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(WatrCont <span class="op">+</span><span class="st"> </span></span>
-<span id="cb76-42"><a href="variation-partitioning.html#cb76-42"></a><span class="st">    </span>Substrate), <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [c]</span></span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="variation-partitioning.html#cb92-1"></a><span class="kw">str</span>(mite.env)</span>
+<span id="cb92-2"><a href="variation-partitioning.html#cb92-2"></a>(<span class="dt">mite.subs =</span> mite.env[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)])  <span class="co">#First set of variables outlined in challenge </span></span>
+<span id="cb92-3"><a href="variation-partitioning.html#cb92-3"></a>(<span class="dt">mite.other =</span> mite.env[, <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>)])  <span class="co">#Second set of variables outlined in challenge </span></span>
+<span id="cb92-4"><a href="variation-partitioning.html#cb92-4"></a></span>
+<span id="cb92-5"><a href="variation-partitioning.html#cb92-5"></a><span class="co"># RDA for mite.subs</span></span>
+<span id="cb92-6"><a href="variation-partitioning.html#cb92-6"></a>rda.mite.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.subs)</span>
+<span id="cb92-7"><a href="variation-partitioning.html#cb92-7"></a>R2a.all.subs &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(rda.mite.subs)<span class="op">$</span>adj.r.squared</span>
+<span id="cb92-8"><a href="variation-partitioning.html#cb92-8"></a></span>
+<span id="cb92-9"><a href="variation-partitioning.html#cb92-9"></a><span class="co"># Forward selection for mite.subs</span></span>
+<span id="cb92-10"><a href="variation-partitioning.html#cb92-10"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.subs), <span class="dt">scope =</span> <span class="kw">formula</span>(rda.mite.subs), </span>
+<span id="cb92-11"><a href="variation-partitioning.html#cb92-11"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb92-12"><a href="variation-partitioning.html#cb92-12"></a><span class="kw">names</span>(mite.subs)</span>
+<span id="cb92-13"><a href="variation-partitioning.html#cb92-13"></a>(mite.subs.pars &lt;-<span class="st"> </span>mite.subs[, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)])</span>
+<span id="cb92-14"><a href="variation-partitioning.html#cb92-14"></a></span>
+<span id="cb92-15"><a href="variation-partitioning.html#cb92-15"></a><span class="co"># RDA for mite.other</span></span>
+<span id="cb92-16"><a href="variation-partitioning.html#cb92-16"></a>rda.mite.other &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.other)</span>
+<span id="cb92-17"><a href="variation-partitioning.html#cb92-17"></a>R2a.all.other &lt;-<span class="st"> </span><span class="kw">RsquareAdj</span>(rda.mite.other)<span class="op">$</span>adj.r.squared</span>
+<span id="cb92-18"><a href="variation-partitioning.html#cb92-18"></a></span>
+<span id="cb92-19"><a href="variation-partitioning.html#cb92-19"></a><span class="co"># Forward selection for mite.other</span></span>
+<span id="cb92-20"><a href="variation-partitioning.html#cb92-20"></a><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.other), <span class="dt">scope =</span> <span class="kw">formula</span>(rda.mite.other), </span>
+<span id="cb92-21"><a href="variation-partitioning.html#cb92-21"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="dt">pstep =</span> <span class="dv">1000</span>)</span>
+<span id="cb92-22"><a href="variation-partitioning.html#cb92-22"></a><span class="kw">names</span>(mite.other)</span>
+<span id="cb92-23"><a href="variation-partitioning.html#cb92-23"></a>(mite.other.pars &lt;-<span class="st"> </span>mite.other[, <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)])</span>
+<span id="cb92-24"><a href="variation-partitioning.html#cb92-24"></a></span>
+<span id="cb92-25"><a href="variation-partitioning.html#cb92-25"></a><span class="co"># Variation partitioning</span></span>
+<span id="cb92-26"><a href="variation-partitioning.html#cb92-26"></a>(mite.spe.part &lt;-<span class="st"> </span><span class="kw">varpart</span>(mite.spe.hel, <span class="op">~</span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate, </span>
+<span id="cb92-27"><a href="variation-partitioning.html#cb92-27"></a>    <span class="op">~</span>Shrub <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mite.env))</span>
+<span id="cb92-28"><a href="variation-partitioning.html#cb92-28"></a><span class="kw">windows</span>(<span class="dt">title =</span> <span class="st">&quot;Variation partitioning - parsimonious subsets&quot;</span>)</span>
+<span id="cb92-29"><a href="variation-partitioning.html#cb92-29"></a><span class="kw">plot</span>(mite.spe.part, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb92-30"><a href="variation-partitioning.html#cb92-30"></a></span>
+<span id="cb92-31"><a href="variation-partitioning.html#cb92-31"></a><span class="co"># Tests of all testable fractions</span></span>
+<span id="cb92-32"><a href="variation-partitioning.html#cb92-32"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate, <span class="dt">data =</span> mite.env), </span>
+<span id="cb92-33"><a href="variation-partitioning.html#cb92-33"></a>    <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b]</span></span>
+<span id="cb92-34"><a href="variation-partitioning.html#cb92-34"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo, <span class="dt">data =</span> mite.env), </span>
+<span id="cb92-35"><a href="variation-partitioning.html#cb92-35"></a>    <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [b+c]</span></span>
+<span id="cb92-36"><a href="variation-partitioning.html#cb92-36"></a>(env.pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(mite.env[, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)]))</span>
+<span id="cb92-37"><a href="variation-partitioning.html#cb92-37"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo, </span>
+<span id="cb92-38"><a href="variation-partitioning.html#cb92-38"></a>    <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fractions [a+b+c]</span></span>
+<span id="cb92-39"><a href="variation-partitioning.html#cb92-39"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(Shrub <span class="op">+</span><span class="st"> </span></span>
+<span id="cb92-40"><a href="variation-partitioning.html#cb92-40"></a><span class="st">    </span>Topo), <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [a]</span></span>
+<span id="cb92-41"><a href="variation-partitioning.html#cb92-41"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(WatrCont <span class="op">+</span><span class="st"> </span></span>
+<span id="cb92-42"><a href="variation-partitioning.html#cb92-42"></a><span class="st">    </span>Substrate), <span class="dt">data =</span> env.pars), <span class="dt">step =</span> <span class="dv">1000</span>)  <span class="co"># Test of fraction [c]</span></span></code></pre></div>
 <p>In this case, substrate variables explain 14.00% of the mite species
 composition, the other environmental variables explain 9.1% of the mite
 species composition and the interaction of these two types of vriables
