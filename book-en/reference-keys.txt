@@ -1,6 +1,8 @@
 fig:unnamed-chunk-16
 fig:ord-diagram
 fig:unnamed-chunk-38
+fig:unnamed-chunk-52
+fig:unnamed-chunk-53
 code-of-conduct
 expected-behaviour
 unacceptable-behaviour
@@ -32,6 +34,10 @@ partial-rda-plot
 challenge-2
 challenge-2-solution
 variation-partitioning
+variation-partitioning-in-r
+significance-testing-2
+challenge-3
+challenge-3-solution
 multivariate-regression-tree
 linear-discriminant-analysis
 summary

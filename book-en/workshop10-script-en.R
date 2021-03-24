@@ -325,83 +325,88 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 
 ##Section: 07-variation-partitioning.R 
 
-?varpart
-vegandocs("partitioning.pdf")
+knitr::include_graphics("images/VarPart_Matrices.png")
 
-#Variation partitioning with all explanatory variables
-spe.part.all <- varpart(spe.hel, envchem, envtopo)
-spe.part.all
-windows(title="Variation partitioning - all variables")
-plot(spe.part.all, digits=2)
+knitr::include_graphics("images/VarPart.png")
 
-#RDA of chemistry variables
-spe.chem <- rda(spe.hel~., data=envchem)
+# Partition the variation in fish community composition
+spe.part.all <- varpart(spe.hel, env.chem, env.topo)
+spe.part.all$part # access results!
 
-#Select significant chemistry variables
-R2a.all.chem <- RsquareAdj(spe.chem)$adj.r.squared
-ordiR2step(rda(spe.hel~1, data=envchem),
-           scope= formula(spe.chem), direction= "forward", R2scope=TRUE, pstep=1000)
-names(envchem)
-(envchem.pars <- envchem[, c( 4, 6, 7 )])
+# plot the variation partitioning Venn diagram
+plot(spe.part.all,
+     Xnames = c("Chem", "Topo"), # name the partitions
+     bg = c("seagreen3", "mediumpurple"), alpha = 80, # colour the circles
+     digits = 2, # only show 2 digits
+     cex = 1.5)
 
-#RDA with other environmental variables
-spe.topo <- rda(spe.hel~., data=envtopo)
-R2a.all.topo <- RsquareAdj(spe.topo)$adj.r.squared
-ordiR2step(rda(spe.hel~1, data=envtopo),
-           scope= formula(spe.topo), direction= "forward", R2scope=TRUE, pstep=1000)
-names(envtopo)
-envtopo.pars <- envtopo[, c(1,2)]
+# Significance testing
 
-#Varpart
-spe.part <- varpart(spe.hel, envchem.pars, envtopo.pars)
-windows(title="Variation partitioning - parsimonious subsets")
-plot(spe.part, digits=2)
+# [a+b] Chemistry without controlling for topography
+anova.cca(rda(spe.hel, env.chem))
 
-#Tests of significance
-anova.cca(rda(spe.hel, envchem.pars), step=1000) # Test of fractions [a+b]
-anova.cca(rda(spe.hel, envtopo.pars), step=1000) # Test of fractions [b+c]
-env.pars <- cbind(envchem.pars, envtopo.pars)
-anova.cca(rda(spe.hel, env.pars), step=1000) # Test of fractions [a+b+c]
-anova.cca(rda(spe.hel, envchem.pars, envtopo.pars), step=1000) # Test of fraction [a]
-anova.cca(rda(spe.hel, envtopo.pars, envchem.pars), step=1000) # Test of fraction [c]
+# [b+c] Topography without controlling for chemistry
+anova.cca(rda(spe.hel, env.topo))
 
-str(mite.env)
-(mite.subs=mite.env[,c(1,2,3)]) #First set of variables outlined in challenge
-(mite.other=mite.env[,c(4,5)]) #Second set of variables outlined in challenge
+# [a] Chemistry alone
+anova.cca(rda(spe.hel, env.chem, env.topo))
 
-#RDA for mite.subs
-rda.mite.subs <- rda(mite.spe.hel~., data=mite.subs)
-R2a.all.subs <- RsquareAdj(rda.mite.subs)$adj.r.squared
+# [a] Chemistry alone
+anova.cca(rda(spe.hel, env.chem, env.topo))
 
-#Forward selection for mite.subs
-ordiR2step(rda(mite.spe.hel~1, data=mite.subs),
-           scope= formula(rda.mite.subs), direction= "forward", R2scope=TRUE, pstep=1000)
-names(mite.subs)
-(mite.subs.pars <- mite.subs[, c(2, 3)])
+# Partition the variation in the mite species data according to substrate variables (`SubsDens`, `WatrCont`) and significant spatial variables.
+        # What proportion of the variation is explained by substrate variables? By space?
+        # Which individual fractions are significant?
+        # Plot your results!
 
-#RDA for mite.other
-rda.mite.other <- rda(mite.spe.hel~., data=mite.other)
-R2a.all.other <- RsquareAdj(rda.mite.other)$adj.r.squared
+data("mite.pcnm")
 
-#Forward selection for mite.other
-ordiR2step(rda(mite.spe.hel~1, data=mite.other),
-           scope= formula(rda.mite.other), direction= "forward", R2scope=TRUE, pstep=1000)
-names(mite.other)
-(mite.other.pars <- mite.other[, c(1,2)])
+ordiR2step()
+varpart()
+anova.cca(rda())
+plot()
 
-#Variation partitioning
-(mite.spe.part <- varpart(mite.spe.hel, ~WatrCont+Substrate, ~Shrub+Topo,
-                          data=mite.env))
-windows(title="Variation partitioning - parsimonious subsets")
-plot(mite.spe.part, digits=2)
+# Step 1: Forward selection!
 
-# Tests of all testable fractions
-anova.cca(rda(mite.spe.hel~ WatrCont+Substrate, data=mite.env), step=1000) # Test of fractions [a+b]
-anova.cca(rda(mite.spe.hel~Shrub+Topo, data=mite.env), step=1000) # Test of fractions [b+c]
-(env.pars <- cbind(mite.env[,c(2,3,4,5)]))
-anova.cca(rda(mite.spe.hel~ WatrCont+Substrate+Shrub+Topo, data=env.pars), step=1000) # Test of fractions [a+b+c]
-anova.cca(rda(mite.spe.hel~WatrCont+Substrate + Condition(Shrub+Topo), data=env.pars), step=1000) # Test of fraction [a]
-anova.cca(rda(mite.spe.hel~Shrub+Topo+ Condition(WatrCont+Substrate ), data=env.pars), step=1000) # Test of fraction [c]
+# Write full RDA model with all variables
+full.spat <- rda(mite.spe.hel ~ ., data = mite.pcnm)
+
+# Forward selection of spatial variables
+spat.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.pcnm),
+               scope = formula(full.spat),
+               R2scope = RsquareAdj(full.spat)$adj.r.squared,
+               direction = "forward",
+               trace = FALSE)
+spat.sel$call
+
+# Step 2: Group variables of interest.
+
+# Subset environmental data to retain only substrate variables
+mite.subs <- subset(mite.env, select = c(SubsDens, WatrCont))
+
+# Subset to keep only selected spatial variables
+mite.spat <- subset(mite.pcnm,
+                    select = names(spat.sel$terminfo$ordered))
+                    # a faster way to access the selected variables!
+
+# Step 3: Partition the variation in species abundances.
+mite.part <- varpart(mite.spe.hel, mite.subs, mite.spat)
+mite.part$part$indfract # access results!
+
+# Step 4: Significance testing
+# [a]: Substrate only
+anova.cca(rda(mite.spe.hel, mite.subs, mite.spat))
+
+# [c]: Space only
+anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
+
+# Step 5: Plot
+plot(mite.part, 
+     digits = 2, 
+     Xnames = c("Subs", "Space"), # label the fractions
+     cex = 1.5,
+     bg = c("seagreen3", "mediumpurple"), # add colour!
+     alpha = 80) # adjust transparency
 
 
 ##Section: 08-multivariate-regression-tree.R 

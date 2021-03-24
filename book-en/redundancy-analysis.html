@@ -176,7 +176,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a><ul>
+<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R</a></li>
+<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing</a></li>
+<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a></li>
 <li class="part"><span><b>Final considerations</b></span></li>
@@ -335,8 +341,8 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ## Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
 ##          Df Variance       F Pr(&gt;F)    
 ## alt       1 0.164856 19.9759  0.001 ***
-## oxy       1 0.082426  9.9877  0.001 ***
-## dbo       1 0.048909  5.9264  0.001 ***
+## oxy       1 0.082426  9.9877  0.002 ** 
+## dbo       1 0.048909  5.9264  0.002 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>You can also test the significance of each canonical axis with <code>by = "axis"</code>. Recall that these axes represent the variation in explanatory variables in fewer dimensions.</p>
