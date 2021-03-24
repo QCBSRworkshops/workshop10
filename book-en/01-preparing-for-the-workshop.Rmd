@@ -42,6 +42,7 @@ install.packages("MASS")
 install.packages("ggplot2")
 
 # install mvpart from package archive file
+install.packages("remotes")
 remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
 ```
 

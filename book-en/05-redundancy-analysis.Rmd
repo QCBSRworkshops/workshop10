@@ -288,7 +288,7 @@ ordiplot()
 # Challenge 1: Solution! Spoilers ahead!!
 ```
 
-## Challenge 1: Solution
+### Challenge 1: Solution
 
 **Step 1:** Transform and standardize the data.
 ```{r}
@@ -312,7 +312,6 @@ fwd.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env),
                       R2scope = TRUE, pstep = 1000, trace = FALSE)
 fwd.sel$call
 ```
-
 
 **Step 3:** Run the RDA and check its explanatory power.
 
