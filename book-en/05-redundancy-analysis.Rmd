@@ -1,264 +1,367 @@
+---
+bibliography: references.bib
+---
+
+```{r output-lines, echo = FALSE}
+# sometimes cache needs to be set to true in the knitr setup chunk for this to take effect
+# in xaringan::infinite_moon_reader()
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```
+
 # Redundancy analysis
 
-Redundancy Analysis is a direct extension of multiple regression, as it
-models the effect of an explanatory matrix X (n x p) on a response
-matrix Y (n x m). This is done by preforming an ordination of Y to
-obtain ordination axes that are linear combinations of the variables in
-X. In RDA, ordination axes are calculating from a PCA of a matrix Yfit,
-computed by fitting the Y variables to X by multivariate linear
-regression. Note that the explanatory variables in X can be
-quantitative, qualitative or binary variables. Prior to RDA, explanatory
-variables in Y must be centered, standardized (if explanatory variables
-are not dimensionally homogeneous, i.e. in different units), transformed
-(to limit the skew of explanatory variables) or normalized (to linearize
-relationships) following the same principles as in PCA. Collinearity
-between the X variables should also be reduced before RDA.
+Redundancy Analysis (RDA) is a direct extension of multiple regression, as it models the effect of an explanatory matrix $X$ (n x p) on a response matrix $Y$ (n x m). The difference here is that we can model effect of an explanatory matrix on a **response *matrix***, rather than a single response variable. For example, RDA allows us to model the effect of environmental variables on the entire community, rather than on species richness. This is done by performing an ordination of $Y$ to obtain ordination axes that are linear combinations of the variables in $X$.
 
-In order to obtain the best model of RDA, explanatory variables can be
-selected by forward, backward or stepwise selection that remove
-non-significant explanatory variables.
-
-RDA involves two computational steps. In the first step, a matrix of
-fitted values Yfit is calculated trough the linear equation: Yfit =
-X\[X'X\]-1 \[X'Y\]
-
-In the second step, a PCA of the fitted matrix Yfit is calculated (see
-equations in the figure below) and produce the canonical eigenvalues and
-eigenvectors together with the matrix Z containing the canonical axes.
-These canonical axes correspond to linear combinations of the
-explanatory variables in X. This linearity of the combinations of the X
-variables is a fundamental property of RDA. In the analysis of community
-composition, these canonical axes are interpreted as complex
-environmental gradients.
-
-![](images/constrained_ord_diagram.png){.align-center}
-
-Redundancy analysis as a two-step process (from Legendre and Legendre
-2012) Several statistics can be computed from RDA:
-
-\- The R² measures the strength of the canonical relationship between Y
-and X by calculating the proportion of the variation of Y explained by
-the variables in X, - The adjusted R² also measures the strength of the
-relationship between Y and X, but applies a correction of the R² to take
-into account the number of explanatory variables, - The F-statistic
-corresponds to an overall test of significance of an RDA by comparing
-the computed model to a null model. This test is based on the null
-hypothesis that the strength of the linear relationship calculated by
-the R² is not larger than the value that would be obtained for unrelated
-Y and X matrices of the same size. Note that F-statistics can also be
-used to sequentially test the significance of each canonical axis.
-
-In R, RDA can be computed using the function rda from package vegan, as
-follows:
-
-```{r, echo = TRUE, eval = FALSE}
-#Preparing the data prior to RDA
-env.z <- subset(env.z, select = -das) # remove the "distance from the source" variable
- 
-#Running the RDA
-?rda
-spe.rda <- rda(spe.hel~., data=env.z)
-
-### Extract the results
-summary(spe.rda, display=NULL) 
- 
-#The results are called using summary:
-summary(spe.rda, display=NULL) #display = NULL optional  
+```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a redundancy analysis (RDA).", fig.align="center"}
+knitr::include_graphics("images/RDA.png")
 ```
 
-The summary of the output looks like this:
+Note that the explanatory variables in $X$ can be **quantitative, qualitative or binary variables**. If they are quantitative, explanatory variables in $X$ must be **centered**, **standardized** (if explanatory variables are in different units), **transformed** (to limit the skew of explanatory variables) or **normalized** (to linearize relationships) following the same principles as in PCA. Collinearity between the $X$ variables should also be reduced before RDA. We began this process while exploring the data: our community data is Hellinger-transformed, and our environmental variables are centered and standardized. However, we still have some collinearity issues that have not been solved.
 
-![](images/rda_output_1.png){.align-center}
+Sometimes, we have more explanatory variables than we need to understand the drivers of our response variable. The best way to build a model is always to use **ecological reasoning** when determining which variables should be included or excluded. However, if there are still too many variables included in the model, or if some of them are highly collinear, explanatory variables can be selected by forward, backward or stepwise **selection** that remove non-significant explanatory variables. However, this approach should always be taken after the *ecological* selection of variables, according to your knowledge of the system. We will see more about this later!
 
-These results contain the proportion of variance of Y explained by the X
-variables (constrained proportion, 73.41% here), the unexplained
-variance of Y (unconstrained proportion, 26.59% here) and then summarize
-the eigenvalues, the proportions explained and the cumulative proportion
-of each canonical axis (each canonical axis = each constraining
-variable, in this case, the environmental variables from env).
+## How the RDA works
 
-To select the significant explanatory variables, you can then perform a
-forward selection (or backwards or stepwise), using the ordiR2step()
-function (or using the forward.sel function of package packfor):
+Redundancy analysis as a two-step process [@legendre2012]. The first step is a multiple regression, where each object in $Y$ is regressed on the explanatory variables in $X$, which results in a matrix of fitted values $Y_{fit}$. This step is calculated through the following linear equation:
 
-```{r, echo = TRUE, eval = FALSE}
-### Select the significant explanatory variables by forward selection
-?ordiR2step
-ordiR2step(rda(spe.hel~1, data=env.z), scope= formula(spe.rda), direction= "forward", R2scope=TRUE, pstep=1000)
-env.signif <- subset(env.z, select = c("alt", "oxy", "dbo"))
+$$Y_{fit} = X[X'X]^{-1}X'Y$$
+
+In the second step, we apply a principal components analysis (PCA) on the fitted matrix $Y_{fit}$ to reduce dimensionality, i.e. to obtain the eigenvalues and eigenvectors. We then obtain a matrix $Z$ which contains the canonical axes, which correspond to *linear* combinations of the explanatory variables in the space of $X$. The *linearity* of the combinations of the $X$ variables is a fundamental property of RDA. In the analysis of community composition, these canonical axes are interpreted as complex environmental gradients.
+
+```{r ord-diagram, echo=FALSE, out.width="70%", fig.cap="The computation process of an RDA, from Legendre & Legendre (2012).", fig.align="center"}
+knitr::include_graphics("images/constrained_ord_diagram.png")
 ```
 
-The resulting output reads: rda(formula = spe.hel \~ alt + oxy + dbo,
-data = env.z) with the proportion of variation explained by the three
-constraining variables being 0.59. So in this case, only three variables
-are retained by the forward selection, i.e. alt, oxy and dbo. These
-three variables can be placed in a new data frame env.signif to perform
-the new RDA including only significant X variables:
+Once the RDA is computed, several statistics can be computed to interpret the explanatory power of the included variables and whether the observed relationships are significant. These include:
 
-```{r, echo = TRUE, eval = FALSE}
-spe.rda.signif <- rda(spe.hel~., data=env.signif)
-summary(spe.rda.signif, display=NULL)
+* $R^2$, which measures the strength of the canonical relationship between $Y$ and $X$ by calculating the proportion of the variation of $Y$ explained by the variables in $X$,  
+* Adjusted $R^2$, which also measures the strength of the relationship between $Y$ and $X$, but applies a **correction** of the $R^2$ to take into account the number of explanatory variables. *This is the statistic that should be reported.*
+* The F-statistic corresponds to an overall test of significance of an RDA by comparing the computed model to a null model. This test is based on the null hypothesis that the strength of the linear relationship calculated by the $R^2$ is not larger than the value that would be obtained for unrelated $Y$ and $X$ matrices of the same size. Note that F-statistics can also be used to sequentially test the significance of each canonical axis.
+
+## Running an RDA in R
+
+An RDA can be computed using the function `rda()` from the `vegan` package, as follows:
+
+**Step 1**: Standardize and/or transform the data.
+
+We already applied a Hellinger transformation to our community matrix, and standardized our explanatory variables in the section: \@ref(exploration). However, we noticed that the variable `das` was collinear with several other variables. We will begin by removing this variable:
+
+```{r}
+# We'll use our standardized environmental data, but we will remove 'das', which was correlated with many other variables:
+env.z <- subset(env.z, select = -das)
 ```
 
-The explanatory variables (altitude, oxygen and biological oxygen
-demand) now explain 59% of the variance in Y (species). The adjusted R²
-of this RDA is calculated using the function RsquareAdj:
-
-```{r, echo = TRUE, eval = FALSE}
-(R2adj <- RsquareAdj(spe.rda.signif)$adj.r.squared)
-#Here the strength of the relationship between X and Y corrected for the number of X variables is 0.54.
+**Step 2**: Run the RDA.
+```{r}
+# Model the effect of all environmental variables on fish community composition
+spe.rda <- rda(spe.hel ~ ., data = env.z)
 ```
 
-The significance of the model and of each canonical axis can be tested
-using the function anova (note this is different from retaining
-significant variables as was done with forward selection, now we're
-testing the significance of the RDA axes):
-
-```{r, echo = TRUE, eval = FALSE}
-?anova.cca
-anova.cca(spe.rda.signif, step=1000)
-anova.cca(spe.rda.signif, step=1000, by="axis")
-#In this case, the RDA model is highly significant (p=0.001) as well as all three canonical axes.
+**Step 3**: Extract key results of the RDA.
+```{r, eval = FALSE}
+summary(spe.rda)
 ```
 
-To visualize the results of the RDA, triplots can be drawn using the
-plot(). Note that as in PCA, users can create scaling 1 and scaling 2
-triplots. In scaling 1, distance among objects approximate their
-Euclidean distances while in scaling 2, angles between variables X and Y
-reflect their correlation. Thus, scaling 1 triplots can be used to
-interpret distances among objects and scaling 2 triplots to interpret
-the relationships between X and Y. To plot the scaling 1 triplots of the
-RDA, the following code can be used:
+The first section of the summary contains the pieces we need to verify the performance of our RDA. Let us break it down:
 
-```{r, echo = TRUE, eval = FALSE}
-#Quick plots scaling 1 and 2
-windows()
-plot(spe.rda.signif, scaling=1, main="Triplot RDA (scaling 1)")
-windows()
-plot(spe.rda.signif, scaling=2, main="Triplot RDA (scaling 2)")
- 
-#Advanced plots scaling 1
-windows()
-plot(spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spe.rda.signif, display="species", choices=c(1), scaling=1),
-       scores(spe.rda.signif, display="species", choices=c(2), scaling=1),
-       col="black",length=0)
-text(scores(spe.rda.signif, display="species", choices=c(1), scaling=1),
-     scores(spe.rda.signif, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(spe.rda.signif, display="species", scaling=1)),
-     col="black", cex=0.8)    
-arrows(0,0,
-       scores(spe.rda.signif, display="bp", choices=c(1), scaling=1),
-       scores(spe.rda.signif, display="bp", choices=c(2), scaling=1),
-       col="red")
-text(scores(spe.rda.signif, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1) 
- 
-#Advanced plots scaling 2
-windows()
-plot(spe.rda.signif, scaling=2, main="Triplot RDA - scaling 2", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=2),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-arrows(0,0,
-       scores(spe.rda.signif, display="species", choices=c(1), scaling=2)*2,
-       scores(spe.rda.signif, display="species", choices=c(2), scaling=2)*2,
-       col="black",length=0)
-text(scores(spe.rda.signif, display="species", choices=c(1), scaling=2)*2.1,
-     scores(spe.rda.signif, display="species", choices=c(2), scaling=2)*2.1,
-     labels=rownames(scores(spe.rda.signif, display="species", scaling=2)),
-     col="black", cex=0.8)    
-arrows(0,0,
-       scores(spe.rda.signif, display="bp", choices=c(1), scaling=2),
-       scores(spe.rda.signif, display="bp", choices=c(2), scaling=2),
-       col="red")
-text(scores(spe.rda.signif, display="bp", choices=c(1), scaling=2)+0.05,
-     scores(spe.rda.signif, display="bp", choices=c(2), scaling=2)+0.05,
-     labels=rownames(scores(spe.rda.signif, display="bp", choices=c(2), scaling=2)),
-     col="red", cex=1)  
+```{r, output.lines = 5:9, echo = F}
+summary(spe.rda)
 ```
 
-And the final triplots would look like this:
+* **Constrained Proportion**: variance of $Y$ explained by $X$ (73.41%)
+* **Unconstrained Proportion**: unexplained variance in $Y$ (26.59%)
 
-![](images/doubs_rda1.png){.align-center} ![](images/doubs_rda2.png){.align-center}
+> How would you report these results? You could say: "The included environmental variables explain **73.41%** of the variation in fish community composition across sites."
 
-**Challenge 1**: Run an RDA of the mite environmental variables
-constraining the mite species abundances. Use:
+The rest of the RDA summary is not printed here, because it is long. Aside from the section printed above, the summary contains:
 
-```{r, echo = TRUE, eval = FALSE}
-#Load the mite species and environmental data from vegan package
-data(mite) 
-mite.spe<-mite
-mite.spe.hel <- decostand(mite.spe, method="hellinger")
+* **Eigenvalues, and their contribution to the variance **  
+* **Accumulated constrained eigenvalues**, including the cumulative proportion of explained variance by each axis in the final RDA ordination. These axes represent the rescaled environmental variables. If you need to select a subset of axes for other analyses, you can use this cumulative proportion to select the first few axes until you reach a threshold of your choice.  
+* **Scores** for species, sites, and the explanatory variables, which are the coordinates of each of these objects in the RDA space. The default scaling is of type 2 (we will come back to this).
 
-data(mite.env)
+
+### Selecting variables
+
+If we want to simplify this model, we can perform a forward selection (or backwards or stepwise). These types of selections help us select variables that are **statistically important**. *However, it is important to note that selecting variables ecologically is much more important than performing selection in this way. If a variable of ecological interest is not selected, this does not mean it has to be removed from the RDA.* 
+
+Here, we will be performing forward selection on our 11 environmental variables. To do this, we can use the `ordiR2step()` function (or using the `forward.sel` function of package `packfor`):
+
+```{r, echo = TRUE, eval = TRUE, message = FALSE}
+# Forward selection of variables:
+fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # lower model limit (simple!)
+               scope = formula(spe.rda), # upper model limit (the "full" model)
+               direction = "forward",
+               R2scope = TRUE, # can't surpass the "full" model's R2
+               pstep = 1000,
+               trace = FALSE) # change to TRUE to see the selection process!
 ```
 
-What are the significant explanatory variables? How much of the
-variation in species data is explain by significant explanatory
-variables (i.e. those that were selected)? What are the significant
-axes? What group(s) of sites can you identify? What species are related
-to each group(s) of sites?
+> Here, we are essentially adding one variable at a time, and retaining it if it significantly increases the model's adjusted $R^2$.
 
-**Challenge 1**: Solution
-
- Your code probably looks something like this:
-
-```{r, echo = TRUE, eval = FALSE}
-#Initial RDA with ALL of the environmental data
-mite.spe.rda<-rda(mite.spe.hel~., data=mite.env)
- 
-#Select significant environmental variables
-ordiR2step(rda(mite.spe.hel~1, data=mite.env), 
-           scope= formula(mite.spe.rda), direction= "forward", R2scope=TRUE, pstep=1000)
- 
-#Create a new dataframe with only the significant variables that you identified above
-mite.env.signif <- subset(mite.env, 
-                          select = c("WatrCont", "Shrub", "Substrate", "Topo", "SubsDens"))
- 
-#Re-run the RDA with the significant variables and look at the summary
-mite.spe.rda.signif=rda(mite.spe~., data=mite.env.signif)
-summary(mite.spe.rda.signif, display=NULL)
- 
-#Find the R2 adjusted of the model with the retained environmental variables 
-(R2adj <- RsquareAdj(mite.spe.rda.signif)$adj.r.squared)
- 
-#Determine the significant canonical (constrained) axes)
-anova.cca(mite.spe.rda.signif, step=1000)
-anova.cca(mite.spe.rda.signif, step=1000, by="axis")  
- 
-#Plot the RDA
-windows()
-plot(mite.spe.rda.signif, scaling=1, main="Triplot RDA - scaling 1", type="none", xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-1,1), ylim=c(-1,1))
-points(scores(mite.spe.rda.signif, display="sites", choices=c(1,2), scaling=1),
-       pch=21, col="black", bg="steelblue", cex=1.2)
-text(scores(mite.spe.rda.signif, display="species", choices=c(1), scaling=1),
-     scores(mite.spe.rda.signif, display="species", choices=c(2), scaling=1),
-     labels=rownames(scores(mite.spe.rda.signif, display="species", scaling=1)),
-     col="grey", cex=0.8)  
-arrows(0,0,
-      scores(mite.spe.rda.signif, display="bp", choices=c(1), scaling=1),
-      scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1),
-      col="red")
-text(scores(mite.spe.rda.signif, display="bp", choices=c(1), scaling=1)+0.05,
-     scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1)+0.05,
-     labels=rownames(scores(mite.spe.rda.signif, display="bp", choices=c(2), scaling=1)),
-     col="red", cex=1) 
+**Which variables are retained by the forward selection?**
+```{r}
+# Check the new model with forward-selected variables
+fwd.sel$call
 ```
 
-Five explanatory variables are significant: WatrCont, Shrub, Substrate,
-Topo, and SubsDens. The proportion of the variance explained by these
-variables is 32.08% and the adjusted R² of this model is 19.20%. While
-the first canonical is significant (p\<0.001), the overall model is
-however not significant (p=0.107). Three groups of sites appear on the
-triplot. One group of sites with high water content (top right) have
-high abundance of species 9 and 25. Species 6, 12, 19 and 26 are related
-to another group of sites with hummock topography (bottom left). The
-last group of sites (top left) have not characteristic species and
-heterogeneous environmental conditions. See the triplot below:
+**What is the adjusted R2 of the RDA with the selected variables?**
+```{r}
+# Write our new model
+spe.rda.signif <- rda(spe.hel ~ alt + oxy + dbo, data = env.z)
+# check the adjusted R2 (corrected for the number of explanatory variables)
+RsquareAdj(spe.rda.signif)
+```
 
-![](images/mite_rda1.png){.align-center}
+The explanatory variables (altitude, oxygen and biological oxygen demand) now explain *59%* of the variance in $Y$ (species abundances across sites, or community composition). When we correct for the number of variables in $X$, the adjusted $R^2$ tells us that three selected variables explain *54%* of the variance in species abundances. 
+
+> Because the adjusted $R^2$ is corrected for the number of explanatory variables, it is comparable across models and datasets. For this reason, you should report the adjusted $R^2$ when writing up the result of an RDA for an article, or in a study which compares the explanatory power of different models.
+
+
+### Significance testing
+
+The significance of your RDA can be tested using the function `anova.cca()`. 
+
+```{r, output.lines = 6:9}
+anova.cca(spe.rda.signif, step = 1000)
+```
+
+You can also test the significance of each variable with `by = "term"`.
+```{r, output.lines = 6:11}
+anova.cca(spe.rda.signif, step = 1000, by = "term")
+```
+
+You can also test the significance of each canonical axis with `by = "axis"`. Recall that these axes represent the variation in explanatory variables in fewer dimensions. 
+
+```{r, output.lines = 6:11}
+anova.cca(spe.rda.signif, step = 1000, by = "axis")
+```
+
+Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001). 
+
+### RDA plot
+
+One of the most powerful aspects of RDA is the **simultaneous visualization** of your response and explanatory variables (*i.e.* species and environmental variables).
+
+As with the PCA in (Workshop 9)[https://github.com/QCBSRworkshops/workshop09], there are two types of scaling:
+
+| Type 1                                             | Type 2                                            |
+| ---------------------------------------------------|---------------------------------------------------|
+| Distances among objects reflect their similarities | Angles between variables reflect their correlation|
+
+```{r, fig.show = "hold", out.width = "50%"}
+# Type 1 scaling
+ordiplot(spe.rda.signif, scaling = 1, type = "text")
+# Type 2 scaling
+ordiplot(spe.rda.signif, scaling = 2, type = "text")
+```
+
+<div class = "split">
+<div class = "split-left">
+
+***Scaling 1*** shows similarities between objects in the **response matrix**.  
+
+* Sites (numbers) that are closer together have *more similar* communities.  
+* Species that are closer together occupy more sites *in common*.  
+
+</div>
+<div class = "split-right">
+
+***Scaling 2*** shows the effects of **explanatory variables**. 
+
+* Longer arrows mean this variable *strongly* drives the variation in the community matrix.  
+* Arrows pointing in opposite directions have a *negative* relationship.  
+* Arrows pointing in the same direction have a *positive* relationship.  
+
+</div>
+</div>
+
+#### Customizing RDA plots
+
+Both `plot()` and `ordiplot()` make quick and simple ordination plots, but you can customize your plots by extracting scores with `scores()` and manually setting the aesthetics of `points()`, `text()`, and `arrows()`. Here is an example of a custom triplot. Feel free to play around with the colours and other parameters to make it your own!
+
+```{r}
+## extract % explained by the first 2 axes
+perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
+
+## extract scores - these are coordinates in the RDA space
+sc_si <- scores(spe.rda.signif, display="sites", choices=c(1,2), scaling=1)
+sc_sp <- scores(spe.rda.signif, display="species", choices=c(1,2), scaling=1)
+sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
+
+## Custom triplot, step by step
+
+# Set up a blank plot with scaling, axes, and labels
+plot(spe.rda.signif,
+     scaling = 1, # set scaling type 
+     type = "none", # this excludes the plotting of any points from the results
+     frame = FALSE,
+     # set axis limits
+     xlim = c(-1,1), 
+     ylim = c(-1,1),
+     # label the plot (title, and axes)
+     main = "Triplot RDA - scaling 1",
+     xlab = paste0("RDA1 (", perc[1], "%)"), 
+     ylab = paste0("RDA2 (", perc[2], "%)") 
+)
+# add points for site scores
+points(sc_si, 
+       pch = 21, # set shape (here, circle with a fill colour)
+       col = "black", # outline colour
+       bg = "steelblue", # fill colour
+       cex = 1.2) # size
+# add points for species scores
+points(sc_sp, 
+       pch = 22, # set shape (here, square with a fill colour)
+       col = "black",
+       bg = "#f2bd33", 
+       cex = 1.2)
+# add text labels for species abbreviations
+text(sc_sp + c(0.03, 0.09), # adjust text coordinates to avoid overlap with points 
+     labels = rownames(sc_sp), 
+     col = "grey40", 
+     font = 2, # bold
+     cex = 0.6)
+# add arrows for effects of the expanatory variables
+arrows(0,0, # start them from (0,0)
+       sc_bp[,1], sc_bp[,2], # end them at the score value
+       col = "red", 
+       lwd = 3)
+# add text labels for arrows
+text(x = sc_bp[,1] -0.1, # adjust text coordinate to avoid overlap with arrow tip
+     y = sc_bp[,2] - 0.03, 
+     labels = rownames(sc_bp), 
+     col = "red", 
+     cex = 1, 
+     font = 2)
+```
+
+
+## Challenge 1
+
+```{r, echo = FALSE, eval = FALSE}
+# Challenge 1: Run an RDA to model the effects of environmental variables on mite species abundances.
+```
+
+Run an RDA to model the effects of environmental variables on mite species abundances.
+
+> The `mite` dataset is part of the `vegan` package, so you do not need to have it stored as a .csv in your repository.
+
+To get started, load the `mite` data:
+```{r}
+# Load mite species abundance data
+data("mite")
+
+# Load environmental data
+data("mite.env")
+```
+
+Recall some useful functions:
+```{r, eval = FALSE}
+decostand()
+rda()
+ordiR2step()
+anova.cca()
+ordiplot()
+```
+
+```{r, echo = FALSE, eval = FALSE}
+# Challenge 1: Solution! Spoilers ahead!!
+```
+
+## Challenge 1: Solution
+
+**Step 1:** Transform and standardize the data.
+```{r}
+# Hellinger transform the community data
+mite.spe.hel <- decostand(mite, method = "hellinger")
+
+# Standardize quantitative environmental data
+mite.env$SubsDens <- decostand(mite.env$SubsDens, method = "standardize")
+mite.env$WatrCont <- decostand(mite.env$WatrCont, method = "standardize")
+```
+
+**Step 2:** Select environmental variables.
+```{r}
+# Initial RDA with ALL of the environmental data
+mite.spe.rda <- rda(mite.spe.hel ~ ., data = mite.env)
+
+# Forward selection of environmental variables
+fwd.sel <- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env),
+                      scope = formula(mite.spe.rda),
+                      direction = "forward",
+                      R2scope = TRUE, pstep = 1000, trace = FALSE)
+fwd.sel$call
+```
+
+
+**Step 3:** Run the RDA and check its explanatory power.
+
+```{r}
+# Re-run the RDA with the significant variables
+mite.spe.rda.signif <- rda(mite.spe.hel ~ WatrCont + Shrub +
+                           Substrate + Topo + SubsDens,
+                           data = mite.env)
+
+# Find the adjusted R2 of the model with the retained env variables
+RsquareAdj(mite.spe.rda.signif)$adj.r.squared
+
+```
+
+**Step 4:** Test model significance.
+```{r}
+anova.cca(mite.spe.rda.signif, step = 1000)
+```
+
+We find that four explanatory variables are retained after forward selection: WatrCont, Shrub, Substrate, and Topo. The selected environmental variables significantly explain **43.7% (p = 0.001)** of the variation in mite species abundances.
+
+**Step 5:** Plot the RDA results!
+
+```{r, fig.show = "hold", out.width="50%"}
+# Scaling 1
+ordiplot(mite.spe.rda.signif,
+         scaling = 1,
+         main = "Mite RDA - Scaling 1")
+# Scaling 2
+ordiplot(mite.spe.rda.signif,
+         scaling = 2,
+         main = "Mite RDA - Scaling 2")
+```
+<div class = "split">
+<div class = "split-left">
+
+***Scaling 1*** shows similarities between objects in the **response matrix**.  
+
+* The sites (black circles) are overall similar  
+* A few species (red +) stand out from the cluster near the middle, meaning they do not occupy many sites in common with other species. These species might therefore be rare or unique in some ecological way. 
+
+</div>
+<div class = "split-right">
+
+***Scaling 2*** shows the effects of **explanatory variables**. 
+
+* Substrate density and water content have long arrows, and therefore strong effects
+* Shrubs have an opposite effect to WatrCont and SubsDens, because Shrub arrows are in opposite directions to these variables. 
+* Sites vary a lot in terms of SubsDens, and less in terms of WatrCont.
+
+</div>
+</div>

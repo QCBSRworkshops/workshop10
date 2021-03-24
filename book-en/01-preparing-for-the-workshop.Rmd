@@ -2,82 +2,55 @@
 
 # Learning objectives
 
-**Summary:** In this workshop, you will learn how to perform advanced
+In this workshop, you will learn how to perform advanced
 multivariate analyses on community data. This workshop concentrates on
 constrained methods such as redundancy analysis (RDA), multivariate
 regression tree (MRT) and linear discriminant analysis (LDA) to explore
 how environmental variables may be driving patterns in species
 assemblage across sites.
 
-The previous workshop presented the basics of multivariate analyses:
-  
-* how to choose appropriate distance metrics and transformations
-* hierarchical clustering
-* unconstrained ordinations 
-* Principal component analysis
-* Principal coordinate Analysis
-* Correspondence analysis
-* Nonmetric multidimensional scaling
-
-The present workshop builds on this knowledge, and will focus on
-constrained analyses. All the methods overviewed during the introductory
-workshop allowed to find patterns in the community composition data or
-in the descriptors, but not to explore how environmental variables could
-be driving these patterns. With constrained analyses, such as redundancy
-analysis (RDA), linear discriminant analysis (LDA) and multivariate
-regression tree (MRT), one can describe and predict relationships
-between community composition data and environmental variables.
-
-*Include learning objectives.*
-
 # Preparing for the workshop
 
-Download the R script, packages and data required for this workshop:
-  
--  [R Script](http://qcbs.ca/wiki/_media/multivar2_e.r)
--  [DoubsEnv data](http://qcbs.ca/wiki/_media/DoubsEnv.csv)
--  [DoubsSpe data](http://qcbs.ca/wiki/_media/DoubsSpe.csv)
--  [Test data for linear discriminant
-   analysis](http://qcbs.ca/wiki/_media/classifyme.csv)
--  [mvpart package](http://qcbs.ca/wiki/_media/mvpart_1.6-2.tar.gz)
--  [MVPARTwrap
-   package](http://qcbs.ca/wiki/_media/MVPARTwrap_0.1-9.tar.gz)
--  [rdaTest package](http://qcbs.ca/wiki/_media/rdaTest_1.10.tar.gz)
+All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10). This includes an [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R) which contains all code chunks showin in this book.
 
-Make sure to load the following packages (see how in the R script):
+For this workshop, we will be working with the following datasets:
+
+* [DoubsEnv](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv)  
+* [DoubsSpe](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv)  
+* [DoubsSpa](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv)  
+* [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)  
   
-- [vegan (for multivariate
-      analyses)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [labdsv (for identification of significant indicator species in the
-     multivariate regression tree
-     analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [plyr (classification for linear discriminant
-   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [MASS (for linear discriminant
-   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- mvpart
-- MVPARTwrap
-- rdatest
+> To download this data, do right click + save on the page that opens.
+
+You should also make sure you have downloaded, installed, and loaded these packages:
+ 
+* [vegan](https://cran.r-project.org/package=vegan) (for multivariate
+      analyses)
+* [labdsv](https://cran.r-project.org/package=labdsv) (for identification of significant indicator species in the
+     multivariate regression tree analysis)
+* [MASS](https://cran.r-project.org/package=MASS) (for linear discriminant
+   analysis)
+* [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)*
+* [ggplot2](https://cran.r-project.org/package=ggplot2) (for plotting some results)
+
 
 ```{r, echo = TRUE, eval = FALSE}
+# Install the required packages
 install.packages("vegan")
-install.packages("mvpart")
 install.packages("labdsv")
-install.packages("plyr")
 install.packages("MASS")
+install.packages("ggplot2")
+# install mvpart from package archive file
+```
 
-# For the two following packages, upload the file provided on the wiki page.
-# To do so, go to Packages tab on the bottom right panel of R Studio
-# Click on Install Packages
-# Choose to install from Package Archive file and upload these two files
-install.packages("MVPARTwrap")
-install.packages("rdaTest")
+> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .zip for mvpart, which should download when you click the link in the list of packages above.
 
+
+```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+# Load the required packages
 library(vegan)
-library(mvpart)
-library(MVPARTwrap)
-library(rdaTest)
 library(labdsv)
-library(plyr)
 library(MASS)
+library(mvpart)
+library(ggplot2)
 ```
