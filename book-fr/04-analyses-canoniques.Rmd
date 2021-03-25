@@ -1,14 +1,13 @@
 # (PART\*) Constrained ordinations {-}
 
-# What are "constrained" ordinations?
+# Que sont les ordinations "contraintes" ?
 
-Described first by Rao (1964), canonical analysis is a generic term that
-for several types of statistical analyses sharing a common goal; to
-identify the relationship between a multivariate response table (matrix
-Y, generally describing the species composition of communities) and a
-multivariate explanatory table (matrix X, generally containing
-environmental descriptors) by combining ordination and regression
-concepts. Canonical analyses allow users to test ecological hypothesis
-concerning the environmental drivers of species composition. Among the
-diversity of canonical analysis, we will mainly focus here on Redundancy
-Analysis (RDA).
+écrites à l'origine par Rao (1964), les analyses canoniques rassemblent
+de nombreuses méthodes statistiques combinant les concepts d'ordination
+et de régression et partageant un but commun,
+Décrite à l'origine par @rao1964, les analyses canoniques rassemblent
+de nombreuses méthodes statistiques combinant les concepts d'ordination
+et de régression et partageant un but commun, qui est d'identifier la relation entre un ensemble de variables réponse (matrice $Y$, décrivant généralement la composition en espèces des communautés) et un ensemble de variables explicatives (matrice $X$, contenant généralement des descripteurs environnementaux). 
+
+Les analyses canoniques permettent aux utilisateurs de **tester des hypothèses écologiques concernant les facteurs environnementaux qui déterminent la composition des communautés d'espèces**. Parmi
+l'ensemble de méthodes d'analyses canoniques existantes, nous insisterons ici principalement sur l'analyse canonique de redondance (RDA).

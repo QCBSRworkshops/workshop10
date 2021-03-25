@@ -1,83 +1,82 @@
-# (PART\*) Advanced Multivariate Analyses in `R` {-}
+# (PART\*) Analyses multivariées avancées dans `R` {-}
 
-# Learning objectives
+# Objectifs d'apprentissage
 
-**Summary:** In this workshop, you will learn how to perform advanced
-multivariate analyses on community data. This workshop concentrates on
-constrained methods such as redundancy analysis (RDA), multivariate
-regression tree (MRT) and linear discriminant analysis (LDA) to explore
-how environmental variables may be driving patterns in species
-assemblage across sites.
+**Résumé:** Durant cet atelier, vous apprendrez à réaliser des analyses
+multivariées avancées sur des données de communauté. Cet atelier se
+concentre sur les méthodes sous contraintes, telles que l'analyse
+canonique de redondances (RDA), l'arbre de régression multivarié (MRT)
+et l'analyse discriminante linéaire (LDA) afin d'explorer comment les
+variables environnementales peuvent expliquer les patrons de composition
+en espèces à travers différents sites.
 
-The previous workshop presented the basics of multivariate analyses:
+# Préparez-vous pour cet atelier
+
+Tout le matériel de l'atelier se trouve sur [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10). Cela inclut un [script R] (https://qcbsrworkshops.github.io/workshop10/book-fr/workshop10-script-fr.R) qui rassemble tous les morceaux de code présentés dans ce livre.
+
+Pour cet atelier, nous travaillerons avec les jeux de données suivants :
   
-* how to choose appropriate distance metrics and transformations
-* hierarchical clustering
-* unconstrained ordinations 
-* Principal component analysis
-* Principal coordinate Analysis
-* Correspondence analysis
-* Nonmetric multidimensional scaling
-
-The present workshop builds on this knowledge, and will focus on
-constrained analyses. All the methods overviewed during the introductory
-workshop allowed to find patterns in the community composition data or
-in the descriptors, but not to explore how environmental variables could
-be driving these patterns. With constrained analyses, such as redundancy
-analysis (RDA), linear discriminant analysis (LDA) and multivariate
-regression tree (MRT), one can describe and predict relationships
-between community composition data and environmental variables.
-
-*Include learning objectives.*
-
-# Preparing for the workshop
-
-Download the R script, packages and data required for this workshop:
+* [DoubsEnv](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv)  
+* [DoubsSpe](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv)  
+* [DoubsSpa](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv)  
+* [Données test pour l'analyse discriminante linéaire](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-fr/data/classifyme.csv)  
   
--  [R Script](http://qcbs.ca/wiki/_media/multivar2_e.r)
--  [DoubsEnv data](http://qcbs.ca/wiki/_media/DoubsEnv.csv)
--  [DoubsSpe data](http://qcbs.ca/wiki/_media/DoubsSpe.csv)
--  [Test data for linear discriminant
-   analysis](http://qcbs.ca/wiki/_media/classifyme.csv)
--  [mvpart package](http://qcbs.ca/wiki/_media/mvpart_1.6-2.tar.gz)
--  [MVPARTwrap
-   package](http://qcbs.ca/wiki/_media/MVPARTwrap_0.1-9.tar.gz)
--  [rdaTest package](http://qcbs.ca/wiki/_media/rdaTest_1.10.tar.gz)
+> Pour télécharger ces données, faites un clic droit + enregistrer sur la page qui s'ouvre.
 
-Make sure to load the following packages (see how in the R script):
-  
-- [vegan (for multivariate
-      analyses)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [labdsv (for identification of significant indicator species in the
-     multivariate regression tree
-     analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [plyr (classification for linear discriminant
-   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- [MASS (for linear discriminant
-   analysis)](http://cran.r-project.org/web/packages/vegan/index.html)
-- mvpart
-- MVPARTwrap
-- rdatest
+Vous devriez également vous assurer que vous avez téléchargé, installé et chargé les paquets R suivants:
+ 
+* [vegan](https://cran.r-project.org/package=vegan) (pour
+      analyses multivariées)
+* [labdsv](https://cran.r-project.org/package=labdsv) (pour l'identification d'espèces indicatrices dans l'arbre de régression multivarié)
+* [MASS](https://cran.r-project.org/package=MASS) (pour l'analyse discriminante linéaire)
+* [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)* (pour les arbres de régression multivarié)
+* [ggplot2](https://cran.r-project.org/package=ggplot2) (pour visualiser quelques résultats)
 
-```{r, echo = TRUE, eval = FALSE}
+```{r, echo = TRUE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+# Installez les paquets requis
 install.packages("vegan")
-install.packages("mvpart")
 install.packages("labdsv")
-install.packages("plyr")
 install.packages("MASS")
+install.packages("ggplot2")
 
-# For the two following packages, upload the file provided on the wiki page.
-# To do so, go to Packages tab on the bottom right panel of R Studio
-# Click on Install Packages
-# Choose to install from Package Archive file and upload these two files
-install.packages("MVPARTwrap")
-install.packages("rdaTest")
+# installez mvpart de l'archive
+install.packages("remotes")
+remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
+```
 
+> *Le paquet `mvpart` n'est plus hébergé sur CRAN, mais est toujours disponible dans les archives. Pour installer `mvpart`, vous pouvez également télécharger la version .tar.gz depuis [ici](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz) et aller dans l'onglet "Packages" sur le panneau inférieur droit de R Studio, et cliquer sur "Installer les paquets". Choisissez d'installer à partir d'un fichier d'archives de paquets, et sélectionnez le fichier .tar.gz pour `mvpart`.
+
+```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+# Chargez les pacquets requis
 library(vegan)
-library(mvpart)
-library(MVPARTwrap)
-library(rdaTest)
 library(labdsv)
-library(plyr)
 library(MASS)
+library(mvpart)
+library(ggplot2)
+```
+
+```{r output-lines, echo = FALSE, purl = FALSE}
+# sometimes cache needs to be set to true in the knitr setup chunk for this to take effect
+# in xaringan::infinite_moon_reader()
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
 ```
