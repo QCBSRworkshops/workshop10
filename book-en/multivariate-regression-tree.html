@@ -302,8 +302,8 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 <pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
 ## Minimum tree sizes
 ## tabmins
-##  2  3  5  6  7  8  9 10 
-##  9  2  1 10 13 23  5 37</code></pre>
+##  2  3  4  5  6  7  8  9 10 
+## 11  2  3  1  5 10 28  5 35</code></pre>
 <p><img src="book-en_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 <p>At this point, you will need to select the tree with an <em>appropriate</em> number of groups, depending on the aim of your study. In other words, you must prune the tree by picking the best-fit tree. A fully resolved tree is not the desirable outcome; instead, one is usually interested in a tree including only informative partitions/groups. In such cases, it is possible to have an <em>a priori</em> idea of the number of potential groups to be retained. You can make this choice interactively, with the argument <code>xv = "pick"</code>.</p>
 <p>The resulting figure shows the relative error RE (in green) and the cross-validated relative error CVRE (in blue) of trees of increasing size. The red dot indicates the solution with the smallest CVRE, and the orange dot shows the smallest tree within one standard error of CVRE. It has been suggested that instead of choosing the solution minimizing CVRE, it would be more parsimonious to opt for the smallest tree for which the CVRE is within one standard error of the tree with the lowest CVRE <span class="citation">Breiman et al. (<a href="#ref-breiman1984classification" role="doc-biblioref">1984</a>)</span>. The green bars at the top indicate the number of times each size was chosen during the cross-validation process. This graph is interactive, which means you will have to click on the blue point corresponding your choice of tree size. In summary:</p>
@@ -326,7 +326,7 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 ## Minimum tree sizes
 ## tabmins
 ##  2  3  4  5  6  7  8  9 10 
-##  7  1  1  1  6 11 33  3 37</code></pre>
+##  7  2  4  3  8  7 32  4 33</code></pre>
 <p><img src="book-en_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
 <p>The statistics at the bottom of the figure are: the residual error, the cross-validated error, and the standard error. This tree has only two leaves separated by one node. Each leaf is characterized by a small barplot showing the abundances of the species included in the group, the number of sites in the group, and the group’s relative error. From this figure, we can report the following statistics:
 * The species matrix is partitioned according to an altitude threshold (361.5 m)
@@ -355,8 +355,8 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 <p>To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP). The CP at <code>nsplit = 0</code> is the <span class="math inline">\(R^2\)</span> of the entire tree.</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="multivariate-regression-tree.html#cb103-1"></a>doubs.mrt<span class="op">$</span>cptable</span></code></pre></div>
 <pre><code>##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0770349 0.07519881
-## 2 0.1044982      1 0.5630439 0.6775036 0.09539271</code></pre>
+## 1 0.4369561      0 1.0000000 1.0741920 0.07496439
+## 2 0.1044982      1 0.5630439 0.6724002 0.09423826</code></pre>
 <p>The summary then outlines, for each node, the best threshold values to split the data.</p>
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="multivariate-regression-tree.html#cb105-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
 <pre><code>## Call:
@@ -366,8 +366,8 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 ##   n= 29 
 ## 
 ##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0770349 0.07519881
-## 2 0.1044982      1 0.5630439 0.6775036 0.09539271
+## 1 0.4369561      0 1.0000000 1.0741920 0.07496439
+## 2 0.1044982      1 0.5630439 0.6724002 0.09423826
 ## 
 ## Node number 1: 29 observations,    complexity param=0.4369561
 ##   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -394,16 +394,16 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 <span id="cb107-4"><a href="multivariate-regression-tree.html#cb107-4"></a><span class="co"># Extract the significant indicator species (and which node</span></span>
 <span id="cb107-5"><a href="multivariate-regression-tree.html#cb107-5"></a><span class="co"># they represent)</span></span>
 <span id="cb107-6"><a href="multivariate-regression-tree.html#cb107-6"></a>doubs.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
-<pre><code>## TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR TAN BCO PCH GRE GAR BBO 
-##   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
+<pre><code>## CHA TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO 
+##   1   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
 ## ABL ANG 
 ##   2   2</code></pre>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="multivariate-regression-tree.html#cb109-1"></a><span class="co"># Extract their indicator values</span></span>
 <span id="cb109-2"><a href="multivariate-regression-tree.html#cb109-2"></a>doubs.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
-<pre><code>##       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
-## 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
-##       BRO       PER       BOU       PSO       ROT       CAR       TAN       BCO 
-## 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.5115135 0.6428571 
+<pre><code>##       CHA       TRU       VAI       LOC       HOT       TOX       BAR       SPI 
+## 0.3388662 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 
+##       GOU       BRO       PER       BOU       PSO       ROT       CAR       BCO 
+## 0.6442950 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 
 ##       PCH       GRE       GAR       BBO       ABL       ANG 
 ## 0.5000000 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143</code></pre>
 <p>TRU has the highest indicator value (0.867) overall, and is an indicator species for the first (alt &gt;= 361.5) leaf of the tree.</p>
@@ -435,8 +435,8 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 <pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
 ## Minimum tree sizes
 ## tabmins
-##  2  3  4  5  6  7  8  9 12 15 
-##  1  6  6  9 19 28 20  6  4  1</code></pre>
+##  2  3  4  5  6  7  8  9 11 12 15 18 
+##  1 17  4  3 16 24 19  9  1  3  2  1</code></pre>
 <p><img src="book-en_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <p>What is the proportion of variance (<span class="math inline">\(R^2\)</span>) explained by this tree?
 * <span class="math inline">\(1 - 0.748 = 0.252\)</span>, so the tree explains <strong>25.2%</strong> of the variance in the species matrix.</p>
@@ -452,22 +452,22 @@ Figure 9.1: The basic structure of a multivariate regression tree (MRT).
 <span id="cb115-6"><a href="multivariate-regression-tree.html#cb115-6"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <pre><code>##     PHTH     RARD     SSTR  Protopl     MEGR     MPRO     TVIE     HMIN 
 ##        2        2        2        2        2        2        1        2 
-##    HMIN2     NPRA     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1 
-##        2        2        2        2        2        1        2        1 
-## Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts Miniglmn 
-##        2        2        1        1        2        2        2        2 
-##     LRUG Ceratoz3 Trimalc2 
-##        1        1        1</code></pre>
+##    HMIN2     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1 Galumna1 
+##        2        2        2        2        1        2        1        2 
+## Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts Miniglmn     LRUG 
+##        2        1        1        2        2        2        2        1 
+## Ceratoz3 Trimalc2 
+##        1        1</code></pre>
 <div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="multivariate-regression-tree.html#cb117-1"></a><span class="co"># Extract their indicator values</span></span>
 <span id="cb117-2"><a href="multivariate-regression-tree.html#cb117-2"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <pre><code>##      PHTH      RARD      SSTR   Protopl      MEGR      MPRO      TVIE      HMIN 
 ## 0.5317919 0.5584677 0.2256592 0.2517509 0.5769554 0.1567789 0.3793303 0.6421174 
-##     HMIN2      NPRA      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1 
-## 0.6193076 0.4620892 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 
-##  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts  Miniglmn 
-## 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 0.1880194 
-##      LRUG  Ceratoz3  Trimalc2 
-## 0.6683300 0.3962540 0.4358974</code></pre>
+##     HMIN2      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1  Galumna1 
+## 0.6193076 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 0.5974145 
+##  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts  Miniglmn      LRUG 
+## 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 0.1880194 0.6683300 
+##  Ceratoz3  Trimalc2 
+## 0.3962540 0.4358974</code></pre>
 
 </div>
 </div>
