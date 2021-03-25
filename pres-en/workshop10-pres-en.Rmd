@@ -1500,7 +1500,7 @@ We know that environmental variables generally change with latitude. This might 
 
 # LDA in R: Doubs fish dataset
 
-Let's begin by loading spatial coordinates for the Doubs sites:
+Let us begin by loading spatial coordinates for the Doubs River sites:
 ```{r}
 # load spatial data for Doubs sites
 spa <- read.csv("data/doubsspa.csv", row.names = 1)
@@ -1524,7 +1524,7 @@ spa$group[which(spa$y > 156)] <- 3
 
 # LDA in R: Latitude groups
 
-Let's quickly plot the latitude groupings to see if they make sense:
+Let us quickly plot the latitude groupings to see if they make sense:
 <br><br>
 
 ```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
@@ -1623,6 +1623,8 @@ Let's **predict the grouping** of five new sites using our LDA results:
 ```{r}
 # Load the new site data
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
+# remove das
+classify.me <- subset(classify.me, select = -das)
 
 # Predict grouping of new sites
 predict.group <- predict(LDA, newdata = classify.me)

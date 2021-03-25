@@ -1636,6 +1636,8 @@ Essayons de **prédire la classification** de cinq nouveaux sites à l'aide de l
 ```{r}
 # charger les nouvelles données
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
+# enlever das
+classify.me <- subset(classify.me, select = -das)
 
 # prédire le groupement des nouvelles données
 predict.group <- predict(LDA, newdata = classify.me)
