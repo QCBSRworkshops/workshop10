@@ -119,7 +119,9 @@ Let us predict the groupings of **five** new sites in the dummy dataset `classif
 ```{r}
 # Load the new site data
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
-
+# remove das
+classify.me <- subset(classify.me, select = -das)
+  
 # Predict grouping of new sites
 predict.group <- predict(LDA, newdata = classify.me)
 
