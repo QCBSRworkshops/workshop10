@@ -508,7 +508,7 @@ anova.cca(spe.rda.signif, step = 1000, by = "term")
 #          Df Variance       F Pr(&gt;F)    
 # alt       1 0.164856 19.9759  0.001 ***
 # oxy       1 0.082426  9.9877  0.001 ***
-# dbo       1 0.048909  5.9264  0.001 ***
+# dbo       1 0.048909  5.9264  0.002 ** 
 # Residual 25 0.206319                   
 ...
 ```
@@ -975,8 +975,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.022 *  
-# RDA3      1 0.003193 0.9919  0.427    
+# RDA2      1 0.008254 2.5643  0.016 *  
+# RDA3      1 0.003193 0.9919  0.405    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1387,6 +1387,12 @@ exclude: true
 
 
 ```r
+# remove this chunk when the MRT section is back in. It is needed for the LDA section.
+env &lt;- subset(env, select = -das)
+```
+
+
+```r
 # First, remove the "distance from source" variable
 env &lt;- subset(env, select = -das)
 
@@ -1642,7 +1648,7 @@ We know that environmental variables generally change with latitude. This might 
 
 # LDA in R: Doubs fish dataset
 
-Let's begin by loading spatial coordinates for the Doubs sites:
+Let us begin by loading spatial coordinates for the Doubs River sites:
 
 ```r
 # load spatial data for Doubs sites
@@ -1668,10 +1674,10 @@ spa$group[which(spa$y &gt; 156)] &lt;- 3
 
 # LDA in R: Latitude groups
 
-Let's quickly plot the latitude groupings to see if they make sense:
+Let us quickly plot the latitude groupings to see if they make sense:
 &lt;br&gt;&lt;br&gt;
 
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-73-1.png" width="540" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-74-1.png" width="540" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1700,7 +1706,7 @@ Our sites have now been reorganised into groups that are as distinct as possible
 lda.plotdf &lt;- data.frame(group = spa$group, lda = predict(LDA)$x)
 ```
 &lt;br&gt;
-&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-76-1.png" width="468" style="display: block; margin: auto;" /&gt;
+&lt;img src="workshop10-pres-en_files/figure-html/unnamed-chunk-77-1.png" width="468" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1748,6 +1754,8 @@ Let's **predict the grouping** of five new sites using our LDA results:
 ```r
 # Load the new site data
 classify.me &lt;- read.csv("data/classifyme.csv", header = TRUE)
+# remove das
+classify.me &lt;- subset(classify.me, select = -das)
 
 # Predict grouping of new sites
 predict.group &lt;- predict(LDA, newdata = classify.me)
