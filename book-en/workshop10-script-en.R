@@ -462,59 +462,102 @@ mite.mrt.indval$indcls[which(mite.mrt.indval$pval<=0.05)]
 
 ##Section: 09-linear-discriminant-analysis.R 
 
-#load spatial data to determine groups
-spa <- read.csv ('http://www.davidzeleny.net/anadat-r/data-download/DoubsSpa.csv', row.names = 1)
-spa <- spa[,-8]
+# load spatial data for Doubs sites
+spa <- read.csv("data/doubsspa.csv", row.names = 1)
+spa$site <- 1:nrow(spa) # add site numbers
+spa <- spa[-8,] # remove site 8
 
-#View spatial data
-View (spa)
+# group sites based on latitude
+spa$group <- NA # create "group" column
+spa$group[which(spa$y < 82)] <- 1
+spa$group[which(spa$y > 82 & spa$y < 156)] <- 2
+spa$group[which(spa$y > 156)] <- 3
 
-#add site numbers
-numbers<-(1:30)
-numbers<-numbers[!numbers%in%8]
-spa$site<-numbers
+ggplot(data = spa) +
+  geom_point(aes(x = x, 
+                 y = y, 
+                 col = as.factor(group)), 
+             size = 4) +
+  labs(color = "Groups", 
+       x = "Longitude", 
+       y = "Latitude") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
 
-#make groups based on lattitude y<82=group1, 82<y<156=group2, y>156=group3
-spa.group<-ddply(.data=spa, .variables=.(x, y, site), .fun= summarise, group = if(y <= 82) 1 else if (y <= 156) 2 else 3)
+# run the LDA grouping sites into latitude groups based on env data
+LDA <- lda(env, spa$group)
 
-#order by site
-spa.group<-spa.group[with(spa.group, order(site)), ]
+# predict the groupings
+lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
 
-#run LDA
-LDA<-lda(env,spa.group[,4])
+# Plot the newly reorganised sites according to the LDA
+ggplot(lda.plotdf) +
+  geom_point(aes(x = lda.LD1, 
+                 y = lda.LD2, 
+                 col = factor(group)), 
+             size = 4) +
+  labs(color = "Groups") +
+  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
+  theme_classic() + # formatting the plot to make it pretty
+  theme(axis.title = element_text(size = 18),
+        axis.text = element_text(size = 16),
+        legend.title = element_text(size = 20),
+        legend.text = element_text(size = 18))
 
-#classification of the objects based on LDA
+# Classification of the objects based on the LDA
 spe.class <- predict(LDA)$class
 
-#posterior probabilities of the objects to belong to the groups
+# Posterior probabilities that the objects belong to those groups
 spe.post <- predict(LDA)$posterior
 
-#table of prior versus predicted classifications
-spe.table <- table(spa.group[,4], spe.class)
+# Table of prior vs. predicted classifications
+(spe.table <- table(spa$group, spe.class))
 
-#proportion of correct classification
+# Proportion of corrected classification
 diag(prop.table(spe.table, 1))
 
-#predicting classification of new data
-#read in new sites
-classify.me<-read.csv("classifyme.csv", header = T)
+# Load the new site data
+classify.me <- read.csv("data/classifyme.csv", header = TRUE)
 
-#predict grouping of new data
-predict.group<-predict(LDA, newdata=classify.me)
+# Predict grouping of new sites
+predict.group <- predict(LDA, newdata = classify.me)
 
-#give classification for each new site
-group.new<-predict.group$class
+# View site classification
+predict.group$class
 
-mite.xy$site<-seq(1:70)
+data(mite.xy)
+
+lda()
+predict()
+table()
+diag()
+
+# assign numbers to sites
+mite.xy$site <- 1:nrow(mite.xy)
+
+# figure out the spacing to make 4 equally spaced latitude groups 
 (max(mite.xy[,2])-min(mite.xy[,2]))/4
 
-mite.xy.group<-ddply(.data=mite.xy, .variables=.(x, y, site), .fun= summarise, group = if(y <= 2.5) 1 else if (y <= 4.9) 2 else if (y <= 7.3) 3 else 4)
-mite.xy.group<-mite.xy.group[with(mite.xy.group, order(site)), ]
+# use this to group sites into 4 latitude groups
+mite.xy$group <- NA # create "group" column
+mite.xy$group[which(mite.xy$y < 2.5)] <- 1
+mite.xy$group[which(mite.xy$y >= 2.5 & mite.xy$y < 4.9)] <- 2
+mite.xy$group[which(mite.xy$y >= 4.9 & mite.xy$y < 7.3)] <- 3
+mite.xy$group[which(mite.xy$y >= 7.3)] <- 4
 
-LDA.mite<-lda(mite.env[,1:2],mite.xy.group[,4])
+LDA.mite <- lda(mite.env[,1:2], mite.xy$group)
+
+# group sites based on the LDA
 mite.class <- predict(LDA.mite)$class
-mite.post <- predict(LDA.mite)$posterior
-mite.table <- table(mite.xy.group[,4], mite.class)
+
+# get the table of prior versus predicted classifications
+(mite.table <- table(mite.xy$group, mite.class))
+
+# proportion of correct classification
 diag(prop.table(mite.table, 1))
 
 

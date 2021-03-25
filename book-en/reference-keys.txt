@@ -40,6 +40,12 @@ challenge-3
 challenge-3-solution
 multivariate-regression-tree
 linear-discriminant-analysis
+lda-in-r-doubs-river-fish-dataset
+making-a-priori-groupings
+running-the-lda
+evaluating-grouping-accuracy
+predictions
+challenge-5
 summary
 additional-resources
 references
