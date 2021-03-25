@@ -2,13 +2,13 @@
 
 Variation partitioning is a type of analysis that combines RDA and partial RDA to divide the variation of a response variable among two, three or four explanatory data sets. For example, you might want to partition the variation in a community matrix among a set of abiotic environmental variables, and a set of biotic variables. You could also partition this community variation among small-scale or large-scale variables, to test the effect of spatial scale on your community.
 
-```{r echo=FALSE, out.width="60%", fig.cap="The basic structure of variation partitioning.", fig.align="center"}
+```{r echo=FALSE, out.width="60%", fig.cap="The basic structure of variation partitioning.", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/VarPart_Matrices.png")
 ```
 
 The results of variation partitioning analyses are traditionally represented by a Venn diagram, in which the percentage of explained variance by each explanatory data set is reported. In a case where we are partitioning the variation among two explanatory matrices, the result could be represented as follows:
 
-```{r, echo=FALSE, out.width="90%", fig.cap="Representing variation partitioning results.", fig.align="center"}
+```{r, echo=FALSE, out.width="80%", fig.cap="Representing variation partitioning results.", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/VarPart.png")
 ```
 

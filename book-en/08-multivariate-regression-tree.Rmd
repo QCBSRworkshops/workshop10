@@ -2,7 +2,7 @@
 
 Multivariate regression tree (MRT) is a **constrained clustering technique**. Introduced by @de2002multivariate, the MRT splits a response matrix ($Y$) into clusters based on thresholds of explanatory variables ($X$). Like RDA, MRT is a regression technique. While the former explains the global structure of relationships through a linear model, the latter produces a tree model to highlight local structures and interactions among variables.
 
-```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a multivariate regression tree (MRT).", fig.align="center"}
+```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a multivariate regression tree (MRT).", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/MRT.png")
 ```
 
