@@ -1,6 +1,6 @@
 # Partial Redundancy Analysis
 
-Partial RDA is a special case of RDA in which the response variables $Y$ are related to explanatory variables $X$ in the presence of additional explanatory variables $W$, called **covariates (**or covariables). As in partial linear regression, the linear effect of $X$ variables on the $Y$ variables are *adjusted* for the effects of the covariates $W$. For this, a RDA of the covariables $W$ on the response variables $Y$ is first performed. The residuals of this RDA are then extracted, i.e. a matrix $Y_{res}|W$ containing the $Y$ response variables in which the effect of $W$ was removed. The partial RDA corresponds to the RDA of $X$ on $Y_{res}|W$. All statistics previously presented for RDA also apply for partial RDA.
+Partial RDA is a special case of RDA in which the response variables $Y$ are related to explanatory variables $X$ in the presence of additional explanatory variables $W$, called **covariates** (or covariables). As in partial linear regression, the linear effect of $X$ variables on the $Y$ variables are *adjusted* for the effects of the covariates $W$. For this, a RDA of the covariables $W$ on the response variables $Y$ is first performed. The residuals of this RDA are then extracted, i.e. a matrix $Y_{res}|W$ containing the $Y$ response variables in which the effect of $W$ was removed. The partial RDA corresponds to the RDA of $X$ on $Y_{res}|W$. All statistics previously presented for RDA also apply for partial RDA.
 
 ```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a redundancy analysis (RDA).", fig.align="center"}
 knitr::include_graphics("images/PartialRDA.png")
@@ -61,7 +61,7 @@ RsquareAdj(spe.partial.rda)$adj.r.squared
 anova.cca(spe.partial.rda, step = 1000)
 ```
 
-> Our model explains .alert[24.1%] of the variation in fish abundance across sites. It is also statistically significant (.alert[p = 0.001])!
+> Our model explains 24.1% of the variation in fish abundance across sites. It is also statistically significant (p = 0.001)!
 
 ### Partial RDA plot
 

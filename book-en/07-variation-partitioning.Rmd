@@ -22,7 +22,7 @@ Here,
 
 ## Variation partitioning in R
 
-To demonstrate how variation partitioning works in `R`, we will partition the variation of fish species composition between chemical and physiographic variables. The `varpart()` function from `vegan` makes this easy for us. 
+To demonstrate how variation partitioning works in `R`, we will partition the variation of fish species composition between chemical and topographic variables. The `varpart()` function from `vegan` makes this easy for us. 
 
 ```{r}
 # Partition the variation in fish community composition
@@ -78,8 +78,8 @@ anova.cca(rda(spe.hel, env.chem, env.topo))
 
 **X2 | X1 [c] Topography alone**
 ```{r}
-# [a] Chemistry alone
-anova.cca(rda(spe.hel, env.chem, env.topo))
+# [c] Topography alone
+anova.cca(rda(spe.hel, env.topo, env.chem))
 ```
 
 All of the testable fractions in the variation partitioning are statistically significant! 
@@ -87,6 +87,8 @@ All of the testable fractions in the variation partitioning are statistically si
 ## Challenge 3
 
 ```{r, echo = FALSE, eval = FALSE}
+# Challenge 3 
+
 # Partition the variation in the mite species data according to substrate variables (`SubsDens`, `WatrCont`) and significant spatial variables.
         # What proportion of the variation is explained by substrate variables? By space?
         # Which individual fractions are significant?
@@ -114,6 +116,10 @@ plot()
 ```
 
 ### Challenge 3: Solution
+
+```{r, echo = FALSE, eval = FALSE}
+# Challenge 3 - Solution! Spoilers ahead!
+```
 
 **Step 1:** Forward selection of significant spatial variables.
 

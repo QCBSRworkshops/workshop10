@@ -1,6 +1,6 @@
 # Multivariate regression tree
 
-Multivariate regression tree (MRT) is a **constrained clustering technique**. Introduced by @de2002multivariate, the MRT splits a response matrix ($Y$) into clusters based on thresholds of explanatory variables ($X$). Like RDA, MRT is a regression technique. While the former explains the global structure of relationships through a linear model, the latter produces a tree model to highlight local structures and interactions among variables.
+Multivariate regression tree (MRT) is a **hierarchical constrained clustering technique**. Introduced by @de2002multivariate, the MRT splits a response matrix ($Y$) into clusters based on thresholds of explanatory variables ($X$). Like RDA, MRT is a regression technique. While the former explains the global structure of relationships through a linear model, the latter produces a tree model to highlight local structures and interactions among variables.
 
 ```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a multivariate regression tree (MRT).", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/MRT.png")
@@ -23,15 +23,15 @@ A quick note on MRT terminology:
 * **Leaf**: terminal group of sites.  
 :::
 
-## Computating the MRT
+## Computing the MRT
 
 The MRT splits the data into clusters of samples similar in their species composition based on environmental value thresholds. It involves two procedures running at the same time: **1)** the computation of the constrained partitioning of the data, and **2)** the calculation of the relative error of the successive partitioning levels by multiple cross-validations. This cross-validation is, in essence, aiming to identify best predictive tree. The "*best*" tree varies depending on your study goals. Usually you want a tree that is parsimonious, but still has an informative number of groups. This is, of course, a subjective decision to make according to the question you are trying to answer.
 
-### Constrained partitioning of the data
+### Building the tree: Constrained partitioning of the data
 
 First, the method computes all possible partitions of the sites into two groups. For each quantitative explanatory variable, the sites will be sorted in the ascending values of the variables. For categorical variables, the sites will be aggregated by levels to test all combinations of levels. The method will split the data after the first object, the second object and so on, and compute the sum of within-group sum of squared distances to the group mean (within-group SS) for the response data. The method will retain the partition into two groups minimizing the within-group SS and the threshold value/level of the explanatory variable. These steps will be repeated within the two subgroups formed previously, until all objects form their own group. In other words, this process ends when each leaf of the tree contains one object.
 
-### Cross-validation and pruning the tree
+### Selecting the tree: Cross-validation and pruning
 
 The next step is to perform a cross-validation and identify the best predictive tree. The cross-validation procedure consists in using a subset of the objects to construct the tree, and to allocate the remaining objects to the groups. In a *good* predictive tree, objects are assigned to the appropriate groups. The **cross-validated relative error (CVRE)** is the measure of the predictive error. Without cross-validation, one would retain the number of partitions minimizing the variance not explained by the tree (i.e. the relative error: the sum of the within-group SS over all leaves divided by the overall SS of the data). This is the solution which maximizes the $R^2$, so to speak.
 
@@ -79,13 +79,14 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 
 The statistics at the bottom of the figure are: the residual error, the cross-validated error, and the standard error. This tree has only two leaves separated by one node. Each leaf is characterized by a small barplot showing the abundances of the species included in the group, the number of sites in the group, and the group's relative error. From this figure, we can report the following statistics:
 * The species matrix is partitioned according to an altitude threshold (361.5 m)
-* Residual error = **0.563**, which means the model's R2 is **43.7%** ($1 - 0.563 = 0.437$)
+* Residual error = **0.563**, which means the model's $R^2$ is **43.7%** ($1 - 0.563 = 0.437$)
 
 ### MRT selection process
 
 We can also compare solutions, to help us chose the best tree. For example, let's take a look at a 10-group solution!
 
 ```{r, results = 'hide'}
+# Trying 10 groups
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
@@ -97,6 +98,7 @@ This tree is much harder to interpret, because there are so many groups! Althoug
 
 Let's look at a solution with fewer (4) groups!
 ```{r}
+# Trying fewer groups
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
@@ -111,12 +113,14 @@ This tree is much easier to interpret! It also offers higher explanatory power (
 To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP). The CP at `nsplit = 0` is the $R^2$ of the entire tree. 
 
 ```{r}
+# Checking the complexity parameter
 doubs.mrt$cptable
 ```
 
 The summary then outlines, for each node, the best threshold values to split the data. 
 
 ```{r, echo = TRUE}
+# Checking the tree result summary
 summary(doubs.mrt)
 ```
 
@@ -139,6 +143,16 @@ TRU has the highest indicator value (0.867) overall, and is an indicator species
 
 ## Challenge 4
 
+```{r, echo = FALSE, eval = FALSE}
+# Challenge 4
+# 
+# Create a multivariate regression tree for the mite data.
+# * Select the smallest tree within 1 SE of the CVRE.
+# * What is the proportion of variance (R2) explained by this tree?
+# * How many leaves does it have?
+# * What are the top 3 discriminant species?
+```
+
 Create a multivariate regression tree for the mite data.
 * Select the smallest tree within 1 SE of the CVRE.
 * What is the proportion of variance (R2) explained by this tree?
@@ -157,8 +171,11 @@ Recall some useful functions:
 summary()
 ```
 
-
 ### Challenge 4: Solution
+
+```{r, echo = FALSE, eval = FALSE}
+# Challenge 4: Solution! Spoilers ahead!
+```
 
 **Step 1:** Create the multivariate regression tree.
 

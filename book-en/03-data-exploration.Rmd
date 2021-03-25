@@ -73,7 +73,7 @@ What proportion of the dataset does that represent?
 sum(spe == 0)/(nrow(spe)*ncol(spe))
 ```
 
-Over **50%** of our dataset consists of zeros! This is high, but not uncommon for species abundance data. However, many zeros can lead to a **double zero problem**, where common absences artificially increase the similarity between sites, in terms of their community composition. In other words, two sites might appear *more similar* just because they are both *missing* a species, even though a common absence does not make them ecologically similar. Instead, we want *common presences* to determine site similarity.
+Over **50%** of our dataset consists of zeros! This is high, but not uncommon for species abundance data. However, many zeros can lead to a **double zero problem**, where common absences artificially increase the similarity between sites, in terms of their community composition. In other words, two sites might appear *more similar* just because they are both *missing* some species, even though common absences do not make them ecologically similar. Instead, we want *common presences* to determine site similarity.
 
 To avoid this double zero problem, we will apply a transformation to the species data. @legendre2001 proposed five pre-transformations of the species data, four of which are available in the `decostand()` function from the `vegan` package.
 

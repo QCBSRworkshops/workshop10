@@ -46,7 +46,7 @@ install.packages("remotes")
 remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
 ```
 
-> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, you can also download the .tar.gz version from [here](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz) and go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .tar.gz for mvpart.
+> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, you can also download the .tar.gz version from [here](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz) and go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .tar.gz for `mvpart`.
 
 
 ```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}

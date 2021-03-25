@@ -5,10 +5,10 @@ The [previous workshop](https://github.com/QCBSRworkshops/workshop09) presented 
 * How to choose appropriate distance metrics and transformations
 * Hierarchical clustering
 * Unconstrained ordinations 
-* Principal component analysis
-* Principal coordinate Analysis
-* Correspondence analysis
-* Nonmetric multidimensional scaling
+  * Principal component analysis
+  * Principal coordinate Analysis
+  * Correspondence analysis
+  * Nonmetric multidimensional scaling
 
 The present workshop builds on this knowledge, and will focus on
 **constrained** analyses. All the methods overviewed during Workshop 9 allowed us to find *patterns* in the community composition data or
