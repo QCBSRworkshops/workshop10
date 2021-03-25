@@ -97,10 +97,6 @@ apply(env.z, 2, sd)
 
 ##Section: 05-redundancy-analysis.R 
 
-knitr::include_graphics("images/RDA.png")
-
-knitr::include_graphics("images/constrained_ord_diagram.png")
-
 # We'll use our standardized environmental data, but we will remove 'das', which was correlated with many other variables:
 env.z <- subset(env.z, select = -das)
 
@@ -301,10 +297,6 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 
 ##Section: 07-variation-partitioning.R 
 
-knitr::include_graphics("images/VarPart_Matrices.png")
-
-knitr::include_graphics("images/VarPart.png")
-
 # Partition the variation in fish community composition
 spe.part.all <- varpart(spe.hel, env.chem, env.topo)
 spe.part.all$part # access results!
@@ -386,8 +378,6 @@ plot(mite.part,
 
 
 ##Section: 08-multivariate-regression-tree.R 
-
-knitr::include_graphics("images/MRT.png")
 
 # First, remove the "distance from source" variable
 env <- subset(env, select = -das)
@@ -561,42 +551,7 @@ diag(prop.table(mite.table, 1))
 
 ##Section: 10-final-considerations.R 
 
-?cca #(constrained correspondence analysis)
-# Constrained Correspondence Analysis (CCA) is a canonical ordination method similar to RDA that preserve
-# Chi-square distances among object (instead of Euclidean distances in RDA). This method is well suited for the
-# analysis of large ecological gradients.
 
-
-
-?CCorA # Canonical Correlation Analysis
-
-# Canonical Correlation Analysis (CCorA) differs from RDA given that the two matrices are considered symmetric
-# while in RDA the Y matrix is dependent on the X matrix. The main use of this technique is to test the
-# significance of the correlation between two multidimensional data sets, then explore the structure of the data by
-# computing the correlations (which are the square roots of the CCorA eigenvalues) that can be found between
-# linear functions of two groups of descriptors.
-
-
-help(coinertia, package=ade4) # Coinertia Analysis
-
-#Coinertia Analysis (CoIA) is a symmetric canonical ordination method that is appropriate to compare pairs
-# of data sets that play equivalent roles in the analysis. The method finds a common space onto which the objects
-# and variables of these data sets can be projected and compared. Compared to CCorA, co-inertia analysis
-# imposes no constraint regarding the number of variables in the two sets, so that it can be used to compare
-# ecological communities even when they are species-rich. Co-inertia analysis is not well-suited, however, to
-# analyse pairs of data sets that contain the same variables, because the analysis does not establish one-to-one
-# correspondences between variables in the two data sets; the method does not ‘know’ that the first variable is the
-# same in the first and the second data sets, and likewise for the other variables.
-
-
-help(mfa, package=ade4) # Multiple Factorial Analysis
-
-# Multiple factor analysis (MFA) can be used to compare several data sets describing the same objects. MFA
-# consists in projecting objects and variables of two or more data sets on a global PCA, computed from all data
-# sets, in which the sets receive equal weights.
-
-
-# Spatial analysis can be performed using packages AEM and PCNM : http://r-forge.r-project.org/R/?group_id=195
 
 
 ##Section: 11-references.R 
