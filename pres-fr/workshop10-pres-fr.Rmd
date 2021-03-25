@@ -1230,6 +1230,12 @@ exclude: true
 
 # MRT dans R
 
+```{r, results = 'hide', fig.show = 'hide', eval = TRUE}
+# Enlever la variable “distance from source”
+# Remove this chunk when LDA is back in. It is needed for the LDA (just switch next chunk to true).
+env <- subset(env, select = -das)
+```
+
 ```{r, results = 'hide', fig.show = 'hide', eval = F}
 # Enlever la variable “distance from source”
 env <- subset(env, select = -das)
