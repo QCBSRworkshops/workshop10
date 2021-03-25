@@ -183,7 +183,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computating-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computating the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#cross-validation-and-pruning-the-tree"><i class="fa fa-check"></i><b>9.1.2</b> Cross-validation and pruning the tree</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a><ul>
 <li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
@@ -233,171 +246,240 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="multivariate-regression-tree" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Multivariate regression tree</h1>
-<p>Multivariate regression tree (MRT) is a constrained clustering
-technique. Introduced by De’ath (2002), MRTs allow the partitioning of a
-quantitative response matrix by a matrix of explanatory variables
-constraining (guiding) on where to divide the data of the response
-matrix. RDA and MRT are both regression techniques, the former
-explaining the global structure of relationships through a linear model,
-the latter better highlighting local structures and interactions among
-variables by producing a tree model.</p>
-<p>Advantages of the MRT compared to the RDA:</p>
-<pre><code>  * does not make assumptions about the shape of the relationships between species and environmental variables (quantitative or categorical), 
-  * is robust in dealing with missing values 
-  * is robust in dealing with collinearity among the explanatory variables
-  * is insensitive to transformations of the explanatory variables, which allows the use of raw values 
-  * the outcome, the tree, is easy to interpret, especially to a non-scientist audience.</code></pre>
-<p>The MRT technique splits the data into clusters of samples similar in
-their species composition based on environmental value thresholds. It
-involves two procedures running at the same time: 1) the computation of
-the constrained partitioning of the data, and 2) the calculation of the
-relative error of the successive partitioning levels by multiple
-cross-validations. The function mvpart() from the package mvpart
-computes both the partition and the cross-validation.</p>
+<p>Multivariate regression tree (MRT) is a <strong>constrained clustering technique</strong>. Introduced by <span class="citation">De’Ath (<a href="#ref-de2002multivariate" role="doc-biblioref">2002</a>)</span>, the MRT splits a response matrix (<span class="math inline">\(Y\)</span>) into clusters based on thresholds of explanatory variables (<span class="math inline">\(X\)</span>). Like RDA, MRT is a regression technique. While the former explains the global structure of relationships through a linear model, the latter produces a tree model to highlight local structures and interactions among variables.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-70"></span>
+<img src="images/MRT.png" alt="The basic structure of a multivariate regression tree (MRT)." width="70%" />
+<p class="caption">
+Figure 9.1: The basic structure of a multivariate regression tree (MRT).
+</p>
+</div>
+<p>MRT has many convenient characteristics:</p>
+<ul>
+<li>It does not assume a linear relationship between Y and X matrices;</li>
+<li>The results are easy to visualize and interpret (it’s a tree!);</li>
+<li>It clearly identifies importance of explanatory variables;</li>
+<li>It is robust to missing values;</li>
+<li>It is robust to collinearity among the explanatory variables;</li>
+<li>It can handle raw explanatory variables, meaning there is no need to standardize.</li>
+</ul>
+<div class="explanation">
 <p>A quick note on MRT terminology:</p>
-<p>Leaf: Terminal group of sites</p>
-<p>Node: Point where the data splits into two groups. It is characterized
-by a threshold value of an explanatory variable.</p>
-<p>Branch: Each group formed by a split</p>
-<p><strong>1- Constrained partitioning of the data</strong></p>
-<p>First, the method computes all possible partitions of the sites into two
-groups. For each quantitative explanatory variable, the sites will be
-sorted in the ascending values of the variables; for categorical
-variables, the sites will be aggregated by levels to test all
-combinations of levels. The method will split the data after the first
-object, the second object and so on, and compute the sum of within-group
-sum of squared distances to the group mean (within-group SS) for the
-response data. The method will retain the partition into two groups
-minimizing the within-group SS and the threshold value/level of the
-explanatory variable. These steps will be repeated within the two
-subgroups formed previously, until all objects form their own group. In
-other words, when each leaf of the tree contains one object.</p>
-<p><strong>2- Cross-validation and pruning the tree</strong></p>
-<p>The mvpart function also performs a cross-validation and identifies the
-best predictive tree. The cross-validation procedure consists in using a
-subset of the objects to construct the tree, and to allocate the
-remaining objects to the groups. In a good predictive tree, objects are
-assigned to the appropriate groups. The cross-validated relative error
-(CVRE) is the measure of the predictive error. Without cross-validation,
-one would retain the number of partitions minimizing the variance not
-explained by the tree (i.e. the relative error: the sum of the
-within-group SS over all leaves divided by the overall SS of the data).
-This is the solution maximizing the R2 so to speak. This approach is
-explanatory rather than predictive.</p>
-<p>Let’s create a multivariate regression tree on the Doubs data.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="multivariate-regression-tree.html#cb98-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(mvpart)</span>
-<span id="cb98-2"><a href="multivariate-regression-tree.html#cb98-2"></a></span>
-<span id="cb98-3"><a href="multivariate-regression-tree.html#cb98-3"></a><span class="co"># Prepare the data: remove “distance from source”</span></span>
-<span id="cb98-4"><a href="multivariate-regression-tree.html#cb98-4"></a>env &lt;-<span class="st"> </span><span class="kw">subset</span>(env, <span class="dt">select =</span> <span class="op">-</span>das)</span>
-<span id="cb98-5"><a href="multivariate-regression-tree.html#cb98-5"></a></span>
-<span id="cb98-6"><a href="multivariate-regression-tree.html#cb98-6"></a><span class="co"># Create the regression tree</span></span>
-<span id="cb98-7"><a href="multivariate-regression-tree.html#cb98-7"></a>doubs.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb98-8"><a href="multivariate-regression-tree.html#cb98-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb98-9"><a href="multivariate-regression-tree.html#cb98-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
-<p>At this point, you will need to select the tree who’s size (number of
-groups) is appropriate to the aim of your study from the following
-graph. This step requires the argument xv="pick". In other words, you
-must prune the tree by picking the best-fit tree. Indeed, a fully
-resolved tree is not the desirable outcome. Instead, one is usually
-interested in a tree including only informative partitions/groups. It is
-possible to have an a-priori idea of the number of potential groups to
-be retained as well.</p>
-<p><img src="images/cross_validation.png" class="align-center" /></p>
-<p>The graph shows the relative error RE (in green) and the cross-validated
-relative error CVRE (in blue) of trees of increasing size. The red dot
-indicates the solution with the smallest CVRE, and the orange dot shows
-the smallest tree within one standard error of CVRE. It has been
-suggested that instead of choosing the solution minimizing CVRE, it
-would be more parsimonious to opt for the smallest tree for which the
-CVRE is within one standard error of the tree with the lowest CVRE
-(Breiman et al. 1984). The green bars at the top indicate the number of
-times each size was chosen during the cross-validation process.</p>
-<p>This graph is interactive, which means you will have to click on the
-blue point corresponding your choice of tree size. Once you do so, the
-corresponding multivariate regression tree will appear. If you click on
-the orange dot, the following tree appears.</p>
-<p><img src="images/mrt_1se.png" class="align-center" /></p>
-<p>The statistics at the bottom of the figure are: the residual error (the
-reciprocal of the R2 of the model, in this case 43.7%), the
-cross-validated error, and the standard error. This tree has only two
-leaves separated by one node. This node splits the data into two groups
-at the threshold altitude value of 361.5m.</p>
-<p>Each leaf is characterized by a small barplot showing the abundances of
-the species, its number of sites and its relative error.</p>
-<p>We can compare this tree with the 10-group solution, as suggested by the
-CVRE criterion, or choose a solution in between, e.g. with 4 leaves to
-compare.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="multivariate-regression-tree.html#cb99-1"></a><span class="co"># Using the CVRE criterion</span></span>
-<span id="cb99-2"><a href="multivariate-regression-tree.html#cb99-2"></a>doubs.mrt.cvre &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb99-3"><a href="multivariate-regression-tree.html#cb99-3"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb99-4"><a href="multivariate-regression-tree.html#cb99-4"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
-<span id="cb99-5"><a href="multivariate-regression-tree.html#cb99-5"></a></span>
-<span id="cb99-6"><a href="multivariate-regression-tree.html#cb99-6"></a><span class="co"># Choosing ourself the best number of partitions</span></span>
-<span id="cb99-7"><a href="multivariate-regression-tree.html#cb99-7"></a>doubs.mrt<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb99-8"><a href="multivariate-regression-tree.html#cb99-8"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), </span>
-<span id="cb99-9"><a href="multivariate-regression-tree.html#cb99-9"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span></code></pre></div>
-<p><img src="images/mrt_cvre.png" class="align-center" /> <img src="images/mrt_4.png" class="align-center" /></p>
-<p>The 10-group solution has a high EXPLANATORY power but its predictive
-power (indicated by the cross-validated error) is just slightly better
-than that of the 2-group solution. The 4-group solution seems to be a
-good compromise.</p>
-<p>More information can be obtained by looking at the summary output.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="multivariate-regression-tree.html#cb100-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
-<p><img src="images/doubs_mrt_summary.png" class="align-center" /></p>
-<p>CP stands for “complexity parameter”, which is the equivalent of the
-variance explained by each node. The CP at nsplit 0 is the R2 of the
-whole tree. The summary then outlines, for each node, the best threshold
-values to split the data. While informative, this output is very dense.
-A more detailed and yet more manageable output can be generated by using
-the wrapper from the function MRT() of the MVPARTwrap package. Plus,
-this other function allows identification of discriminant species.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="multivariate-regression-tree.html#cb101-1"></a><span class="co"># Find discriminant species with MRT results</span></span>
-<span id="cb101-2"><a href="multivariate-regression-tree.html#cb101-2"></a>doubs.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(doubs.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(spe.hel))</span>
-<span id="cb101-3"><a href="multivariate-regression-tree.html#cb101-3"></a><span class="kw">summary</span>(doubs.mrt.wrap)</span>
-<span id="cb101-4"><a href="multivariate-regression-tree.html#cb101-4"></a></span>
-<span id="cb101-5"><a href="multivariate-regression-tree.html#cb101-5"></a><span class="co"># Extract indval p-values</span></span>
-<span id="cb101-6"><a href="multivariate-regression-tree.html#cb101-6"></a>doubs.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(spe.hel, doubs.mrt<span class="op">$</span>where)</span>
-<span id="cb101-7"><a href="multivariate-regression-tree.html#cb101-7"></a>doubs.mrt.indval<span class="op">$</span>pval</span>
-<span id="cb101-8"><a href="multivariate-regression-tree.html#cb101-8"></a></span>
-<span id="cb101-9"><a href="multivariate-regression-tree.html#cb101-9"></a><span class="co"># Extract indicator species of each node, with its indval</span></span>
-<span id="cb101-10"><a href="multivariate-regression-tree.html#cb101-10"></a>doubs.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
-<span id="cb101-11"><a href="multivariate-regression-tree.html#cb101-11"></a>doubs.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
-<p><img src="images//doubs_mrt_discriminant.png" class="align-center" />
-<img src="images//doubs_mrt_finalpart.png" class="align-center" /></p>
-<p>The main discriminant species of the first split are TRU, VAI and ABL.
-TRU and VAI contribute highly to the left leaf, and ABL is the most
-indicative species of the sites at lower altitude (&lt;361.5m). This
-output also indicates which sites are included in each leaf.</p>
-<p><img src="images//doubs_mrt_indval.png" class="align-center" /></p>
-<p>The second part of the code allows us to test the significance of the
-indicator value of each species through a permutation test. For each
-significant indicator species, we extracted the leaf number and the
-indicator value. In this particular case, TRU, VAI and LOC are all
-significant species of the left leaf, TRU having the highest indicator
-value (0.867).</p>
-<p><strong>Challenge 4</strong>: Run the multivariate regression tree for the mite data.
-Select the minimum size of tree within one SE of the CVRE. What is the
-proportion of variance explained by this tree? How many leaves contain
-this tree? What are the discriminant species?</p>
-<p><strong>Challenge 4</strong> - Solution</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="multivariate-regression-tree.html#cb102-1"></a>mite.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">data.matrix</span>(mite.spe.hel) <span class="op">~</span><span class="st"> </span>., mite.env, <span class="dt">legend =</span> <span class="ot">FALSE</span>, </span>
-<span id="cb102-2"><a href="multivariate-regression-tree.html#cb102-2"></a>    <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(mite.spe.hel), </span>
-<span id="cb102-3"><a href="multivariate-regression-tree.html#cb102-3"></a>    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>)</span>
-<span id="cb102-4"><a href="multivariate-regression-tree.html#cb102-4"></a><span class="kw">summary</span>(mite.mrt)</span>
-<span id="cb102-5"><a href="multivariate-regression-tree.html#cb102-5"></a></span>
-<span id="cb102-6"><a href="multivariate-regression-tree.html#cb102-6"></a>mite.mrt.wrap &lt;-<span class="st"> </span><span class="kw">MRT</span>(mite.mrt, <span class="dt">percent =</span> <span class="dv">10</span>, <span class="dt">species =</span> <span class="kw">colnames</span>(mite.spe.hel))</span>
-<span id="cb102-7"><a href="multivariate-regression-tree.html#cb102-7"></a><span class="kw">summary</span>(mite.mrt.wrap)</span>
-<span id="cb102-8"><a href="multivariate-regression-tree.html#cb102-8"></a></span>
-<span id="cb102-9"><a href="multivariate-regression-tree.html#cb102-9"></a>mite.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(mite.spe.hel, mite.mrt<span class="op">$</span>where)</span>
-<span id="cb102-10"><a href="multivariate-regression-tree.html#cb102-10"></a>mite.mrt.indval<span class="op">$</span>pval</span>
-<span id="cb102-11"><a href="multivariate-regression-tree.html#cb102-11"></a></span>
-<span id="cb102-12"><a href="multivariate-regression-tree.html#cb102-12"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span>
-<span id="cb102-13"><a href="multivariate-regression-tree.html#cb102-13"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
-<p>25.6% of the variation in the mite species assemblage across sites is
-explained by the partition of the sites based on water content of the
-substrate (at 385.1 mg/l). LCIL is a discriminant species of sites with
-higher water content, and has an indicator value of 0.715.</p>
+<ul>
+<li><strong>Branch</strong>: each group formed by a split;<br />
+</li>
+<li><strong>Node</strong>: splitting point (threshold value of an explanatory variable);<br />
+</li>
+<li><strong>Leaf</strong>: terminal group of sites.<br />
+</li>
+</ul>
+</div>
+<div id="computating-the-mrt" class="section level2">
+<h2><span class="header-section-number">9.1</span> Computating the MRT</h2>
+<p>The MRT splits the data into clusters of samples similar in their species composition based on environmental value thresholds. It involves two procedures running at the same time: <strong>1)</strong> the computation of the constrained partitioning of the data, and <strong>2)</strong> the calculation of the relative error of the successive partitioning levels by multiple cross-validations. This cross-validation is, in essence, aiming to identify best predictive tree. The “<em>best</em>” tree varies depending on your study goals. Usually you want a tree that is parsimonious, but still has an informative number of groups. This is, of course, a subjective decision to make according to the question you are trying to answer.</p>
+<div id="constrained-partitioning-of-the-data" class="section level3">
+<h3><span class="header-section-number">9.1.1</span> Constrained partitioning of the data</h3>
+<p>First, the method computes all possible partitions of the sites into two groups. For each quantitative explanatory variable, the sites will be sorted in the ascending values of the variables. For categorical variables, the sites will be aggregated by levels to test all combinations of levels. The method will split the data after the first object, the second object and so on, and compute the sum of within-group sum of squared distances to the group mean (within-group SS) for the response data. The method will retain the partition into two groups minimizing the within-group SS and the threshold value/level of the explanatory variable. These steps will be repeated within the two subgroups formed previously, until all objects form their own group. In other words, this process ends when each leaf of the tree contains one object.</p>
+</div>
+<div id="cross-validation-and-pruning-the-tree" class="section level3">
+<h3><span class="header-section-number">9.1.2</span> Cross-validation and pruning the tree</h3>
+<p>The next step is to perform a cross-validation and identify the best predictive tree. The cross-validation procedure consists in using a subset of the objects to construct the tree, and to allocate the remaining objects to the groups. In a <em>good</em> predictive tree, objects are assigned to the appropriate groups. The <strong>cross-validated relative error (CVRE)</strong> is the measure of the predictive error. Without cross-validation, one would retain the number of partitions minimizing the variance not explained by the tree (i.e. the relative error: the sum of the within-group SS over all leaves divided by the overall SS of the data). This is the solution which maximizes the <span class="math inline">\(R^2\)</span>, so to speak.</p>
+</div>
+</div>
+<div id="mrt-in-r" class="section level2">
+<h2><span class="header-section-number">9.2</span> MRT in R</h2>
+<p>The function <code>mvpart()</code> from the package <code>mvpart</code> computes both the partition and the cross-validation steps required to build a multivariate regression tree.</p>
+<p>We will demonstrate the process of building a multivariate regression tree on the Doubs River data.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="multivariate-regression-tree.html#cb97-1"></a><span class="co"># First, remove the &quot;distance from source&quot; variable</span></span>
+<span id="cb97-2"><a href="multivariate-regression-tree.html#cb97-2"></a>env &lt;-<span class="st"> </span><span class="kw">subset</span>(env, <span class="dt">select =</span> <span class="op">-</span>das)</span>
+<span id="cb97-3"><a href="multivariate-regression-tree.html#cb97-3"></a></span>
+<span id="cb97-4"><a href="multivariate-regression-tree.html#cb97-4"></a><span class="co"># Create multivariate regression tree</span></span>
+<span id="cb97-5"><a href="multivariate-regression-tree.html#cb97-5"></a>doubs.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env,</span>
+<span id="cb97-6"><a href="multivariate-regression-tree.html#cb97-6"></a>                    <span class="dt">xv =</span> <span class="st">&quot;pick&quot;</span>, <span class="co"># interactively select best tree</span></span>
+<span id="cb97-7"><a href="multivariate-regression-tree.html#cb97-7"></a>                    <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), <span class="co"># number of cross-validations</span></span>
+<span id="cb97-8"><a href="multivariate-regression-tree.html#cb97-8"></a>                    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="co"># number of multiple cross-validations</span></span>
+<span id="cb97-9"><a href="multivariate-regression-tree.html#cb97-9"></a>                    <span class="dt">which =</span> <span class="dv">4</span>, <span class="co"># plot both node labels</span></span>
+<span id="cb97-10"><a href="multivariate-regression-tree.html#cb97-10"></a>                    <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
+## Minimum tree sizes
+## tabmins
+##  2  4  5  6  7  8  9 10 
+## 10  2  1  6 13 27  2 39</code></pre>
+<p><img src="book-en_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>At this point, you will need to select the tree with an <em>appropriate</em> number of groups, depending on the aim of your study. In other words, you must prune the tree by picking the best-fit tree. A fully resolved tree is not the desirable outcome; instead, one is usually interested in a tree including only informative partitions/groups. In such cases, it is possible to have an <em>a priori</em> idea of the number of potential groups to be retained. You can make this choice interactively, with the argument <code>xv = "pick"</code>.</p>
+<p>The resulting figure shows the relative error RE (in green) and the cross-validated relative error CVRE (in blue) of trees of increasing size. The red dot indicates the solution with the smallest CVRE, and the orange dot shows the smallest tree within one standard error of CVRE. It has been suggested that instead of choosing the solution minimizing CVRE, it would be more parsimonious to opt for the smallest tree for which the CVRE is within one standard error of the tree with the lowest CVRE <span class="citation">Breiman et al. (<a href="#ref-breiman1984classification" role="doc-biblioref">1984</a>)</span>. The green bars at the top indicate the number of times each size was chosen during the cross-validation process. This graph is interactive, which means you will have to click on the blue point corresponding your choice of tree size. In summary:</p>
+<ul>
+<li>Green points: Relative error</li>
+<li>Blue points: Cross-validated relative error (CVRE)</li>
+<li>Red dot: Which tree has the smallest CVRE</li>
+<li>Orange dot: Smallest tree within one standard error of the CVRE</li>
+<li>Lime green bars: number of times each tree size was chosen</li>
+</ul>
+<p>We don’t have an <em>a priori</em> expectation about how to partition this data, so we’ll select the smallest tree within 1 standard error of the overall best-fit tree (i.e. the orange dot). We can select this tree using the <code>xv = "1se"</code> argument.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="multivariate-regression-tree.html#cb99-1"></a><span class="co"># Select the solution we want</span></span>
+<span id="cb99-2"><a href="multivariate-regression-tree.html#cb99-2"></a>doubs.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env,</span>
+<span id="cb99-3"><a href="multivariate-regression-tree.html#cb99-3"></a>                    <span class="dt">xv =</span> <span class="st">&quot;1se&quot;</span>, <span class="co"># select smallest tree within 1 se</span></span>
+<span id="cb99-4"><a href="multivariate-regression-tree.html#cb99-4"></a>                    <span class="dt">xval =</span> <span class="kw">nrow</span>(spe.hel), <span class="co"># number of cross-validations</span></span>
+<span id="cb99-5"><a href="multivariate-regression-tree.html#cb99-5"></a>                    <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="co"># number of multiple cross-validations</span></span>
+<span id="cb99-6"><a href="multivariate-regression-tree.html#cb99-6"></a>                    <span class="dt">which =</span> <span class="dv">4</span>, <span class="co"># plot both node labels</span></span>
+<span id="cb99-7"><a href="multivariate-regression-tree.html#cb99-7"></a>                    <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
+## Minimum tree sizes
+## tabmins
+##  2  6  7  8  9 10 
+##  7 13  8 23  2 47</code></pre>
+<p><img src="book-en_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+<p>The statistics at the bottom of the figure are: the residual error, the cross-validated error, and the standard error. This tree has only two leaves separated by one node. Each leaf is characterized by a small barplot showing the abundances of the species included in the group, the number of sites in the group, and the group’s relative error. From this figure, we can report the following statistics:
+* The species matrix is partitioned according to an altitude threshold (361.5 m)
+* Residual error = <strong>0.563</strong>, which means the model’s R2 is <strong>43.7%</strong> (<span class="math inline">\(1 - 0.563 = 0.437\)</span>)</p>
+<div id="mrt-selection-process" class="section level3">
+<h3><span class="header-section-number">9.2.1</span> MRT selection process</h3>
+<p>We can also compare solutions, to help us chose the best tree. For example, let’s take a look at a 10-group solution!</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="multivariate-regression-tree.html#cb101-1"></a><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env,</span>
+<span id="cb101-2"><a href="multivariate-regression-tree.html#cb101-2"></a>        <span class="dt">xv =</span> <span class="st">&quot;none&quot;</span>, <span class="co"># no cross-validation</span></span>
+<span id="cb101-3"><a href="multivariate-regression-tree.html#cb101-3"></a>        <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># set tree size</span></span>
+<span id="cb101-4"><a href="multivariate-regression-tree.html#cb101-4"></a>        <span class="dt">which =</span> <span class="dv">4</span>,</span>
+<span id="cb101-5"><a href="multivariate-regression-tree.html#cb101-5"></a>        <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">prn =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<p>This tree is much harder to interpret, because there are so many groups! Although this version of the tree offers higher explanatory power, its <em>predictive</em> power (CV Error = 0.671) is basically the same as the previous two-group solution (CV Error = 0.673). This suggests that we may want to try a tree with a few more groupings than the two-group solution, while staying lower than 10 groups.</p>
+<p>Let’s look at a solution with fewer (4) groups!</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="multivariate-regression-tree.html#cb102-1"></a><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env,</span>
+<span id="cb102-2"><a href="multivariate-regression-tree.html#cb102-2"></a>        <span class="dt">xv =</span> <span class="st">&quot;none&quot;</span>, <span class="co"># no cross-validation</span></span>
+<span id="cb102-3"><a href="multivariate-regression-tree.html#cb102-3"></a>        <span class="dt">size =</span> <span class="dv">4</span>, <span class="co"># set tree size</span></span>
+<span id="cb102-4"><a href="multivariate-regression-tree.html#cb102-4"></a>        <span class="dt">which =</span> <span class="dv">4</span>,</span>
+<span id="cb102-5"><a href="multivariate-regression-tree.html#cb102-5"></a>        <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">prn =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p>This tree is much easier to interpret! It also offers higher explanatory power (lower Error) than our original solution, and higher predictive power than both previous solutions (CV Error). We have a winner!</p>
+</div>
+<div id="interpreting-mrt-output" class="section level3">
+<h3><span class="header-section-number">9.2.2</span> Interpreting MRT output</h3>
+<p>To find out how much variance is explained by each node in the tree, we need to look at the complexity parameter (CP). The CP at <code>nsplit = 0</code> is the <span class="math inline">\(R^2\)</span> of the entire tree.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="multivariate-regression-tree.html#cb103-1"></a>doubs.mrt<span class="op">$</span>cptable</span></code></pre></div>
+<pre><code>##          CP nsplit rel error    xerror       xstd
+## 1 0.4369561      0 1.0000000 1.0751791 0.07518825
+## 2 0.1044982      1 0.5630439 0.6735993 0.09419157</code></pre>
+<p>The summary then outlines, for each node, the best threshold values to split the data.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="multivariate-regression-tree.html#cb105-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
+<pre><code>## Call:
+## mvpart(form = as.matrix(spe.hel) ~ ., data = env, xv = &quot;1se&quot;, 
+##     xval = nrow(spe.hel), xvmult = 100, margin = 0.01, which = 4, 
+##     legend = FALSE, cp = 0)
+##   n= 29 
+## 
+##          CP nsplit rel error    xerror       xstd
+## 1 0.4369561      0 1.0000000 1.0751791 0.07518825
+## 2 0.1044982      1 0.5630439 0.6735993 0.09419157
+## 
+## Node number 1: 29 observations,    complexity param=0.4369561
+##   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
+##   left son=2 (15 obs) right son=3 (14 obs)
+##   Primary splits:
+##       alt &lt; 361.5 to the right, improve=0.4369561, (0 missing)
+##       deb &lt; 23.65 to the left,  improve=0.4369561, (0 missing)
+##       amm &lt; 0.06  to the left,  improve=0.3529830, (0 missing)
+##       nit &lt; 1.415 to the left,  improve=0.3513335, (0 missing)
+##       pen &lt; 1.5   to the right, improve=0.3372429, (0 missing)
+## 
+## Node number 2: 15 observations
+##   Means=0.1208,0.4463,0.4194,0.4035,0.1104,0.09023,0,0.02108,0.1256,0.2164,0.04392,0.01054,0.107,0.09779,0.06853,0,0.01054,0.01617,0.01054,0.09489,0,0,0,0.08629,0,0,0, Summed MSE=0.3194207 
+## 
+## Node number 3: 14 observations
+##   Means=0.02179,0.03391,0.08514,0.1313,0.02945,0.04444,0.1429,0.1362,0.1736,0.2509,0.1871,0.1519,0.2425,0.1781,0.1551,0.1702,0.17,0.13,0.1402,0.177,0.1306,0.09163,0.2103,0.2932,0.1598,0.3362,0.1509, Summed MSE=0.2236343</code></pre>
+</div>
+<div id="indicator-species" class="section level3">
+<h3><span class="header-section-number">9.2.3</span> Indicator species</h3>
+<p>You might also be interested in finding out which species are significant indicator species for each grouping of sites.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="multivariate-regression-tree.html#cb107-1"></a><span class="co"># Calculate indicator values (indval) for each species</span></span>
+<span id="cb107-2"><a href="multivariate-regression-tree.html#cb107-2"></a>doubs.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(spe.hel, doubs.mrt<span class="op">$</span>where)</span>
+<span id="cb107-3"><a href="multivariate-regression-tree.html#cb107-3"></a></span>
+<span id="cb107-4"><a href="multivariate-regression-tree.html#cb107-4"></a><span class="co"># Extract the significant indicator species (and which node</span></span>
+<span id="cb107-5"><a href="multivariate-regression-tree.html#cb107-5"></a><span class="co"># they represent)</span></span>
+<span id="cb107-6"><a href="multivariate-regression-tree.html#cb107-6"></a>doubs.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<pre><code>## TRU VAI LOC HOT TOX BAR SPI GOU BRO PER BOU PSO ROT CAR BCO PCH GRE GAR BBO ABL 
+##   1   1   1   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2 
+## ANG 
+##   2</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="multivariate-regression-tree.html#cb109-1"></a><span class="co"># Extract their indicator values</span></span>
+<span id="cb109-2"><a href="multivariate-regression-tree.html#cb109-2"></a>doubs.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(doubs.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<pre><code>##       TRU       VAI       LOC       HOT       TOX       BAR       SPI       GOU 
+## 0.8674301 0.7758443 0.7042392 0.8571429 0.6185282 0.6363569 0.7347359 0.6442950 
+##       BRO       PER       BOU       PSO       ROT       CAR       BCO       PCH 
+## 0.5533235 0.5449488 0.7857143 0.8070918 0.6352865 0.7307582 0.6428571 0.5000000 
+##       GRE       GAR       BBO       ABL       ANG 
+## 0.8571429 0.7726181 0.7142857 1.0000000 0.7857143</code></pre>
+<p>TRU has the highest indicator value (0.867) overall, and is an indicator species for the first (alt &gt;= 361.5) leaf of the tree.</p>
+</div>
+</div>
+<div id="challenge-4" class="section level2">
+<h2><span class="header-section-number">9.3</span> Challenge 4</h2>
+<p>Create a multivariate regression tree for the mite data.
+* Select the smallest tree within 1 SE of the CVRE.
+* What is the proportion of variance (R2) explained by this tree?
+* How many leaves does it have?
+* What are the top 3 discriminant species?</p>
+<p>Remember to load the mite data:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="multivariate-regression-tree.html#cb111-1"></a><span class="kw">data</span>(<span class="st">&quot;mite&quot;</span>)</span>
+<span id="cb111-2"><a href="multivariate-regression-tree.html#cb111-2"></a><span class="kw">data</span>(<span class="st">&quot;mite.env&quot;</span>)</span></code></pre></div>
+<p>Recall some useful functions:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="multivariate-regression-tree.html#cb112-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(<span class="kw">mvpart</span>()  <span class="co"># hint: pay attention to the &#39;xv&#39; argument!</span></span>
+<span id="cb112-2"><a href="multivariate-regression-tree.html#cb112-2"></a>)</span>
+<span id="cb112-3"><a href="multivariate-regression-tree.html#cb112-3"></a><span class="kw">summary</span>()</span></code></pre></div>
+<div id="challenge-4-solution" class="section level3">
+<h3><span class="header-section-number">9.3.1</span> Challenge 4: Solution</h3>
+<p><strong>Step 1:</strong> Create the multivariate regression tree.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="multivariate-regression-tree.html#cb113-1"></a>mite.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(mite.spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env,</span>
+<span id="cb113-2"><a href="multivariate-regression-tree.html#cb113-2"></a>                   <span class="dt">xv =</span> <span class="st">&quot;1se&quot;</span>, <span class="co"># choose smallest tree within 1 SE</span></span>
+<span id="cb113-3"><a href="multivariate-regression-tree.html#cb113-3"></a>                   <span class="dt">xval =</span> <span class="kw">nrow</span>(mite.spe.hel),</span>
+<span id="cb113-4"><a href="multivariate-regression-tree.html#cb113-4"></a>                   <span class="dt">xvmult =</span> <span class="dv">100</span>,</span>
+<span id="cb113-5"><a href="multivariate-regression-tree.html#cb113-5"></a>                   <span class="dt">which =</span> <span class="dv">4</span>, <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>,</span>
+<span id="cb113-6"><a href="multivariate-regression-tree.html#cb113-6"></a>                   <span class="dt">prn =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
+## Minimum tree sizes
+## tabmins
+##  2  3  4  5  6  7  8  9 11 12 15 
+##  2 13  3  8 18 30 18  5  1  1  1</code></pre>
+<p><img src="book-en_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
+<p>What is the proportion of variance (<span class="math inline">\(R^2\)</span>) explained by this tree?
+* <span class="math inline">\(1 - 0.748 = 0.252\)</span>, so the tree explains <strong>25.2%</strong> of the variance in the species matrix.</p>
+<p>How many leaves does it have?
+* 2 leaves</p>
+<p><strong>Step 2</strong>: Identify the indicator species.</p>
+<p>Which species are significant indicator species for each grouping of sites?</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="multivariate-regression-tree.html#cb115-1"></a><span class="co"># Calculate indicator values (indval) for each species</span></span>
+<span id="cb115-2"><a href="multivariate-regression-tree.html#cb115-2"></a>mite.mrt.indval &lt;-<span class="st"> </span><span class="kw">indval</span>(mite.spe.hel, mite.mrt<span class="op">$</span>where)</span>
+<span id="cb115-3"><a href="multivariate-regression-tree.html#cb115-3"></a></span>
+<span id="cb115-4"><a href="multivariate-regression-tree.html#cb115-4"></a><span class="co"># Extract the significant indicator species (and which node</span></span>
+<span id="cb115-5"><a href="multivariate-regression-tree.html#cb115-5"></a><span class="co"># they represent)</span></span>
+<span id="cb115-6"><a href="multivariate-regression-tree.html#cb115-6"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<pre><code>##     PHTH     RARD     SSTR  Protopl     MEGR     MPRO     TVIE     HMIN 
+##        2        2        2        2        2        2        1        2 
+##    HMIN2     NPRA     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1 
+##        2        2        2        2        2        1        2        1 
+##     PWIL Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts 
+##        2        2        2        1        1        2        2        2 
+## Miniglmn     LRUG Ceratoz3 Trimalc2 
+##        2        1        1        1</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="multivariate-regression-tree.html#cb117-1"></a><span class="co"># Extract their indicator values</span></span>
+<span id="cb117-2"><a href="multivariate-regression-tree.html#cb117-2"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
+<pre><code>##      PHTH      RARD      SSTR   Protopl      MEGR      MPRO      TVIE      HMIN 
+## 0.5317919 0.5584677 0.2256592 0.2517509 0.5769554 0.1567789 0.3793303 0.6421174 
+##     HMIN2      NPRA      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1 
+## 0.6193076 0.4620892 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 
+##      PWIL  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts 
+## 0.3779883 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 
+##  Miniglmn      LRUG  Ceratoz3  Trimalc2 
+## 0.1880194 0.6683300 0.3962540 0.4358974</code></pre>
 
+</div>
+</div>
+</div>
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-breiman1984classification">
+<p>Breiman, Leo, Jerome Friedman, Charles J Stone, and Richard A Olshen. 1984. <em>Classification and Regression Trees</em>. CRC press.</p>
+</div>
+<div id="ref-de2002multivariate">
+<p>De’Ath, Glenn. 2002. “Multivariate Regression Trees: A New Technique for Modeling Species–Environment Relationships.” <em>Ecology</em> 83 (4): 1105–17.</p>
+</div>
 </div>
 <hr>
 <center> 

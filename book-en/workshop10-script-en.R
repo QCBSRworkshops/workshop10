@@ -411,53 +411,73 @@ plot(mite.part,
 
 ##Section: 08-multivariate-regression-tree.R 
 
-?mvpart
+knitr::include_graphics("images/MRT.png")
 
-#Prepare the data: remove “distance from source”
+# First, remove the "distance from source" variable
 env <- subset(env, select = -das)
 
-# Create the regression tree
-doubs.mrt <- mvpart(as.matrix(spe.hel) ~. ,env,
-            legend=FALSE, margin=0.01, cp=0, xv="pick",
-            xval=nrow(spe.hel), xvmult=100, which=4)
+# Create multivariate regression tree
+doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
+                    xv = "pick", # interactively select best tree
+                    xval = nrow(spe.hel), # number of cross-validations
+                    xvmult = 100, # number of multiple cross-validations
+                    which = 4, # plot both node labels
+                    legend = FALSE, margin = 0.01, cp = 0)
 
-# Using the CVRE criterion
-doubs.mrt.cvre <- mvpart(as.matrix(spe.hel)~., env,
-                 legend=FALSE, margin=0.01, cp=0,xv="pick",
-                 xval=nrow(spe.hel), xvmult=100,which=4)
+# Select the solution we want
+doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
+                    xv = "1se", # select smallest tree within 1 se
+                    xval = nrow(spe.hel), # number of cross-validations
+                    xvmult = 100, # number of multiple cross-validations
+                    which = 4, # plot both node labels
+                    legend = FALSE, margin = 0.01, cp = 0)
 
-# Choosing ourself the best number of partitions
-doubs.mrt.4 <- mvpart(as.matrix(spe.hel)~., env,
-              legend=FALSE, margin=0.01, cp=0, xv="pick",
-              xval=nrow(spe.hel), xvmult=100,which=4)
+mvpart(as.matrix(spe.hel) ~ ., data = env,
+        xv = "none", # no cross-validation
+        size = 10, # set tree size
+        which = 4,
+        legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
+
+mvpart(as.matrix(spe.hel) ~ ., data = env,
+        xv = "none", # no cross-validation
+        size = 4, # set tree size
+        which = 4,
+        legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
+
+doubs.mrt$cptable
 
 summary(doubs.mrt)
 
-# Find discriminant species with MRT results
-doubs.mrt.wrap<-MRT(doubs.mrt,percent=10,species=colnames(spe.hel))
-summary(doubs.mrt.wrap)
+# Calculate indicator values (indval) for each species
+doubs.mrt.indval <- indval(spe.hel, doubs.mrt$where)
 
-# Extract indval p-values
-doubs.mrt.indval<-indval(spe.hel,doubs.mrt$where)
-doubs.mrt.indval$pval
+# Extract the significant indicator species (and which node they represent)
+doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval <= 0.05)]
 
-# Extract indicator species of each node, with its indval
-doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval<=0.05)]
-doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval<=0.05)]
+# Extract their indicator values
+doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 
-mite.mrt<-mvpart(data.matrix(mite.spe.hel)~.,mite.env,
-legend=FALSE,margin=0.01,cp=0,xv="pick",
-xval=nrow(mite.spe.hel),xvmult=100,which=4)
-summary(mite.mrt)
+data("mite")
+data("mite.env")
 
-mite.mrt.wrap<-MRT(mite.mrt,percent=10,species=colnames(mite.spe.hel))
-summary(mite.mrt.wrap)
+?mvpart() # hint: pay attention to the 'xv' argument!
+summary()
 
-mite.mrt.indval<-indval(mite.spe.hel,mite.mrt$where)
-mite.mrt.indval$pval
+mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
+                   xv = "1se", # choose smallest tree within 1 SE
+                   xval = nrow(mite.spe.hel),
+                   xvmult = 100,
+                   which = 4, legend = FALSE, margin = 0.01, cp = 0,
+                   prn = FALSE)
 
-mite.mrt.indval$maxcls[which(mite.mrt.indval$pval<=0.05)]
-mite.mrt.indval$indcls[which(mite.mrt.indval$pval<=0.05)]
+# Calculate indicator values (indval) for each species
+mite.mrt.indval <- indval(mite.spe.hel, mite.mrt$where)
+
+# Extract the significant indicator species (and which node they represent)
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval <= 0.05)]
+
+# Extract their indicator values
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval <= 0.05)]
 
 
 ##Section: 09-linear-discriminant-analysis.R 
@@ -522,7 +542,9 @@ diag(prop.table(spe.table, 1))
 
 # Load the new site data
 classify.me <- read.csv("data/classifyme.csv", header = TRUE)
-
+# remove das
+classify.me <- subset(classify.me, select = -das)
+  
 # Predict grouping of new sites
 predict.group <- predict(LDA, newdata = classify.me)
 

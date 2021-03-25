@@ -3,6 +3,7 @@ fig:ord-diagram
 fig:unnamed-chunk-38
 fig:unnamed-chunk-52
 fig:unnamed-chunk-53
+fig:unnamed-chunk-70
 code-of-conduct
 expected-behaviour
 unacceptable-behaviour
@@ -39,6 +40,15 @@ significance-testing-2
 challenge-3
 challenge-3-solution
 multivariate-regression-tree
+computating-the-mrt
+constrained-partitioning-of-the-data
+cross-validation-and-pruning-the-tree
+mrt-in-r
+mrt-selection-process
+interpreting-mrt-output
+indicator-species
+challenge-4
+challenge-4-solution
 linear-discriminant-analysis
 lda-in-r-doubs-river-fish-dataset
 making-a-priori-groupings

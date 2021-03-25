@@ -183,7 +183,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computating-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computating the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#cross-validation-and-pruning-the-tree"><i class="fa fa-check"></i><b>9.1.2</b> Cross-validation and pruning the tree</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a><ul>
 <li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
@@ -350,7 +363,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## alt       1 0.164856 19.9759  0.001 ***
 ## oxy       1 0.082426  9.9877  0.001 ***
-## dbo       1 0.048909  5.9264  0.001 ***
+## dbo       1 0.048909  5.9264  0.003 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>You can also test the significance of each canonical axis with <code>by = "axis"</code>. Recall that these axes represent the variation in explanatory variables in fewer dimensions.</p>
@@ -360,7 +373,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.003 ** 
+## RDA3      1 0.027291  3.3069  0.002 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001).</p>
