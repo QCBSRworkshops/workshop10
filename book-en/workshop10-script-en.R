@@ -134,6 +134,8 @@ ordiplot(spe.rda.signif, scaling = 1, type = "text")
 # Type 2 scaling
 ordiplot(spe.rda.signif, scaling = 2, type = "text")
 
+# Custom triplot code!
+
 extract % explained by the first 2 axes
 perc <- round(100*(summary(spe.rda.signif)$cont$importance[2, 1:2]), 2)
 
@@ -319,8 +321,10 @@ anova.cca(rda(spe.hel, env.topo))
 # [a] Chemistry alone
 anova.cca(rda(spe.hel, env.chem, env.topo))
 
-# [a] Chemistry alone
-anova.cca(rda(spe.hel, env.chem, env.topo))
+# [c] Topography alone
+anova.cca(rda(spe.hel, env.topo, env.chem))
+
+# Challenge 3
 
 # Partition the variation in the mite species data according to substrate variables (`SubsDens`, `WatrCont`) and significant spatial variables.
         # What proportion of the variation is explained by substrate variables? By space?
@@ -333,6 +337,8 @@ ordiR2step()
 varpart()
 anova.cca(rda())
 plot()
+
+# Challenge 3 - Solution! Spoilers ahead!
 
 # Step 1: Forward selection!
 
@@ -398,20 +404,24 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     which = 4, # plot both node labels
                     legend = FALSE, margin = 0.01, cp = 0)
 
+# Trying 10 groups
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 10, # set tree size
         which = 4,
         legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
 
+# Trying fewer groups
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # no cross-validation
         size = 4, # set tree size
         which = 4,
         legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
 
+# Checking the complexity parameter
 doubs.mrt$cptable
 
+# Checking the tree result summary
 summary(doubs.mrt)
 
 # Calculate indicator values (indval) for each species
@@ -423,11 +433,21 @@ doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval <= 0.05)]
 # Extract their indicator values
 doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
 
+# Challenge 4
+#
+# Create a multivariate regression tree for the mite data.
+# * Select the smallest tree within 1 SE of the CVRE.
+# * What is the proportion of variance (R2) explained by this tree?
+# * How many leaves does it have?
+# * What are the top 3 discriminant species?
+
 data("mite")
 data("mite.env")
 
 ?mvpart() # hint: pay attention to the 'xv' argument!
 summary()
+
+# Challenge 4: Solution! Spoilers ahead!
 
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se", # choose smallest tree within 1 SE

@@ -184,9 +184,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computating-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computating the MRT</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Constrained partitioning of the data</a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#cross-validation-and-pruning-the-tree"><i class="fa fa-check"></i><b>9.1.2</b> Cross-validation and pruning the tree</a></li>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
 <li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
@@ -281,7 +281,7 @@ analysis)</li>
 <span id="cb1-8"><a href="preparing-for-the-workshop.html#cb1-8"></a><span class="kw">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
 <span id="cb1-9"><a href="preparing-for-the-workshop.html#cb1-9"></a>remotes<span class="op">::</span><span class="kw">install_url</span>(<span class="st">&quot;https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz&quot;</span>)</span></code></pre></div>
 <blockquote>
-<p>*The <code>mvpart</code> package is no longer hosted on CRAN, but is still available from the archives. To install <code>mvpart</code>, you can also download the .tar.gz version from <a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">here</a> and go to the “Packages” tab on the bottom right panel of R Studio, and click on “Install Packages”. Choose to install from Package Archive file, and select the .tar.gz for mvpart.</p>
+<p>*The <code>mvpart</code> package is no longer hosted on CRAN, but is still available from the archives. To install <code>mvpart</code>, you can also download the .tar.gz version from <a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">here</a> and go to the “Packages” tab on the bottom right panel of R Studio, and click on “Install Packages”. Choose to install from Package Archive file, and select the .tar.gz for <code>mvpart</code>.</p>
 </blockquote>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="preparing-for-the-workshop.html#cb2-1"></a><span class="co"># Load the required packages</span></span>
 <span id="cb2-2"><a href="preparing-for-the-workshop.html#cb2-2"></a><span class="kw">library</span>(vegan)</span>

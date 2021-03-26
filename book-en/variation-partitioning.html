@@ -184,9 +184,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computating-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computating the MRT</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Constrained partitioning of the data</a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#cross-validation-and-pruning-the-tree"><i class="fa fa-check"></i><b>9.1.2</b> Cross-validation and pruning the tree</a></li>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
 <li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
@@ -272,7 +272,7 @@ Figure 8.2: Representing variation partitioning results.
 </ul>
 <div id="variation-partitioning-in-r" class="section level2">
 <h2><span class="header-section-number">8.1</span> Variation partitioning in R</h2>
-<p>To demonstrate how variation partitioning works in <code>R</code>, we will partition the variation of fish species composition between chemical and physiographic variables. The <code>varpart()</code> function from <code>vegan</code> makes this easy for us.</p>
+<p>To demonstrate how variation partitioning works in <code>R</code>, we will partition the variation of fish species composition between chemical and topographic variables. The <code>varpart()</code> function from <code>vegan</code> makes this easy for us.</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="variation-partitioning.html#cb74-1"></a><span class="co"># Partition the variation in fish community composition</span></span>
 <span id="cb74-2"><a href="variation-partitioning.html#cb74-2"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, env.chem, env.topo)</span>
 <span id="cb74-3"><a href="variation-partitioning.html#cb74-3"></a>spe.part.all<span class="op">$</span>part  <span class="co"># access results!</span></span></code></pre></div>
@@ -352,16 +352,16 @@ Figure 8.2: Representing variation partitioning results.
 <p>Recognize this? It’s a partial RDA!</p>
 </blockquote>
 <p><strong>X2 | X1 [c] Topography alone</strong></p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="variation-partitioning.html#cb83-1"></a><span class="co"># [a] Chemistry alone</span></span>
-<span id="cb83-2"><a href="variation-partitioning.html#cb83-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.chem, env.topo))</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="variation-partitioning.html#cb83-1"></a><span class="co"># [c] Topography alone</span></span>
+<span id="cb83-2"><a href="variation-partitioning.html#cb83-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.topo, env.chem))</span></code></pre></div>
 <pre><code>## Permutation test for rda under reduced model
 ## Permutation: free
 ## Number of permutations: 999
 ## 
-## Model: rda(X = spe.hel, Y = env.chem, Z = env.topo)
+## Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
 ##          Df Variance      F Pr(&gt;F)    
-## Model     7  0.16024 3.0842  0.001 ***
-## Residual 18  0.13360                  
+## Model     3 0.064495 2.8965  0.001 ***
+## Residual 18 0.133599                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>All of the testable fractions in the variation partitioning are statistically significant!</p>
@@ -449,7 +449,7 @@ Figure 8.2: Representing variation partitioning results.
 <span id="cb96-5"><a href="variation-partitioning.html#cb96-5"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>,</span>
 <span id="cb96-6"><a href="variation-partitioning.html#cb96-6"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="co"># add colour!</span></span>
 <span id="cb96-7"><a href="variation-partitioning.html#cb96-7"></a>     <span class="dt">alpha =</span> <span class="dv">80</span>) <span class="co"># adjust transparency</span></span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-69-1.png" width="576" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-70-1.png" width="576" /></p>
 <p><strong>So, what can we say about the effects of substrate and space on mite species abundances?</strong></p>
 <p><strong>Hint:</strong> Why is the model showing such an important effect of space?</p>
 <p>Space explains a lot of the variation in species abundances here: <strong>19.4% (p = 0.001)</strong> of the variation is explained by space alone, and <strong>24.8%</strong> is <em>jointly</em> explained by space and substrate. Substrate only explains <strong>~6% (p = 0.001)</strong> of the variation in community composition across sites on its own! Also note that half of the variation is not explained by the variables we included in the model (look at the residuals!), so the model could be improved.</p>

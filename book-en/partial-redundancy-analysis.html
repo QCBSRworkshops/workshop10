@@ -184,9 +184,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computating-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computating the MRT</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Constrained partitioning of the data</a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#cross-validation-and-pruning-the-tree"><i class="fa fa-check"></i><b>9.1.2</b> Cross-validation and pruning the tree</a></li>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
 <li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
@@ -246,7 +246,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="partial-redundancy-analysis" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> Partial Redundancy Analysis</h1>
-<p>Partial RDA is a special case of RDA in which the response variables <span class="math inline">\(Y\)</span> are related to explanatory variables <span class="math inline">\(X\)</span> in the presence of additional explanatory variables <span class="math inline">\(W\)</span>, called <strong>covariates (</strong>or covariables). As in partial linear regression, the linear effect of <span class="math inline">\(X\)</span> variables on the <span class="math inline">\(Y\)</span> variables are <em>adjusted</em> for the effects of the covariates <span class="math inline">\(W\)</span>. For this, a RDA of the covariables <span class="math inline">\(W\)</span> on the response variables <span class="math inline">\(Y\)</span> is first performed. The residuals of this RDA are then extracted, i.e. a matrix <span class="math inline">\(Y_{res}|W\)</span> containing the <span class="math inline">\(Y\)</span> response variables in which the effect of <span class="math inline">\(W\)</span> was removed. The partial RDA corresponds to the RDA of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y_{res}|W\)</span>. All statistics previously presented for RDA also apply for partial RDA.</p>
+<p>Partial RDA is a special case of RDA in which the response variables <span class="math inline">\(Y\)</span> are related to explanatory variables <span class="math inline">\(X\)</span> in the presence of additional explanatory variables <span class="math inline">\(W\)</span>, called <strong>covariates</strong> (or covariables). As in partial linear regression, the linear effect of <span class="math inline">\(X\)</span> variables on the <span class="math inline">\(Y\)</span> variables are <em>adjusted</em> for the effects of the covariates <span class="math inline">\(W\)</span>. For this, a RDA of the covariables <span class="math inline">\(W\)</span> on the response variables <span class="math inline">\(Y\)</span> is first performed. The residuals of this RDA are then extracted, i.e. a matrix <span class="math inline">\(Y_{res}|W\)</span> containing the <span class="math inline">\(Y\)</span> response variables in which the effect of <span class="math inline">\(W\)</span> was removed. The partial RDA corresponds to the RDA of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y_{res}|W\)</span>. All statistics previously presented for RDA also apply for partial RDA.</p>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
 <img src="images/PartialRDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
 <p class="caption">
@@ -317,7 +317,7 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 ## Residual 18  0.13360                  
 ...</code></pre>
 <blockquote>
-<p>Our model explains .alert[24.1%] of the variation in fish abundance across sites. It is also statistically significant (.alert[p = 0.001])!</p>
+<p>Our model explains 24.1% of the variation in fish abundance across sites. It is also statistically significant (p = 0.001)!</p>
 </blockquote>
 </div>
 <div id="partial-rda-plot" class="section level3">
@@ -399,8 +399,8 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 ## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 ##          Df Variance      F Pr(&gt;F)    
 ## RDA1      1 0.027236 8.4618  0.001 ***
-## RDA2      1 0.008254 2.5643  0.013 *  
-## RDA3      1 0.003193 0.9919  0.443    
+## RDA2      1 0.008254 2.5643  0.023 *  
+## RDA3      1 0.003193 0.9919  0.425    
 ## Residual 58 0.186688                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>

@@ -3,7 +3,7 @@ fig:ord-diagram
 fig:unnamed-chunk-38
 fig:unnamed-chunk-52
 fig:unnamed-chunk-53
-fig:unnamed-chunk-70
+fig:unnamed-chunk-71
 code-of-conduct
 expected-behaviour
 unacceptable-behaviour
@@ -40,9 +40,9 @@ significance-testing-2
 challenge-3
 challenge-3-solution
 multivariate-regression-tree
-computating-the-mrt
-constrained-partitioning-of-the-data
-cross-validation-and-pruning-the-tree
+computing-the-mrt
+building-the-tree-constrained-partitioning-of-the-data
+selecting-the-tree-cross-validation-and-pruning
 mrt-in-r
 mrt-selection-process
 interpreting-mrt-output
