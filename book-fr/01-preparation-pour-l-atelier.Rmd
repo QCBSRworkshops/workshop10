@@ -32,7 +32,7 @@ Vous devriez également vous assurer que vous avez téléchargé, installé et c
 * [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)* (pour les arbres de régression multivarié)
 * [ggplot2](https://cran.r-project.org/package=ggplot2) (pour visualiser quelques résultats)
 
-```{r, echo = TRUE, eval = FALSE, message=FALSE, warning=FALSE, results='hide'}
+```{r, echo = TRUE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
 # Installez les paquets requis
 install.packages("vegan")
 install.packages("labdsv")
