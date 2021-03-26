@@ -146,7 +146,7 @@ Comme pour la PCA dans [l'atelier 9](https://github.com/QCBSRworkshops/workshop0
 | -------------------------------------------------|---------------------------------------------------|
 | distances entre objects ≈ distances euclidiennes | angles entre variables ≈ leur corrélation         |
 
-```{r, fig.show = "hold", out.width = "50%", out.height=100%}
+```{r, fig.show = "hold", out.width = "50%", out.height='100%'}
 # Type 1 scaling
 ordiplot(spe.rda.signif, scaling = 1, type = "text")
 # Type 2 scaling
