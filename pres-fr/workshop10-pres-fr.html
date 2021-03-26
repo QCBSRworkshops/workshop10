@@ -270,7 +270,7 @@ sum(spe == 0)/(nrow(spe)*ncol(spe))
 --
 
 Par contre, on ne veut pas que les **double zéros** amplifient artificiellement la similarité entre sites.
-* Pour éviter ceci, on peut .alert[transformer] les données d'abondances. 
+* Pour éviter ceci, on peut .alert[transformer] les données d'abondances.
 
 
 Nous appliquerons alors une transformation .alert[Hellinger]:
@@ -319,9 +319,9 @@ summary(env) # statistiques descriptives (min, moyenne, max, etc.)
 ```r
 # On peut également détecter (visuellement) les colinéarités entres variables:
 heatmap(abs(cor(env)), # corrélation de Pearson (note: ce sont des valeurs absolues!)
-        col = rev(heat.colors(6)), 
+        col = rev(heat.colors(6)),
         Colv = NA, Rowv = NA)
-legend("topright", 
+legend("topright",
        title = "R de Pearson",
        legend =  round(seq(0,1, length.out = 6),1),
        y.intersp = 0.7, bty = "n",
@@ -396,7 +396,7 @@ Variables peuvent être quantitatives, qualitatives, ou binaires (0/1).
 
 ```r
 # On utilisera nos données explicatives standardisées
-# Enlever la variable "distance from the source" (colinéarity avec autres variables)
+# Enlever la variable "distance from the source" (colinéarité avec autres variables)
 env.z &lt;- subset(env.z, select = -das)
 ```
 
@@ -469,7 +469,7 @@ fwd.sel &lt;- ordiR2step(rda(spe.hel ~ 1, data = env.z), # modèle le plus simpl
                trace = FALSE) # mettre TRUE pour voir le processus du sélection!
 ```
 
-.small[Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le R2 ajusté du modèle.]
+.small[Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le `\(R^2\)` ajusté du modèle.]
 
 ???
 
@@ -719,7 +719,7 @@ ordiplot(mite.spe.rda.signif,
 ```r
 ordiplot(mite.spe.rda.signif,
          scaling = 2,
-         frame = F,  
+         frame = F,
          main = "Cadrage 2")
 ```
 
@@ -778,7 +778,7 @@ spe.partial.rda &lt;- rda(spe.hel, env.chem, env.topo)
 
 &lt;br&gt;
 .small[
-**Note:** On peut aussi utiliser une syntaxe de formule comme `Y ~ X + Condition(W)`, où `Condition()` permet de tenir compete de covariables. 
+**Note:** On peut aussi utiliser une syntaxe de formule comme `Y ~ X + Condition(W)`, où `Condition()` permet de tenir compete de covariables.
 
 
 ```r
@@ -827,7 +827,7 @@ On manque encore quelques détails importants pour notre interprétation du mod�
 &lt;br&gt;
 &lt;br&gt;
 .pull-left2[
-1\. Quel est le **pouvoir explicatif** du modèle? 
+1\. Quel est le **pouvoir explicatif** du modèle?
 
 ```r
 # Extraire le R2 ajusté du modèle
@@ -879,7 +879,7 @@ On peut visualiser les effets des variables environnementales sur la communauté
 .small[
 
 ```r
-ordiplot(spe.partial.rda, 
+ordiplot(spe.partial.rda,
          scaling = 2,
          main = "Rivière Doubs - Cadrage 2")
 ```
@@ -895,7 +895,7 @@ ordiplot(spe.partial.rda,
 
 Cadrage 2 montre les effets des variables explicatives, donc de la matrice X sur la matrice Y. L'effet des covariables est 'tenu en compte', et n'est pas réellement d'intérêt dans le modèle.
 
-Rappel: En cadrage 2, la longueur des flèches montre l'amplitude de l'effet, la direction montre la direction de la relation (opposés = négatif, même direction = positif). 
+Rappel: En cadrage 2, la longueur des flèches montre l'amplitude de l'effet, la direction montre la direction de la relation (opposés = négatif, même direction = positif).
 
 ---
 # Défi 2 ![:cube]()
@@ -991,8 +991,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.022 *  
-# RDA3      1 0.003193 0.9919  0.438    
+# RDA2      1 0.008254 2.5643  0.029 *  
+# RDA3      1 0.003193 0.9919  0.413    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1022,6 +1022,8 @@ Divise la variation d’une matrice de variable réponse en 2, 3, ou 4 matrices 
 
 ---
 # Partitionnement de la variation dans R
+
+Pour démontrer le partitionnement des variations dans `R`, nous allons partitionner la variation de la composition des espèces de poissons entre les variables chimiques et topographiques.
 
 .small[.alert[Note]: Assurez-vous que la libraire *vegan* est chargée!
 
@@ -1285,8 +1287,8 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 **Étape 5:** Visualiser les résultats avec un diagramme Venn.
 
 ```r
-plot(mite.part, 
-     digits = 2, 
+plot(mite.part,
+     digits = 2,
      Xnames = c("Subs", "Space"), # titre des fractions
      cex = 1.5,
      bg = c("seagreen3", "mediumpurple"), # ajoutez des couleurs!
@@ -1314,11 +1316,11 @@ L'effet de l'espace survient peut-être parce que:
 
 ???
 
-Breakout rooms: 5-10 minutes. 
+Breakout rooms: 5-10 minutes.
 
 Réponse: Cet effet important de l'espace pourrait être un signe qu'un processus écologique spatial est important ici (comme la dispersion, par exemple). Cependant, il pourrait également nous indiquer que nous manquons une variable environnementale importante dans notre modèle, qui varie elle-même dans l'espace !
 
-Notez également que la moitié de la variation n'est pas expliquée par les variables que nous avons incluses dans le modèle (regardez les résidus !), le modèle pourrait donc être amélioré. 
+Notez également que la moitié de la variation n'est pas expliquée par les variables que nous avons incluses dans le modèle (regardez les résidus !), le modèle pourrait donc être amélioré.
 
 ---
 exclude: true
@@ -1420,7 +1422,7 @@ doubs.mrt &lt;- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 exclude: true
 
-# MRT dans R: Choisir un arbre
+# MRT dans R: Processus de sélection
 
 
 .small[
@@ -1434,7 +1436,7 @@ exclude: true
 ---
 exclude: true
 
-# MRT dans R: Choisir un arbre
+# MRT dans R: Processus de sélection
 
 
 
@@ -1571,7 +1573,7 @@ exclude: true
 
 # Défi 4: Solution
 
-Étape 1: Créer un arbre de régression multivarié
+**Étape 1:** Créer un arbre de régression multivarié.
 
 ```r
 mite.mrt &lt;- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
@@ -1590,7 +1592,7 @@ exclude: true
 
 .small[
 * Quelle est la variance totale expliquée (R2) par cet arbre?
-  * 1 - Error = 0.252, alors l'arbre explique .alert[25.2%] de la variantion dans la matrice d'abondances.
+  * 1 - Error = 0.252, alors l'arbre explique .alert[25.2%] de la variation dans la matrice d'abondances.
 
 * Combien y a-t-il de feuilles?
   * 2 feuilles
@@ -1601,18 +1603,19 @@ exclude: true
 
 # Défi 4: Solution
 
+**Étape 2**: Identifier les espèces indicatrices.
 
-Quels sont les .alert[espèces indicatrices] pour chaque groupe de sites?
+Quelles sont les .alert[espèces indicatrices] pour chaque groupe de sites?
 
 
 ```r
-# Calculate indicator values (indval) for each species
+# Calcul d'une valeur indicatrice pour chaque espèce
 mite.mrt.indval &lt;- indval(mite.spe.hel, mite.mrt$where)
 
-# Extract the significant indicator species (and which node they represent)
+# Extraire les espèces indicatrices à chaque noeud
 mite.mrt.indval$maxcls[which(mite.mrt.indval$pval &lt;= 0.05)]
 
-# Extract their indicator values
+# Extraire leur valeur indval
 mite.mrt.indval$indcls[which(mite.mrt.indval$pval &lt;= 0.05)]
 ```
 
@@ -1627,7 +1630,7 @@ class: inverse, center, middle
 Une LDA divise une variable réponse en groupes selon un facteur en trouvant une combinaison de variables qui donne la **meilleure séparation entre groupes que possible**. Ceci est utile parce que:
 * Détermine si une matrice de variables indépendantes explique bien un groupement établi *a priori*;
 * Et donc de prédire la classification de nouvelles données!
-  
+
   .comment[.small[e.g. prédire l’appartenance d’une espèce de poisson à un groupe (marin vs. eau douce) selon sa morphologie]]
 
 .center[![:scale 40%](images/LDA_FishExample.jpg)]
@@ -1859,7 +1862,7 @@ diag(prop.table(mite.table, 1))
 ---
 # Défi 4: Solution
 
-On peut maintenant répondre à la question du défi avec cette partie du code: 
+On peut maintenant répondre à la question du défi avec cette partie du code:
 
 
 ```r

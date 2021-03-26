@@ -69,8 +69,8 @@ list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan"
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
 if(length(new.packages) > 0) {
-  install.packages(new.packages, dependencies = TRUE) 
-  print(paste0("The following package was installed:", new.packages)) 
+  install.packages(new.packages, dependencies = TRUE)
+  print(paste0("The following package was installed:", new.packages))
 } else if(length(new.packages) == 0) {
     print("All packages were already installed previously")
   }
@@ -304,7 +304,7 @@ sum(spe == 0)/(nrow(spe)*ncol(spe))
 --
 
 Par contre, on ne veut pas que les **double zéros** amplifient artificiellement la similarité entre sites.
-* Pour éviter ceci, on peut .alert[transformer] les données d'abondances. 
+* Pour éviter ceci, on peut .alert[transformer] les données d'abondances.
 
 
 Nous appliquerons alors une transformation .alert[Hellinger]:
@@ -340,9 +340,9 @@ summary(env) # statistiques descriptives (min, moyenne, max, etc.)
 ```{r, fig.height = 4, fig.width = 8}
 # On peut également détecter (visuellement) les colinéarités entres variables:
 heatmap(abs(cor(env)), # corrélation de Pearson (note: ce sont des valeurs absolues!)
-        col = rev(heat.colors(6)), 
+        col = rev(heat.colors(6)),
         Colv = NA, Rowv = NA)
-legend("topright", 
+legend("topright",
        title = "R de Pearson",
        legend =  round(seq(0,1, length.out = 6),1),
        y.intersp = 0.7, bty = "n",
@@ -409,7 +409,7 @@ Variables peuvent être quantitatives, qualitatives, ou binaires (0/1).
 
 ```{r}
 # On utilisera nos données explicatives standardisées
-# Enlever la variable "distance from the source" (colinéarity avec autres variables)
+# Enlever la variable "distance from the source" (colinéarité avec autres variables)
 env.z <- subset(env.z, select = -das)
 ```
 
@@ -465,7 +465,7 @@ fwd.sel <- ordiR2step(rda(spe.hel ~ 1, data = env.z), # modèle le plus simple
                trace = FALSE) # mettre TRUE pour voir le processus du sélection!
 ```
 
-.small[Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le R2 ajusté du modèle.]
+.small[Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le $R^2$ ajusté du modèle.]
 
 ???
 
@@ -573,48 +573,48 @@ sc_bp <- scores(spe.rda.signif, display="bp", choices=c(1, 2), scaling=1)
 
 ## Configuration du graphique
 
-# Commencer avec un graphique vide avec le cadrage, les axes, et des titres  
+# Commencer avec un graphique vide avec le cadrage, les axes, et des titres
 plot(spe.rda.signif,
      scaling = 1, # type de cadrage
      type = "none", # garder le graphique vide pour l'instant
      frame = FALSE,
      # fixer les limites des axes
-     xlim = c(-1,1), 
+     xlim = c(-1,1),
      ylim = c(-1,1),
      # ajouter des titres au graphique et aux axes
      main = "Triplot RDA - cadrage 1",
-     xlab = paste0("RDA1 (", perc[1], "%)"), 
-     ylab = paste0("RDA2 (", perc[2], "%)") 
+     xlab = paste0("RDA1 (", perc[1], "%)"),
+     ylab = paste0("RDA2 (", perc[2], "%)")
 )
 # ajouter des points pour les scores des sites
-points(sc_si, 
+points(sc_si,
        pch = 21, # fixer le symbole (ici, un cercle rempli avec une couleur)
        col = "black", # couleur de la bordure du cercle
        bg = "steelblue", # couleur pour remplir le cercle
        cex = 1.2) # taille du cercle
 # ajouter des points pour les scores des espèces
-points(sc_sp, 
+points(sc_sp,
        pch = 22, # fixer le symbole (ici, un carré rempli avec une couleur)
        col = "black",
-       bg = "#f2bd33", 
+       bg = "#f2bd33",
        cex = 1.2)
-# ajouter du texte pour identifier les espèces 
-text(sc_sp + c(0.03, 0.09), # ajuster les coordonnées pour éviter des chevauchements 
-     labels = rownames(sc_sp), 
-     col = "grey40", 
+# ajouter du texte pour identifier les espèces
+text(sc_sp + c(0.03, 0.09), # ajuster les coordonnées pour éviter des chevauchements
+     labels = rownames(sc_sp),
+     col = "grey40",
      font = 2, # gras
      cex = 0.6)
 # ajouter des flèches pour les effets des variables explicatives
 arrows(0,0, # chaque flèche commence à (0,0)
        sc_bp[,1], sc_bp[,2], # et finit au score de la variable
-       col = "red", 
+       col = "red",
        lwd = 3)
 # ajouter du texte pour identifier les variables explicatives
 text(x = sc_bp[,1] -0.1, # ajuster les coordonnées pour éviter des chevauchements
-     y = sc_bp[,2] - 0.03, 
-     labels = rownames(sc_bp), 
-     col = "red", 
-     cex = 1, 
+     y = sc_bp[,2] - 0.03,
+     labels = rownames(sc_bp),
+     col = "red",
+     cex = 1,
      font = 2)
 ```
 
@@ -717,7 +717,7 @@ ordiplot(mite.spe.rda.signif,
 ```{r, fig.height = 5.8, fig.width = 6}
 ordiplot(mite.spe.rda.signif,
          scaling = 2,
-         frame = F,  
+         frame = F,
          main = "Cadrage 2")
 ```
 ]
@@ -773,7 +773,7 @@ spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
 
 <br>
 .small[
-**Note:** On peut aussi utiliser une syntaxe de formule comme `Y ~ X + Condition(W)`, où `Condition()` permet de tenir compete de covariables. 
+**Note:** On peut aussi utiliser une syntaxe de formule comme `Y ~ X + Condition(W)`, où `Condition()` permet de tenir compete de covariables.
 
 ```{r, eval = FALSE}
 spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
@@ -809,7 +809,7 @@ On manque encore quelques détails importants pour notre interprétation du mod�
 <br>
 <br>
 .pull-left2[
-1\. Quel est le **pouvoir explicatif** du modèle? 
+1\. Quel est le **pouvoir explicatif** du modèle?
 ```{r}
 # Extraire le R2 ajusté du modèle
 RsquareAdj(spe.partial.rda)$adj.r.squared
@@ -848,7 +848,7 @@ On peut visualiser les effets des variables environnementales sur la communauté
 
 .small[
 ```{r, fig.height=4.5, fig.width=4.5}
-ordiplot(spe.partial.rda, 
+ordiplot(spe.partial.rda,
          scaling = 2,
          main = "Rivière Doubs - Cadrage 2")
 ```
@@ -862,7 +862,7 @@ ordiplot(spe.partial.rda,
 
 Cadrage 2 montre les effets des variables explicatives, donc de la matrice X sur la matrice Y. L'effet des covariables est 'tenu en compte', et n'est pas réellement d'intérêt dans le modèle.
 
-Rappel: En cadrage 2, la longueur des flèches montre l'amplitude de l'effet, la direction montre la direction de la relation (opposés = négatif, même direction = positif). 
+Rappel: En cadrage 2, la longueur des flèches montre l'amplitude de l'effet, la direction montre la direction de la relation (opposés = négatif, même direction = positif).
 
 ---
 # Défi 2 ![:cube]()
@@ -952,6 +952,8 @@ Divise la variation d’une matrice de variable réponse en 2, 3, ou 4 matrices 
 
 ---
 # Partitionnement de la variation dans R
+
+Pour démontrer le partitionnement des variations dans `R`, nous allons partitionner la variation de la composition des espèces de poissons entre les variables chimiques et topographiques.
 
 .small[.alert[Note]: Assurez-vous que la libraire *vegan* est chargée!
 
@@ -1123,8 +1125,8 @@ anova.cca(rda(mite.spe.hel, mite.spat, mite.subs))
 
 **Étape 5:** Visualiser les résultats avec un diagramme Venn.
 ```{r, fig.height=6, fig.width=6}
-plot(mite.part, 
-     digits = 2, 
+plot(mite.part,
+     digits = 2,
      Xnames = c("Subs", "Space"), # titre des fractions
      cex = 1.5,
      bg = c("seagreen3", "mediumpurple"), # ajoutez des couleurs!
@@ -1150,11 +1152,11 @@ L'effet de l'espace survient peut-être parce que:
 
 ???
 
-Breakout rooms: 5-10 minutes. 
+Breakout rooms: 5-10 minutes.
 
 Réponse: Cet effet important de l'espace pourrait être un signe qu'un processus écologique spatial est important ici (comme la dispersion, par exemple). Cependant, il pourrait également nous indiquer que nous manquons une variable environnementale importante dans notre modèle, qui varie elle-même dans l'espace !
 
-Notez également que la moitié de la variation n'est pas expliquée par les variables que nous avons incluses dans le modèle (regardez les résidus !), le modèle pourrait donc être amélioré. 
+Notez également que la moitié de la variation n'est pas expliquée par les variables que nous avons incluses dans le modèle (regardez les résidus !), le modèle pourrait donc être amélioré.
 
 ---
 exclude: true
@@ -1253,7 +1255,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 exclude: true
 
-# MRT dans R: Choisir un arbre
+# MRT dans R: Processus de sélection
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval = F}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
@@ -1274,7 +1276,7 @@ doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
 ---
 exclude: true
 
-# MRT dans R: Choisir un arbre
+# MRT dans R: Processus de sélection
 
 ```{r, echo = FALSE, results = 'hide', fig.height = 5, fig.width = 5.5, fig.align = 'center', eval =FALSE}
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
@@ -1434,7 +1436,7 @@ exclude: true
 
 # Défi 4: Solution
 
-Étape 1: Créer un arbre de régression multivarié
+**Étape 1:** Créer un arbre de régression multivarié.
 ```{r, results = 'hide', fig.height = 4.5, fig.width = 4.5, eval = FALSE}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se",
@@ -1459,7 +1461,7 @@ mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
 ```
 .small[
 * Quelle est la variance totale expliquée (R2) par cet arbre?
-  * 1 - Error = 0.252, alors l'arbre explique .alert[25.2%] de la variantion dans la matrice d'abondances.
+  * 1 - Error = 0.252, alors l'arbre explique .alert[25.2%] de la variation dans la matrice d'abondances.
 
 * Combien y a-t-il de feuilles?
   * 2 feuilles
@@ -1470,17 +1472,18 @@ exclude: true
 
 # Défi 4: Solution
 
+**Étape 2**: Identifier les espèces indicatrices.
 
-Quels sont les .alert[espèces indicatrices] pour chaque groupe de sites?
+Quelles sont les .alert[espèces indicatrices] pour chaque groupe de sites?
 
 ```{r, results = 'hide',  eval=F}
-# Calculate indicator values (indval) for each species
+# Calcul d'une valeur indicatrice pour chaque espèce
 mite.mrt.indval <- indval(mite.spe.hel, mite.mrt$where)
 
-# Extract the significant indicator species (and which node they represent)
+# Extraire les espèces indicatrices à chaque noeud
 mite.mrt.indval$maxcls[which(mite.mrt.indval$pval <= 0.05)]
 
-# Extract their indicator values
+# Extraire leur valeur indval
 mite.mrt.indval$indcls[which(mite.mrt.indval$pval <= 0.05)]
 ```
 
@@ -1495,7 +1498,7 @@ class: inverse, center, middle
 Une LDA divise une variable réponse en groupes selon un facteur en trouvant une combinaison de variables qui donne la **meilleure séparation entre groupes que possible**. Ceci est utile parce que:
 * Détermine si une matrice de variables indépendantes explique bien un groupement établi *a priori*;
 * Et donc de prédire la classification de nouvelles données!
-  
+
   .comment[.small[e.g. prédire l’appartenance d’une espèce de poisson à un groupe (marin vs. eau douce) selon sa morphologie]]
 
 .center[![:scale 40%](images/LDA_FishExample.jpg)]
@@ -1551,12 +1554,12 @@ Visualisons ces regroupements par latitude:
 
 ```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
 ggplot(data = spa) +
-  geom_point(aes(x = x, 
-                 y = y, 
-                 col = as.factor(group)), 
+  geom_point(aes(x = x,
+                 y = y,
+                 col = as.factor(group)),
              size = 4) +
-  labs(color = "Groupes", 
-       x = "Longitude", 
+  labs(color = "Groupes",
+       x = "Longitude",
        y = "Latitude") +
   scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
   theme_classic() + # configuration
@@ -1594,9 +1597,9 @@ lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
 library(ggplot2)
 # Visualiser les sites réorganisés à partir de la LDA
 ggplot(lda.plotdf) +
-  geom_point(aes(x = lda.LD1, 
-                 y = lda.LD2, 
-                 col = factor(group)), 
+  geom_point(aes(x = lda.LD1,
+                 y = lda.LD2,
+                 col = factor(group)),
              size = 4) +
   labs(color = "Groupes") +
   scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
@@ -1728,7 +1731,7 @@ diag(prop.table(mite.table, 1))
 ---
 # Défi 4: Solution
 
-On peut maintenant répondre à la question du défi avec cette partie du code: 
+On peut maintenant répondre à la question du défi avec cette partie du code:
 
 ```{r}
 # proportion of correct classification
