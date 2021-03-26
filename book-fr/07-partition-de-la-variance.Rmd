@@ -21,11 +21,11 @@ knitr::include_graphics("images/VarPart.png")
 
 Ici, les fraction représentent:  
 
-* La fraction $[a + b + c]$ est la variance expliquée par *$X1$ *et* $X2$ ensemble, calculée à partir d'une RDA de $Y$ par $X1 + X2$.  
-* La fraction $[d]$ est la variance inexpliquée par *$X1$ *et* $X2$ ensemble, obtenue à partir de la même RDA que ci-dessus.  
-* La fraction $[a]$ est la variance expliquée par $X1$ *seulement*, calculée en faisant une RDA partielle de $Y$ par $X1 | X2$ (en contrôlant pour $X2$).    
-* La fraction $[c]$ est la variance expliquée par $X2$ *seulement*, calculée en faisant une RDA partielle de $Y$ par $X2 | X1$ (en contrôlant pour $X1$).    
-* La fraction $[b]$ est calculée par soustraction, c'est-à-dire $b = [a + b] + [b + c] - [a + b + c].$ Comme $[b]$ n'est pas le résultat d'une RDA, il est impossible de tester sa significativité. Elle peut également être négative, ce qui indique que la matrice de réponse est mieux expliquée par la combinaison de $X1$ et $X2$ que par l'une ou l'autre des matrices prise individuellement.
+* **La fraction $[a + b + c]$** est la variance expliquée par *$X1$ *et* $X2$ ensemble, calculée à partir d'une RDA de $Y$ par $X1 + X2$.  
+* **La fraction $[d]$** est la variance inexpliquée par *$X1$ *et* $X2$ ensemble, obtenue à partir de la même RDA que ci-dessus.  
+* **La fraction $[a]$** est la variance expliquée par $X1$ *seulement*, calculée en faisant une RDA partielle de $Y$ par $X1 | X2$ (en contrôlant pour $X2$).    
+* **La fraction $[c]$** est la variance expliquée par $X2$ *seulement*, calculée en faisant une RDA partielle de $Y$ par $X2 | X1$ (en contrôlant pour $X1$).    
+* **La fraction $[b]$** est calculée par soustraction, c'est-à-dire $b = [a + b] + [b + c] - [a + b + c].$ Comme $[b]$ n'est pas le résultat d'une RDA, il est impossible de tester sa significativité. Elle peut également être négative, ce qui indique que la matrice de réponse est mieux expliquée par la combinaison de $X1$ et $X2$ que par l'une ou l'autre des matrices prise individuellement.
 
 ## Partitionnement de la variation dans R
 

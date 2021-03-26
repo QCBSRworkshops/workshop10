@@ -74,7 +74,7 @@ Nous allons démontrer le processus de construction d'un arbre de régression mu
 env <- subset(env, select = -das)
 ```
 
-```{r, fig.keep = 'first', purl = FALSE}
+```{r, fig.keep = 'first', purl = FALSE, fig.align='center'}
 # Enlever la variable “distance from source”
 env <- subset(env, select = -das)
 
@@ -109,7 +109,7 @@ correspondant à la taille de l'arbre choisie. En résumé:
 
 Nous n'avons pas de prédiction *a priori* sur la façon de diviser ces données, donc nous allons sélectionner le plus petit arbre à moins d'une erreur standard de l'arbre qui est le mieux ajusté (c'est-à-dire, le point orange). Nous pouvons sélectionner cet arbre en utilisant l'argument `xv = "1se"`.
 
-```{r, fig.keep = 'last', purl = FALSE}
+```{r, fig.keep = 'last', purl = FALSE, fig.align='center', fig.height = 7}
 # Faire le choix d'arbre (point orange)
 doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
                     xv = "1se", # select smallest tree within 1 se
@@ -131,7 +131,7 @@ nombre de sites et l'erreur relative. De cette figure, on peut rapporter les sta
 
 On peut aussi comparer plusieurs solutions, pour nous aider à choisir le meilleur arbre. Par exemple, examinons une solution à dix groupes!
 
-```{r, results = 'hide', purl = FALSE}
+```{r, results = 'hide', purl = FALSE, fig.align='center'}
 # Solution avec 10 groupes
 mvpart(as.matrix(spe.hel) ~ ., data = env,
         xv = "none", # aucune validation croisée
@@ -225,7 +225,7 @@ summary()
 
 **Étape 1:** Créer un arbre de régression multivarié.
 
-```{r, results = 'hide', purl = FALSE}
+```{r, results = 'hide', purl = FALSE, fig.align='center'}
 mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
                    xv = "1se",
                    xval = nrow(mite.spe.hel),

@@ -8,7 +8,9 @@ Nous avons également vu deux méthodes permettant de tester des hypothèses sur
 
 # Ressources additionelles
 
-Malheureusement, nous n'avons pu présenter qu'un sous-ensemble d'ordinations contraintes dans cet atelier. Toutefois, il existe de nombreuses autres options ! Celles-ci incluent, mais ne sont pas limitées, aux techniques suivantes :
+Notre liste de références comprend de nombreux articles et livres utiles pour approfondir les ordinations sous contraintes. Nous recommandons particulièrement @legendre2012 pour une vue approfondie de ces techniques, de leur calcul et de leurs applications potentielles. Nous recommandons également @borcard2011 pour en savoir plus sur la façon dont ces techniques peuvent être implémentées dans `R`.
+
+Malheureusement, nous n'avons pu présenter qu'un sous-ensemble d'ordinations contraintes dans cet atelier. Toutefois, il existe de nombreuses autres options! Celles-ci incluent, mais ne sont pas limitées, aux techniques suivantes:
 
 - **L'analyse des correspondances sous contrainte (CCA ou ACC)** est une méthode d'ordination canonique similaire à la RDA qui préserve les distances khi-carré entre les objets (au lieu des distances euclidiennes dans la RDA). Cette méthode est bien adaptée à l'analyse de grands gradients écologiques.
 
@@ -31,4 +33,4 @@ help(mfa, package=ade4) # L'analyse factorielle multiple (MFA)
 # https://cran.r-project.org/web/packages/adespatial/index.html
 ```
 
-Notre liste de références comprend de nombreux articles et livres utiles pour approfondir les ordinations sous contraintes. Nous recommandons particulièrement @legendre2012 pour une vue approfondie de ces techniques, de leur calcul et de leurs applications potentielles. Nous recommandons également @borcard2011 pour en savoir plus sur la façon dont ces techniques peuvent être implémentées dans `R`.
+

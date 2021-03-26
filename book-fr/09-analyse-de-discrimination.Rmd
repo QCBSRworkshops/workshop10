@@ -46,7 +46,7 @@ spa$group[which(spa$y > 156)] <- 3
 
 Visualisons ces regroupements par latitude:
 
-```{r, fig.width = 7.5, fig.height = 6}
+```{r, fig.width = 6.5, fig.height = 5, fig.align='center'}
 ggplot(data = spa) +
   geom_point(aes(x = x,
                  y = y,
@@ -79,7 +79,7 @@ Nos sites sont maintenant réorganisés en groupes qui sont les plus distincts p
 lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
 ```
 
-```{r fig.align = "center"}
+```{r, fig.width = 6.5, fig.height = 5, fig.align = "center"}
 # Visualiser les sites réorganisés à partir de la LDA
 ggplot(lda.plotdf) +
   geom_point(aes(x = lda.LD1,
