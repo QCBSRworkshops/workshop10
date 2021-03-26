@@ -1656,6 +1656,10 @@ predict.group$class
 ```
 ]
 
+???
+
+Nos nouveaux sites, dans l'ordre, ont été classés dans les groupes 1, 1, 1, 3 et 3 respectivement.
+
 ---
 # Défi 4 ![:cube]()
 
