@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <title>Chapitre 7 RDA partielle | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 7 RDA partielle | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 7 RDA partielle | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="préparez-vous-pour-cet-atelier.html"/>
-<link rel="next" href="exploration.html"/>
+<link rel="prev" href="analyse-canonique-de-redondances.html"/>
+<link rel="next" href="partitionnement-de-la-variation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -244,33 +244,171 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="why-advanced-multivariate-methods" class="section level1">
-<h1><span class="header-section-number">Chapitre 3</span> Why “advanced multivariate methods”?</h1>
-<p>L’<a href="https://github.com/QCBSRworkshops/workshop10">atelier précédent</a> a donné un premier aperçu des analyses multivariées sans contraintes:</p>
+<div id="rda-partielle" class="section level1">
+<h1><span class="header-section-number">Chapitre 7</span> RDA partielle</h1>
+<p>La RDA partielle est un cas particulier de la RDA qui permet de tenir compte de <strong>covariables</strong>. En d’autres mots, on peut modéliser les effets linéaires de la matrice <span class="math inline">\(X\)</span> sur la matrice <span class="math inline">\(Y\)</span>, tout en controllant pour l’effet d’une matrice de variables explicatives supplémentaires <span class="math inline">\(W\)</span>, appelées <strong>covariables</strong> (ou covariables). Comme dans la régression linéaire partielle, l’effet linéaire des variables <span class="math inline">\(X\)</span> sur les variables <span class="math inline">\(Y\)</span> est <em>ajusté</em> pour les effets des covariables <span class="math inline">\(W\)</span>. Pour cela, on effectue d’abord une RDA des covariables <span class="math inline">\(W\)</span> sur les variables de réponse <span class="math inline">\(Y\)</span>. On extrait ensuite les résidus de ce RDA, c’est-à-dire une matrice <span class="math inline">\(Y_{res}|W\)</span> contenant les variables réponses <span class="math inline">\(Y\)</span> dans lesquelles l’effet de <span class="math inline">\(W\)</span> a été retiré. La RDA partielle correspond à la RDA de <span class="math inline">\(X\)</span> sur <span class="math inline">\(Y_{res}|W\)</span>. Toutes les statistiques présentées précédemment pour la RDA s’appliquent également à la RDA partielle.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
+<img src="images/PartialRDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
+<p class="caption">
+Figure 7.1: The basic structure of a redundancy analysis (RDA).
+</p>
+</div>
+<p>La RDA partielle a plusieurs applications. C’est un outil puissant pour évaluer l’effet des variables environnementales sur la composition des espèces tout en tenant compte de la variation due à d’autres variables environnementales qui ne sont pas visées par l’étude. Un exemple courant de ceci en écologie des communautés est de tester l’importance des variables environnementales tout en contrôlant pour l’effet de l’espace. La RDA partielle peut également être utilisée pour contrôler des effets linéaires bien connus, ou pour isoler l’effet d’une seule variable explicative.</p>
+<div id="exemple-rda-partielle-sur-les-données-doubs" class="section level2">
+<h2><span class="header-section-number">7.1</span> Exemple: RDA partielle sur les données Doubs</h2>
+<p>Dans <code>R</code>, on peut faire une RDA partielle avec la fonction <code>rda()</code>. Par exemple, évaluons l’effet de la chimie de l’eau sur l’abondance des poissons (<code>spe.hel</code>) en tenant compte de covariables topographiques.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="rda-partielle.html#cb55-1"></a><span class="co"># Divisez le tableau de données environnementales en deux:</span></span>
+<span id="cb55-2"><a href="rda-partielle.html#cb55-2"></a><span class="co"># variables topographiques et chimiques</span></span>
+<span id="cb55-3"><a href="rda-partielle.html#cb55-3"></a>env.topo &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(alt, pen, deb))</span>
+<span id="cb55-4"><a href="rda-partielle.html#cb55-4"></a>env.chem &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(pH, dur, pho, nit, amm, </span>
+<span id="cb55-5"><a href="rda-partielle.html#cb55-5"></a>    oxy, dbo))</span>
+<span id="cb55-6"><a href="rda-partielle.html#cb55-6"></a></span>
+<span id="cb55-7"><a href="rda-partielle.html#cb55-7"></a><span class="co"># Faire la RDA partielle</span></span>
+<span id="cb55-8"><a href="rda-partielle.html#cb55-8"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel, env.chem, env.topo)</span></code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> On peut aussi utiliser une syntaxe de formule comme <code>Y ~ X + Condition(W)</code>, où <code>Condition()</code> permet de tenir compete de covariables.</p>
+</blockquote>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="rda-partielle.html#cb56-1"></a><span class="co"># Syntaxe alternative </span></span>
+<span id="cb56-2"><a href="rda-partielle.html#cb56-2"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>dur <span class="op">+</span><span class="st"> </span>pho <span class="op">+</span><span class="st"> </span>nit <span class="op">+</span><span class="st"> </span>amm <span class="op">+</span><span class="st"> </span>oxy <span class="op">+</span><span class="st"> </span>dbo <span class="op">+</span></span>
+<span id="cb56-3"><a href="rda-partielle.html#cb56-3"></a><span class="st">                       </span><span class="kw">Condition</span>(alt <span class="op">+</span><span class="st"> </span>pen <span class="op">+</span><span class="st"> </span>deb), <span class="co"># covariables ici</span></span>
+<span id="cb56-4"><a href="rda-partielle.html#cb56-4"></a>                       <span class="dt">data =</span> env.z)</span></code></pre></div>
+<div id="interprétation-de-la-sortie-dune-rda-partielle" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Interprétation de la sortie d’une RDA partielle</h3>
+<p>Le résultat d’une RDA partielle est très similaire à celui présenté dans la section précédente sur la RDA. La principale différence est que nous avons des covariables dans notre modèle, ce qui signifie que nous pouvons déterminer la proportion de la variation expliquée par ces variables supplémentaires, mais qui ne sont pas “<em>intéressantes</em>”. Encore une fois, la première section du résumé contient les éléments dont nous avons besoin pour vérifier la performance de notre RDA partielle.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="rda-partielle.html#cb57-1"></a><span class="kw">summary</span>(spe.partial.rda)</span></code></pre></div>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          0.5025     1.0000
+## Conditioned    0.2087     0.4153
+## Constrained    0.1602     0.3189
+## Unconstrained  0.1336     0.2659
+...</code></pre>
 <ul>
-<li>Comment choisir les mesures de distances et les transformations appropriées selon le type de données<br />
-</li>
-<li>Groupement hiérarchique<br />
-</li>
-<li>Ordinations sans contraintes
-<ul>
-<li>Analyses en composantes principales</li>
-<li>Analyse en coordonnées principales</li>
-<li>Analyse de correspondances</li>
-<li>Positionnement multidimensionnel non métrique</li>
-</ul></li>
+<li><strong>Conditioned Proportion</strong>: variance de <span class="math inline">\(Y\)</span> expliquée par <span class="math inline">\(W\)</span> <strong>(41.53%)</strong></li>
+<li><strong>Constrained Proportion</strong>: variance de <span class="math inline">\(Y\)</span> expliquée par <span class="math inline">\(X\)</span> <strong>(31.89%)</strong></li>
+<li><strong>Unconstained Proportion</strong>: variance de <span class="math inline">\(Y\)</span> non expliquée <strong>(26.59%)</strong></li>
 </ul>
-<p>En se basant sur ces acquis, le présent atelier se concentrera sur les
-analyses sous contraintes. Toutes les méthodes vues lors du précédent
-atelier ont permis de relever des tendances dans la structure de
-communautés d’espèces ou des descripteurs par rapport à des sites, mais
-pas d’explorer comment les variables environnementales pouvaient
-expliquer ces tendances. Avec des analyses sous contraintes telles
-l’analyse canonique de redondances (RDA), l’analyse linéaire
-discriminante (LDA) et l’arbre de régression multivarié (MRT), il sera
-possible de décrire et de prédire les relations entre la structure des
-communautés et les variables environnementales.</p>
+<blockquote>
+<p>Comment présenteriez-vous ces résultats? La chimie de l’eau explique <strong>31.89%</strong> de l’abondance des espèces de poissons, tandis que la topographie explique <strong>41.53%</strong> de la variation en abondances des poissons.</p>
+</blockquote>
+</div>
+<div id="tester-la-significativité-1" class="section level3">
+<h3><span class="header-section-number">7.1.2</span> Tester la significativité</h3>
+<p>Comme pour le RDA, nous pouvons interpréter la signification de notre modèle à l’aide de deux informations clés.</p>
+<ol style="list-style-type: decimal">
+<li>Quel est le <strong>pouvoir explicatif</strong> du modèle ?</li>
+</ol>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="rda-partielle.html#cb59-1"></a><span class="co"># Extraire le R2 ajusté du modèle</span></span>
+<span id="cb59-2"><a href="rda-partielle.html#cb59-2"></a><span class="kw">RsquareAdj</span>(spe.partial.rda)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.2413464</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Est-ce que le modèle est <strong>significatif</strong>?</li>
+</ol>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="rda-partielle.html#cb61-1"></a><span class="co"># Évaluer la significativité statistique du modèle</span></span>
+<span id="cb61-2"><a href="rda-partielle.html#cb61-2"></a><span class="kw">anova.cca</span>(spe.partial.rda, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>...
+## Permutation test for rda under reduced model
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.chem, Z = env.topo)
+##          Df Variance      F Pr(&gt;F)    
+## Model     7  0.16024 3.0842  0.001 ***
+## Residual 18  0.13360                  
+...</code></pre>
+<blockquote>
+<p>Notre modèle explique 24.1% de la variation en abondance de poissons entre sites. Il est aussi statistiquement significatif (p = 0.001)!</p>
+</blockquote>
+</div>
+<div id="représentation-graphique" class="section level3">
+<h3><span class="header-section-number">7.1.3</span> Représentation graphique</h3>
+<p>On peut visualiser les effets des variables environnementales sur la communauté de poissons avec la fonction <code>ordiplot()</code>.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="rda-partielle.html#cb63-1"></a><span class="kw">ordiplot</span>(spe.partial.rda, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Rivière Doubs - Cadrage 2&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-44-1.png" width="432" /></p>
+<blockquote>
+<p>Recall: Le cadrage de type 2 montre les effets des variables explicatives, donc de la matrice X sur la matrice Y une fois qu’on a controllé pour l’effet des covariables W.</p>
+</blockquote>
+<div class="puzzle">
+<p><strong>Note:</strong> <em>Les variables topographiques ne sont pas représentées. Pourquoi?</em></p>
+<p>Le RDA partiel ne fait qu’<em>ajuster</em> les effets des variables explicatives en fonction des covariables. Les covariables ne sont pas <em>d’intérêt</em>, et ne sont donc pas représentées graphiquement.</p>
+</div>
+</div>
+</div>
+<div id="défi-2" class="section level2">
+<h2><span class="header-section-number">7.2</span> Défi 2</h2>
+<p>Effectuez une RDA partielle de l’abondance des espèces de mites (<code>mite.spe.hel</code>) en fonction des variables environnementales, tenant compte de l’effet du substrat (<code>SubsDens</code>, <code>WaterCont</code> and <code>Substrate</code>).
+* Quel pourcentage de variance est expliqué par les variables environnementales?
+* Le modèle est-il significatif?
+* Quels sont les axes significatifs?</p>
+<p>Rappel des données et fonctions utiles:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="rda-partielle.html#cb64-1"></a><span class="kw">rda</span>()</span>
+<span id="cb64-2"><a href="rda-partielle.html#cb64-2"></a><span class="kw">summary</span>()</span>
+<span id="cb64-3"><a href="rda-partielle.html#cb64-3"></a><span class="kw">RsquareAdj</span>()</span>
+<span id="cb64-4"><a href="rda-partielle.html#cb64-4"></a><span class="kw">anova.cca</span>()  <span class="co"># voir l&#39;argument &#39;by&#39; dans ?anova.cca</span></span></code></pre></div>
+<div id="défi-2-solution" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Défi 2: Solution</h3>
+<p><strong>Étape 1:</strong> Transformer et standardiser les données.</p>
+<p>Nos données sont déjà transformés et standardisés!</p>
+<p><strong>Étape 2:</strong> Faire la RDA partielle:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="rda-partielle.html#cb65-1"></a>mite.spe.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span><span class="st"> </span></span>
+<span id="cb65-2"><a href="rda-partielle.html#cb65-2"></a><span class="st">    </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate), <span class="dt">data =</span> mite.env)</span>
+<span id="cb65-3"><a href="rda-partielle.html#cb65-3"></a></span>
+<span id="cb65-4"><a href="rda-partielle.html#cb65-4"></a><span class="co"># Extraire les résultats</span></span>
+<span id="cb65-5"><a href="rda-partielle.html#cb65-5"></a><span class="kw">summary</span>(mite.spe.subs)</span></code></pre></div>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total         0.39428    1.00000
+## Conditioned   0.16891    0.42839
+## Constrained   0.03868    0.09811
+## Unconstrained 0.18669    0.47350
+...</code></pre>
+<blockquote>
+<p>Shrub et Topo expliquent <strong>9.8%</strong> de la variation de l’abondance de mites, tandis que le substrat explique <strong>42.8%</strong> de cette variation.</p>
+</blockquote>
+<p><strong>Étape 3:</strong> Interpréter les résultats!</p>
+<ul>
+<li>Quel pourcentage de variance est expliqué par les variables environnementales?</li>
+</ul>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="rda-partielle.html#cb67-1"></a><span class="kw">RsquareAdj</span>(mite.spe.subs)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.08327533</code></pre>
+<ul>
+<li>Le modèle est-il significatif?</li>
+</ul>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="rda-partielle.html#cb69-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
+##          Df Variance     F Pr(&gt;F)    
+## Model     3 0.038683 4.006  0.001 ***
+## Residual 58 0.186688                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<ul>
+<li>Quels axes sont significatifs?</li>
+</ul>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="rda-partielle.html#cb71-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Forward tests for axes
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
+##          Df Variance      F Pr(&gt;F)    
+## RDA1      1 0.027236 8.4618  0.001 ***
+## RDA2      1 0.008254 2.5643  0.015 *  
+## RDA3      1 0.003193 0.9919  0.428    
+## Residual 58 0.186688                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<blockquote>
+<p>Le <span class="math inline">\(R^2\)</span> ajusté de la RDA globale est <strong>8.33%</strong>, et est significatif (p = 0.001). Les variables environnementales expliquent <strong>9.81%</strong> de la variance de la composition des espèces d’acariens entre les sites, tandis que les covariables du substrat expliquent <strong>42.84%</strong> de cette variation. Cependant, <strong>47.35%</strong> de la variation reste inexpliquée. Les deux premiers axes canoniques sont significatifs.</p>
+</blockquote>
 
+</div>
+</div>
 </div>
 <hr>
 <center> 
@@ -283,8 +421,8 @@ communautés et les variables environnementales.</p>
           </div>
         </div>
       </div>
-<a href="préparez-vous-pour-cet-atelier.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exploration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="analyse-canonique-de-redondances.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="partitionnement-de-la-variation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

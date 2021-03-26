@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <title>Chapitre 2 Préparez-vous pour cet atelier | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 2 Préparez-vous pour cet atelier | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 2 Préparez-vous pour cet atelier | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="préparez-vous-pour-cet-atelier.html"/>
-<link rel="next" href="exploration.html"/>
+<link rel="prev" href="objectifs-dapprentissage.html"/>
+<link rel="next" href="why-advanced-multivariate-methods.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -244,32 +244,49 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="why-advanced-multivariate-methods" class="section level1">
-<h1><span class="header-section-number">Chapitre 3</span> Why “advanced multivariate methods”?</h1>
-<p>L’<a href="https://github.com/QCBSRworkshops/workshop10">atelier précédent</a> a donné un premier aperçu des analyses multivariées sans contraintes:</p>
+<div id="préparez-vous-pour-cet-atelier" class="section level1">
+<h1><span class="header-section-number">Chapitre 2</span> Préparez-vous pour cet atelier</h1>
+<p>Tout le matériel de l’atelier se trouve sur <a href="https://github.com/QCBSRworkshops/workshop10">github.com/QCBSRworkshops/workshop10</a>. Cela inclut un [script R] (<a href="https://qcbsrworkshops.github.io/workshop10/book-fr/workshop10-script-fr.R" class="uri">https://qcbsrworkshops.github.io/workshop10/book-fr/workshop10-script-fr.R</a>) qui rassemble tous les morceaux de code présentés dans ce livre.</p>
+<p>Pour cet atelier, nous travaillerons avec les jeux de données suivants :</p>
 <ul>
-<li>Comment choisir les mesures de distances et les transformations appropriées selon le type de données<br />
+<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv">DoubsEnv</a><br />
 </li>
-<li>Groupement hiérarchique<br />
+<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv">DoubsSpe</a><br />
 </li>
-<li>Ordinations sans contraintes
-<ul>
-<li>Analyses en composantes principales</li>
-<li>Analyse en coordonnées principales</li>
-<li>Analyse de correspondances</li>
-<li>Positionnement multidimensionnel non métrique</li>
-</ul></li>
+<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv">DoubsSpa</a><br />
+</li>
+<li><a href="https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-fr/data/classifyme.csv">Données test pour l’analyse discriminante linéaire</a></li>
 </ul>
-<p>En se basant sur ces acquis, le présent atelier se concentrera sur les
-analyses sous contraintes. Toutes les méthodes vues lors du précédent
-atelier ont permis de relever des tendances dans la structure de
-communautés d’espèces ou des descripteurs par rapport à des sites, mais
-pas d’explorer comment les variables environnementales pouvaient
-expliquer ces tendances. Avec des analyses sous contraintes telles
-l’analyse canonique de redondances (RDA), l’analyse linéaire
-discriminante (LDA) et l’arbre de régression multivarié (MRT), il sera
-possible de décrire et de prédire les relations entre la structure des
-communautés et les variables environnementales.</p>
+<blockquote>
+<p>Pour télécharger ces données, faites un clic droit + enregistrer sur la page qui s’ouvre.</p>
+</blockquote>
+<p>Vous devriez également vous assurer que vous avez téléchargé, installé et chargé les paquets R suivants:</p>
+<ul>
+<li><a href="https://cran.r-project.org/package=vegan">vegan</a> (pour
+analyses multivariées)</li>
+<li><a href="https://cran.r-project.org/package=labdsv">labdsv</a> (pour l’identification d’espèces indicatrices dans l’arbre de régression multivarié)</li>
+<li><a href="https://cran.r-project.org/package=MASS">MASS</a> (pour l’analyse discriminante linéaire)</li>
+<li><a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">mvpart</a>* (pour les arbres de régression multivarié)</li>
+<li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a> (pour visualiser quelques résultats)</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="préparez-vous-pour-cet-atelier.html#cb1-1"></a><span class="co"># Installez les paquets requis</span></span>
+<span id="cb1-2"><a href="préparez-vous-pour-cet-atelier.html#cb1-2"></a><span class="kw">install.packages</span>(<span class="st">&quot;vegan&quot;</span>)</span>
+<span id="cb1-3"><a href="préparez-vous-pour-cet-atelier.html#cb1-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;labdsv&quot;</span>)</span>
+<span id="cb1-4"><a href="préparez-vous-pour-cet-atelier.html#cb1-4"></a><span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb1-5"><a href="préparez-vous-pour-cet-atelier.html#cb1-5"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb1-6"><a href="préparez-vous-pour-cet-atelier.html#cb1-6"></a></span>
+<span id="cb1-7"><a href="préparez-vous-pour-cet-atelier.html#cb1-7"></a><span class="co"># installez mvpart de l&#39;archive</span></span>
+<span id="cb1-8"><a href="préparez-vous-pour-cet-atelier.html#cb1-8"></a><span class="kw">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb1-9"><a href="préparez-vous-pour-cet-atelier.html#cb1-9"></a>remotes<span class="op">::</span><span class="kw">install_url</span>(<span class="st">&quot;https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz&quot;</span>)</span></code></pre></div>
+<blockquote>
+<p>*Le paquet <code>mvpart</code> n’est plus hébergé sur CRAN, mais est toujours disponible dans les archives. Pour installer <code>mvpart</code>, vous pouvez également télécharger la version .tar.gz depuis <a href="https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz">ici</a> et aller dans l’onglet “Packages” sur le panneau inférieur droit de R Studio, et cliquer sur “Installer les paquets”. Choisissez d’installer à partir d’un fichier d’archives de paquets, et sélectionnez le fichier .tar.gz pour <code>mvpart</code>.</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="préparez-vous-pour-cet-atelier.html#cb2-1"></a><span class="co"># Chargez les pacquets requis</span></span>
+<span id="cb2-2"><a href="préparez-vous-pour-cet-atelier.html#cb2-2"></a><span class="kw">library</span>(vegan)</span>
+<span id="cb2-3"><a href="préparez-vous-pour-cet-atelier.html#cb2-3"></a><span class="kw">library</span>(labdsv)</span>
+<span id="cb2-4"><a href="préparez-vous-pour-cet-atelier.html#cb2-4"></a><span class="kw">library</span>(MASS)</span>
+<span id="cb2-5"><a href="préparez-vous-pour-cet-atelier.html#cb2-5"></a><span class="kw">library</span>(mvpart)</span>
+<span id="cb2-6"><a href="préparez-vous-pour-cet-atelier.html#cb2-6"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
 
 </div>
 <hr>
@@ -283,8 +300,8 @@ communautés et les variables environnementales.</p>
           </div>
         </div>
       </div>
-<a href="préparez-vous-pour-cet-atelier.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exploration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="objectifs-dapprentissage.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="why-advanced-multivariate-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <title>Chapitre 12 Ressources additionelles | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 12 Ressources additionelles | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 12 Ressources additionelles | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="préparez-vous-pour-cet-atelier.html"/>
-<link rel="next" href="exploration.html"/>
+<link rel="prev" href="résumé.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -244,33 +244,42 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="why-advanced-multivariate-methods" class="section level1">
-<h1><span class="header-section-number">Chapitre 3</span> Why “advanced multivariate methods”?</h1>
-<p>L’<a href="https://github.com/QCBSRworkshops/workshop10">atelier précédent</a> a donné un premier aperçu des analyses multivariées sans contraintes:</p>
+<div id="ressources-additionelles" class="section level1">
+<h1><span class="header-section-number">Chapitre 12</span> Ressources additionelles</h1>
+<p>Malheureusement, nous n’avons pu présenter qu’un sous-ensemble d’ordinations contraintes dans cet atelier. Toutefois, il existe de nombreuses autres options ! Celles-ci incluent, mais ne sont pas limitées, aux techniques suivantes :</p>
 <ul>
-<li>Comment choisir les mesures de distances et les transformations appropriées selon le type de données<br />
-</li>
-<li>Groupement hiérarchique<br />
-</li>
-<li>Ordinations sans contraintes
-<ul>
-<li>Analyses en composantes principales</li>
-<li>Analyse en coordonnées principales</li>
-<li>Analyse de correspondances</li>
-<li>Positionnement multidimensionnel non métrique</li>
-</ul></li>
+<li><p><strong>L’analyse des correspondances sous contrainte (CCA ou ACC)</strong> est une méthode d’ordination canonique similaire à la RDA qui préserve les distances khi-carré entre les objets (au lieu des distances euclidiennes dans la RDA). Cette méthode est bien adaptée à l’analyse de grands gradients écologiques.</p></li>
+<li><p><strong>L’analyse de corrélation canonique (CCorA)</strong> diffère de la RDA dans la mesure où les deux matrices sont considérées comme symétriques, alors que dans la RDA la matrice Y dépend de la matrice X. La principale utilisation de cette technique est de tester la signification de la corrélation entre deux ensembles de données multidimensionnelles, puis d’explorer la structure des données en calculant les corrélations (qui sont les racines carrées des valeurs propres de la CCorA) qui peuvent être trouvées entre les fonctions linéaires de deux groupes de descripteurs.</p></li>
+<li><p><strong>L’analyse de co-inertie (CoIA)</strong> est une méthode d’ordination canonique symétrique qui permet de comparer des paires d’ensembles de données qui jouent des rôles équivalents dans l’analyse. La méthode trouve un espace commun sur lequel les objets et les variables de ces ensembles de données peuvent être projetés et comparés. Par rapport à la méthode CCorA, l’analyse de co-inertie n’impose aucune contrainte concernant le nombre de variables dans les deux ensembles, de sorte qu’elle peut être utilisée pour comparer des communautés écologiques même lorsqu’elles sont riches en espèces. L’analyse de co-inertie n’est cependant pas bien adaptée à l’analyse de paires d’ensembles de données qui contiennent les mêmes variables, car l’analyse n’établit pas de correspondance biunivoque entre les variables des deux ensembles de données ; la méthode ne “sait” pas que la première variable est la même dans le premier et le second ensemble de données, et de même pour les autres variables.</p></li>
+<li><p><strong>L’analyse factorielle multiple (MFA)</strong> peut être utilisée pour comparer plusieurs ensembles de données décrivant les mêmes objets. La MFA consiste à projeter les objets et les variables de deux ou plusieurs ensembles de données sur une PCA (ou ACP) globale, calculée à partir de tous les ensembles de données, dans laquelle les ensembles reçoivent des poids égaux.</p></li>
 </ul>
-<p>En se basant sur ces acquis, le présent atelier se concentrera sur les
-analyses sous contraintes. Toutes les méthodes vues lors du précédent
-atelier ont permis de relever des tendances dans la structure de
-communautés d’espèces ou des descripteurs par rapport à des sites, mais
-pas d’explorer comment les variables environnementales pouvaient
-expliquer ces tendances. Avec des analyses sous contraintes telles
-l’analyse canonique de redondances (RDA), l’analyse linéaire
-discriminante (LDA) et l’arbre de régression multivarié (MRT), il sera
-possible de décrire et de prédire les relations entre la structure des
-communautés et les variables environnementales.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="ressources-additionelles.html#cb139-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co"># (L&#39;analyse des correspondances sous contrainte)</span></span>
+<span id="cb139-2"><a href="ressources-additionelles.html#cb139-2"></a>)</span>
+<span id="cb139-3"><a href="ressources-additionelles.html#cb139-3"></a></span>
+<span id="cb139-4"><a href="ressources-additionelles.html#cb139-4"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># L&#39;analyse de corrélation canonique (CCorA)</span></span>
+<span id="cb139-5"><a href="ressources-additionelles.html#cb139-5"></a>)</span>
+<span id="cb139-6"><a href="ressources-additionelles.html#cb139-6"></a></span>
+<span id="cb139-7"><a href="ressources-additionelles.html#cb139-7"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse de co-inertie (CoIA)</span></span>
+<span id="cb139-8"><a href="ressources-additionelles.html#cb139-8"></a></span>
+<span id="cb139-9"><a href="ressources-additionelles.html#cb139-9"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse factorielle multiple (MFA)</span></span>
+<span id="cb139-10"><a href="ressources-additionelles.html#cb139-10"></a></span>
+<span id="cb139-11"><a href="ressources-additionelles.html#cb139-11"></a><span class="co"># L&#39;analyse spatiale peut être effectuée à l&#39;aide du paquet</span></span>
+<span id="cb139-12"><a href="ressources-additionelles.html#cb139-12"></a><span class="co"># adespatial. Les fonctions propres spatiales peuvent être</span></span>
+<span id="cb139-13"><a href="ressources-additionelles.html#cb139-13"></a><span class="co"># calculées avec dbmem(), et elles sont fonctionnellement les</span></span>
+<span id="cb139-14"><a href="ressources-additionelles.html#cb139-14"></a><span class="co"># mêmes que celles de PCNM que nous avons vues dans le jeu de</span></span>
+<span id="cb139-15"><a href="ressources-additionelles.html#cb139-15"></a><span class="co"># données mite.pcnm de vegan.</span></span>
+<span id="cb139-16"><a href="ressources-additionelles.html#cb139-16"></a><span class="co"># https://cran.r-project.org/web/packages/adespatial/index.html</span></span></code></pre></div>
+<p>Notre liste de références comprend de nombreux articles et livres utiles pour approfondir les ordinations sous contraintes. Nous recommandons particulièrement <span class="citation">Legendre and Legendre (<a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span> pour une vue approfondie de ces techniques, de leur calcul et de leurs applications potentielles. Nous recommandons également <span class="citation">Borcard, Gillet, and Legendre (<a href="#ref-borcard2011" role="doc-biblioref">2011</a>)</span> pour en savoir plus sur la façon dont ces techniques peuvent être implémentées dans <code>R</code>.</p>
 
+</div>
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-borcard2011">
+<p>Borcard, Daniel, François Gillet, and Pierre Legendre. 2011. <em>Numerical Ecology with R</em>. Use R! New York: Springer-Verlag. <a href="https://doi.org/10.1007/978-1-4419-7976-6">https://doi.org/10.1007/978-1-4419-7976-6</a>.</p>
+</div>
+<div id="ref-legendre2012">
+<p>Legendre, P., and Louis Legendre. 2012. <em>Numerical Ecology</em>. Elsevier.</p>
+</div>
 </div>
 <hr>
 <center> 
@@ -283,8 +292,8 @@ communautés et les variables environnementales.</p>
           </div>
         </div>
       </div>
-<a href="préparez-vous-pour-cet-atelier.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exploration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="résumé.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

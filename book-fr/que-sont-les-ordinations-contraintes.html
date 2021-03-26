@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <title>Chapitre 5 Que sont les ordinations “contraintes” ? | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 5 Que sont les ordinations “contraintes” ? | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 3 Why “advanced multivariate methods”? | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 5 Que sont les ordinations “contraintes” ? | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
-<link rel="prev" href="préparez-vous-pour-cet-atelier.html"/>
-<link rel="next" href="exploration.html"/>
+<link rel="prev" href="exploration.html"/>
+<link rel="next" href="analyse-canonique-de-redondances.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -244,33 +244,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
-<div id="why-advanced-multivariate-methods" class="section level1">
-<h1><span class="header-section-number">Chapitre 3</span> Why “advanced multivariate methods”?</h1>
-<p>L’<a href="https://github.com/QCBSRworkshops/workshop10">atelier précédent</a> a donné un premier aperçu des analyses multivariées sans contraintes:</p>
-<ul>
-<li>Comment choisir les mesures de distances et les transformations appropriées selon le type de données<br />
-</li>
-<li>Groupement hiérarchique<br />
-</li>
-<li>Ordinations sans contraintes
-<ul>
-<li>Analyses en composantes principales</li>
-<li>Analyse en coordonnées principales</li>
-<li>Analyse de correspondances</li>
-<li>Positionnement multidimensionnel non métrique</li>
-</ul></li>
-</ul>
-<p>En se basant sur ces acquis, le présent atelier se concentrera sur les
-analyses sous contraintes. Toutes les méthodes vues lors du précédent
-atelier ont permis de relever des tendances dans la structure de
-communautés d’espèces ou des descripteurs par rapport à des sites, mais
-pas d’explorer comment les variables environnementales pouvaient
-expliquer ces tendances. Avec des analyses sous contraintes telles
-l’analyse canonique de redondances (RDA), l’analyse linéaire
-discriminante (LDA) et l’arbre de régression multivarié (MRT), il sera
-possible de décrire et de prédire les relations entre la structure des
-communautés et les variables environnementales.</p>
+<div id="que-sont-les-ordinations-contraintes" class="section level1">
+<h1><span class="header-section-number">Chapitre 5</span> Que sont les ordinations “contraintes” ?</h1>
+<p>Décrite à l’origine par <span class="citation">Rao (<a href="#ref-rao1964" role="doc-biblioref">1964</a>)</span>, les analyses canoniques rassemblent
+de nombreuses méthodes statistiques combinant les concepts d’ordination
+et de régression et partageant un but commun, qui est d’identifier la relation entre un ensemble de variables réponse (matrice <span class="math inline">\(Y\)</span>, décrivant généralement la composition en espèces des communautés) et un ensemble de variables explicatives (matrice <span class="math inline">\(X\)</span>, contenant généralement des descripteurs environnementaux).</p>
+<p>Les analyses canoniques permettent aux utilisateurs de <strong>tester des hypothèses écologiques concernant les facteurs environnementaux qui déterminent la composition des communautés d’espèces</strong>. Parmi
+l’ensemble de méthodes d’analyses canoniques existantes, nous insisterons ici principalement sur l’analyse canonique de redondance (RDA).</p>
 
+</div>
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-rao1964">
+<p>Rao, C. Radhakrishna. 1964. “The Use and Interpretation of Principal Component Analysis in Applied Research.” <em>Sankhyā: The Indian Journal of Statistics, Series A (1961-2002)</em> 26 (4): 329–58. <a href="https://www.jstor.org/stable/25049339">https://www.jstor.org/stable/25049339</a>.</p>
+</div>
 </div>
 <hr>
 <center> 
@@ -283,8 +270,8 @@ communautés et les variables environnementales.</p>
           </div>
         </div>
       </div>
-<a href="préparez-vous-pour-cet-atelier.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exploration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="exploration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="analyse-canonique-de-redondances.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
