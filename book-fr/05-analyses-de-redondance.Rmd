@@ -1,8 +1,8 @@
-# Analyse canonique de redondances (ACR ou RDA)
+# Analyse canonique de redondances
 
 L'analyse de redondance (RDA) est une extension directe de la régression multiple, car elle modélise l'effet d'une matrice explicative $X$ (n x p) sur une matrice de réponse $Y$ (n x m). La différence ici est que nous pouvons modéliser l'effet d'une matrice explicative sur une **matrice de réponse***, plutôt que sur une seule variable de réponse. Par exemple, RDA nous permet de modéliser l'effet des variables environnementales sur l'ensemble de la communauté, plutôt que sur la richesse des espèces. Pour ce faire, on effectue une ordination de $Y$ pour obtenir des axes d'ordination qui sont des combinaisons linéaires des variables de $X$.
 
-```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a redundancy analysis (RDA).", fig.align="center", purl = FALSE}
+```{r, echo=FALSE, out.width="70%", fig.cap="La structure d'une analyse de redondance (RDA).", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/RDA.png")
 ```
 
@@ -10,7 +10,7 @@ Notez que les variables explicatives dans $X$ peuvent être **des variables quan
 
 Parfois, nous avons plus de variables explicatives que nécessaire pour comprendre les déterminants de notre variable de réponse. La meilleure façon de construire un modèle est toujours d'utiliser un **raisonnement écologique** pour déterminer quelles variables doivent être incluses ou exclues. Toutefois, s'il y a encore trop de variables incluses dans le modèle, ou si certaines d'entre elles sont fortement colinéaires, les variables explicatives peuvent être sélectionnées par une **sélection progressive ou régressive** qui élimine les variables explicatives non significatives. Toutefois, cette approche doit toujours être adoptée après la sélection *écologique* des variables, en fonction de votre compréhension du système. Nous reviendrons sur ce sujet plus tard !
 
-## Le fonctionnement d'une RDA
+## Computation
 
 L'analyse de la redondance est un processus en deux étapes [@legendre2012]. La première étape est une régression multiple, où chaque objet de $Y$ est régressé sur les variables explicatives de $X$, ce qui donne une matrice de valeurs ajustées $Y_{fit}$. Cette étape est calculée par l'équation linéaire suivante:
 
@@ -18,7 +18,7 @@ $$Y_{fit} = X[X'X]^{-1}X'Y$$
 
 Dans la deuxième étape, nous appliquons une analyse en composantes principales (PCA ou ACP) sur la matrice ajustée $Y_{fit}$ pour réduire la dimensionnalité, c'est-à-dire pour obtenir les valeurs propres et les vecteurs propres. On obtient alors une matrice $Z$ qui contient les axes canoniques, qui correspondent à des combinaisons *linéaires* des variables explicatives dans l'espace de $X$. La *linéarité* des combinaisons des variables $X$ est une propriété fondamentale de la RDA. Dans l'analyse de la composition des communautés, ces axes canoniques sont interprétés comme des gradients environnementaux complexes.
 
-```{r ord-diagram, echo=FALSE, out.width="40%", fig.cap="The computation process of an RDA, from Legendre & Legendre (2012).", fig.align="center", purl = FALSE}
+```{r ord-diagram, echo=FALSE, out.width="40%", fig.cap="Le processus de computation d'une RDA, tirée de Legendre & Legendre (2012).", fig.align="center", purl = FALSE}
 knitr::include_graphics("images/constrained_ord_diagram.png")
 ```
 
@@ -33,7 +33,7 @@ statistique. Notons que la statistique de F peut également être utilisée
 pour tester la significativité de chaque axe canonique de manière
 séquentielle.
 
-## Effectuer une RDA dans R
+## Implémentation dans R
 
 Un RDA peut être calculée en utilisant la fonction `rda()` du paquet `vegan`, comme suit:
 

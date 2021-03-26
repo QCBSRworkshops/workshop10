@@ -1,4 +1,4 @@
-# Exploration les données {exploration}
+# Exploration les données {#exploration}
 
 Encore une fois, nous utiliserons les données de la rivière Doubs.
 "DoubsSpe.csv" est une matrice de données d'abondance d'espèces de
