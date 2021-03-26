@@ -4,24 +4,24 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 9 Arbre de régression multivarié | Workshop 10: Advanced Multivariate Analyses in R</title>
-  <meta name="description" content="Advanced Multivariate Analyses in R" />
+  <title>Chapitre 9 Arbre de régression multivarié | Atelier 10: Analyses multivariées avancées en R</title>
+  <meta name="description" content="Analyses multivariées avancées en R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 9 Arbre de régression multivarié | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 9 Arbre de régression multivarié | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
-  <meta property="og:description" content="Advanced Multivariate Analyses in R" />
+  <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 9 Arbre de régression multivarié | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 9 Arbre de régression multivarié | Atelier 10: Analyses multivariées avancées en R" />
   
-  <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="twitter:description" content="Analyses multivariées avancées en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
-<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+<meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
 
 
@@ -133,14 +133,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
 </ul></li>
 <li class="part"><span><b>Analyses multivariées avancées dans <code>R</code></b></span></li>
 <li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
@@ -222,7 +222,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 10: Advanced Multivariate Analyses in <code>R</code></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Atelier 10: Analyses multivariées avancées en <code>R</code></a>
           </h1>
         </div>
 
@@ -328,9 +328,9 @@ obtiendrait donc un arbre explicatif plutôt que prédictif.</p>
 <pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
 ## Minimum tree sizes
 ## tabmins
-##  2  3  4  5  6  7  8  9 10 
-## 11  1  1  1  1  8 32  5 40</code></pre>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+##  2  3  4  6  7  8  9 10 
+##  8  1  5  6 16 32  1 31</code></pre>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-73-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>À ce stade, vous devrez sélectionner l’arbre avec un nombre <em>approprié</em> de groupes, en fonction de l’objectif de votre étude. En d’autres mots, vous devez élaguer l’arbre en choisissant l’arbre le plus approprié. Un arbre entièrement résolu n’est pas le résultat souhaitable ; au contraire, on s’intéresse généralement à un arbre comprenant uniquement des partitions/groupes informatifs. Dans ce cas, il est possible d’avoir une idée <em>a priori</em> du nombre de groupes potentiels à retenir. Vous pouvez faire ce choix de manière interactive, avec l’argument <code>xv = "pick"</code>.</p>
 <p>Le graphique montre l’erreur relative (RE, en vert) et l’erreur
 relative de validation croisée (en bleu) d’arbres de tailles
@@ -361,9 +361,9 @@ correspondant à la taille de l’arbre choisie. En résumé:</p>
 <pre><code>## X-Val rep : 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99  100
 ## Minimum tree sizes
 ## tabmins
-##  2  4  5  6  7  8  9 10 
-##  5  1  1  9  6 25  5 48</code></pre>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+##  2  5  6  7  8  9 10 
+##  6  1  9 11 29  5 39</code></pre>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-74-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Des statistiques sont affichées au bas de l’arbre: l’erreur résiduelle,
 l’erreur de validation croisée et l’erreur type. Cet arbre n’est
 constitué que de deux branches séparées par un noeud. Sous chaque feuille, on retrouve un petit diagramme à bandes montrant
@@ -380,7 +380,7 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 <span id="cb100-4"><a href="arbre-de-régression-multivarié.html#cb100-4"></a>        <span class="dt">size =</span> <span class="dv">10</span>, <span class="co"># fixer la taille de l&#39;arbre</span></span>
 <span id="cb100-5"><a href="arbre-de-régression-multivarié.html#cb100-5"></a>        <span class="dt">which =</span> <span class="dv">4</span>,</span>
 <span id="cb100-6"><a href="arbre-de-régression-multivarié.html#cb100-6"></a>        <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">prn =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-75-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Cet arbre est beaucoup plus difficile à interpréter, car il y a beaucoup de groupes ! Bien que cette version de l’arbre offre un pouvoir explicatif plus élevé, son pouvoir <em>prédictif</em> (erreur CV = 0.671) est sensiblement le même que celui de la solution précédente à deux groupes (erreur CV = 0.673). Ceci suggère que nous pourrions essayer un arbre avec un peu plus de groupements que la solution à deux groupes, tout en restant en dessous de dix groupes.</p>
 <p>Voyons une solution avec moins de groupes (4 groupes)!</p>
 <div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="arbre-de-régression-multivarié.html#cb101-1"></a><span class="co"># Solution avec 4 groupes seulement</span></span>
@@ -398,8 +398,8 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="arbre-de-régression-multivarié.html#cb102-1"></a><span class="co"># Vérifier le paramètre de compléxité</span></span>
 <span id="cb102-2"><a href="arbre-de-régression-multivarié.html#cb102-2"></a>doubs.mrt<span class="op">$</span>cptable</span></code></pre></div>
 <pre><code>##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0751711 0.07480012
-## 2 0.1044982      1 0.5630439 0.6763086 0.09519087</code></pre>
+## 1 0.4369561      0 1.0000000 1.0745075 0.07508352
+## 2 0.1044982      1 0.5630439 0.6770764 0.09501561</code></pre>
 <p>Le résumé présente ensuite, pour chaque nœud, les meilleures valeurs de seuil pour le groupement des données.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="arbre-de-régression-multivarié.html#cb104-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
 <pre><code>## Call:
@@ -409,8 +409,8 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 ##   n= 29 
 ## 
 ##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0751711 0.07480012
-## 2 0.1044982      1 0.5630439 0.6763086 0.09519087
+## 1 0.4369561      0 1.0000000 1.0745075 0.07508352
+## 2 0.1044982      1 0.5630439 0.6770764 0.09501561
 ## 
 ## Node number 1: 29 observations,    complexity param=0.4369561
 ##   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -471,7 +471,7 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 <div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="arbre-de-régression-multivarié.html#cb112-1"></a>mite.mrt &lt;-<span class="st"> </span><span class="kw">mvpart</span>(<span class="kw">as.matrix</span>(mite.spe.hel) <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env, </span>
 <span id="cb112-2"><a href="arbre-de-régression-multivarié.html#cb112-2"></a>    <span class="dt">xv =</span> <span class="st">&quot;1se&quot;</span>, <span class="dt">xval =</span> <span class="kw">nrow</span>(mite.spe.hel), <span class="dt">xvmult =</span> <span class="dv">100</span>, <span class="dt">which =</span> <span class="dv">4</span>, </span>
 <span id="cb112-3"><a href="arbre-de-régression-multivarié.html#cb112-3"></a>    <span class="dt">legend =</span> <span class="ot">FALSE</span>, <span class="dt">margin =</span> <span class="fl">0.01</span>, <span class="dt">cp =</span> <span class="dv">0</span>, <span class="dt">prn =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-84-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Quelle est la variance totale expliquée (<span class="math inline">\(R^2\)</span>) par cet arbre?
 * <span class="math inline">\(1 - 0.748 = 0.252\)</span>, alors l’arbre explique <strong>25.2%</strong> de la variation dans la matrice d’abondances.</p>
 <p>Combien y a-t-il de feuilles?
@@ -487,20 +487,20 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 ##        2        2        2        2        2        2        1        2 
 ##    HMIN2     NPRA     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1 
 ##        2        2        2        2        2        1        2        1 
-## Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts Miniglmn 
-##        2        2        1        1        2        2        2        2 
-##     LRUG Ceratoz3 Trimalc2 
-##        1        1        1</code></pre>
+##     PWIL Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts 
+##        2        2        2        1        1        2        2        2 
+## Miniglmn     LRUG Ceratoz3 Trimalc2 
+##        2        1        1        1</code></pre>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="arbre-de-régression-multivarié.html#cb115-1"></a><span class="co"># Extraire leur valeur indval</span></span>
 <span id="cb115-2"><a href="arbre-de-régression-multivarié.html#cb115-2"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <pre><code>##      PHTH      RARD      SSTR   Protopl      MEGR      MPRO      TVIE      HMIN 
 ## 0.5317919 0.5584677 0.2256592 0.2517509 0.5769554 0.1567789 0.3793303 0.6421174 
 ##     HMIN2      NPRA      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1 
 ## 0.6193076 0.4620892 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 
-##  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts  Miniglmn 
-## 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 0.1880194 
-##      LRUG  Ceratoz3  Trimalc2 
-## 0.6683300 0.3962540 0.4358974</code></pre>
+##      PWIL  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts 
+## 0.3779883 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 
+##  Miniglmn      LRUG  Ceratoz3  Trimalc2 
+## 0.1880194 0.6683300 0.3962540 0.4358974</code></pre>
 
 </div>
 </div>

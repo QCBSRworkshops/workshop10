@@ -4,11 +4,11 @@ fig:unnamed-chunk-38
 fig:unnamed-chunk-52
 fig:unnamed-chunk-53
 fig:unnamed-chunk-71
-code-of-conduct
-expected-behaviour
-unacceptable-behaviour
-contributors
-contributing
+code-de-conduite
+comportement-attendu
+comportements-inacceptables
+contributeurs-et-contributrices
+contribuez-à-la-série
 objectifs-dapprentissage
 préparez-vous-pour-cet-atelier
 why-advanced-multivariate-methods

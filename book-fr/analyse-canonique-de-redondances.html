@@ -4,24 +4,24 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 6 Analyse canonique de redondances | Workshop 10: Advanced Multivariate Analyses in R</title>
-  <meta name="description" content="Advanced Multivariate Analyses in R" />
+  <title>Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R</title>
+  <meta name="description" content="Analyses multivariées avancées en R" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 6 Analyse canonique de redondances | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
-  <meta property="og:description" content="Advanced Multivariate Analyses in R" />
+  <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 6 Analyse canonique de redondances | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta name="twitter:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   
-  <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="twitter:description" content="Analyses multivariées avancées en R" />
   <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
-<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+<meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
 
 
@@ -133,14 +133,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
 </ul></li>
 <li class="part"><span><b>Analyses multivariées avancées dans <code>R</code></b></span></li>
 <li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
@@ -222,7 +222,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 10: Advanced Multivariate Analyses in <code>R</code></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Atelier 10: Analyses multivariées avancées en <code>R</code></a>
           </h1>
         </div>
 
@@ -374,7 +374,7 @@ séquentielle.</li>
 ##          Df Variance       F   Pr(&gt;F)    
 ## alt       1 0.164856 19.9759 0.000999 ***
 ## oxy       1 0.082426  9.9877 0.000999 ***
-## dbo       1 0.048909  5.9264 0.000999 ***
+## dbo       1 0.048909  5.9264 0.002997 ** 
 ## Residual 25 0.206319                     
 ...</code></pre>
 <p>On peut également tester la significativité de chaque axe canonique avec <code>by = "axis"</code>. Rappelez-vous que ces axes représentent la variation des variables explicatives en moins de dimensions.</p>
@@ -384,7 +384,7 @@ séquentielle.</li>
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.001 ***
+## RDA3      1 0.027291  3.3069  0.004 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Notre modèle complet est statistiquement significatif (p = 0.001), et chaque variable incluse dans ce modèle est également significative (p = 0.001). Chaque axe canonique résultant du RDA est également statistiquement significatif (p = 0.001).</p>
@@ -392,7 +392,7 @@ séquentielle.</li>
 <div id="représentation-graphique-des-rdas" class="section level3">
 <h3><span class="header-section-number">6.2.3</span> Représentation graphique des RDAs</h3>
 <p>L’un des aspects les plus puissants de RDA est la <strong>visualisation simultanée</strong> de votre réponse et des variables explicatives (<em>c’est-à-dire </em>les espèces et les variables environnementales).</p>
-<p>Comme pour la PCA dans (l’atelier 9)[<a href="https://github.com/QCBSRworkshops/workshop09" class="uri">https://github.com/QCBSRworkshops/workshop09</a>], on doit choisir entre deux options de cadrage:</p>
+<p>Comme pour la PCA dans <a href="https://github.com/QCBSRworkshops/workshop09">l’atelier 9</a>, on doit choisir entre deux options de cadrage:</p>
 <table>
 <colgroup>
 <col width="49%" />
@@ -415,7 +415,7 @@ séquentielle.</li>
 <span id="cb43-2"><a href="analyse-canonique-de-redondances.html#cb43-2"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span>
 <span id="cb43-3"><a href="analyse-canonique-de-redondances.html#cb43-3"></a><span class="co"># Type 2 scaling</span></span>
 <span id="cb43-4"><a href="analyse-canonique-de-redondances.html#cb43-4"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-27-1.png" width="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-27-2.png" width="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-27-1.png" width="50%" height="100%" /><img src="book-fr_files/figure-html/unnamed-chunk-27-2.png" width="50%" height="100%" /></p>
 <div class="split">
 <div class="split-left">
 <p><strong><em>Scaling 1</em></strong> permet d’interpréter les distances entre objets dans la <strong>matrice réponse</strong>.</p>
@@ -491,7 +491,7 @@ séquentielle.</li>
 <span id="cb44-53"><a href="analyse-canonique-de-redondances.html#cb44-53"></a>     <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
 <span id="cb44-54"><a href="analyse-canonique-de-redondances.html#cb44-54"></a>     <span class="dt">cex =</span> <span class="dv">1</span>, </span>
 <span id="cb44-55"><a href="analyse-canonique-de-redondances.html#cb44-55"></a>     <span class="dt">font =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-28-1.png" width="576" /></p>
 </div>
 </div>
 </div>
@@ -560,7 +560,7 @@ séquentielle.</li>
 <span id="cb54-2"><a href="analyse-canonique-de-redondances.html#cb54-2"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Cadrage 1&quot;</span>)</span>
 <span id="cb54-3"><a href="analyse-canonique-de-redondances.html#cb54-3"></a><span class="co"># Cadrage 2</span></span>
 <span id="cb54-4"><a href="analyse-canonique-de-redondances.html#cb54-4"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Cadrage 2&quot;</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-37-1.png" width="50%" /><img src="book-fr_files/figure-html/unnamed-chunk-37-2.png" width="50%" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-37-1.png" width="50%" height="100%" /><img src="book-fr_files/figure-html/unnamed-chunk-37-2.png" width="50%" height="100%" /></p>
 <div class="split">
 <div class="split-left">
 <p><strong><em>L’échelle 1</em></strong> montre les similarités entre les objets de la <strong>matrice de réponses</strong>.</p>
