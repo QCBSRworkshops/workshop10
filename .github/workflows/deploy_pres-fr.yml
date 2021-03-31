@@ -69,16 +69,6 @@ jobs:
       - name: 🧶 Render presentation
         run: Rscript -e 'rmarkdown::render("workshop10-pres-fr.Rmd")'
 
-      - name: 📜 Create script using purl
-        run: |
-         Rscript -e 'knitr::purl("workshop10-pres-fr.Rmd",documentation = 0,output = "workshop10-script-fr.R");
-         script <- readLines("workshop10-script-fr.R");
-         script <- gsub("## ", "", script);
-         script <- script[-(1:36)];
-         write(script, file = "workshop10-script-fr.R");
-         file.copy("workshop10-script-fr.R", "_pres/")'
-
-
       - name: 🔺 Upload artifact containing the presentation
         uses: actions/upload-artifact@v1
         with:
