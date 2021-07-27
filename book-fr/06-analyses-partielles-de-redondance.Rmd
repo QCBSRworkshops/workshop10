@@ -1,0 +1,149 @@
+# RDA partielle
+
+La RDA partielle est un cas particulier de la RDA qui permet de tenir compte de **covariables**. En d'autres mots, on peut modéliser les effets linéaires de la matrice $X$ sur la matrice $Y$, tout en controllant pour l'effet d'une matrice de variables explicatives supplémentaires $W$, appelées **covariables** (ou covariables). Comme dans la régression linéaire partielle, l'effet linéaire des variables $X$ sur les variables $Y$ est *ajusté* pour les effets des covariables $W$. Pour cela, on effectue d'abord une RDA des covariables $W$ sur les variables de réponse $Y$. On extrait ensuite les résidus de ce RDA, c'est-à-dire une matrice $Y_{res}|W$ contenant les variables réponses $Y$ dans lesquelles l'effet de $W$ a été retiré. La RDA partielle correspond à la RDA de $X$ sur $Y_{res}|W$. Toutes les statistiques présentées précédemment pour la RDA s'appliquent également à la RDA partielle.
+
+```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a redundancy analysis (RDA).", fig.align="center"}
+knitr::include_graphics("images/PartialRDA.png")
+```
+
+La RDA partielle a plusieurs applications. C'est un outil puissant pour évaluer l'effet des variables environnementales sur la composition des espèces tout en tenant compte de la variation due à d'autres variables environnementales qui ne sont pas visées par l'étude. Un exemple courant de ceci en écologie des communautés est de tester l'importance des variables environnementales tout en contrôlant pour l'effet de l'espace. La RDA partielle peut également être utilisée pour contrôler des effets linéaires bien connus, ou pour isoler l'effet d'une seule variable explicative.
+
+## Exemple: RDA partielle sur les données Doubs
+
+Dans `R`, on peut faire une RDA partielle avec la fonction `rda()`. Par exemple, évaluons l'effet de la chimie de l'eau sur l’abondance des poissons (`spe.hel`) en tenant compte de covariables topographiques.
+
+```{r}
+# Divisez le tableau de données environnementales en deux:
+# variables topographiques et chimiques
+env.topo <- subset(env.z, select = c(alt, pen, deb))
+env.chem <- subset(env.z, select = c(pH, dur, pho, nit, amm, oxy, dbo))
+
+# Faire la RDA partielle
+spe.partial.rda <- rda(spe.hel, env.chem, env.topo)
+```
+
+> **Note:** On peut aussi utiliser une syntaxe de formule comme `Y ~ X + Condition(W)`, où `Condition()` permet de tenir compete de covariables. 
+
+```{r, eval = FALSE}
+# Syntaxe alternative 
+spe.partial.rda <- rda(spe.hel ~ pH + dur + pho + nit + amm + oxy + dbo +
+                       Condition(alt + pen + deb), # covariables ici
+                       data = env.z)
+```
+
+### Interprétation de la sortie d'une RDA partielle
+
+Le résultat d'une RDA partielle est très similaire à celui présenté dans la section précédente sur la RDA. La principale différence est que nous avons des covariables dans notre modèle, ce qui signifie que nous pouvons déterminer la proportion de la variation expliquée par ces variables supplémentaires, mais qui ne sont pas "*intéressantes*". Encore une fois, la première section du résumé contient les éléments dont nous avons besoin pour vérifier la performance de notre RDA partielle. 
+
+```{r, eval = TRUE, collapse=FALSE, output.lines=(5:10)}
+summary(spe.partial.rda)
+```
+
+* **Conditioned Proportion**:  variance de $Y$ expliquée par $W$ **(41.53%)**
+* **Constrained Proportion**: variance de $Y$ expliquée par $X$ **(31.89%)**
+* **Unconstained Proportion**: variance de $Y$ non expliquée **(26.59%)**
+
+> Comment présenteriez-vous ces résultats? La chimie de l’eau explique **31.89%** de l’abondance des espèces de poissons, tandis que la topographie explique **41.53%** de la variation en abondances des poissons.
+
+### Tester la significativité
+
+Comme pour le RDA, nous pouvons interpréter la signification de notre modèle à l'aide de deux informations clés.
+
+1. Quel est le **pouvoir explicatif** du modèle ?
+```{r}
+# Extraire le R2 ajusté du modèle
+RsquareAdj(spe.partial.rda)$adj.r.squared
+```
+
+2. Est-ce que le modèle est **significatif**?
+```{r output.lines=-c(2,9,10)}
+# Évaluer la significativité statistique du modèle
+anova.cca(spe.partial.rda, step = 1000)
+```
+
+> Notre modèle explique 24.1% de la variation en abondance de poissons entre sites. Il est aussi statistiquement significatif (p = 0.001)!
+
+### Représentation graphique 
+
+On peut visualiser les effets des variables environnementales sur la communauté de poissons avec la fonction `ordiplot()`.
+
+```{r, fig.height=4.5, fig.width=4.5}
+ordiplot(spe.partial.rda, 
+         scaling = 2,
+         main = "Rivière Doubs - Cadrage 2")
+```
+
+> Recall: Le cadrage de type 2 montre les effets des variables explicatives, donc de la matrice X sur la matrice Y une fois qu'on a controllé pour l'effet des covariables W. 
+
+:::puzzle
+
+**Note:** *Les variables topographiques ne sont pas représentées. Pourquoi?*
+
+Le RDA partiel ne fait qu'*ajuster* les effets des variables explicatives en fonction des covariables. Les covariables ne sont pas *d'intérêt*, et ne sont donc pas représentées graphiquement.
+
+:::
+
+## Défi 2 
+
+```{r, echo = FALSE, eval = FALSE}
+# Défi 2: 
+# Effectuez une RDA partielle de l’abondance des espèces de mites (`mite.spe.hel`) en fonction des variables environnementales, tenant compte de l’effet du substrat (`SubsDens`, `WaterCont` and `Substrate`).
+# * Quel pourcentage de variance est expliqué par les variables environnementales?
+# * Le modèle est-il significatif?
+# * Quels sont les axes significatifs?
+```
+
+Effectuez une RDA partielle de l’abondance des espèces de mites (`mite.spe.hel`) en fonction des variables environnementales, tenant compte de l’effet du substrat (`SubsDens`, `WaterCont` and `Substrate`).
+* Quel pourcentage de variance est expliqué par les variables environnementales?
+* Le modèle est-il significatif?
+* Quels sont les axes significatifs?
+
+Rappel des données et fonctions utiles:
+```{r, eval = FALSE}
+rda()
+summary()
+RsquareAdj()
+anova.cca() # voir l'argument 'by' dans ?anova.cca
+```
+
+
+### Défi 2: Solution
+
+```{r, echo = FALSE, eval = FALSE}
+# Défi 2: Solution! Spoilers ci-dessous!!
+```
+
+**Étape 1:** Transformer et standardiser les données.
+
+Nos données sont déjà transformés et standardisés!
+
+**Étape 2:** Faire la RDA partielle:
+```{r, output.lines=c(5:10)}
+mite.spe.subs <- rda(mite.spe.hel ~ Shrub + Topo
+                     + Condition(SubsDens + WatrCont + Substrate),
+                     data = mite.env)
+
+# Extraire les résultats
+summary(mite.spe.subs)
+```
+
+> Shrub et Topo expliquent **9.8%** de la variation de l’abondance de mites, tandis que le substrat explique **42.8%** de cette variation.
+
+**Étape 3:** Interpréter les résultats!
+
+* Quel pourcentage de variance est expliqué par les variables environnementales?
+```{r}
+RsquareAdj(mite.spe.subs)$adj.r.squared
+```
+
+* Le modèle est-il significatif?
+```{r}
+anova.cca(mite.spe.subs, step = 1000)
+```
+
+* Quels axes sont significatifs?
+```{r}
+anova.cca(mite.spe.subs, step = 1000, by = "axis")
+```
+
+> Le $R^2$ ajusté de la RDA globale est **8.33%**, et est significatif (p = 0.001). Les variables environnementales expliquent **9.81%** de la variance de la composition des espèces d'acariens entre les sites, tandis que les covariables du substrat expliquent **42.84%** de cette variation. Cependant, **47.35%** de la variation reste inexpliquée. Les deux premiers axes canoniques sont significatifs.

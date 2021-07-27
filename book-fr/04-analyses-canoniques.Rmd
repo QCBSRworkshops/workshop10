@@ -1,0 +1,10 @@
+# (PART\*) Constrained ordinations {-}
+
+# Que sont les ordinations "contraintes" ?
+
+Décrite à l'origine par @rao1964, les analyses canoniques rassemblent
+de nombreuses méthodes statistiques combinant les concepts d'ordination
+et de régression et partageant un but commun, qui est d'identifier la relation entre un ensemble de variables réponse (matrice $Y$, décrivant généralement la composition en espèces des communautés) et un ensemble de variables explicatives (matrice $X$, contenant généralement des descripteurs environnementaux). 
+
+Les analyses canoniques permettent aux utilisateurs de **tester des hypothèses écologiques concernant les facteurs environnementaux qui déterminent la composition des communautés d'espèces**. Parmi
+l'ensemble de méthodes d'analyses canoniques existantes, nous insisterons ici principalement sur l'analyse canonique de redondance (RDA).

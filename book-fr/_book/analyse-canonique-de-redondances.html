@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R</title>
+  <meta name="description" content="Analyses multivariées avancées en R" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Analyses multivariées avancées en R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop10" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
+  
+  <meta name="twitter:description" content="Analyses multivariées avancées en R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="que-sont-les-ordinations-contraintes.html"/>
+<link rel="next" href="rda-partielle.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
+</ul></li>
+<li class="part"><span><b>Analyses multivariées avancées dans <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
+<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploration les données</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#données-dabondances-despèces"><i class="fa fa-check"></i><b>4.1</b> Données d’abondances d’espèces</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#données-environnementales"><i class="fa fa-check"></i><b>4.2</b> Données environnementales</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#colinéarité"><i class="fa fa-check"></i><b>4.2.1</b> Colinéarité</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardisation-des-données"><i class="fa fa-check"></i><b>4.2.2</b> Standardisation des données</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="que-sont-les-ordinations-contraintes.html"><a href="que-sont-les-ordinations-contraintes.html"><i class="fa fa-check"></i><b>5</b> Que sont les ordinations “contraintes” ?</a></li>
+<li class="chapter" data-level="6" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html"><i class="fa fa-check"></i><b>6</b> Analyse canonique de redondances</a><ul>
+<li class="chapter" data-level="6.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#computation"><i class="fa fa-check"></i><b>6.1</b> Computation</a></li>
+<li class="chapter" data-level="6.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#implémentation-dans-r"><i class="fa fa-check"></i><b>6.2</b> Implémentation dans R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#sélection-de-variables"><i class="fa fa-check"></i><b>6.2.1</b> Sélection de variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#tester-la-significativité"><i class="fa fa-check"></i><b>6.2.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="6.2.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#représentation-graphique-des-rdas"><i class="fa fa-check"></i><b>6.2.3</b> Représentation graphique des RDAs</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Défi 1: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="rda-partielle.html"><a href="rda-partielle.html"><i class="fa fa-check"></i><b>7</b> RDA partielle</a><ul>
+<li class="chapter" data-level="7.1" data-path="rda-partielle.html"><a href="rda-partielle.html#exemple-rda-partielle-sur-les-données-doubs"><i class="fa fa-check"></i><b>7.1</b> Exemple: RDA partielle sur les données Doubs</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="rda-partielle.html"><a href="rda-partielle.html#interprétation-de-la-sortie-dune-rda-partielle"><i class="fa fa-check"></i><b>7.1.1</b> Interprétation de la sortie d’une RDA partielle</a></li>
+<li class="chapter" data-level="7.1.2" data-path="rda-partielle.html"><a href="rda-partielle.html#tester-la-significativité-1"><i class="fa fa-check"></i><b>7.1.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="7.1.3" data-path="rda-partielle.html"><a href="rda-partielle.html#représentation-graphique"><i class="fa fa-check"></i><b>7.1.3</b> Représentation graphique</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2"><i class="fa fa-check"></i><b>7.2</b> Défi 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Défi 2: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html"><i class="fa fa-check"></i><b>8</b> Partitionnement de la variation</a><ul>
+<li class="chapter" data-level="8.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r"><i class="fa fa-check"></i><b>8.1</b> Partitionnement de la variation dans R</a></li>
+<li class="chapter" data-level="8.2" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#tester-la-significativité-2"><i class="fa fa-check"></i><b>8.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="8.3" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3"><i class="fa fa-check"></i><b>8.3</b> Défi 3</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Défi 3: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html"><i class="fa fa-check"></i><b>9</b> Arbre de régression multivarié</a><ul>
+<li class="chapter" data-level="9.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#computation-1"><i class="fa fa-check"></i><b>9.1</b> Computation</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#construction-de-larbre-partitionnement-des-données-sous-contrainte"><i class="fa fa-check"></i><b>9.1.1</b> Construction de l’arbre: Partitionnement des données sous contrainte</a></li>
+<li class="chapter" data-level="9.1.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#sélection-de-larbre-validation-croisée-et-élagage-de-larbre"><i class="fa fa-check"></i><b>9.1.2</b> Sélection de l’arbre: Validation croisée et élagage de l’arbre</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#mrt-dans-r"><i class="fa fa-check"></i><b>9.2</b> MRT dans R</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#processus-de-sélection"><i class="fa fa-check"></i><b>9.2.1</b> Processus de sélection</a></li>
+<li class="chapter" data-level="9.2.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#interprétation-des-résultats"><i class="fa fa-check"></i><b>9.2.2</b> Interprétation des résultats</a></li>
+<li class="chapter" data-level="9.2.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#défi-4"><i class="fa fa-check"></i><b>9.3</b> Défi 4</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html"><i class="fa fa-check"></i><b>10</b> Analyse discriminante linéaire</a><ul>
+<li class="chapter" data-level="10.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r-rivière-doubs"><i class="fa fa-check"></i><b>10.1</b> LDA dans R: Rivière Doubs</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#créer-des-groupes-a-priori"><i class="fa fa-check"></i><b>10.1.1</b> Créer des groupes <em>a priori</em></a></li>
+<li class="chapter" data-level="10.1.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> LDA dans R</a></li>
+<li class="chapter" data-level="10.1.3" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#exactitude-du-groupement"><i class="fa fa-check"></i><b>10.1.3</b> Exactitude du groupement</a></li>
+<li class="chapter" data-level="10.1.4" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#prédictions"><i class="fa fa-check"></i><b>10.1.4</b> Prédictions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#défi-5"><i class="fa fa-check"></i><b>10.2</b> Défi 5</a></li>
+</ul></li>
+<li class="part"><span><b>Considérations finales</b></span></li>
+<li class="chapter" data-level="11" data-path="résumé.html"><a href="résumé.html"><i class="fa fa-check"></i><b>11</b> Résumé</a></li>
+<li class="chapter" data-level="12" data-path="ressources-additionelles.html"><a href="ressources-additionelles.html"><i class="fa fa-check"></i><b>12</b> Ressources additionelles</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Atelier 10: Analyses multivariées avancées en <code>R</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+<div id="analyse-canonique-de-redondances" class="section level1">
+<h1><span class="header-section-number">Chapitre 6</span> Analyse canonique de redondances</h1>
+<p>L’analyse de redondance (RDA) est une extension directe de la régression multiple, car elle modélise l’effet d’une matrice explicative <span class="math inline">\(X\)</span> (n x p) sur une matrice de réponse <span class="math inline">\(Y\)</span> (n x m). La différence ici est que nous pouvons modéliser l’effet d’une matrice explicative sur une <strong>matrice de réponse</strong>*, plutôt que sur une seule variable de réponse. Par exemple, RDA nous permet de modéliser l’effet des variables environnementales sur l’ensemble de la communauté, plutôt que sur la richesse des espèces. Pour ce faire, on effectue une ordination de <span class="math inline">\(Y\)</span> pour obtenir des axes d’ordination qui sont des combinaisons linéaires des variables de <span class="math inline">\(X\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<img src="images/RDA.png" alt="La structure d'une analyse de redondance (RDA)." width="70%" />
+<p class="caption">
+Figure 6.1: La structure d’une analyse de redondance (RDA).
+</p>
+</div>
+<p>Notez que les variables explicatives dans <span class="math inline">\(X\)</span> peuvent être <strong>des variables quantitatives, qualitatives ou binaires</strong>. Si elles sont quantitatives, les variables explicatives en <span class="math inline">\(X\)</span> doivent être <strong>centrées</strong>, <strong>standardisées</strong> (si les variables explicatives sont dans des unités différentes), <strong>transformées</strong> (pour limiter l’asymétrie des variables explicatives) ou <strong>normalisées</strong> (pour linéariser les relations) selon les mêmes principes que dans l’ACP. La colinéarité entre les variables <span class="math inline">\(X\)</span> doit également être réduite avant l’ACR. Nous avons commencé ce processus lors de l’exploration des données : nos données communautaires sont transformées par Hellinger, et nos variables environnementales sont centrées et normalisées. Cependant, nous avons encore quelques problèmes de colinéarité qui n’ont pas été résolus.</p>
+<p>Parfois, nous avons plus de variables explicatives que nécessaire pour comprendre les déterminants de notre variable de réponse. La meilleure façon de construire un modèle est toujours d’utiliser un <strong>raisonnement écologique</strong> pour déterminer quelles variables doivent être incluses ou exclues. Toutefois, s’il y a encore trop de variables incluses dans le modèle, ou si certaines d’entre elles sont fortement colinéaires, les variables explicatives peuvent être sélectionnées par une <strong>sélection progressive ou régressive</strong> qui élimine les variables explicatives non significatives. Toutefois, cette approche doit toujours être adoptée après la sélection <em>écologique</em> des variables, en fonction de votre compréhension du système. Nous reviendrons sur ce sujet plus tard !</p>
+<div id="computation" class="section level2">
+<h2><span class="header-section-number">6.1</span> Computation</h2>
+<p>L’analyse de la redondance est un processus en deux étapes <span class="citation">(Legendre and Legendre <a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span>. La première étape est une régression multiple, où chaque objet de <span class="math inline">\(Y\)</span> est régressé sur les variables explicatives de <span class="math inline">\(X\)</span>, ce qui donne une matrice de valeurs ajustées <span class="math inline">\(Y_{fit}\)</span>. Cette étape est calculée par l’équation linéaire suivante:</p>
+<p><span class="math display">\[Y_{fit} = X[X&#39;X]^{-1}X&#39;Y\]</span></p>
+<p>Dans la deuxième étape, nous appliquons une analyse en composantes principales (PCA ou ACP) sur la matrice ajustée <span class="math inline">\(Y_{fit}\)</span> pour réduire la dimensionnalité, c’est-à-dire pour obtenir les valeurs propres et les vecteurs propres. On obtient alors une matrice <span class="math inline">\(Z\)</span> qui contient les axes canoniques, qui correspondent à des combinaisons <em>linéaires</em> des variables explicatives dans l’espace de <span class="math inline">\(X\)</span>. La <em>linéarité</em> des combinaisons des variables <span class="math inline">\(X\)</span> est une propriété fondamentale de la RDA. Dans l’analyse de la composition des communautés, ces axes canoniques sont interprétés comme des gradients environnementaux complexes.</p>
+<div class="figure" style="text-align: center"><span id="fig:ord-diagram"></span>
+<img src="images/constrained_ord_diagram.png" alt="Le processus de computation d'une RDA, tirée de Legendre &amp; Legendre (2012)." width="40%" />
+<p class="caption">
+Figure 6.2: Le processus de computation d’une RDA, tirée de Legendre &amp; Legendre (2012).
+</p>
+</div>
+<p>Une fois le RDA réalisé, plusieurs statistiques peuvent être calculées pour interpréter le pouvoir explicatif des variables incluses et déterminer si les relations observées sont significatives. Ces statistiques comprennent :</p>
+<ul>
+<li><span class="math inline">\(R^2\)</span>, qui mesure la force de la relation canonique entre <span class="math inline">\(Y\)</span> et <span class="math inline">\(X\)</span> en calculant la proportion de la variation de <span class="math inline">\(Y\)</span> expliquée par les variables de <span class="math inline">\(X\)</span>,<br />
+</li>
+<li>Le <span class="math inline">\(R^2\)</span> ajusté, qui mesure également la force de la relation entre <span class="math inline">\(Y\)</span> et <span class="math inline">\(X\)</span>, mais applique une <strong>correction</strong> du <span class="math inline">\(R^2\)</span> pour prendre en compte le nombre de variables explicatives. <em>C’est la statistique qui doit être rapportée.</em></li>
+<li>La statistique F correspond à un test global de significativité d’une RDA en comparant le modèle calculé à un modèle nul. Ce test est basé sur l’hypothèse nulle selon laquelle la force de la
+relation calculé par le <span class="math inline">\(R^2\)</span> n’est pas supérieure à la valeur qui serait
+obtenue pour des matrices X et Y de même taille sans aucune relation
+statistique. Notons que la statistique de F peut également être utilisée
+pour tester la significativité de chaque axe canonique de manière
+séquentielle.</li>
+</ul>
+</div>
+<div id="implémentation-dans-r" class="section level2">
+<h2><span class="header-section-number">6.2</span> Implémentation dans R</h2>
+<p>Un RDA peut être calculée en utilisant la fonction <code>rda()</code> du paquet <code>vegan</code>, comme suit:</p>
+<p><strong>Étape 1</strong>: Transformer et/ou standardiser les données.</p>
+<p>Nous avons déjà appliqué une transformation de Hellinger à notre matrice de communauté, et standardisé nos variables explicatives dans la section : <a href="exploration.html#exploration">4</a>. Cependant, nous avons remarqué que la variable <code>das</code> était colinéaire avec plusieurs autres variables. Nous allons commencer par supprimer cette variable :</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="analyse-canonique-de-redondances.html#cb27-1"></a><span class="co"># On utilisera nos données explicatives standardisées</span></span>
+<span id="cb27-2"><a href="analyse-canonique-de-redondances.html#cb27-2"></a><span class="co"># Enlever la variable &#39;distance from the source&#39;</span></span>
+<span id="cb27-3"><a href="analyse-canonique-de-redondances.html#cb27-3"></a><span class="co"># (colinéarité avec autres variables)</span></span>
+<span id="cb27-4"><a href="analyse-canonique-de-redondances.html#cb27-4"></a>env.z &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="op">-</span>das)</span></code></pre></div>
+<p><strong>Étape 2</strong>: Effectuer une RDA.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="analyse-canonique-de-redondances.html#cb28-1"></a><span class="co"># Modèlise l&#39;effect de tous les variables environnementales</span></span>
+<span id="cb28-2"><a href="analyse-canonique-de-redondances.html#cb28-2"></a><span class="co"># sur la composition en espèces des communautés</span></span>
+<span id="cb28-3"><a href="analyse-canonique-de-redondances.html#cb28-3"></a>spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> env.z)</span></code></pre></div>
+<p><strong>Étape 3</strong>: Extraire les résultats de la RDA.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="analyse-canonique-de-redondances.html#cb29-1"></a><span class="kw">summary</span>(spe.rda)</span></code></pre></div>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          0.5025     1.0000
+## Constrained    0.3689     0.7341
+## Unconstrained  0.1336     0.2659
+...</code></pre>
+<p>Pour interpréter les résultats d’une RDA, on peut d’abord ce concentrer sur cette partie clé de la sortie:</p>
+<pre><code>...
+## Partitioning of variance:
+##               Inertia Proportion
+## Total          0.5025     1.0000
+## Constrained    0.3689     0.7341
+## Unconstrained  0.1336     0.2659
+...</code></pre>
+<ul>
+<li><strong>Constrained Proportion</strong>: variance de <span class="math inline">\(Y\)</span> expliquée par <span class="math inline">\(X\)</span> <strong>(73.41%)</strong></li>
+<li><strong>Unconstained Proportion</strong>: variance in <span class="math inline">\(Y\)</span> non expliquée par <strong>(26.59%)</strong></li>
+</ul>
+<blockquote>
+<p>Comment présenteriez-vous ces résultats? Les variables environnementales mesurées expliquent <strong>73.41%</strong> de la variation dans la composition en espèces des communautés de poissons dans la rivière Doubs.</p>
+</blockquote>
+<p>Le reste du résumé de la RDA n’est pas reproduit ici, car il est long. Mis à part la section imprimée ci-dessus, le résumé contient :</p>
+<ul>
+<li><strong>Valeurs propres, et leur contribution à la variance </strong><br />
+</li>
+<li><strong>Valeurs propres contraintes cumulées</strong>, y compris la proportion cumulée de variance expliquée par chaque axe dans l’ordination RDA finale. Ces axes représentent les variables environnementales remises à l’échelle. Si vous devez sélectionner un sous-ensemble d’axes pour d’autres analyses, vous pouvez utiliser cette proportion cumulative pour sélectionner les premiers axes jusqu’à ce que vous atteigniez un seuil de votre choix.<br />
+</li>
+<li><strong>Scores</strong> pour les espèces, les sites et les variables explicatives, qui sont les coordonnées de chacun de ces objets dans l’espace RDA. La mise à l’échelle par défaut est de type 2 (nous reviendrons à ceci plus tard).</li>
+</ul>
+<div id="sélection-de-variables" class="section level3">
+<h3><span class="header-section-number">6.2.1</span> Sélection de variables</h3>
+<p>Si nous voulons simplifier ce modèle, nous pouvons effectuer une sélection progressive (ou régressive). Ces types de sélections nous aident à sélectionner les variables qui sont <strong>statistiquement importantes</strong>. <em>Cependant, il est important de noter que la sélection de variables avec un raisonnement écologique est beaucoup plus importante que d’effectuer une sélection de cette manière. Si une variable d’intérêt écologique n’est pas sélectionnée, cela ne signifie pas qu’elle doit être retirée du RDA.</em></p>
+<p>Ici, nous allons effectuer une sélection progressive sur nos 11 variables environnementales. Pour cela, nous pouvons utiliser la fonction <code>ordiR2step()</code> (ou utiliser la fonction <code>forward.sel</code> du paquet <code>packfor</code>):</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="analyse-canonique-de-redondances.html#cb32-1"></a><span class="co"># Sélection progressive de variables:</span></span>
+<span id="cb32-2"><a href="analyse-canonique-de-redondances.html#cb32-2"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> env.z), <span class="co"># modèle le plus simple</span></span>
+<span id="cb32-3"><a href="analyse-canonique-de-redondances.html#cb32-3"></a>               <span class="dt">scope =</span> <span class="kw">formula</span>(spe.rda), <span class="co"># modèle &quot;complet&quot;</span></span>
+<span id="cb32-4"><a href="analyse-canonique-de-redondances.html#cb32-4"></a>               <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>,</span>
+<span id="cb32-5"><a href="analyse-canonique-de-redondances.html#cb32-5"></a>               <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, <span class="co"># limité par le R2 du modèle &quot;complet&quot;</span></span>
+<span id="cb32-6"><a href="analyse-canonique-de-redondances.html#cb32-6"></a>               <span class="dt">pstep =</span> <span class="dv">1000</span>,</span>
+<span id="cb32-7"><a href="analyse-canonique-de-redondances.html#cb32-7"></a>               <span class="dt">trace =</span> <span class="ot">FALSE</span>) <span class="co"># mettre TRUE pour voir le processus du sélection!</span></span></code></pre></div>
+<blockquote>
+<p>Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le <span class="math inline">\(R^2\)</span> ajusté du modèle.</p>
+</blockquote>
+<p><strong>Quelles variables ont été sélectionnées? </strong></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="analyse-canonique-de-redondances.html#cb33-1"></a><span class="co"># Vérifier le nouveau modèle avec les variables</span></span>
+<span id="cb33-2"><a href="analyse-canonique-de-redondances.html#cb33-2"></a><span class="co"># sélectionnée</span></span>
+<span id="cb33-3"><a href="analyse-canonique-de-redondances.html#cb33-3"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
+<pre><code>## rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)</code></pre>
+<p><strong>Quel est le R2 ajusté d’une RDA incluant seulement les variables significatives?</strong></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="analyse-canonique-de-redondances.html#cb35-1"></a><span class="co"># Écrire notre nouveau modèle</span></span>
+<span id="cb35-2"><a href="analyse-canonique-de-redondances.html#cb35-2"></a>spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>alt <span class="op">+</span><span class="st"> </span>oxy <span class="op">+</span><span class="st"> </span>dbo, <span class="dt">data =</span> env.z)</span>
+<span id="cb35-3"><a href="analyse-canonique-de-redondances.html#cb35-3"></a><span class="co"># vérifier son R2 ajusté</span></span>
+<span id="cb35-4"><a href="analyse-canonique-de-redondances.html#cb35-4"></a><span class="kw">RsquareAdj</span>(spe.rda.signif)</span></code></pre></div>
+<pre><code>## $r.squared
+## [1] 0.5894243
+## 
+## $adj.r.squared
+## [1] 0.5401552</code></pre>
+<p>Les variables explicatives (altitude, oxygène et demande biologique en oxygène) expliquent maintenant <em>59%</em> de la variance de <span class="math inline">\(Y\)</span> (abondance des espèces entre les sites, ou composition de la communauté). Lorsque nous corrigeons pour le nombre de variables dans <span class="math inline">\(X\)</span>, le <span class="math inline">\(R^2\)</span> ajusté nous indique que trois variables sélectionnées expliquent <em>54%</em> de la variance dans l’abondance des espèces.</p>
+<blockquote>
+<p>Comme le <span class="math inline">\(R^2\)</span> ajusté est corrigé pour le nombre de variables explicatives, il est comparable entre modèles et jeux de données. Pour cette raison, il est préférable de rapporter le <span class="math inline">\(R^2\)</span> ajusté lorsque vous présentez le résultat d’un RDA pour un article, ou dans une étude qui compare le pouvoir explicatif de différents modèles.</p>
+</blockquote>
+</div>
+<div id="tester-la-significativité" class="section level3">
+<h3><span class="header-section-number">6.2.2</span> Tester la significativité</h3>
+<p>La fonction <code>anova.cca()</code> nous permet de tester la significativité globale de notre RDA.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="analyse-canonique-de-redondances.html#cb37-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">permutations =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>...
+##          Df Variance      F   Pr(&gt;F)    
+## Model     3  0.29619 11.963 0.000999 ***
+## Residual 25  0.20632                    
+## ---
+...</code></pre>
+<p>On peut aussi tester la significativité de chaque variable avec <code>by = 'term'</code>!</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="analyse-canonique-de-redondances.html#cb39-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">permutations =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;term&quot;</span>)</span></code></pre></div>
+<pre><code>...
+## Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+##          Df Variance       F   Pr(&gt;F)    
+## alt       1 0.164856 19.9759 0.000999 ***
+## oxy       1 0.082426  9.9877 0.000999 ***
+## dbo       1 0.048909  5.9264 0.000999 ***
+## Residual 25 0.206319                     
+...</code></pre>
+<p>On peut également tester la significativité de chaque axe canonique avec <code>by = "axis"</code>. Rappelez-vous que ces axes représentent la variation des variables explicatives en moins de dimensions.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="analyse-canonique-de-redondances.html#cb41-1"></a><span class="kw">anova.cca</span>(spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
+<pre><code>...
+## Model: rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)
+##          Df Variance       F Pr(&gt;F)    
+## RDA1      1 0.218022 26.4181  0.001 ***
+## RDA2      1 0.050879  6.1651  0.001 ***
+## RDA3      1 0.027291  3.3069  0.003 ** 
+## Residual 25 0.206319                   
+...</code></pre>
+<p>Notre modèle complet est statistiquement significatif (p = 0.001), et chaque variable incluse dans ce modèle est également significative (p = 0.001). Chaque axe canonique résultant du RDA est également statistiquement significatif (p = 0.001).</p>
+</div>
+<div id="représentation-graphique-des-rdas" class="section level3">
+<h3><span class="header-section-number">6.2.3</span> Représentation graphique des RDAs</h3>
+<p>L’un des aspects les plus puissants de RDA est la <strong>visualisation simultanée</strong> de votre réponse et des variables explicatives (<em>c’est-à-dire </em>les espèces et les variables environnementales).</p>
+<p>Comme pour la PCA dans <a href="https://github.com/QCBSRworkshops/workshop09">l’atelier 9</a>, on doit choisir entre deux options de cadrage:</p>
+<table>
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type 1</th>
+<th>Type 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>distances entre objects ≈ distances euclidiennes</td>
+<td>angles entre variables ≈ leur corrélation</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="analyse-canonique-de-redondances.html#cb43-1"></a><span class="co"># Type 1 scaling</span></span>
+<span id="cb43-2"><a href="analyse-canonique-de-redondances.html#cb43-2"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb43-3"><a href="analyse-canonique-de-redondances.html#cb43-3"></a><span class="co"># Type 2 scaling</span></span>
+<span id="cb43-4"><a href="analyse-canonique-de-redondances.html#cb43-4"></a><span class="kw">ordiplot</span>(spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-27-1.png" width="50%" height="100%" /><img src="book-fr_files/figure-html/unnamed-chunk-27-2.png" width="50%" height="100%" /></p>
+<div class="split">
+<div class="split-left">
+<p><strong><em>Scaling 1</em></strong> permet d’interpréter les distances entre objets dans la <strong>matrice réponse</strong>.</p>
+<ul>
+<li>Les communautés dans les sites (chiffres) plus rapprochés ont des compositions <em>plus similaires</em>.</li>
+<li>Les espèces plus rapprochés occupent souvent les <em>mêmes sites</em>.</li>
+</ul>
+</div>
+<div class="split-right">
+<p><strong><em>Scaling 2</em></strong> montre les effets des <strong>variables explicatives</strong>.</p>
+<ul>
+<li>Longues flèches = cette variable explique <em>fortement</em> la variation dans la matrice d’abondances.</li>
+<li>Flèches pointant des directions opposées montrent une relation <em>négative</em>.</li>
+<li>Flèches pointant la même direction montrent une relation <em>positive</em>.</li>
+</ul>
+</div>
+</div>
+<div id="configuration-des-triplots-rda" class="section level4">
+<h4><span class="header-section-number">6.2.3.1</span> Configuration des triplots RDA</h4>
+<p>Les fonctions <code>plot()</code> et <code>ordiplot()</code> produisent des triplots rapidement et facilement, mais on peut aussi configurer les graphiques avec l’extraction de scores avec <code>scores()</code> et leur visualisation avec <code>points()</code>, <code>text()</code>, et <code>arrows()</code>. Voici un exemple de triplot personnalisé. N’hésitez pas à jouer avec les couleurs et d’autres paramètres pour vous approprier cet exemple!</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="analyse-canonique-de-redondances.html#cb44-1"></a><span class="co"># Configuration des triplots RDA!</span></span>
+<span id="cb44-2"><a href="analyse-canonique-de-redondances.html#cb44-2"></a></span>
+<span id="cb44-3"><a href="analyse-canonique-de-redondances.html#cb44-3"></a><span class="co">## extrait le % expliqué par les 2 premiers axes</span></span>
+<span id="cb44-4"><a href="analyse-canonique-de-redondances.html#cb44-4"></a>perc &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">100</span><span class="op">*</span>(<span class="kw">summary</span>(spe.rda.signif)<span class="op">$</span>cont<span class="op">$</span>importance[<span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]), <span class="dv">2</span>)</span>
+<span id="cb44-5"><a href="analyse-canonique-de-redondances.html#cb44-5"></a></span>
+<span id="cb44-6"><a href="analyse-canonique-de-redondances.html#cb44-6"></a><span class="co">## scores - ceux-ci sont des coordonnées dans l&#39;espace RDA</span></span>
+<span id="cb44-7"><a href="analyse-canonique-de-redondances.html#cb44-7"></a>sc_si &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;sites&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb44-8"><a href="analyse-canonique-de-redondances.html#cb44-8"></a>sc_sp &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;species&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb44-9"><a href="analyse-canonique-de-redondances.html#cb44-9"></a>sc_bp &lt;-<span class="st"> </span><span class="kw">scores</span>(spe.rda.signif, <span class="dt">display=</span><span class="st">&quot;bp&quot;</span>, <span class="dt">choices=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">scaling=</span><span class="dv">1</span>)</span>
+<span id="cb44-10"><a href="analyse-canonique-de-redondances.html#cb44-10"></a></span>
+<span id="cb44-11"><a href="analyse-canonique-de-redondances.html#cb44-11"></a><span class="co">## Configuration du graphique</span></span>
+<span id="cb44-12"><a href="analyse-canonique-de-redondances.html#cb44-12"></a></span>
+<span id="cb44-13"><a href="analyse-canonique-de-redondances.html#cb44-13"></a><span class="co"># Commencer avec un graphique vide avec le cadrage, les axes, et des titres  </span></span>
+<span id="cb44-14"><a href="analyse-canonique-de-redondances.html#cb44-14"></a><span class="kw">plot</span>(spe.rda.signif,</span>
+<span id="cb44-15"><a href="analyse-canonique-de-redondances.html#cb44-15"></a>     <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="co"># type de cadrage</span></span>
+<span id="cb44-16"><a href="analyse-canonique-de-redondances.html#cb44-16"></a>     <span class="dt">type =</span> <span class="st">&quot;none&quot;</span>, <span class="co"># garder le graphique vide pour l&#39;instant</span></span>
+<span id="cb44-17"><a href="analyse-canonique-de-redondances.html#cb44-17"></a>     <span class="dt">frame =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb44-18"><a href="analyse-canonique-de-redondances.html#cb44-18"></a>     <span class="co"># fixer les limites des axes</span></span>
+<span id="cb44-19"><a href="analyse-canonique-de-redondances.html#cb44-19"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), </span>
+<span id="cb44-20"><a href="analyse-canonique-de-redondances.html#cb44-20"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>),</span>
+<span id="cb44-21"><a href="analyse-canonique-de-redondances.html#cb44-21"></a>     <span class="co"># ajouter des titres au graphique et aux axes</span></span>
+<span id="cb44-22"><a href="analyse-canonique-de-redondances.html#cb44-22"></a>     <span class="dt">main =</span> <span class="st">&quot;Triplot RDA - cadrage 1&quot;</span>,</span>
+<span id="cb44-23"><a href="analyse-canonique-de-redondances.html#cb44-23"></a>     <span class="dt">xlab =</span> <span class="kw">paste0</span>(<span class="st">&quot;RDA1 (&quot;</span>, perc[<span class="dv">1</span>], <span class="st">&quot;%)&quot;</span>), </span>
+<span id="cb44-24"><a href="analyse-canonique-de-redondances.html#cb44-24"></a>     <span class="dt">ylab =</span> <span class="kw">paste0</span>(<span class="st">&quot;RDA2 (&quot;</span>, perc[<span class="dv">2</span>], <span class="st">&quot;%)&quot;</span>) </span>
+<span id="cb44-25"><a href="analyse-canonique-de-redondances.html#cb44-25"></a>)</span>
+<span id="cb44-26"><a href="analyse-canonique-de-redondances.html#cb44-26"></a><span class="co"># ajouter des points pour les scores des sites</span></span>
+<span id="cb44-27"><a href="analyse-canonique-de-redondances.html#cb44-27"></a><span class="kw">points</span>(sc_si, </span>
+<span id="cb44-28"><a href="analyse-canonique-de-redondances.html#cb44-28"></a>       <span class="dt">pch =</span> <span class="dv">21</span>, <span class="co"># fixer le symbole (ici, un cercle rempli avec une couleur)</span></span>
+<span id="cb44-29"><a href="analyse-canonique-de-redondances.html#cb44-29"></a>       <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="co"># couleur de la bordure du cercle</span></span>
+<span id="cb44-30"><a href="analyse-canonique-de-redondances.html#cb44-30"></a>       <span class="dt">bg =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="co"># couleur pour remplir le cercle</span></span>
+<span id="cb44-31"><a href="analyse-canonique-de-redondances.html#cb44-31"></a>       <span class="dt">cex =</span> <span class="fl">1.2</span>) <span class="co"># taille du cercle</span></span>
+<span id="cb44-32"><a href="analyse-canonique-de-redondances.html#cb44-32"></a><span class="co"># ajouter des points pour les scores des espèces</span></span>
+<span id="cb44-33"><a href="analyse-canonique-de-redondances.html#cb44-33"></a><span class="kw">points</span>(sc_sp, </span>
+<span id="cb44-34"><a href="analyse-canonique-de-redondances.html#cb44-34"></a>       <span class="dt">pch =</span> <span class="dv">22</span>, <span class="co"># fixer le symbole (ici, un carré rempli avec une couleur)</span></span>
+<span id="cb44-35"><a href="analyse-canonique-de-redondances.html#cb44-35"></a>       <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb44-36"><a href="analyse-canonique-de-redondances.html#cb44-36"></a>       <span class="dt">bg =</span> <span class="st">&quot;#f2bd33&quot;</span>, </span>
+<span id="cb44-37"><a href="analyse-canonique-de-redondances.html#cb44-37"></a>       <span class="dt">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb44-38"><a href="analyse-canonique-de-redondances.html#cb44-38"></a><span class="co"># ajouter du texte pour identifier les espèces </span></span>
+<span id="cb44-39"><a href="analyse-canonique-de-redondances.html#cb44-39"></a><span class="kw">text</span>(sc_sp <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="fl">0.03</span>, <span class="fl">0.09</span>), <span class="co"># ajuster les coordonnées pour éviter des chevauchements </span></span>
+<span id="cb44-40"><a href="analyse-canonique-de-redondances.html#cb44-40"></a>     <span class="dt">labels =</span> <span class="kw">rownames</span>(sc_sp), </span>
+<span id="cb44-41"><a href="analyse-canonique-de-redondances.html#cb44-41"></a>     <span class="dt">col =</span> <span class="st">&quot;grey40&quot;</span>, </span>
+<span id="cb44-42"><a href="analyse-canonique-de-redondances.html#cb44-42"></a>     <span class="dt">font =</span> <span class="dv">2</span>, <span class="co"># gras</span></span>
+<span id="cb44-43"><a href="analyse-canonique-de-redondances.html#cb44-43"></a>     <span class="dt">cex =</span> <span class="fl">0.6</span>)</span>
+<span id="cb44-44"><a href="analyse-canonique-de-redondances.html#cb44-44"></a><span class="co"># ajouter des flèches pour les effets des variables explicatives</span></span>
+<span id="cb44-45"><a href="analyse-canonique-de-redondances.html#cb44-45"></a><span class="kw">arrows</span>(<span class="dv">0</span>,<span class="dv">0</span>, <span class="co"># chaque flèche commence à (0,0)</span></span>
+<span id="cb44-46"><a href="analyse-canonique-de-redondances.html#cb44-46"></a>       sc_bp[,<span class="dv">1</span>], sc_bp[,<span class="dv">2</span>], <span class="co"># et finit au score de la variable</span></span>
+<span id="cb44-47"><a href="analyse-canonique-de-redondances.html#cb44-47"></a>       <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb44-48"><a href="analyse-canonique-de-redondances.html#cb44-48"></a>       <span class="dt">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb44-49"><a href="analyse-canonique-de-redondances.html#cb44-49"></a><span class="co"># ajouter du texte pour identifier les variables explicatives</span></span>
+<span id="cb44-50"><a href="analyse-canonique-de-redondances.html#cb44-50"></a><span class="kw">text</span>(<span class="dt">x =</span> sc_bp[,<span class="dv">1</span>] <span class="fl">-0.1</span>, <span class="co"># ajuster les coordonnées pour éviter des chevauchements</span></span>
+<span id="cb44-51"><a href="analyse-canonique-de-redondances.html#cb44-51"></a>     <span class="dt">y =</span> sc_bp[,<span class="dv">2</span>] <span class="op">-</span><span class="st"> </span><span class="fl">0.03</span>, </span>
+<span id="cb44-52"><a href="analyse-canonique-de-redondances.html#cb44-52"></a>     <span class="dt">labels =</span> <span class="kw">rownames</span>(sc_bp), </span>
+<span id="cb44-53"><a href="analyse-canonique-de-redondances.html#cb44-53"></a>     <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb44-54"><a href="analyse-canonique-de-redondances.html#cb44-54"></a>     <span class="dt">cex =</span> <span class="dv">1</span>, </span>
+<span id="cb44-55"><a href="analyse-canonique-de-redondances.html#cb44-55"></a>     <span class="dt">font =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-28-1.png" width="576" /></p>
+</div>
+</div>
+</div>
+<div id="défi-1" class="section level2">
+<h2><span class="header-section-number">6.3</span> Défi 1</h2>
+<p>Effectuer une RDA pour modèliser les effect des variables environnementales sur l’abondance des espèces d’acariens.</p>
+<blockquote>
+<p>Le jeu de données <code>mite</code> fait partie du paquet <code>vegan</code>, alors ce n’est pas nécessaire de le sauvegarder comme .csv dans votre répertoire de travail.</p>
+</blockquote>
+<p>Pour commencer, chargez les données:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="analyse-canonique-de-redondances.html#cb45-1"></a><span class="co"># Charger les données d&#39;abondance des espèces d&#39;acariens</span></span>
+<span id="cb45-2"><a href="analyse-canonique-de-redondances.html#cb45-2"></a><span class="kw">data</span>(<span class="st">&quot;mite&quot;</span>)</span>
+<span id="cb45-3"><a href="analyse-canonique-de-redondances.html#cb45-3"></a></span>
+<span id="cb45-4"><a href="analyse-canonique-de-redondances.html#cb45-4"></a><span class="co"># Charger les données environnementales</span></span>
+<span id="cb45-5"><a href="analyse-canonique-de-redondances.html#cb45-5"></a><span class="kw">data</span>(<span class="st">&quot;mite.env&quot;</span>)</span></code></pre></div>
+<p>Rappel de fonctions utiles:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="analyse-canonique-de-redondances.html#cb46-1"></a><span class="kw">decostand</span>()</span>
+<span id="cb46-2"><a href="analyse-canonique-de-redondances.html#cb46-2"></a><span class="kw">rda</span>()</span>
+<span id="cb46-3"><a href="analyse-canonique-de-redondances.html#cb46-3"></a><span class="kw">ordiR2step</span>()</span>
+<span id="cb46-4"><a href="analyse-canonique-de-redondances.html#cb46-4"></a><span class="kw">anova.cca</span>()</span>
+<span id="cb46-5"><a href="analyse-canonique-de-redondances.html#cb46-5"></a><span class="kw">ordiplot</span>()</span></code></pre></div>
+<div id="défi-1-solution" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Défi 1: Solution</h3>
+<p><strong>Étape 1:</strong> Transformer et standardiser les données.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="analyse-canonique-de-redondances.html#cb47-1"></a><span class="co"># Transformer les données d&#39;abondances</span></span>
+<span id="cb47-2"><a href="analyse-canonique-de-redondances.html#cb47-2"></a>mite.spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span>
+<span id="cb47-3"><a href="analyse-canonique-de-redondances.html#cb47-3"></a></span>
+<span id="cb47-4"><a href="analyse-canonique-de-redondances.html#cb47-4"></a><span class="co"># Standardiser les données environmentales quantiatives</span></span>
+<span id="cb47-5"><a href="analyse-canonique-de-redondances.html#cb47-5"></a>mite.env<span class="op">$</span>SubsDens &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.env<span class="op">$</span>SubsDens, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
+<span id="cb47-6"><a href="analyse-canonique-de-redondances.html#cb47-6"></a>mite.env<span class="op">$</span>WatrCont &lt;-<span class="st"> </span><span class="kw">decostand</span>(mite.env<span class="op">$</span>WatrCont, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span></code></pre></div>
+<p><strong>Étape 2:</strong> Sélectionner les variables environnementales.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="analyse-canonique-de-redondances.html#cb48-1"></a><span class="co"># RDA avec tous les variables environnementales</span></span>
+<span id="cb48-2"><a href="analyse-canonique-de-redondances.html#cb48-2"></a>mite.spe.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.env)</span>
+<span id="cb48-3"><a href="analyse-canonique-de-redondances.html#cb48-3"></a></span>
+<span id="cb48-4"><a href="analyse-canonique-de-redondances.html#cb48-4"></a><span class="co"># Sélection progressive des variables environnementales</span></span>
+<span id="cb48-5"><a href="analyse-canonique-de-redondances.html#cb48-5"></a><span class="co"># significatives</span></span>
+<span id="cb48-6"><a href="analyse-canonique-de-redondances.html#cb48-6"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env),</span>
+<span id="cb48-7"><a href="analyse-canonique-de-redondances.html#cb48-7"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb48-8"><a href="analyse-canonique-de-redondances.html#cb48-8"></a>    <span class="dt">pstep =</span> <span class="dv">1000</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb48-9"><a href="analyse-canonique-de-redondances.html#cb48-9"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
+<pre><code>## rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo, 
+##     data = mite.env)</code></pre>
+<p><strong>Étape 3:</strong> Effectuer l’RDA et extraire le <span class="math inline">\(R^2\)</span> ajusté.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="analyse-canonique-de-redondances.html#cb50-1"></a><span class="co"># Refaire la RDA avec seulement les variables</span></span>
+<span id="cb50-2"><a href="analyse-canonique-de-redondances.html#cb50-2"></a><span class="co"># significatives</span></span>
+<span id="cb50-3"><a href="analyse-canonique-de-redondances.html#cb50-3"></a>mite.spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span></span>
+<span id="cb50-4"><a href="analyse-canonique-de-redondances.html#cb50-4"></a><span class="st">    </span>Substrate <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>SubsDens, <span class="dt">data =</span> mite.env)</span>
+<span id="cb50-5"><a href="analyse-canonique-de-redondances.html#cb50-5"></a></span>
+<span id="cb50-6"><a href="analyse-canonique-de-redondances.html#cb50-6"></a><span class="co"># Calculer le R2 ajusté</span></span>
+<span id="cb50-7"><a href="analyse-canonique-de-redondances.html#cb50-7"></a><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<pre><code>## [1] 0.4367038</code></pre>
+<p><strong>Étape 4:</strong> Tester la significativité globale du modèle.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="analyse-canonique-de-redondances.html#cb52-1"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo + SubsDens, data = mite.env)
+##          Df Variance     F Pr(&gt;F)    
+## Model    11  0.20759 5.863  0.001 ***
+## Residual 58  0.18669                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Nous trouvons que quatre variables explicatives sont retenues après la sélection progressive: WatrCont, Shrub, Substrate, et Topo. Les variables environnementales sélectionnées expliquent <strong>43.7% (p = 0.001)</strong> de la variation dans la composition de communautés des acariens.</p>
+<p><strong>Étape 5:</strong> Visualiser le modèle à l’aide d’un triplot!</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="analyse-canonique-de-redondances.html#cb54-1"></a><span class="co"># Cadrage 1</span></span>
+<span id="cb54-2"><a href="analyse-canonique-de-redondances.html#cb54-2"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">1</span>, <span class="dt">main =</span> <span class="st">&quot;Cadrage 1&quot;</span>)</span>
+<span id="cb54-3"><a href="analyse-canonique-de-redondances.html#cb54-3"></a><span class="co"># Cadrage 2</span></span>
+<span id="cb54-4"><a href="analyse-canonique-de-redondances.html#cb54-4"></a><span class="kw">ordiplot</span>(mite.spe.rda.signif, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Cadrage 2&quot;</span>)</span></code></pre></div>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-37-1.png" width="50%" height="100%" /><img src="book-fr_files/figure-html/unnamed-chunk-37-2.png" width="50%" height="100%" /></p>
+<div class="split">
+<div class="split-left">
+<p><strong><em>L’échelle 1</em></strong> montre les similarités entre les objets de la <strong>matrice de réponses</strong>.</p>
+<ul>
+<li>Les sites (cercles noirs) sont globalement similaires.<br />
+</li>
+<li>Quelques espèces (rouge +) se démarquent du groupe, ce qui signifie qu’elles n’occupent pas beaucoup de sites en commun avec d’autres espèces. Ces espèces pourraient donc être rares ou uniques d’un point de vue écologique.</li>
+</ul>
+</div>
+<div class="split-right">
+<p><strong><em>La mise à l’échelle 2</em></strong> montre les effets des <strong>variables explicatives</strong>.</p>
+<ul>
+<li>La densité du substrat et la teneur en eau ont des flèches longues, et donc des effets forts.</li>
+<li>La présence d’arbustes (Shrub) a un effet opposé à WatrCont et SubsDens, car les flèches des arbustes sont dans des directions opposées à ces variables.</li>
+<li>Les sites varient beaucoup en termes de SubsDens, et moins en termes de WatrCont.</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<h3> References</h3>
+<div id="refs" class="references">
+<div id="ref-legendre2012">
+<p>Legendre, P., and Louis Legendre. 2012. <em>Numerical Ecology</em>. Elsevier.</p>
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="que-sont-les-ordinations-contraintes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="rda-partielle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

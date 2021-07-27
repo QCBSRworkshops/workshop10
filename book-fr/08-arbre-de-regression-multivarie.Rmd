@@ -1,0 +1,257 @@
+# Arbre de régression multivarié
+
+L'arbre de régression multivarié (MRT) est une **technique de groupement hiérarchique**. Introduit par @de2002multivariate, le MRT divise une matrice de réponse ($Y$) en groupes en fonction de seuils de variables explicatives ($X$). Comme la RDA, la MRT est une technique de régression. Alors que la première explique la structure globale des relations par un modèle linéaire, la seconde produit un modèle en arbre pour mettre en évidence les structures locales et les interactions entre les variables.
+
+```{r, echo=FALSE, out.width="70%", fig.cap="The basic structure of a multivariate regression tree (MRT).", fig.align="center", purl = FALSE}
+knitr::include_graphics("images/MRT.png")
+```
+
+L'arbre de régression multivarié a plusieurs charéctéristiques avantageux:
+
+* Les résultats sont faciles à visualiser et à interpréter (c'est un arbre !) ;
+* Il identifie clairement l'importance des variables explicatives ;
+* Il est robuste aux valeurs manquantes ;
+* Il est robuste à la colinéarité entre les variables explicatives ;
+* Il peut traiter des variables explicatives brutes, alors il n'est pas nécessaire de les standardiser.
+
+:::explanation
+Une petite note sur le vocabulaire lié aux MRTs:
+
+* **Branches**: Chaque lignée formée par un noeud;
+* **Noeuds**: Point où les données se divisent en 2 groupes (caractérisé par une valeur seuil d'une variable explicative);  
+* **Feuilles**: Groupe terminal de sites.  
+:::
+
+## Computation
+
+Le MRT divise les données en groupes ayant des compositions en espèce
+semblables et caractérisés par des variables environnementales. La
+méthode implique deux volets s'effectuant en parallèle: **1)** la
+construction de l'arbre et **2)** la sélection de la partition finale
+optimale par validation croisée.
+The MRT splits the data into clusters of samples similar in their species composition based on environmental value thresholds. It involves two procedures running at the same time: **1)** the computation of the constrained partitioning of the data, and **2)** the calculation of the relative error of the successive partitioning levels by multiple cross-validations. Cette validation croisée vise, en fait, à identifier le meilleur arbre prédictif. Le "*meilleur*" arbre varie en fonction des objectifs de votre étude. En général, on cherche un arbre qui est parcimonieux, mais qui possède un nombre de groupes informatif. Il s'agit, bien entendu, d'une décision subjective à prendre en fonction de la question à laquelle vous tentez de répondre.
+
+### Construction de l'arbre: Partitionnement des données sous contrainte 
+
+Premièrement, la méthode calcule toutes les partitions des sites en deux
+groupes. Pour chaque variable environnementale quantitative, les sites
+seront classés en ordre croissant des valeurs; pour chaque variable
+qualitative (ou catégorique), les sites seront classés par niveaux. La
+méthode divise les données après le premier objet, après le second, et
+ainsi de suite et calcule à chaque fois la somme des carrés des écarts
+intra-groupes de la matrice réponse. La méthode choisira la partition
+qui minimisera la somme des carrés des écarts intra-groupes et le point
+de division défini par une valeur seuil d'une variable
+environnementale. Ces étapes seront répétées dans les deux groupes
+formés précédemment, jusqu'à ce que tous les objets forment leur propre
+groupe. En d'autre mots, jusqu'à ce que chaque feuille de l'arbre de
+contienne qu'un seul objet.
+
+### Sélection de l'arbre: Validation croisée et élagage de l'arbre
+
+La fonction effectue également une validation croisée et identifie
+l'arbre ayant le meilleur pouvoir prédictif. La validation croisée
+s'effectue en utilisant une partie des données pour construire l'arbre
+et le reste des données est classé dans les groupes créés. Dans un arbre
+ayant un *bon pouvoir prédictif*, les objets sont assignés aux groupes
+appropriés. L'**erreur relative de validation croisée (ERVC ou CVRE)**
+mesure l'erreur de prédiction. Sans validation croisée, le nombre de
+partitions retenu serait celui minimisant la variance non expliquée par
+l'arbre (i.e. l'erreur relative: la somme des carrés des écarts
+intra-groupes de toutes les feuilles divisée par la somme de carrée des
+écarts de toutes les données). Cette solution maximise le $R^2$ et on
+obtiendrait donc un arbre explicatif plutôt que prédictif.
+
+
+## MRT dans R
+
+La fonction `mvpart()` du paquet `mvpart` calcule à la fois la partition et les étapes de validation croisée requises pour construire un arbre de régression multivarié.
+
+Nous allons démontrer le processus de construction d'un arbre de régression multivarié sur les données de la rivière Doubs.
+
+```{r, eval = FALSE, echo = FALSE}
+# Enlever la variable “distance from source”
+env <- subset(env, select = -das)
+```
+
+```{r, fig.keep = 'first', purl = FALSE, fig.align='center'}
+# Enlever la variable “distance from source”
+env <- subset(env, select = -das)
+
+# Construire l'arbre de regression multivarié
+doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
+                    xv = "pick", # selection graphique intéractive
+                    xval = nrow(spe.hel), # nombre de validations
+                    xvmult = 100, # nombre de validations multiples
+                    which = 4, # identifier les noeuds
+                    legend = FALSE, margin = 0.01, cp = 0)
+```
+
+À ce stade, vous devrez sélectionner l'arbre avec un nombre *approprié* de groupes, en fonction de l'objectif de votre étude. En d'autres mots, vous devez élaguer l'arbre en choisissant l'arbre le plus approprié. Un arbre entièrement résolu n'est pas le résultat souhaitable ; au contraire, on s'intéresse généralement à un arbre comprenant uniquement des partitions/groupes informatifs. Dans ce cas, il est possible d'avoir une idée *a priori* du nombre de groupes potentiels à retenir. Vous pouvez faire ce choix de manière interactive, avec l'argument `xv = "pick"`.
+
+Le graphique montre l'erreur relative (RE, en vert) et l'erreur
+relative de validation croisée (en bleu) d'arbres de tailles
+croissantes. Le point rouge indique la solution avec la valeur minimale
+de CVRE et le point orange montre l'arbre le plus petit dont la valeur
+de CVRE est à 1 écart type de de la valeur CVRE minimale. @breiman1984classification suggèrent de choisir cette dernière option car cet arbre a à la
+fois une erreur relative de validation croisée près de la plus faible et
+il contient un nombre restreint de groupe, ce qui en fait un choix
+parcimonieux. Les barres vertes en haut du graphique indiquent le nombre
+de fois que chaque taille d'arbre a été choisi durant le processus de
+validation croisée. Ce graphique est interactif. Il faudra donc cliquer sur le point bleu
+correspondant à la taille de l'arbre choisie. En résumé:
+
+* Points verts: Erreur relative
+* Points bleus: Erreur relative de validation croisée (CVRE)
+* Point rouge: Arbre avec la valeur minimale de CVRE
+* Point orange: l'arbre le plus petit ayant un CVRE à 1 écart type du CVRE minimal
+* Barres vertes: # de fois que chaque taille d'arbre a été choisi
+
+Nous n'avons pas de prédiction *a priori* sur la façon de diviser ces données, donc nous allons sélectionner le plus petit arbre à moins d'une erreur standard de l'arbre qui est le mieux ajusté (c'est-à-dire, le point orange). Nous pouvons sélectionner cet arbre en utilisant l'argument `xv = "1se"`.
+
+```{r, fig.keep = 'last', purl = FALSE, fig.align='center', fig.height = 7}
+# Faire le choix d'arbre (point orange)
+doubs.mrt <- mvpart(as.matrix(spe.hel) ~ ., data = env,
+                    xv = "1se", # select smallest tree within 1 se
+                    xval = nrow(spe.hel), # number of cross-validations
+                    xvmult = 100, # number of multiple cross-validations
+                    which = 4, # plot both node labels
+                    legend = FALSE, margin = 0.01, cp = 0)
+```
+
+Des statistiques sont affichées au bas de l'arbre: l'erreur résiduelle,
+l'erreur de validation croisée et l'erreur type. Cet arbre n'est
+constitué que de deux branches séparées par un noeud. Sous chaque feuille, on retrouve un petit diagramme à bandes montrant
+les abondances des espèces des sites retrouvés dans la branche, le
+nombre de sites et l'erreur relative. De cette figure, on peut rapporter les statistiques suivantes: 
+* La matrice des espèces est partitionnée en fonction d'un seuil d'altitude (361.5 m)  
+* Erreur résiduelle = **0.563**, ce qui signifie que le R2 du modèle est **43.7%** ($1 - 0.563 = 0.437$)
+
+### Processus de sélection
+
+On peut aussi comparer plusieurs solutions, pour nous aider à choisir le meilleur arbre. Par exemple, examinons une solution à dix groupes!
+
+```{r, results = 'hide', purl = FALSE, fig.align='center'}
+# Solution avec 10 groupes
+mvpart(as.matrix(spe.hel) ~ ., data = env,
+        xv = "none", # aucune validation croisée
+        size = 10, # fixer la taille de l'arbre
+        which = 4,
+        legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
+```
+
+Cet arbre est beaucoup plus difficile à interpréter, car il y a beaucoup de groupes ! Bien que cette version de l'arbre offre un pouvoir explicatif plus élevé, son pouvoir *prédictif* (erreur CV = 0.671) est sensiblement le même que celui de la solution précédente à deux groupes (erreur CV = 0.673). Ceci suggère que nous pourrions essayer un arbre avec un peu plus de groupements que la solution à deux groupes, tout en restant en dessous de dix groupes.
+
+Voyons une solution avec moins de groupes (4 groupes)!
+```{r, purl = FALSE}
+# Solution avec 4 groupes seulement
+mvpart(as.matrix(spe.hel) ~ ., data = env,
+        xv = "none", # aucune validation croisée
+        size = 4, # fixer la taille de l'arbre
+        which = 4,
+        legend = FALSE, margin = 0.01, cp = 0, prn = FALSE)
+```
+
+Cet arbre est beaucoup plus facile à interpréter! Il offre également un pouvoir explicatif plus élevé (erreur plus faible) que notre solution originale, et un pouvoir prédictif plus élevé que les deux solutions précédentes (erreur CV). Nous avons un champion!
+
+### Interprétation des résultats
+
+Pour savoir combien de variance est expliquée par chaque nœud de l'arbre, nous devons consulter le paramètre de complexité (CP). Le CP à `nsplit = 0` est le $R^2$ de l'arbre complet. 
+
+```{r, purl = FALSE}
+# Vérifier le paramètre de compléxité
+doubs.mrt$cptable
+```
+
+Le résumé présente ensuite, pour chaque nœud, les meilleures valeurs de seuil pour le groupement des données. 
+
+```{r, echo = TRUE, purl = FALSE}
+summary(doubs.mrt)
+```
+
+### Indicator species
+
+On pourrait aussi identifier les espèces indicatrices importantes pour chaque groupe de sites.
+
+```{r, purl = FALSE}
+# Calcul d'une valeur indval pour chaque espèce
+doubs.mrt.indval <- indval(spe.hel, doubs.mrt$where)
+
+# Extraire les espèces indicatrices à chaque noeud
+doubs.mrt.indval$maxcls[which(doubs.mrt.indval$pval <= 0.05)]
+
+# Extraire leur valeur indval
+doubs.mrt.indval$indcls[which(doubs.mrt.indval$pval <= 0.05)]
+```
+
+TRU a la valeur indicatrice la plus élevée (0.867) dans l'ensemble, et est une espèce indicatrice pour la première feuille (alt >= 361.5) de l'arbre.
+
+## Défi 4
+
+```{r, echo = FALSE, eval = FALSE, purl = FALSE}
+# Défi 4
+# 
+# Créez un arbre de régression multivarié pour les données .comment[mite].
+# * Choisir l'arbre le plus petit à 1 écart type du CVRE minimal.
+# * Quelle est la variance totale expliquée par cet arbre?
+# * Combien y a-t-il de feuilles?
+# * Quels sont les 3 principales espèces discriminantes?
+```
+
+Créez un arbre de régression multivarié pour les données `mite`.
+* Choisir l'arbre le plus petit à 1 écart type du CVRE minimal.
+* Quelle est la variance totale expliquée par cet arbre?
+* Combien y a-t-il de feuilles?
+* Quels sont les 3 principales espèces discriminantes?
+
+Rappel: chargez les données!
+```{r, purl = FALSE}
+data("mite")
+data("mite.env")
+```
+
+Rappel de fonctions utiles:
+```{r, eval = FALSE, purl = FALSE}
+?mvpart() # argument 'xv'!
+summary()
+```
+
+
+### Challenge 4: Solution
+
+```{r, echo = FALSE, eval = FALSE, purl = FALSE}
+# Défi 4: Solution! Spoilers ci-dessous!
+```
+
+**Étape 1:** Créer un arbre de régression multivarié.
+
+```{r, results = 'hide', purl = FALSE, fig.align='center'}
+mite.mrt <- mvpart(as.matrix(mite.spe.hel) ~ ., data = mite.env,
+                   xv = "1se",
+                   xval = nrow(mite.spe.hel),
+                   xvmult = 100,
+                   which = 4, legend = FALSE, margin = 0.01, cp = 0,
+                   prn = FALSE)
+```
+
+
+Quelle est la variance totale expliquée ($R^2$) par cet arbre?
+* $1 - 0.748 = 0.252$, alors l'arbre explique **25.2%** de la variation dans la matrice d'abondances.
+
+Combien y a-t-il de feuilles?
+* 2 feuilles
+  
+**Étape 2**: Identifier les espèces indicatrices.
+
+Quelles sont les espèces indicatrices pour chaque groupe de sites?
+
+```{r, purl = FALSE}
+# Calcul d'une valeur indicatrice pour chaque espèce
+mite.mrt.indval <- indval(mite.spe.hel, mite.mrt$where)
+
+# Extraire les espèces indicatrices à chaque noeud
+mite.mrt.indval$maxcls[which(mite.mrt.indval$pval <= 0.05)]
+
+# Extraire leur valeur indval
+mite.mrt.indval$indcls[which(mite.mrt.indval$pval <= 0.05)]
+```

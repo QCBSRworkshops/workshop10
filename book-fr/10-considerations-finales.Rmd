@@ -1,0 +1,36 @@
+# (PART\*) Considérations finales {.unnumbered}
+
+# Résumé
+
+Cet atelier a couvert une série d'analyses sous contraintes, qui nous permettent de **tester des hypothèses** sur les déterminants des patrons dans une matrice de réponse, telle qu'une matrice décrivant l'abondance d'espèces échantillonnées sur plusieurs sites. Nous pouvons utiliser le RDA, le RDA partiel et le partitionnement de la variation pour quantifier l'importance des différentes variables (ou de groupes de variables) sur une matrice de réponse. Dans de nombreux cas, cette matrice de réponse était une matrice de composition de la communauté de sites x espèces, mais ces techniques ne sont pas limitées à l'écologie des communautés.
+
+Nous avons également vu deux méthodes permettant de tester des hypothèses sur les groupements de sites. Nous pouvons utiliser des arbres de régression multivariés (MRT) pour déterminer quelles variables explicatives distinguent les groupes de sites, et décrire comment notre matrice de réponse est organisée dans ces groupes distincts. Si nous disposons déjà d'un groupement de sites *a priori*, nous pouvons utiliser l'analyse discriminante linéaire (ADL) pour vérifier si ce groupement s'aligne sur les données environnementales, et prédire le groupement de nouveaux sites.
+
+# Ressources additionelles
+
+Notre liste de références comprend de nombreux articles et livres utiles pour approfondir les ordinations sous contraintes. Nous recommandons particulièrement @legendre2012 pour une vue approfondie de ces techniques, de leur calcul et de leurs applications potentielles. Nous recommandons également @borcard2011 pour en savoir plus sur la façon dont ces techniques peuvent être implémentées dans `R`.
+
+Malheureusement, nous n'avons pu présenter qu'un sous-ensemble d'ordinations contraintes dans cet atelier. Toutefois, il existe de nombreuses autres options! Celles-ci incluent, mais ne sont pas limitées, aux techniques suivantes:
+
+- **L'analyse des correspondances sous contrainte (CCA ou ACC)** est une méthode d'ordination canonique similaire à la RDA qui préserve les distances khi-carré entre les objets (au lieu des distances euclidiennes dans la RDA). Cette méthode est bien adaptée à l'analyse de grands gradients écologiques.
+
+- **L'analyse de corrélation canonique (CCorA)** diffère de la RDA dans la mesure où les deux matrices sont considérées comme symétriques, alors que dans la RDA la matrice Y dépend de la matrice X. La principale utilisation de cette technique est de tester la signification de la corrélation entre deux ensembles de données multidimensionnelles, puis d'explorer la structure des données en calculant les corrélations (qui sont les racines carrées des valeurs propres de la CCorA) qui peuvent être trouvées entre les fonctions linéaires de deux groupes de descripteurs.
+
+- **L'analyse de co-inertie (CoIA)** est une méthode d'ordination canonique symétrique qui permet de comparer des paires d'ensembles de données qui jouent des rôles équivalents dans l'analyse. La méthode trouve un espace commun sur lequel les objets et les variables de ces ensembles de données peuvent être projetés et comparés. Par rapport à la méthode CCorA, l'analyse de co-inertie n'impose aucune contrainte concernant le nombre de variables dans les deux ensembles, de sorte qu'elle peut être utilisée pour comparer des communautés écologiques même lorsqu'elles sont riches en espèces. L'analyse de co-inertie n'est cependant pas bien adaptée à l'analyse de paires d'ensembles de données qui contiennent les mêmes variables, car l'analyse n'établit pas de correspondance biunivoque entre les variables des deux ensembles de données ; la méthode ne "sait" pas que la première variable est la même dans le premier et le second ensemble de données, et de même pour les autres variables.
+
+- **L'analyse factorielle multiple (MFA)** peut être utilisée pour comparer plusieurs ensembles de données décrivant les mêmes objets. La MFA consiste à projeter les objets et les variables de deux ou plusieurs ensembles de données sur une PCA (ou ACP) globale, calculée à partir de tous les ensembles de données, dans laquelle les ensembles reçoivent des poids égaux.
+
+```{r, echo = TRUE, eval = FALSE, purl = FALSE}
+?cca # (L'analyse des correspondances sous contrainte)
+
+?CCorA # L'analyse de corrélation canonique (CCorA)
+
+help(coinertia, package=ade4) # L'analyse de co-inertie (CoIA)
+
+help(mfa, package=ade4) # L'analyse factorielle multiple (MFA)
+
+# L'analyse spatiale peut être effectuée à l'aide du paquet adespatial. Les fonctions propres spatiales peuvent être calculées avec dbmem(), et elles sont fonctionnellement les mêmes que celles de PCNM que nous avons vues dans le jeu de données mite.pcnm de vegan.
+# https://cran.r-project.org/web/packages/adespatial/index.html
+```
+
+

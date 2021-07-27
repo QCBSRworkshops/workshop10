@@ -1,0 +1,151 @@
+# Exploration les données {#exploration}
+
+Encore une fois, nous utiliserons les données de la rivière Doubs.
+"DoubsSpe.csv" est une matrice de données d'abondance d'espèces de
+communautés de poissons dans laquelle la première colonne contient les
+noms des sites de 1 à 30 et les colonnes subséquentes correspondent aux
+différentes espèces de poissons. "DoubsEnv.csv" est une matrice de
+données environnementales pour les mêmes sites. La première colonne
+contient donc les noms des sites de 1 à 30 et les colonnes suivantes les
+mesures de 11 variables abiotiques. Notez que les données utilisées pour
+les analyses d'ordination sont généralement en [format long (EN)](http://en.wikipedia.org/wiki/Wide_and_narrow_data).
+
+Encore une fois, nous utiliserons les données de la rivière Doubs [@verneaux1973] pour cet atelier.
+
+-   `DoubsSpe.csv` est une matrice de données d'abondance d'espèces de
+communautés de poissons dans laquelle la première colonne contient les
+noms des sites de **1 à 30** et les colonnes subséquentes correspondent à **27
+différentes espèces** de poissons.  
+
+-   `DoubsEnv.csv` st une matrice de données environnementales pour les mêmes sites. La première colonne contient donc les noms des sites de 1 à 30 et les colonnes suivantes les mesures de **11 variables abiotiques**.  
+
+-   Notez que les données utilisées pour
+les analyses d'ordination sont généralement en [format long (EN)](http://en.wikipedia.org/wiki/Wide_and_narrow_data).
+
+```{r, echo = TRUE, eval = TRUE}
+# Assurez vous que les fichiers se trouvent dans votre répertoire de travail!
+# Si R ne trouve pas le jeu de données, définissez votre répertoire de travail avec setwd()
+# au dossier dans lequel vos données sont sauvegardées (par exemple setwd("~/Desktop/workshop10"))
+spe <- read.csv("data/doubsspe.csv", row.names = 1)
+spe <- spe[-8,] # Supprimer site 8 (pas d'espèces).
+
+# Matrice d'abondances d'espèces de poissons: “DoubsSpe.csv”
+spe <- read.csv("data/doubsspe.csv", row.names = 1)
+spe <- spe[-8,] # Supprimer site 8 (pas d'espèces).
+# Attention! Exécuter cette ligne une seule fois. 
+
+# Matrice de données environnementales: “DoubsEnv.csv”
+env <- read.csv("data/doubsenv.csv", row.names = 1)
+env <- env[-8,] # Supprimer le site 8 puisqu'on l'a supprimé de la matrice d'abondance. # N'exécuter qu'une seule fois.
+```
+
+## Données d'abondances d'espèces
+
+Nous pouvons utiliser les fonctions de résumé pour explorer les
+données "Spe" (données d'abondances de poissons) et découvrir les
+caractéristiques telles que les dimensions de la matrice, les noms des
+colonnes et les statistiques descriptives de ces colonnes. Ceci est un rappel de l'[atelier 2](https://github.com/QCBSRworkshops/workshop02).
+
+Pour commencer, explorons la matrice des abondances de poissons.
+
+```{r, echo = TRUE}
+names(spe) # noms d'objets (espèces)
+dim(spe) # dimensions de la matrice
+```
+
+Et, si on veut plus de détails sur les objets de la matrice, c'est-à-dire les espèces:
+
+```{r, echo = TRUE, results = 'hide'}
+head(spe) # 5 premières lignes
+str(spe) # structure d'objets de la matrice
+summary(spe) # statistiques descriptives des objets (min, moyenne, max, etc.)
+```
+
+Il est également utile de jeter un coup d'œil rapide à la structure de la communauté en représentant graphiquement la distribution de l'abondance des espèces dans la matrice de communauté.
+
+```{r, echo = TRUE, results = 'hide', fig.width = 6, fig.height = 3.5}
+# Compter la fréquence d'espèces dans chaque classe d'abondance
+ab <- table(unlist(spe))
+# Visualiser cette distribution
+barplot(ab, las = 1,
+        xlab = "Abundance class", ylab = "Frequency",
+        col = grey(5:0/5))
+```
+
+Vous remarquerez peut-être qu'il y a beaucoup de zéros dans les données d'abondance.
+
+Combien y a-t-il de zéros?
+```{r}
+sum(spe == 0)
+```
+
+Quelle proportion de l'ensemble des données cela représente-t-il ?
+
+```{r}
+sum(spe == 0)/(nrow(spe)*ncol(spe))
+```
+
+Plus de **50%** de notre jeu de données est composé de zéros ! C'est un pourcentage élevé, mais pas inhabituel pour des données sur l'abondance des espèces. Cependant, de nombreux zéros peuvent entraîner un **problème de double zéro**, où des absences communes augmentent artificiellement la similarité entre les sites, en termes de composition de leur communauté. En d'autres termes, deux sites peuvent sembler *plus similaires* simplement parce qu'ils manquent tous les deux certaines espèces, même si les absences communes ne les rendent pas écologiquement similaires. Nous voulons plutôt que les *présences communes* déterminent la similarité des sites.
+
+Pour éviter ce problème de double zéro, nous allons appliquer une transformation aux données sur les espèces. @legendre2001 a proposé cinq pré-transformations des données d'espèces, dont quatre sont disponibles dans la fonction `decostand()` du paquet `vegan`.
+
+La **transformation de Hellinger** exprime les abondances comme la racine carrée de leur abondance relative sur chaque site [@borcard2011], ce qui résout le problème des doubles zéros. Nous appliquerons cette transformation à l'ensemble de données sur l'abondance des poissons.
+
+```{r}
+# Appliquer la transformation de Hellinger pour corriger le problème de double zéro
+spe.hel <- decostand(spe, method = "hellinger")
+```
+
+## Données environnementales
+
+Maintenant, familiarisons-nous avec les variables environnementales abiotiques mesurées sur les mêmes sites. Tout d'abord, nous pouvons explorer la matrice en utilisant les mêmes fonctions que celles utilisées ci-dessus.
+
+```{r, echo = TRUE, eval = TRUE}
+names(env)
+dim(env)
+head(env)
+```
+
+Nous pouvons alors nous attarder un peu plus sur les objets, qui sont les variables environnementales dans ce cas.
+
+```{r, echo = TRUE, eval = FALSE}
+str(env)
+summary(env)
+```
+
+### Colinéarité
+
+Il est également conseillé de vérifier les corrélations entre les variables, car les **méthodes d'ordination sous contrainte que nous utiliserons sont très sensibles aux colinéarités dans la matrice explicative**. Cela implique qu'une variable peut sembler très importante simplement parce qu'elle a été traitée *en premier* dans l'analyse si elle est fortement corrélée avec une ou plusieurs autres variables qui contribuent à expliquer la variable de réponse.
+
+```{r, fig.height = 4, fig.width = 8}
+# On peut également détecter (visuellement) les colinéarités entres variables:
+heatmap(abs(cor(env)), # corrélation de Pearson (note: ce sont des valeurs absolues!)
+        col = rev(heat.colors(6)), 
+        Colv = NA, Rowv = NA)
+legend("topright", 
+       title = "R de Pearson",
+       legend =  round(seq(0,1, length.out = 6),1),
+       y.intersp = 0.7, bty = "n",
+       fill = rev(heat.colors(6)))
+```
+
+:::noway
+Certaines variables semblent corrélées... Par exemple, `das` est fortement corrélé avec `alt`, `deb`, `dur`, `nit`, entre autres!
+:::
+
+### Standardisation des données
+
+Il est impossible de comparer les effets de variables  qui ont des unités différentes. Par exemple, une variable mesurée en millimètres semblerait plus importante que si elle était mesurée en mètres, simplement parce que la valeur est plus grande (par exemple, 1000 millimètres contre 1 mètre). **La normalisation des variables avec des unités différentes est donc cruciale.**
+
+Dans ce jeu de données, les données environnementales sont toutes exprimées dans des unités différentes et devront donc être normalisées avant d'effectuer des ordinations. Nous pouvons à nouveau utiliser la fonction `decostand()` pour normaliser les variables environnementales.
+
+```{r}
+# standardiser les données
+env.z <- decostand(env, method = "standardize")
+
+# centrer les données (moyenne ~ 0)
+round(apply(env.z, 2, mean), 1)
+
+# réduire les données (écart type = 1)
+apply(env.z, 2, sd)
+```

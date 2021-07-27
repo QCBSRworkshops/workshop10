@@ -1,0 +1,22 @@
+# Why "advanced multivariate methods"?
+
+L'[atelier précédent](https://github.com/QCBSRworkshops/workshop10) a donné un premier aperçu des analyses multivariées sans contraintes:
+
+* Comment choisir les mesures de distances et les transformations appropriées selon le type de données    
+* Groupement hiérarchique  
+* Ordinations sans contraintes  
+  * Analyses en composantes principales 
+  * Analyse en coordonnées principales
+  * Analyse de correspondances
+  * Positionnement multidimensionnel non métrique
+
+En se basant sur ces acquis, le présent atelier se concentrera sur les
+analyses sous contraintes. Toutes les méthodes vues lors du précédent
+atelier ont permis de relever des tendances dans la structure de
+communautés d'espèces ou des descripteurs par rapport à des sites, mais
+pas d'explorer comment les variables environnementales pouvaient
+expliquer ces tendances. Avec des analyses sous contraintes telles
+l'analyse canonique de redondances (RDA), l'analyse linéaire
+discriminante (LDA) et l'arbre de régression multivarié (MRT), il sera
+possible de décrire et de prédire les relations entre la structure des
+communautés et les variables environnementales.
