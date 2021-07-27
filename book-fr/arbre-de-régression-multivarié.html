@@ -332,7 +332,7 @@ obtiendrait donc un arbre explicatif plutôt que prédictif.</p>
 ## Minimum tree sizes
 ## tabmins
 ##  2  3  4  5  6  7  8  9 10 
-##  5  1  1  1  6 16 33  6 31</code></pre>
+##  9  1  6  2  6 18 26  2 30</code></pre>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-73-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>À ce stade, vous devrez sélectionner l’arbre avec un nombre <em>approprié</em> de groupes, en fonction de l’objectif de votre étude. En d’autres mots, vous devez élaguer l’arbre en choisissant l’arbre le plus approprié. Un arbre entièrement résolu n’est pas le résultat souhaitable ; au contraire, on s’intéresse généralement à un arbre comprenant uniquement des partitions/groupes informatifs. Dans ce cas, il est possible d’avoir une idée <em>a priori</em> du nombre de groupes potentiels à retenir. Vous pouvez faire ce choix de manière interactive, avec l’argument <code>xv = "pick"</code>.</p>
 <p>Le graphique montre l’erreur relative (RE, en vert) et l’erreur
@@ -388,8 +388,8 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="arbre-de-régression-multivarié.html#cb100-1"></a><span class="co"># Vérifier le paramètre de compléxité</span></span>
 <span id="cb100-2"><a href="arbre-de-régression-multivarié.html#cb100-2"></a>doubs.mrt<span class="op">$</span>cptable</span></code></pre></div>
 <pre><code>##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0744125 0.07482961
-## 2 0.1044982      1 0.5630439 0.6694591 0.09390878</code></pre>
+## 1 0.4369561      0 1.0000000 1.0756719 0.07498406
+## 2 0.1044982      1 0.5630439 0.6752207 0.09464688</code></pre>
 <p>Le résumé présente ensuite, pour chaque nœud, les meilleures valeurs de seuil pour le groupement des données.</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="arbre-de-régression-multivarié.html#cb102-1"></a><span class="kw">summary</span>(doubs.mrt)</span></code></pre></div>
 <pre><code>## Call:
@@ -399,8 +399,8 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 ##   n= 29 
 ## 
 ##          CP nsplit rel error    xerror       xstd
-## 1 0.4369561      0 1.0000000 1.0744125 0.07482961
-## 2 0.1044982      1 0.5630439 0.6694591 0.09390878
+## 1 0.4369561      0 1.0000000 1.0756719 0.07498406
+## 2 0.1044982      1 0.5630439 0.6752207 0.09464688
 ## 
 ## Node number 1: 29 observations,    complexity param=0.4369561
 ##   Means=0.07299,0.2472,0.2581,0.2721,0.07133,0.06813,0.06897,0.07664,0.1488,0.2331,0.113,0.07879,0.1724,0.1366,0.1103,0.08216,0.08751,0.07113,0.07312,0.1345,0.06307,0.04423,0.1015,0.1862,0.07713,0.1623,0.07283, Summed MSE=0.4851823 
@@ -475,22 +475,22 @@ nombre de sites et l’erreur relative. De cette figure, on peut rapporter les s
 <span id="cb111-5"><a href="arbre-de-régression-multivarié.html#cb111-5"></a>mite.mrt.indval<span class="op">$</span>maxcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <pre><code>##     PHTH     RARD     SSTR  Protopl     MEGR     MPRO     TVIE     HMIN 
 ##        2        2        2        2        2        2        1        2 
-##    HMIN2     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1     PWIL 
-##        2        2        2        2        1        2        1        2 
-## Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts Miniglmn 
-##        2        2        1        1        2        2        2        2 
-##     LRUG Ceratoz3 Trimalc2 
-##        1        1        1</code></pre>
+##    HMIN2     NPRA     TVEL     ONOV     SUCT     LCIL Oribatl1 Ceratoz1 
+##        2        2        2        2        2        1        2        1 
+##     PWIL Galumna1 Stgncrs2 Trhypch1     NCOR     SLAT     FSET Lepidzts 
+##        2        2        2        1        1        2        2        2 
+## Miniglmn     LRUG Ceratoz3 Trimalc2 
+##        2        1        1        1</code></pre>
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="arbre-de-régression-multivarié.html#cb113-1"></a><span class="co"># Extraire leur valeur indval</span></span>
 <span id="cb113-2"><a href="arbre-de-régression-multivarié.html#cb113-2"></a>mite.mrt.indval<span class="op">$</span>indcls[<span class="kw">which</span>(mite.mrt.indval<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>)]</span></code></pre></div>
 <pre><code>##      PHTH      RARD      SSTR   Protopl      MEGR      MPRO      TVIE      HMIN 
 ## 0.5317919 0.5584677 0.2256592 0.2517509 0.5769554 0.1567789 0.3793303 0.6421174 
-##     HMIN2      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1      PWIL 
-## 0.6193076 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 0.3779883 
-##  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts  Miniglmn 
-## 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 0.1880194 
-##      LRUG  Ceratoz3  Trimalc2 
-## 0.6683300 0.3962540 0.4358974</code></pre>
+##     HMIN2      NPRA      TVEL      ONOV      SUCT      LCIL  Oribatl1  Ceratoz1 
+## 0.6193076 0.4620892 0.7412296 0.6312483 0.6087557 0.7152107 0.5978167 0.4744997 
+##      PWIL  Galumna1  Stgncrs2  Trhypch1      NCOR      SLAT      FSET  Lepidzts 
+## 0.3779883 0.5974145 0.3897917 0.4545803 0.4539642 0.2249109 0.6361272 0.2108305 
+##  Miniglmn      LRUG  Ceratoz3  Trimalc2 
+## 0.1880194 0.6683300 0.3962540 0.4358974</code></pre>
 
 </div>
 </div>

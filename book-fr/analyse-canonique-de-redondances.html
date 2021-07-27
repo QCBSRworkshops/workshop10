@@ -378,7 +378,7 @@ séquentielle.</li>
 ##          Df Variance       F   Pr(&gt;F)    
 ## alt       1 0.164856 19.9759 0.000999 ***
 ## oxy       1 0.082426  9.9877 0.000999 ***
-## dbo       1 0.048909  5.9264 0.003996 ** 
+## dbo       1 0.048909  5.9264 0.000999 ***
 ## Residual 25 0.206319                     
 ...</code></pre>
 <p>On peut également tester la significativité de chaque axe canonique avec <code>by = "axis"</code>. Rappelez-vous que ces axes représentent la variation des variables explicatives en moins de dimensions.</p>
@@ -388,7 +388,7 @@ séquentielle.</li>
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.003 ** 
+## RDA3      1 0.027291  3.3069  0.005 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Notre modèle complet est statistiquement significatif (p = 0.001), et chaque variable incluse dans ce modèle est également significative (p = 0.001). Chaque axe canonique résultant du RDA est également statistiquement significatif (p = 0.001).</p>
