@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 12 Ressources additionelles | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 12 Ressources additionelles | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 12 Ressources additionelles | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -254,22 +257,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>L’analyse de co-inertie (CoIA)</strong> est une méthode d’ordination canonique symétrique qui permet de comparer des paires d’ensembles de données qui jouent des rôles équivalents dans l’analyse. La méthode trouve un espace commun sur lequel les objets et les variables de ces ensembles de données peuvent être projetés et comparés. Par rapport à la méthode CCorA, l’analyse de co-inertie n’impose aucune contrainte concernant le nombre de variables dans les deux ensembles, de sorte qu’elle peut être utilisée pour comparer des communautés écologiques même lorsqu’elles sont riches en espèces. L’analyse de co-inertie n’est cependant pas bien adaptée à l’analyse de paires d’ensembles de données qui contiennent les mêmes variables, car l’analyse n’établit pas de correspondance biunivoque entre les variables des deux ensembles de données ; la méthode ne “sait” pas que la première variable est la même dans le premier et le second ensemble de données, et de même pour les autres variables.</p></li>
 <li><p><strong>L’analyse factorielle multiple (MFA)</strong> peut être utilisée pour comparer plusieurs ensembles de données décrivant les mêmes objets. La MFA consiste à projeter les objets et les variables de deux ou plusieurs ensembles de données sur une PCA (ou ACP) globale, calculée à partir de tous les ensembles de données, dans laquelle les ensembles reçoivent des poids égaux.</p></li>
 </ul>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="ressources-additionelles.html#cb139-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co"># (L&#39;analyse des correspondances sous contrainte)</span></span>
-<span id="cb139-2"><a href="ressources-additionelles.html#cb139-2"></a>)</span>
-<span id="cb139-3"><a href="ressources-additionelles.html#cb139-3"></a></span>
-<span id="cb139-4"><a href="ressources-additionelles.html#cb139-4"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># L&#39;analyse de corrélation canonique (CCorA)</span></span>
-<span id="cb139-5"><a href="ressources-additionelles.html#cb139-5"></a>)</span>
-<span id="cb139-6"><a href="ressources-additionelles.html#cb139-6"></a></span>
-<span id="cb139-7"><a href="ressources-additionelles.html#cb139-7"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse de co-inertie (CoIA)</span></span>
-<span id="cb139-8"><a href="ressources-additionelles.html#cb139-8"></a></span>
-<span id="cb139-9"><a href="ressources-additionelles.html#cb139-9"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse factorielle multiple (MFA)</span></span>
-<span id="cb139-10"><a href="ressources-additionelles.html#cb139-10"></a></span>
-<span id="cb139-11"><a href="ressources-additionelles.html#cb139-11"></a><span class="co"># L&#39;analyse spatiale peut être effectuée à l&#39;aide du paquet</span></span>
-<span id="cb139-12"><a href="ressources-additionelles.html#cb139-12"></a><span class="co"># adespatial. Les fonctions propres spatiales peuvent être</span></span>
-<span id="cb139-13"><a href="ressources-additionelles.html#cb139-13"></a><span class="co"># calculées avec dbmem(), et elles sont fonctionnellement les</span></span>
-<span id="cb139-14"><a href="ressources-additionelles.html#cb139-14"></a><span class="co"># mêmes que celles de PCNM que nous avons vues dans le jeu de</span></span>
-<span id="cb139-15"><a href="ressources-additionelles.html#cb139-15"></a><span class="co"># données mite.pcnm de vegan.</span></span>
-<span id="cb139-16"><a href="ressources-additionelles.html#cb139-16"></a><span class="co"># https://cran.r-project.org/web/packages/adespatial/index.html</span></span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="ressources-additionelles.html#cb137-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co"># (L&#39;analyse des correspondances sous contrainte)</span></span>
+<span id="cb137-2"><a href="ressources-additionelles.html#cb137-2"></a>)</span>
+<span id="cb137-3"><a href="ressources-additionelles.html#cb137-3"></a></span>
+<span id="cb137-4"><a href="ressources-additionelles.html#cb137-4"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># L&#39;analyse de corrélation canonique (CCorA)</span></span>
+<span id="cb137-5"><a href="ressources-additionelles.html#cb137-5"></a>)</span>
+<span id="cb137-6"><a href="ressources-additionelles.html#cb137-6"></a></span>
+<span id="cb137-7"><a href="ressources-additionelles.html#cb137-7"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse de co-inertie (CoIA)</span></span>
+<span id="cb137-8"><a href="ressources-additionelles.html#cb137-8"></a></span>
+<span id="cb137-9"><a href="ressources-additionelles.html#cb137-9"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># L&#39;analyse factorielle multiple (MFA)</span></span>
+<span id="cb137-10"><a href="ressources-additionelles.html#cb137-10"></a></span>
+<span id="cb137-11"><a href="ressources-additionelles.html#cb137-11"></a><span class="co"># L&#39;analyse spatiale peut être effectuée à l&#39;aide du paquet</span></span>
+<span id="cb137-12"><a href="ressources-additionelles.html#cb137-12"></a><span class="co"># adespatial. Les fonctions propres spatiales peuvent être</span></span>
+<span id="cb137-13"><a href="ressources-additionelles.html#cb137-13"></a><span class="co"># calculées avec dbmem(), et elles sont fonctionnellement</span></span>
+<span id="cb137-14"><a href="ressources-additionelles.html#cb137-14"></a><span class="co"># les mêmes que celles de PCNM que nous avons vues dans le</span></span>
+<span id="cb137-15"><a href="ressources-additionelles.html#cb137-15"></a><span class="co"># jeu de données mite.pcnm de vegan.</span></span>
+<span id="cb137-16"><a href="ressources-additionelles.html#cb137-16"></a><span class="co"># https://cran.r-project.org/web/packages/adespatial/index.html</span></span></code></pre></div>
 
 </div>
 <h3> References</h3>
@@ -316,6 +319,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {

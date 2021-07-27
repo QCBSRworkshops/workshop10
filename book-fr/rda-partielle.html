@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -260,7 +263,7 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="rda-partielle.html#cb55-1"></a><span class="co"># Divisez le tableau de données environnementales en deux:</span></span>
 <span id="cb55-2"><a href="rda-partielle.html#cb55-2"></a><span class="co"># variables topographiques et chimiques</span></span>
 <span id="cb55-3"><a href="rda-partielle.html#cb55-3"></a>env.topo &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(alt, pen, deb))</span>
-<span id="cb55-4"><a href="rda-partielle.html#cb55-4"></a>env.chem &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(pH, dur, pho, nit, amm, </span>
+<span id="cb55-4"><a href="rda-partielle.html#cb55-4"></a>env.chem &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(pH, dur, pho, nit, amm,</span>
 <span id="cb55-5"><a href="rda-partielle.html#cb55-5"></a>    oxy, dbo))</span>
 <span id="cb55-6"><a href="rda-partielle.html#cb55-6"></a></span>
 <span id="cb55-7"><a href="rda-partielle.html#cb55-7"></a><span class="co"># Faire la RDA partielle</span></span>
@@ -350,7 +353,7 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <p><strong>Étape 1:</strong> Transformer et standardiser les données.</p>
 <p>Nos données sont déjà transformés et standardisés!</p>
 <p><strong>Étape 2:</strong> Faire la RDA partielle:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="rda-partielle.html#cb65-1"></a>mite.spe.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span><span class="st"> </span></span>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="rda-partielle.html#cb65-1"></a>mite.spe.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span></span>
 <span id="cb65-2"><a href="rda-partielle.html#cb65-2"></a><span class="st">    </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate), <span class="dt">data =</span> mite.env)</span>
 <span id="cb65-3"><a href="rda-partielle.html#cb65-3"></a></span>
 <span id="cb65-4"><a href="rda-partielle.html#cb65-4"></a><span class="co"># Extraire les résultats</span></span>
@@ -398,8 +401,8 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 ## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 ##          Df Variance      F Pr(&gt;F)    
 ## RDA1      1 0.027236 8.4618  0.001 ***
-## RDA2      1 0.008254 2.5643  0.020 *  
-## RDA3      1 0.003193 0.9919  0.406    
+## RDA2      1 0.008254 2.5643  0.015 *  
+## RDA3      1 0.003193 0.9919  0.416    
 ## Residual 58 0.186688                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -445,6 +448,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {

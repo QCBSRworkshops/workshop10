@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -284,9 +287,9 @@ séquentielle.</li>
 <p>Un RDA peut être calculée en utilisant la fonction <code>rda()</code> du paquet <code>vegan</code>, comme suit:</p>
 <p><strong>Étape 1</strong>: Transformer et/ou standardiser les données.</p>
 <p>Nous avons déjà appliqué une transformation de Hellinger à notre matrice de communauté, et standardisé nos variables explicatives dans la section : <a href="exploration.html#exploration">4</a>. Cependant, nous avons remarqué que la variable <code>das</code> était colinéaire avec plusieurs autres variables. Nous allons commencer par supprimer cette variable :</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="analyse-canonique-de-redondances.html#cb27-1"></a><span class="co"># On utilisera nos données explicatives standardisées Enlever</span></span>
-<span id="cb27-2"><a href="analyse-canonique-de-redondances.html#cb27-2"></a><span class="co"># la variable &#39;distance from the source&#39; (colinéarité avec</span></span>
-<span id="cb27-3"><a href="analyse-canonique-de-redondances.html#cb27-3"></a><span class="co"># autres variables)</span></span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="analyse-canonique-de-redondances.html#cb27-1"></a><span class="co"># On utilisera nos données explicatives standardisées</span></span>
+<span id="cb27-2"><a href="analyse-canonique-de-redondances.html#cb27-2"></a><span class="co"># Enlever la variable &#39;distance from the source&#39;</span></span>
+<span id="cb27-3"><a href="analyse-canonique-de-redondances.html#cb27-3"></a><span class="co"># (colinéarité avec autres variables)</span></span>
 <span id="cb27-4"><a href="analyse-canonique-de-redondances.html#cb27-4"></a>env.z &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="op">-</span>das)</span></code></pre></div>
 <p><strong>Étape 2</strong>: Effectuer une RDA.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="analyse-canonique-de-redondances.html#cb28-1"></a><span class="co"># Modèlise l&#39;effect de tous les variables environnementales</span></span>
@@ -339,8 +342,9 @@ séquentielle.</li>
 <p>Essentiellement, on ajoute une variable à la fois au modèle, et on retient la variable si elle augmente significativement le <span class="math inline">\(R^2\)</span> ajusté du modèle.</p>
 </blockquote>
 <p><strong>Quelles variables ont été sélectionnées? </strong></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="analyse-canonique-de-redondances.html#cb33-1"></a><span class="co"># Vérifier le nouveau modèle avec les variables sélectionnée</span></span>
-<span id="cb33-2"><a href="analyse-canonique-de-redondances.html#cb33-2"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="analyse-canonique-de-redondances.html#cb33-1"></a><span class="co"># Vérifier le nouveau modèle avec les variables</span></span>
+<span id="cb33-2"><a href="analyse-canonique-de-redondances.html#cb33-2"></a><span class="co"># sélectionnée</span></span>
+<span id="cb33-3"><a href="analyse-canonique-de-redondances.html#cb33-3"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
 <pre><code>## rda(formula = spe.hel ~ alt + oxy + dbo, data = env.z)</code></pre>
 <p><strong>Quel est le R2 ajusté d’une RDA incluant seulement les variables significatives?</strong></p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="analyse-canonique-de-redondances.html#cb35-1"></a><span class="co"># Écrire notre nouveau modèle</span></span>
@@ -374,7 +378,7 @@ séquentielle.</li>
 ##          Df Variance       F   Pr(&gt;F)    
 ## alt       1 0.164856 19.9759 0.000999 ***
 ## oxy       1 0.082426  9.9877 0.000999 ***
-## dbo       1 0.048909  5.9264 0.002997 ** 
+## dbo       1 0.048909  5.9264 0.003996 ** 
 ## Residual 25 0.206319                     
 ...</code></pre>
 <p>On peut également tester la significativité de chaque axe canonique avec <code>by = "axis"</code>. Rappelez-vous que ces axes représentent la variation des variables explicatives en moins de dimensions.</p>
@@ -384,7 +388,7 @@ séquentielle.</li>
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.004 ** 
+## RDA3      1 0.027291  3.3069  0.003 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Notre modèle complet est statistiquement significatif (p = 0.001), et chaque variable incluse dans ce modèle est également significative (p = 0.001). Chaque axe canonique résultant du RDA est également statistiquement significatif (p = 0.001).</p>
@@ -528,19 +532,20 @@ séquentielle.</li>
 <span id="cb48-3"><a href="analyse-canonique-de-redondances.html#cb48-3"></a></span>
 <span id="cb48-4"><a href="analyse-canonique-de-redondances.html#cb48-4"></a><span class="co"># Sélection progressive des variables environnementales</span></span>
 <span id="cb48-5"><a href="analyse-canonique-de-redondances.html#cb48-5"></a><span class="co"># significatives</span></span>
-<span id="cb48-6"><a href="analyse-canonique-de-redondances.html#cb48-6"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env), </span>
-<span id="cb48-7"><a href="analyse-canonique-de-redondances.html#cb48-7"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb48-6"><a href="analyse-canonique-de-redondances.html#cb48-6"></a>fwd.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.env),</span>
+<span id="cb48-7"><a href="analyse-canonique-de-redondances.html#cb48-7"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(mite.spe.rda), <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">R2scope =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb48-8"><a href="analyse-canonique-de-redondances.html#cb48-8"></a>    <span class="dt">pstep =</span> <span class="dv">1000</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb48-9"><a href="analyse-canonique-de-redondances.html#cb48-9"></a>fwd.sel<span class="op">$</span>call</span></code></pre></div>
 <pre><code>## rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo, 
 ##     data = mite.env)</code></pre>
 <p><strong>Étape 3:</strong> Effectuer l’RDA et extraire le <span class="math inline">\(R^2\)</span> ajusté.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="analyse-canonique-de-redondances.html#cb50-1"></a><span class="co"># Refaire la RDA avec seulement les variables significatives</span></span>
-<span id="cb50-2"><a href="analyse-canonique-de-redondances.html#cb50-2"></a>mite.spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span></span>
-<span id="cb50-3"><a href="analyse-canonique-de-redondances.html#cb50-3"></a><span class="st">    </span>Substrate <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>SubsDens, <span class="dt">data =</span> mite.env)</span>
-<span id="cb50-4"><a href="analyse-canonique-de-redondances.html#cb50-4"></a></span>
-<span id="cb50-5"><a href="analyse-canonique-de-redondances.html#cb50-5"></a><span class="co"># Calculer le R2 ajusté</span></span>
-<span id="cb50-6"><a href="analyse-canonique-de-redondances.html#cb50-6"></a><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="analyse-canonique-de-redondances.html#cb50-1"></a><span class="co"># Refaire la RDA avec seulement les variables</span></span>
+<span id="cb50-2"><a href="analyse-canonique-de-redondances.html#cb50-2"></a><span class="co"># significatives</span></span>
+<span id="cb50-3"><a href="analyse-canonique-de-redondances.html#cb50-3"></a>mite.spe.rda.signif &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>WatrCont <span class="op">+</span><span class="st"> </span>Shrub <span class="op">+</span></span>
+<span id="cb50-4"><a href="analyse-canonique-de-redondances.html#cb50-4"></a><span class="st">    </span>Substrate <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span>SubsDens, <span class="dt">data =</span> mite.env)</span>
+<span id="cb50-5"><a href="analyse-canonique-de-redondances.html#cb50-5"></a></span>
+<span id="cb50-6"><a href="analyse-canonique-de-redondances.html#cb50-6"></a><span class="co"># Calculer le R2 ajusté</span></span>
+<span id="cb50-7"><a href="analyse-canonique-de-redondances.html#cb50-7"></a><span class="kw">RsquareAdj</span>(mite.spe.rda.signif)<span class="op">$</span>adj.r.squared</span></code></pre></div>
 <pre><code>## [1] 0.4367038</code></pre>
 <p><strong>Étape 4:</strong> Tester la significativité globale du modèle.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="analyse-canonique-de-redondances.html#cb52-1"></a><span class="kw">anova.cca</span>(mite.spe.rda.signif, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
@@ -624,6 +629,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {

@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -50,6 +50,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -115,6 +117,7 @@ code span.va { color: #000000; } /* Variable */
 code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -282,8 +285,8 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 <div id="partitionnement-de-la-variation-dans-r" class="section level2">
 <h2><span class="header-section-number">8.1</span> Partitionnement de la variation dans R</h2>
 <p>Pour démontrer comment le partitionnement des variations fonctionne dans <code>R</code>, nous allons partitionner la variation de la composition des espèces de poissons entre les variables chimiques et topographiques. La fonction <code>varpart()</code> de <code>vegan</code> nous facilite la tâche.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="partitionnement-de-la-variation.html#cb73-1"></a><span class="co"># Partitionner la variation de la composition des espèces de</span></span>
-<span id="cb73-2"><a href="partitionnement-de-la-variation.html#cb73-2"></a><span class="co"># poissons</span></span>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="partitionnement-de-la-variation.html#cb73-1"></a><span class="co"># Partitionner la variation de la composition des espèces</span></span>
+<span id="cb73-2"><a href="partitionnement-de-la-variation.html#cb73-2"></a><span class="co"># de poissons</span></span>
 <span id="cb73-3"><a href="partitionnement-de-la-variation.html#cb73-3"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, env.chem, env.topo)</span>
 <span id="cb73-4"><a href="partitionnement-de-la-variation.html#cb73-4"></a>spe.part.all<span class="op">$</span>part  <span class="co"># access results!</span></span></code></pre></div>
 <pre><code>## No. of explanatory tables: 2 
@@ -401,8 +404,8 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 <span id="cb86-2"><a href="partitionnement-de-la-variation.html#cb86-2"></a>full.spat &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.pcnm)</span>
 <span id="cb86-3"><a href="partitionnement-de-la-variation.html#cb86-3"></a></span>
 <span id="cb86-4"><a href="partitionnement-de-la-variation.html#cb86-4"></a><span class="co"># Sélection progressive des variables spatiales</span></span>
-<span id="cb86-5"><a href="partitionnement-de-la-variation.html#cb86-5"></a>spat.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.pcnm), </span>
-<span id="cb86-6"><a href="partitionnement-de-la-variation.html#cb86-6"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(full.spat), <span class="dt">R2scope =</span> <span class="kw">RsquareAdj</span>(full.spat)<span class="op">$</span>adj.r.squared, </span>
+<span id="cb86-5"><a href="partitionnement-de-la-variation.html#cb86-5"></a>spat.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.pcnm),</span>
+<span id="cb86-6"><a href="partitionnement-de-la-variation.html#cb86-6"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(full.spat), <span class="dt">R2scope =</span> <span class="kw">RsquareAdj</span>(full.spat)<span class="op">$</span>adj.r.squared,</span>
 <span id="cb86-7"><a href="partitionnement-de-la-variation.html#cb86-7"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</span>
 <span id="cb86-8"><a href="partitionnement-de-la-variation.html#cb86-8"></a>spat.sel<span class="op">$</span>call</span></code></pre></div>
 <pre><code>## rda(formula = mite.spe.hel ~ V2 + V3 + V8 + V1 + V6 + V4 + V9 + 
@@ -496,6 +499,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false
 },
 "fontsettings": {
