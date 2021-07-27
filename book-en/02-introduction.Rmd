@@ -1,0 +1,19 @@
+# Why "advanced multivariate methods"?
+
+The [previous workshop](https://github.com/QCBSRworkshops/workshop09) presented the basics of multivariate analyses:
+  
+* How to choose appropriate distance metrics and transformations
+* Hierarchical clustering
+* Unconstrained ordinations 
+  * Principal component analysis
+  * Principal coordinate Analysis
+  * Correspondence analysis
+  * Nonmetric multidimensional scaling
+
+The present workshop builds on this knowledge, and will focus on
+**constrained** analyses. All the methods overviewed during Workshop 9 allowed us to find *patterns* in the community composition data or
+in the descriptors, but not to explore **how environmental variables could
+be driving these patterns**. With constrained analyses, such as redundancy
+analysis (RDA), linear discriminant analysis (LDA) and multivariate
+regression tree (MRT), one can describe and predict relationships
+between community composition data and environmental variables.

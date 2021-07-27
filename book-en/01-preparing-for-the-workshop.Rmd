@@ -1,0 +1,85 @@
+# (PART\*) Advanced Multivariate Analyses in `R` {-}
+
+# Learning objectives
+
+In this workshop, you will learn how to perform advanced
+multivariate analyses on community data. This workshop concentrates on
+constrained methods such as redundancy analysis (RDA), multivariate
+regression tree (MRT) and linear discriminant analysis (LDA) to explore
+how environmental variables may be driving patterns in species
+assemblage across sites.
+
+# Preparing for the workshop
+
+All workshop materials are found at [github.com/QCBSRworkshops/workshop10](https://github.com/QCBSRworkshops/workshop10). This includes an [R script](https://qcbsrworkshops.github.io/workshop10/book-en/workshop10-script-en.R) which contains all code chunks shown in this book.
+
+For this workshop, we will be working with the following datasets:
+
+* [DoubsEnv](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsenv.csv)  
+* [DoubsSpe](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspe.csv)  
+* [DoubsSpa](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/doubsspa.csv)  
+* [Test data for linear discriminant analyses](https://raw.githubusercontent.com/QCBSRworkshops/workshop10/main/pres-en/data/classifyme.csv)  
+  
+> To download this data, do right click + save on the page that opens.
+
+You should also make sure you have downloaded, installed, and loaded these packages:
+ 
+* [vegan](https://cran.r-project.org/package=vegan) (for multivariate
+      analyses)
+* [labdsv](https://cran.r-project.org/package=labdsv) (for identification of significant indicator species in the
+     multivariate regression tree analysis)
+* [MASS](https://cran.r-project.org/package=MASS) (for linear discriminant
+   analysis)
+* [mvpart](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz)* (for multivariate regression trees)
+* [ggplot2](https://cran.r-project.org/package=ggplot2) (for plotting some results)
+
+
+```{r, echo = TRUE, eval = TRUE, message=FALSE, warning=FALSE, results='hide'}
+# Install the required packages
+install.packages("vegan")
+install.packages("labdsv")
+install.packages("MASS")
+install.packages("ggplot2")
+
+# install mvpart from package archive file
+install.packages("remotes")
+remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz")
+```
+
+> *The `mvpart` package is no longer hosted on CRAN, but is still available from the archives. To install `mvpart`, you can also download the .tar.gz version from [here](https://cran.r-project.org/src/contrib/Archive/mvpart/mvpart_1.6-2.tar.gz) and go to the "Packages" tab on the bottom right panel of R Studio, and click on "Install Packages". Choose to install from Package Archive file, and select the .tar.gz for `mvpart`.
+
+
+```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+# Load the required packages
+library(vegan)
+library(labdsv)
+library(MASS)
+library(mvpart)
+library(ggplot2)
+```
+
+```{r output-lines, echo = FALSE, purl = FALSE}
+# sometimes cache needs to be set to true in the knitr setup chunk for this to take effect
+# in xaringan::infinite_moon_reader()
+library(knitr)
+hook_output <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+```

@@ -1,0 +1,38 @@
+---
+bibliography: references.bib
+---
+
+# (PART\*) Final considerations {.unnumbered}
+
+# Summary
+
+This workshop covered a handful of constrained analyses, which allow us to **test hypotheses** about the drivers of patterns in a response matrix, such as a matrix describing the abundance of species sampled across many sites. We can use RDA, partial RDA, and variation partitioning to quantify the importance of different variables (or, groups of variables) on a response matrix. In many cases, this response matrix was a community composition matrix of sites x species, but these techniques are not limited to community ecology.
+
+We also saw two ways of testing hypotheses about site groupings. We can use multivariate regression trees (MRT) to determine which explanatory variables distinguish groups of sites, and describe how our response matrix is organised into these distinct groups. If we already have an *a priori* grouping of sites, we can use linear discriminant analysis (LDA) to verify whether this grouping aligns with environmental data, and predict the grouping of new sites.
+
+# Additional resources
+
+Unfortunately, we could only cover a subset of constrained ordinations in this workshop. However, there are many other options! These include, but are not limited to, the following techniques:
+
+-   **Constrained Correspondence Analysis (CCA)** is a canonical ordination method similar to RDA that preserve Chi-square distances among object (instead of Euclidean distances in RDA). This method is well suited for the analysis of large ecological gradients.
+
+-   **Canonical Correlation Analysis (CCorA)** differs from RDA given that the two matrices are considered symmetric, while in RDA the Y matrix is dependent on the X matrix. The main use of this technique is to test the significance of the correlation between two multidimensional data sets, then explore the structure of the data by computing the correlations (which are the square roots of the CCorA eigenvalues) that can be found between linear functions of two groups of descriptors.
+
+-   **Coinertia Analysis (CoIA)** is a symmetric canonical ordination method that is appropriate to compare pairs of data sets that play equivalent roles in the analysis. The method finds a common space onto which the objects and variables of these data sets can be projected and compared. Compared to CCorA, co-inertia analysis imposes no constraint regarding the number of variables in the two sets, so that it can be used to compare ecological communities even when they are species-rich. Co-inertia analysis is not well-suited, however, to analyse pairs of data sets that contain the same variables, because the analysis does not establish one-to-one correspondences between variables in the two data sets; the method does not 'know' that the first variable is the same in the first and the second data sets, and likewise for the other variables.
+
+-   **Multiple factor analysis (MFA)** can be used to compare several data sets describing the same objects. MFA consists in projecting objects and variables of two or more data sets on a global PCA, computed from all data sets, in which the sets receive equal weights.
+
+```{r, echo = TRUE, eval = FALSE, purl = FALSE}
+?cca # (constrained correspondence analysis)
+
+?CCorA # Canonical Correlation Analysis
+
+help(coinertia, package=ade4) # Coinertia Analysis
+
+help(mfa, package=ade4) # Multiple Factorial Analysis
+
+# Spatial analysis can be performed using the adespatial package. Spatial eigenfunctions can be calculated with dbmem(), and these are functionally the same as PCNM which we saw in the mite.pcnm dataset from vegan.
+# https://cran.r-project.org/web/packages/adespatial/index.html
+```
+
+Our list of references includes many useful articles and books to pursue constrained ordinations in more depth. We specifically recommend @legendre2012 for a thorough view of these techniques, their computation, and potential applications. We also recommend @borcard2011 to learn more about how these techniques can be implemented in `R`.

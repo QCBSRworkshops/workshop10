@@ -1,0 +1,11 @@
+---
+bibliography: references.bib
+---
+
+# (PART\*) Constrained ordinations {.unnumbered}
+
+# What are "constrained" ordinations?
+
+Described first by @rao1964, canonical analysis is a generic term that for several types of statistical analyses sharing a common goal, which is to identify the relationship between a multivariate response table (matrix $Y$, generally describing the species composition of communities) and a multivariate explanatory table (matrix $X$, generally containing environmental descriptors) by combining ordination and regression concepts. 
+
+Canonical analyses allow users to **test ecological hypothesis concerning the environmental drivers of species composition**. Among the diversity of canonical analysis, we will mainly focus here on Redundancy Analysis (RDA).

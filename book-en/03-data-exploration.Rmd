@@ -1,0 +1,141 @@
+---
+bibliography: references.bib
+---
+
+# Exploring the Doubs River dataset {#exploration}
+
+We will be using the Doubs River dataset [@verneaux1973] for this workshop.
+
+-   `DoubsSpe.csv` is a data frame of fish community data where the first column contains **site names from 1 to 30** and the remaining columns are fish taxa (**27 species**). The taxa columns are populated by fish abundance data (counts).  
+
+-   `DoubsEnv.csv` is a data frame of environmental data for the same sites contained in the fish community data frame. Again, the first column contains site names from 1 to 30. The remaining columns contain measurements for **11 abiotic variables**.  
+
+-   Note that most functions for ordination analyses expect data to be in [wide format](http://en.wikipedia.org/wiki/Wide_and_narrow_data).
+
+```{r, echo = TRUE, eval = TRUE}
+# Make sure the files are in your working directory! 
+# If R cannot find the dataset, set your working directory with setwd()
+# to the folder in which your data is stored (e.g. setwd("~/Desktop/workshop10"))
+
+# Species community data frame (fish abundance)
+spe <- read.csv("data/doubsspe.csv", row.names = 1)
+spe <- spe[-8,] # Site number 8 contains no species, so we remove row 8 (site 8) 
+# Be careful to only run this command line once as you are overwriting "spe" each time! 
+
+# Environmental data frame: “DoubsEnv.csv”
+env <- read.csv("data/doubsenv.csv", row.names = 1)
+env <- env[-8,] # Remove corresponding abiotic data for site 8 (because removed from fish data). 
+# Again, be careful to only run the last line once.
+```
+
+## Exploring the fish community dataset
+
+We can begin by using summary functions to explore the `spe` data (fish community data), and get familiar with its dimensions, structure, column headings and some summary statistics. This is a review from [Workshop 2](https://github.com/QCBSRworkshops/workshop02).
+
+We can begin by getting a general overview of the matrix:
+```{r, echo = TRUE, eval = TRUE}
+names(spe) # names of objects (species)
+dim(spe) # dataset dimensions
+head(spe) # look at first 5 rows
+```
+
+Then, we can look a little more closely at the objects in the matrix, which are the species in this case:
+
+```{r, echo = TRUE, eval = FALSE}
+str(spe) # structure of objects in dataset
+summary(spe) # summary statistics for all objects (min, mean, max, etc.)
+```
+
+It is also a good idea to take a quick look at how the community is structured by plotting the distribution of species' abundances in the dataset.
+
+```{r, echo = TRUE}
+# Count number of species frequencies in each abundance class
+ab <- table(unlist(spe))
+# Plot distribution of species frequencies
+barplot(ab, las = 1, # make axis labels perpendicular to axis
+        xlab = "Abundance class", ylab = "Frequency", # label axes
+        col = grey(5:0/5)) # 5-colour gradient for the bars
+```
+
+You might notice that there are a lot of zeros in the abundance data.
+
+How many zeros are in the dataset?
+
+```{r, echo = TRUE}
+# Count the number of zeros in the dataset
+sum(spe == 0) 
+```
+
+What proportion of the dataset does that represent?
+
+```{r, echo = TRUE}
+# Calculate proportion of zeros in the dataset
+sum(spe == 0)/(nrow(spe)*ncol(spe))
+```
+
+Over **50%** of our dataset consists of zeros! This is high, but not uncommon for species abundance data. However, many zeros can lead to a **double zero problem**, where common absences artificially increase the similarity between sites, in terms of their community composition. In other words, two sites might appear *more similar* just because they are both *missing* some species, even though common absences do not make them ecologically similar. Instead, we want *common presences* to determine site similarity.
+
+To avoid this double zero problem, we will apply a transformation to the species data. @legendre2001 proposed five pre-transformations of the species data, four of which are available in the `decostand()` function from the `vegan` package.
+
+The **Hellinger transformation** expresses abundances as the square-root of their relative abundance at each site [@borcard2011], solving the issue with double zeros. We will apply this transformation to the fish abundance dataset.
+
+```{r, echo = TRUE}
+# Apply Hellinger transformation to correct for the double zero problem
+spe.hel <- decostand(spe, method = "hellinger")
+```
+
+## Exploring the environmental dataset
+
+Now, let us get some familiarity with the abiotic environmental variables measured at the same sites. First, we can explore the matrix using the same function we used above.
+
+```{r, echo = TRUE, eval = TRUE}
+names(env)
+dim(env)
+head(env)
+```
+
+We can then look a little closer at the objects, which are the environmental variables in this case.
+
+```{r, echo = TRUE, eval = FALSE}
+str(env)
+summary(env)
+```
+
+
+### Collinearity
+
+It is also a good idea to check for correlations between variables, as the **constrained ordination methods we will be using are highly sensitive to collinearities in the explanatory matrix**. This means a variable might appear to be highly important just because it was treated *first* in the analysis if it is highly correlated with one or more other variables that help to explain the response variable.
+
+```{r, fig.height = 4, fig.width = 8}
+# We can visually look for correlations between variables:
+heatmap(abs(cor(env)), 
+        # Compute pearson correlation (note they are absolute values)
+        col = rev(heat.colors(6)), 
+        Colv = NA, Rowv = NA)
+legend("topright", 
+       title = "Absolute Pearson R",
+       legend =  round(seq(0,1, length.out = 6),1),
+       y.intersp = 0.7, bty = "n",
+       fill = rev(heat.colors(6)))
+```
+
+:::noway
+Some variables look correlated... For example, `das` is highly correlated with `alt`, `deb`, `dur`, `nit`, among others!
+:::
+
+### Standardizing the environmental variables
+
+You cannot compare the effects of variables with different units. For example, a variable measured in millimeters would appear more important than if it were measured in meters, simple because the value is larger (e.g. 1000 millimeters vs. 1 meter). **Standardizing variables with different units is therefore crucial.**
+
+In this dataset, the environmental data are all in different units and will therefore need to be standardized prior to performing any ordinations. We can once again use the `decostand()` function to standardize the environmental variables.
+
+```{r, echo = TRUE}
+# Scale and center variables
+env.z <- decostand(env, method = "standardize")
+
+# Variables are now centered around a mean of 0
+round(apply(env.z, 2, mean), 1)
+
+# and scaled to have a standard deviation of 1
+apply(env.z, 2, sd)
+```

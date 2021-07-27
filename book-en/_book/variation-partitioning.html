@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R</title>
+  <meta name="description" content="Advanced Multivariate Analyses in R" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="github-repo" content="qcbsRworkshops/workshop10" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R" />
+  
+  <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+
+<meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="partial-redundancy-analysis.html"/>
+<link rel="next" href="multivariate-regression-tree.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="./"><img src="assets/images/csbq_logo_gray_accueil.png"></a></li>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
+
+<li class="divider"></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+</ul></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+</ul></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a><ul>
+<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R</a></li>
+<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing</a></li>
+<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a><ul>
+<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
+<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA</a></li>
+<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy</a></li>
+<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5</a></li>
+</ul></li>
+<li class="part"><span><b>Final considerations</b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 10: Advanced Multivariate Analyses in <code>R</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!------------------------ Hero Image Container --------------------------> 
+
+<head>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=10.0,initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/6a26f47516.js"></script>
+  <script src="assets/qcbs-hideOutput.js"></script>
+  <link href="assets/qcbs-style.css" rel="stylesheet">
+</head>
+
+
+
+<div class="hero-image-container"> 
+  <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
+</div>
+<div id="variation-partitioning" class="section level1">
+<h1><span class="header-section-number">Chapter 8</span> Variation partitioning</h1>
+<p>Variation partitioning is a type of analysis that combines RDA and partial RDA to divide the variation of a response variable among two, three or four explanatory data sets. For example, you might want to partition the variation in a community matrix among a set of abiotic environmental variables, and a set of biotic variables. You could also partition this community variation among small-scale or large-scale variables, to test the effect of spatial scale on your community.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
+<img src="images/VarPart_Matrices.png" alt="The basic structure of variation partitioning." width="60%" />
+<p class="caption">
+Figure 8.1: The basic structure of variation partitioning.
+</p>
+</div>
+<p>The results of variation partitioning analyses are traditionally represented by a Venn diagram, in which the percentage of explained variance by each explanatory data set is reported. In a case where we are partitioning the variation among two explanatory matrices, the result could be represented as follows:</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-53"></span>
+<img src="images/VarPart.png" alt="Representing variation partitioning results." width="80%" />
+<p class="caption">
+Figure 8.2: Representing variation partitioning results.
+</p>
+</div>
+<p>Here,</p>
+<ul>
+<li>Fraction <span class="math inline">\([a + b + c]\)</span> is the explained variance by <em><span class="math inline">\(X1\)</span> </em>and* <span class="math inline">\(X2\)</span> together, calculated using a RDA of <span class="math inline">\(Y\)</span> by <span class="math inline">\(X1 + X2\)</span>.</li>
+<li>Fraction <span class="math inline">\([d]\)</span> is the unexplained variance by <span class="math inline">\(X1\)</span> <em>and</em> <span class="math inline">\(X2\)</span> together, obtained from the same RDA as above.</li>
+<li>Fraction <span class="math inline">\([a]\)</span> is the explained variance by <span class="math inline">\(X1\)</span> <em>only</em>, calculated using a partial RDA of <span class="math inline">\(Y\)</span> by <span class="math inline">\(X1 | X2\)</span> (controlling for <span class="math inline">\(X2\)</span>).<br />
+</li>
+<li>Fraction <span class="math inline">\([c]\)</span> is the explained variance by <span class="math inline">\(X2\)</span> <em>only</em>, calculated using a partial RDA of <span class="math inline">\(Y\)</span> by <span class="math inline">\(X2 | X1\)</span> (controlling for <span class="math inline">\(X1\)</span>).<br />
+</li>
+<li>Fraction <span class="math inline">\([b]\)</span> is calculated by subtraction, i.e. <span class="math inline">\(b = [a + b] + [b + c] - [a + b + c].\)</span> Because <span class="math inline">\([b]\)</span> is not the result of an RDA, it cannot be tested for significance. It can also be negative, which indicates that the response matrix is better explained by the combination of <span class="math inline">\(X1\)</span> and <span class="math inline">\(X2\)</span> than by either matrix on its own.</li>
+</ul>
+<div id="variation-partitioning-in-r" class="section level2">
+<h2><span class="header-section-number">8.1</span> Variation partitioning in R</h2>
+<p>To demonstrate how variation partitioning works in <code>R</code>, we will partition the variation of fish species composition between chemical and topographic variables. The <code>varpart()</code> function from <code>vegan</code> makes this easy for us.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="variation-partitioning.html#cb74-1"></a><span class="co"># Partition the variation in fish community composition</span></span>
+<span id="cb74-2"><a href="variation-partitioning.html#cb74-2"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, env.chem, env.topo)</span>
+<span id="cb74-3"><a href="variation-partitioning.html#cb74-3"></a>spe.part.all<span class="op">$</span>part  <span class="co"># access results!</span></span></code></pre></div>
+<pre><code>## No. of explanatory tables: 2 
+## Total variation (SS): 14.07 
+##             Variance: 0.50251 
+## No. of observations: 29 
+## 
+## Partition table:
+##                      Df R.squared Adj.R.squared Testable
+## [a+b] = X1            7   0.60579       0.47439     TRUE
+## [b+c] = X2            3   0.41526       0.34509     TRUE
+## [a+b+c] = X1+X2      10   0.73414       0.58644     TRUE
+## Individual fractions                                    
+## [a] = X1|X2           7                 0.24135     TRUE
+## [b]                   0                 0.23304    FALSE
+## [c] = X2|X1           3                 0.11205     TRUE
+## [d] = Residuals                         0.41356    FALSE
+## ---
+## Use function &#39;rda&#39; to test significance of fractions of interest</code></pre>
+<p>You can then visualise the results with the <code>plot()</code> function.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="variation-partitioning.html#cb76-1"></a><span class="co"># plot the variation partitioning Venn diagram</span></span>
+<span id="cb76-2"><a href="variation-partitioning.html#cb76-2"></a><span class="kw">plot</span>(spe.part.all,</span>
+<span id="cb76-3"><a href="variation-partitioning.html#cb76-3"></a>     <span class="dt">Xnames =</span> <span class="kw">c</span>(<span class="st">&quot;Chem&quot;</span>, <span class="st">&quot;Topo&quot;</span>), <span class="co"># name the partitions</span></span>
+<span id="cb76-4"><a href="variation-partitioning.html#cb76-4"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="dt">alpha =</span> <span class="dv">80</span>, <span class="co"># colour the circles</span></span>
+<span id="cb76-5"><a href="variation-partitioning.html#cb76-5"></a>     <span class="dt">digits =</span> <span class="dv">2</span>, <span class="co"># only show 2 digits</span></span>
+<span id="cb76-6"><a href="variation-partitioning.html#cb76-6"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-55-1.png" width="576" /></p>
+<p>The chemical variables explain <strong>24.1%</strong> of the variation in fish species composition, the topography variables explain <strong>11.2%</strong> of the variation in fish species composition, and these two variable groups <strong>jointly</strong> explain <strong>23.3%</strong> of the variation in fish species composition.</p>
+<div class="explanation">
+<p>Be careful when reporting results of variation partitioning! The shared fraction [b] does not represent an <em>interaction</em> effect of the two explanatory matrices. Think of it as an <em>overlap</em> between <span class="math inline">\(X1\)</span> and <span class="math inline">\(X2\)</span>. It represents the <em>shared</em> fraction of variation explained when the two are included in the model, meaning it is the portion of variation that cannot be attributed to <span class="math inline">\(X1\)</span> or <span class="math inline">\(X2\)</span> separately. In other words, the variation partitioning cannot disentangle the effects of chemistry and topography on 23.3% of the variation in the fish community composition.</p>
+</div>
+</div>
+<div id="significance-testing-2" class="section level2">
+<h2><span class="header-section-number">8.2</span> Significance testing</h2>
+<p>The output from the <code>varpart()</code> function reports the adjusted <span class="math inline">\(R^2\)</span> for each fraction, but you will notice that the table does not include any test of statistical significance. However, the <code>Testable</code> column identifies the fractions that can be tested for significance using the function <code>anova.cca()</code>, just like we did with the RDA!</p>
+<p><strong>X1 [a+b]: Chemistry without controlling for topography</strong></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="variation-partitioning.html#cb77-1"></a><span class="co"># [a+b] Chemistry without controlling for topography</span></span>
+<span id="cb77-2"><a href="variation-partitioning.html#cb77-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.chem))</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.chem)
+##          Df Variance      F Pr(&gt;F)    
+## Model     7  0.30442 4.6102  0.001 ***
+## Residual 21  0.19809                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>X2 [b+c] Topography without controlling for chemistry</strong></p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="variation-partitioning.html#cb79-1"></a><span class="co"># [b+c] Topography without controlling for chemistry</span></span>
+<span id="cb79-2"><a href="variation-partitioning.html#cb79-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.topo))</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.topo)
+##          Df Variance     F Pr(&gt;F)    
+## Model     3  0.20867 5.918  0.001 ***
+## Residual 25  0.29384                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>X1 | X2 [a] Chemistry alone</strong></p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="variation-partitioning.html#cb81-1"></a><span class="co"># [a] Chemistry alone</span></span>
+<span id="cb81-2"><a href="variation-partitioning.html#cb81-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.chem, env.topo))</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.chem, Z = env.topo)
+##          Df Variance      F Pr(&gt;F)    
+## Model     7  0.16024 3.0842  0.001 ***
+## Residual 18  0.13360                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<blockquote>
+<p>Recognize this? It’s a partial RDA!</p>
+</blockquote>
+<p><strong>X2 | X1 [c] Topography alone</strong></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="variation-partitioning.html#cb83-1"></a><span class="co"># [c] Topography alone</span></span>
+<span id="cb83-2"><a href="variation-partitioning.html#cb83-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(spe.hel, env.topo, env.chem))</span></code></pre></div>
+<pre><code>## Permutation test for rda under reduced model
+## Permutation: free
+## Number of permutations: 999
+## 
+## Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
+##          Df Variance      F Pr(&gt;F)    
+## Model     3 0.064495 2.8965  0.001 ***
+## Residual 18 0.133599                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>All of the testable fractions in the variation partitioning are statistically significant!</p>
+</div>
+<div id="challenge-3" class="section level2">
+<h2><span class="header-section-number">8.3</span> Challenge 3</h2>
+<p>Partition the variation in the mite species data according to substrate variables (<code>SubsDens</code>, <code>WatrCont</code>) and significant spatial variables.</p>
+<ul>
+<li>What proportion of the variation is explained by substrate variables? By space?<br />
+</li>
+<li>Which individual fractions are significant?<br />
+</li>
+<li>Plot your results!</li>
+</ul>
+<p>Load the spatial variables:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="variation-partitioning.html#cb85-1"></a><span class="kw">data</span>(<span class="st">&quot;mite.pcnm&quot;</span>)</span></code></pre></div>
+<p>Recall some useful functions:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="variation-partitioning.html#cb86-1"></a><span class="kw">ordiR2step</span>()</span>
+<span id="cb86-2"><a href="variation-partitioning.html#cb86-2"></a><span class="kw">varpart</span>()</span>
+<span id="cb86-3"><a href="variation-partitioning.html#cb86-3"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>())</span>
+<span id="cb86-4"><a href="variation-partitioning.html#cb86-4"></a><span class="kw">plot</span>()</span></code></pre></div>
+<div id="challenge-3-solution" class="section level3">
+<h3><span class="header-section-number">8.3.1</span> Challenge 3: Solution</h3>
+<p><strong>Step 1:</strong> Forward selection of significant spatial variables.</p>
+<p>There are a <em>lot</em> of spatial variables in this dataset (22!). We should select the most important ones, to avoid overloading the model.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="variation-partitioning.html#cb87-1"></a><span class="co"># Step 1: Forward selection!</span></span>
+<span id="cb87-2"><a href="variation-partitioning.html#cb87-2"></a></span>
+<span id="cb87-3"><a href="variation-partitioning.html#cb87-3"></a><span class="co"># Write full RDA model with all variables</span></span>
+<span id="cb87-4"><a href="variation-partitioning.html#cb87-4"></a>full.spat &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> mite.pcnm)</span>
+<span id="cb87-5"><a href="variation-partitioning.html#cb87-5"></a></span>
+<span id="cb87-6"><a href="variation-partitioning.html#cb87-6"></a><span class="co"># Forward selection of spatial variables</span></span>
+<span id="cb87-7"><a href="variation-partitioning.html#cb87-7"></a>spat.sel &lt;-<span class="st"> </span><span class="kw">ordiR2step</span>(<span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> mite.pcnm),</span>
+<span id="cb87-8"><a href="variation-partitioning.html#cb87-8"></a>    <span class="dt">scope =</span> <span class="kw">formula</span>(full.spat), <span class="dt">R2scope =</span> <span class="kw">RsquareAdj</span>(full.spat)<span class="op">$</span>adj.r.squared,</span>
+<span id="cb87-9"><a href="variation-partitioning.html#cb87-9"></a>    <span class="dt">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb87-10"><a href="variation-partitioning.html#cb87-10"></a>spat.sel<span class="op">$</span>call</span></code></pre></div>
+<pre><code>## rda(formula = mite.spe.hel ~ V2 + V3 + V8 + V1 + V6 + V4 + V9 + 
+##     V16 + V7 + V20, data = mite.pcnm)</code></pre>
+<p><strong>Step 2:</strong> Group variables of interest.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="variation-partitioning.html#cb89-1"></a><span class="co"># Step 2: Group variables of interest.</span></span>
+<span id="cb89-2"><a href="variation-partitioning.html#cb89-2"></a></span>
+<span id="cb89-3"><a href="variation-partitioning.html#cb89-3"></a><span class="co"># Subset environmental data to retain only substrate</span></span>
+<span id="cb89-4"><a href="variation-partitioning.html#cb89-4"></a><span class="co"># variables</span></span>
+<span id="cb89-5"><a href="variation-partitioning.html#cb89-5"></a>mite.subs &lt;-<span class="st"> </span><span class="kw">subset</span>(mite.env, <span class="dt">select =</span> <span class="kw">c</span>(SubsDens, WatrCont))</span>
+<span id="cb89-6"><a href="variation-partitioning.html#cb89-6"></a></span>
+<span id="cb89-7"><a href="variation-partitioning.html#cb89-7"></a><span class="co"># Subset to keep only selected spatial variables</span></span>
+<span id="cb89-8"><a href="variation-partitioning.html#cb89-8"></a>mite.spat &lt;-<span class="st"> </span><span class="kw">subset</span>(mite.pcnm, <span class="dt">select =</span> <span class="kw">names</span>(spat.sel<span class="op">$</span>terminfo<span class="op">$</span>ordered))</span>
+<span id="cb89-9"><a href="variation-partitioning.html#cb89-9"></a><span class="co"># a faster way to access the selected variables!</span></span></code></pre></div>
+<p><strong>Step 3:</strong> Partition the variation in species abundances.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="variation-partitioning.html#cb90-1"></a><span class="co"># Step 3: Partition the variation in species abundances.</span></span>
+<span id="cb90-2"><a href="variation-partitioning.html#cb90-2"></a>mite.part &lt;-<span class="st"> </span><span class="kw">varpart</span>(mite.spe.hel, mite.subs, mite.spat)</span>
+<span id="cb90-3"><a href="variation-partitioning.html#cb90-3"></a>mite.part<span class="op">$</span>part<span class="op">$</span>indfract  <span class="co"># access results!</span></span></code></pre></div>
+<pre><code>##                 Df R.squared Adj.R.squared Testable
+## [a] = X1|X2      2        NA    0.05901929     TRUE
+## [b]              0        NA    0.24765221    FALSE
+## [c] = X2|X1     10        NA    0.19415929     TRUE
+## [d] = Residuals NA        NA    0.49916921    FALSE</code></pre>
+<ul>
+<li>What proportion of the variation is explained by substrate variables? <strong>5.9%</strong></li>
+<li>What proportion of the variation is explained by spatial variables? <strong>19.4%</strong></li>
+</ul>
+<p><strong>Step 4:</strong> Which individual fractions are significant?</p>
+<p><strong>[a]: Substrate only</strong></p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="variation-partitioning.html#cb92-1"></a><span class="co"># Step 4: Significance testing [a]: Substrate only</span></span>
+<span id="cb92-2"><a href="variation-partitioning.html#cb92-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel, mite.subs, mite.spat))</span></code></pre></div>
+<pre><code>...
+## Model: rda(X = mite.spe.hel, Y = mite.subs, Z = mite.spat)
+##          Df Variance      F Pr(&gt;F)    
+## Model     2 0.025602 4.4879  0.001 ***
+## Residual 57 0.162583                  
+...</code></pre>
+<p><strong>[c]: Space only</strong></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="variation-partitioning.html#cb94-1"></a><span class="co"># [c]: Space only</span></span>
+<span id="cb94-2"><a href="variation-partitioning.html#cb94-2"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>(mite.spe.hel, mite.spat, mite.subs))</span></code></pre></div>
+<pre><code>...
+## Model: rda(X = mite.spe.hel, Y = mite.spat, Z = mite.subs)
+##          Df Variance      F Pr(&gt;F)    
+## Model    10  0.10286 3.6061  0.001 ***
+## Residual 57  0.16258                  
+...</code></pre>
+<p><strong>Step 5:</strong> Plot the variation partitioning results.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="variation-partitioning.html#cb96-1"></a><span class="co"># Step 5: Plot</span></span>
+<span id="cb96-2"><a href="variation-partitioning.html#cb96-2"></a><span class="kw">plot</span>(mite.part, </span>
+<span id="cb96-3"><a href="variation-partitioning.html#cb96-3"></a>     <span class="dt">digits =</span> <span class="dv">2</span>, </span>
+<span id="cb96-4"><a href="variation-partitioning.html#cb96-4"></a>     <span class="dt">Xnames =</span> <span class="kw">c</span>(<span class="st">&quot;Subs&quot;</span>, <span class="st">&quot;Space&quot;</span>), <span class="co"># label the fractions</span></span>
+<span id="cb96-5"><a href="variation-partitioning.html#cb96-5"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>,</span>
+<span id="cb96-6"><a href="variation-partitioning.html#cb96-6"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="co"># add colour!</span></span>
+<span id="cb96-7"><a href="variation-partitioning.html#cb96-7"></a>     <span class="dt">alpha =</span> <span class="dv">80</span>) <span class="co"># adjust transparency</span></span></code></pre></div>
+<p><img src="book-en_files/figure-html/unnamed-chunk-70-1.png" width="576" /></p>
+<p><strong>So, what can we say about the effects of substrate and space on mite species abundances?</strong></p>
+<p><strong>Hint:</strong> Why is the model showing such an important effect of space?</p>
+<p>Space explains a lot of the variation in species abundances here: <strong>19.4% (p = 0.001)</strong> of the variation is explained by space alone, and <strong>24.8%</strong> is <em>jointly</em> explained by space and substrate. Substrate only explains <strong>~6% (p = 0.001)</strong> of the variation in community composition across sites on its own! Also note that half of the variation is not explained by the variables we included in the model (look at the residuals!), so the model could be improved.</p>
+<blockquote>
+<p>This large effect of space <em>could</em> be a sign that some spatial ecological process is important here (like dispersal, for example). <em>However</em>, it could also be telling us that we are missing an important environmental variable in our model, which itself varies in space!</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<hr>
+<center> 
+  <div class="footer">
+      All the content of the workshop series is under a <a href="https://creativecommons.org/licenses/by-nc/2.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  </div>
+</center>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="partial-redundancy-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multivariate-regression-tree.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
