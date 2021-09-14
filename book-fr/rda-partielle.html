@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 7 RDA partielle | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="analyse-canonique-de-redondances.html"/>
 <link rel="next" href="partitionnement-de-la-variation.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,14 +243,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="rda-partielle" class="section level1">
 <h1><span class="header-section-number">Chapitre 7</span> RDA partielle</h1>
 <p>La RDA partielle est un cas particulier de la RDA qui permet de tenir compte de <strong>covariables</strong>. En d’autres mots, on peut modéliser les effets linéaires de la matrice <span class="math inline">\(X\)</span> sur la matrice <span class="math inline">\(Y\)</span>, tout en controllant pour l’effet d’une matrice de variables explicatives supplémentaires <span class="math inline">\(W\)</span>, appelées <strong>covariables</strong> (ou covariables). Comme dans la régression linéaire partielle, l’effet linéaire des variables <span class="math inline">\(X\)</span> sur les variables <span class="math inline">\(Y\)</span> est <em>ajusté</em> pour les effets des covariables <span class="math inline">\(W\)</span>. Pour cela, on effectue d’abord une RDA des covariables <span class="math inline">\(W\)</span> sur les variables de réponse <span class="math inline">\(Y\)</span>. On extrait ensuite les résidus de ce RDA, c’est-à-dire une matrice <span class="math inline">\(Y_{res}|W\)</span> contenant les variables réponses <span class="math inline">\(Y\)</span> dans lesquelles l’effet de <span class="math inline">\(W\)</span> a été retiré. La RDA partielle correspond à la RDA de <span class="math inline">\(X\)</span> sur <span class="math inline">\(Y_{res}|W\)</span>. Toutes les statistiques présentées précédemment pour la RDA s’appliquent également à la RDA partielle.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-38"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-38"></span>
 <img src="images/PartialRDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
 <p class="caption">
 Figure 7.1: The basic structure of a redundancy analysis (RDA).
@@ -401,8 +402,8 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 ## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 ##          Df Variance      F Pr(&gt;F)    
 ## RDA1      1 0.027236 8.4618  0.001 ***
-## RDA2      1 0.008254 2.5643  0.027 *  
-## RDA3      1 0.003193 0.9919  0.452    
+## RDA2      1 0.008254 2.5643  0.021 *  
+## RDA3      1 0.003193 0.9919  0.426    
 ## Residual 58 0.186688                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -429,7 +430,6 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -469,6 +469,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="rda-partielle.html"/>
 <link rel="next" href="arbre-de-régression-multivarié.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,10 +243,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="partitionnement-de-la-variation" class="section level1">
 <h1><span class="header-section-number">Chapitre 8</span> Partitionnement de la variation</h1>
 <p>Le partitionnement de la variation est un type d’analyse qui combine à
@@ -254,7 +255,7 @@ la fois la RDA et la RDA partielle pour diviser la variation d’une
 matrice de variable réponse en deux, trois ou quatre jeux de données
 explicatives. Par exemple, on pourrait partitionner la variation dans une matrice de communauté en fonctiond e variables abiotiques et biotiques, ou de variables locales et à large
 échelle.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-52"></span>
 <img src="images/VarPart_Matrices.png" alt="La structure d'un partitionnement de la variation." width="60%" />
 <p class="caption">
 Figure 8.1: La structure d’un partitionnement de la variation.
@@ -264,7 +265,7 @@ Figure 8.1: La structure d’un partitionnement de la variation.
 généralement représenté par un diagramme de Venn sur lequel sont annotés
 les pourcentages de variance expliquée par chacun des jeux de données
 explicatives. Dans le cas où on partionnerait la variation entre deux matrices explicatives, le résultat pourrait être représenté comme suit:</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-53"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
 <img src="images/VarPart.png" alt="Représentation des résultats d'un partitionnement de la variation." width="80%" />
 <p class="caption">
 Figure 8.2: Représentation des résultats d’un partitionnement de la variation.
@@ -480,7 +481,6 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -520,6 +520,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

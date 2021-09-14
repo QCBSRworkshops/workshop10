@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapitre 6 Analyse canonique de redondances | Atelier 10: Analyses multivariées avancées en R" />
   
   <meta name="twitter:description" content="Analyses multivariées avancées en R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Développé et entretenu par les contributeurs et les contributrices de la Série d’ateliers R du CSBQ." />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="que-sont-les-ordinations-contraintes.html"/>
 <link rel="next" href="rda-partielle.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,14 +243,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="analyse-canonique-de-redondances" class="section level1">
 <h1><span class="header-section-number">Chapitre 6</span> Analyse canonique de redondances</h1>
 <p>L’analyse de redondance (RDA) est une extension directe de la régression multiple, car elle modélise l’effet d’une matrice explicative <span class="math inline">\(X\)</span> (n x p) sur une matrice de réponse <span class="math inline">\(Y\)</span> (n x m). La différence ici est que nous pouvons modéliser l’effet d’une matrice explicative sur une <strong>matrice de réponse</strong>*, plutôt que sur une seule variable de réponse. Par exemple, RDA nous permet de modéliser l’effet des variables environnementales sur l’ensemble de la communauté, plutôt que sur la richesse des espèces. Pour ce faire, on effectue une ordination de <span class="math inline">\(Y\)</span> pour obtenir des axes d’ordination qui sont des combinaisons linéaires des variables de <span class="math inline">\(X\)</span>.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
 <img src="images/RDA.png" alt="La structure d'une analyse de redondance (RDA)." width="70%" />
 <p class="caption">
 Figure 6.1: La structure d’une analyse de redondance (RDA).
@@ -263,7 +264,7 @@ Figure 6.1: La structure d’une analyse de redondance (RDA).
 <p>L’analyse de la redondance est un processus en deux étapes <span class="citation">(Legendre and Legendre <a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span>. La première étape est une régression multiple, où chaque objet de <span class="math inline">\(Y\)</span> est régressé sur les variables explicatives de <span class="math inline">\(X\)</span>, ce qui donne une matrice de valeurs ajustées <span class="math inline">\(Y_{fit}\)</span>. Cette étape est calculée par l’équation linéaire suivante:</p>
 <p><span class="math display">\[Y_{fit} = X[X&#39;X]^{-1}X&#39;Y\]</span></p>
 <p>Dans la deuxième étape, nous appliquons une analyse en composantes principales (PCA ou ACP) sur la matrice ajustée <span class="math inline">\(Y_{fit}\)</span> pour réduire la dimensionnalité, c’est-à-dire pour obtenir les valeurs propres et les vecteurs propres. On obtient alors une matrice <span class="math inline">\(Z\)</span> qui contient les axes canoniques, qui correspondent à des combinaisons <em>linéaires</em> des variables explicatives dans l’espace de <span class="math inline">\(X\)</span>. La <em>linéarité</em> des combinaisons des variables <span class="math inline">\(X\)</span> est une propriété fondamentale de la RDA. Dans l’analyse de la composition des communautés, ces axes canoniques sont interprétés comme des gradients environnementaux complexes.</p>
-<div class="figure" style="text-align: center"><span id="fig:ord-diagram"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ord-diagram"></span>
 <img src="images/constrained_ord_diagram.png" alt="Le processus de computation d'une RDA, tirée de Legendre &amp; Legendre (2012)." width="40%" />
 <p class="caption">
 Figure 6.2: Le processus de computation d’une RDA, tirée de Legendre &amp; Legendre (2012).
@@ -378,7 +379,7 @@ séquentielle.</li>
 ##          Df Variance       F   Pr(&gt;F)    
 ## alt       1 0.164856 19.9759 0.000999 ***
 ## oxy       1 0.082426  9.9877 0.000999 ***
-## dbo       1 0.048909  5.9264 0.001998 ** 
+## dbo       1 0.048909  5.9264 0.000999 ***
 ## Residual 25 0.206319                     
 ...</code></pre>
 <p>On peut également tester la significativité de chaque axe canonique avec <code>by = "axis"</code>. Rappelez-vous que ces axes représentent la variation des variables explicatives en moins de dimensions.</p>
@@ -610,7 +611,6 @@ séquentielle.</li>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -650,6 +650,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
