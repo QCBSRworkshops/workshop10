@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Advanced Multivariate Analyses in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapter 12 Additional resources | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="summary.html"/>
 <link rel="next" href="references.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,10 +243,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="additional-resources" class="section level1">
 <h1><span class="header-section-number">Chapter 12</span> Additional resources</h1>
 <p>Unfortunately, we could only cover a subset of constrained ordinations in this workshop. However, there are many other options! These include, but are not limited to, the following techniques:</p>
@@ -256,21 +257,21 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>Coinertia Analysis (CoIA)</strong> is a symmetric canonical ordination method that is appropriate to compare pairs of data sets that play equivalent roles in the analysis. The method finds a common space onto which the objects and variables of these data sets can be projected and compared. Compared to CCorA, co-inertia analysis imposes no constraint regarding the number of variables in the two sets, so that it can be used to compare ecological communities even when they are species-rich. Co-inertia analysis is not well-suited, however, to analyse pairs of data sets that contain the same variables, because the analysis does not establish one-to-one correspondences between variables in the two data sets; the method does not ‘know’ that the first variable is the same in the first and the second data sets, and likewise for the other variables.</p></li>
 <li><p><strong>Multiple factor analysis (MFA)</strong> can be used to compare several data sets describing the same objects. MFA consists in projecting objects and variables of two or more data sets on a global PCA, computed from all data sets, in which the sets receive equal weights.</p></li>
 </ul>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="additional-resources.html#cb139-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co"># (constrained correspondence analysis)</span></span>
-<span id="cb139-2"><a href="additional-resources.html#cb139-2"></a>)</span>
-<span id="cb139-3"><a href="additional-resources.html#cb139-3"></a></span>
-<span id="cb139-4"><a href="additional-resources.html#cb139-4"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># Canonical Correlation Analysis</span></span>
-<span id="cb139-5"><a href="additional-resources.html#cb139-5"></a>)</span>
-<span id="cb139-6"><a href="additional-resources.html#cb139-6"></a></span>
-<span id="cb139-7"><a href="additional-resources.html#cb139-7"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># Coinertia Analysis</span></span>
-<span id="cb139-8"><a href="additional-resources.html#cb139-8"></a></span>
-<span id="cb139-9"><a href="additional-resources.html#cb139-9"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># Multiple Factorial Analysis</span></span>
-<span id="cb139-10"><a href="additional-resources.html#cb139-10"></a></span>
-<span id="cb139-11"><a href="additional-resources.html#cb139-11"></a><span class="co"># Spatial analysis can be performed using the adespatial</span></span>
-<span id="cb139-12"><a href="additional-resources.html#cb139-12"></a><span class="co"># package. Spatial eigenfunctions can be calculated with</span></span>
-<span id="cb139-13"><a href="additional-resources.html#cb139-13"></a><span class="co"># dbmem(), and these are functionally the same as PCNM</span></span>
-<span id="cb139-14"><a href="additional-resources.html#cb139-14"></a><span class="co"># which we saw in the mite.pcnm dataset from vegan.</span></span>
-<span id="cb139-15"><a href="additional-resources.html#cb139-15"></a><span class="co"># https://cran.r-project.org/web/packages/adespatial/index.html</span></span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="additional-resources.html#cb141-1"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(cca  <span class="co"># (constrained correspondence analysis)</span></span>
+<span id="cb141-2"><a href="additional-resources.html#cb141-2"></a>)</span>
+<span id="cb141-3"><a href="additional-resources.html#cb141-3"></a></span>
+<span id="cb141-4"><a href="additional-resources.html#cb141-4"></a><span class="st">`</span><span class="dt">?</span><span class="st">`</span>(CCorA  <span class="co"># Canonical Correlation Analysis</span></span>
+<span id="cb141-5"><a href="additional-resources.html#cb141-5"></a>)</span>
+<span id="cb141-6"><a href="additional-resources.html#cb141-6"></a></span>
+<span id="cb141-7"><a href="additional-resources.html#cb141-7"></a><span class="kw">help</span>(coinertia, <span class="dt">package =</span> ade4)  <span class="co"># Coinertia Analysis</span></span>
+<span id="cb141-8"><a href="additional-resources.html#cb141-8"></a></span>
+<span id="cb141-9"><a href="additional-resources.html#cb141-9"></a><span class="kw">help</span>(mfa, <span class="dt">package =</span> ade4)  <span class="co"># Multiple Factorial Analysis</span></span>
+<span id="cb141-10"><a href="additional-resources.html#cb141-10"></a></span>
+<span id="cb141-11"><a href="additional-resources.html#cb141-11"></a><span class="co"># Spatial analysis can be performed using the adespatial</span></span>
+<span id="cb141-12"><a href="additional-resources.html#cb141-12"></a><span class="co"># package. Spatial eigenfunctions can be calculated with</span></span>
+<span id="cb141-13"><a href="additional-resources.html#cb141-13"></a><span class="co"># dbmem(), and these are functionally the same as PCNM</span></span>
+<span id="cb141-14"><a href="additional-resources.html#cb141-14"></a><span class="co"># which we saw in the mite.pcnm dataset from vegan.</span></span>
+<span id="cb141-15"><a href="additional-resources.html#cb141-15"></a><span class="co"># https://cran.r-project.org/web/packages/adespatial/index.html</span></span></code></pre></div>
 <p>Our list of references includes many useful articles and books to pursue constrained ordinations in more depth. We specifically recommend <span class="citation">Legendre and Legendre (<a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span> for a thorough view of these techniques, their computation, and potential applications. We also recommend <span class="citation">Borcard, Gillet, and Legendre (<a href="#ref-borcard2011" role="doc-biblioref">2011</a>)</span> to learn more about how these techniques can be implemented in <code>R</code>.</p>
 
 </div>
@@ -299,7 +300,6 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -339,6 +339,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Advanced Multivariate Analyses in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="partial-redundancy-analysis.html"/>
 <link rel="next" href="multivariate-regression-tree.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,21 +243,22 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="variation-partitioning" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> Variation partitioning</h1>
 <p>Variation partitioning is a type of analysis that combines RDA and partial RDA to divide the variation of a response variable among two, three or four explanatory data sets. For example, you might want to partition the variation in a community matrix among a set of abiotic environmental variables, and a set of biotic variables. You could also partition this community variation among small-scale or large-scale variables, to test the effect of spatial scale on your community.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-52"></span>
 <img src="images/VarPart_Matrices.png" alt="The basic structure of variation partitioning." width="60%" />
 <p class="caption">
 Figure 8.1: The basic structure of variation partitioning.
 </p>
 </div>
 <p>The results of variation partitioning analyses are traditionally represented by a Venn diagram, in which the percentage of explained variance by each explanatory data set is reported. In a case where we are partitioning the variation among two explanatory matrices, the result could be represented as follows:</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-53"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
 <img src="images/VarPart.png" alt="Representing variation partitioning results." width="80%" />
 <p class="caption">
 Figure 8.2: Representing variation partitioning results.
@@ -479,7 +480,6 @@ Figure 8.2: Representing variation partitioning results.
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -519,6 +519,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }

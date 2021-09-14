@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
-  <meta property="og:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Advanced Multivariate Analyses in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
 
@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R" />
   
   <meta name="twitter:description" content="Advanced Multivariate Analyses in R" />
-  <meta name="twitter:image" content="https://github.com/qcbsRworkshops//assets/images/logo/csbq_logo_accueil.png" />
+  <meta name="twitter:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
 
 <meta name="author" content="Developed and maintained by the contributors of the QCBS R Workshop Series" />
 
@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 <link rel="prev" href="what-are-constrained-ordinations.html"/>
 <link rel="next" href="partial-redundancy-analysis.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -40,7 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
 
 
 
@@ -243,14 +243,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </head>
 
 
-
+<!-- 
 <div class="hero-image-container"> 
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
+--!>
 <div id="redundancy-analysis" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> Redundancy analysis</h1>
 <p>Redundancy Analysis (RDA) is a direct extension of multiple regression, as it models the effect of an explanatory matrix <span class="math inline">\(X\)</span> (n x p) on a response matrix <span class="math inline">\(Y\)</span> (n x m). The difference here is that we can model effect of an explanatory matrix on a <strong>response <em>matrix</em></strong>, rather than a single response variable. For example, RDA allows us to model the effect of environmental variables on the entire community, rather than on species richness. This is done by performing an ordination of <span class="math inline">\(Y\)</span> to obtain ordination axes that are linear combinations of the variables in <span class="math inline">\(X\)</span>.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-16"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
 <img src="images/RDA.png" alt="The basic structure of a redundancy analysis (RDA)." width="70%" />
 <p class="caption">
 Figure 6.1: The basic structure of a redundancy analysis (RDA).
@@ -263,7 +264,7 @@ Figure 6.1: The basic structure of a redundancy analysis (RDA).
 <p>Redundancy analysis as a two-step process <span class="citation">(Legendre and Legendre <a href="#ref-legendre2012" role="doc-biblioref">2012</a>)</span>. The first step is a multiple regression, where each object in <span class="math inline">\(Y\)</span> is regressed on the explanatory variables in <span class="math inline">\(X\)</span>, which results in a matrix of fitted values <span class="math inline">\(Y_{fit}\)</span>. This step is calculated through the following linear equation:</p>
 <p><span class="math display">\[Y_{fit} = X[X&#39;X]^{-1}X&#39;Y\]</span></p>
 <p>In the second step, we apply a principal components analysis (PCA) on the fitted matrix <span class="math inline">\(Y_{fit}\)</span> to reduce dimensionality, i.e. to obtain the eigenvalues and eigenvectors. We then obtain a matrix <span class="math inline">\(Z\)</span> which contains the canonical axes, which correspond to <em>linear</em> combinations of the explanatory variables in the space of <span class="math inline">\(X\)</span>. The <em>linearity</em> of the combinations of the <span class="math inline">\(X\)</span> variables is a fundamental property of RDA. In the analysis of community composition, these canonical axes are interpreted as complex environmental gradients.</p>
-<div class="figure" style="text-align: center"><span id="fig:ord-diagram"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ord-diagram"></span>
 <img src="images/constrained_ord_diagram.png" alt="The computation process of an RDA, from Legendre &amp; Legendre (2012)." width="40%" />
 <p class="caption">
 Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (2012).
@@ -366,7 +367,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## alt       1 0.164856 19.9759  0.001 ***
 ## oxy       1 0.082426  9.9877  0.001 ***
-## dbo       1 0.048909  5.9264  0.002 ** 
+## dbo       1 0.048909  5.9264  0.001 ***
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>You can also test the significance of each canonical axis with <code>by = "axis"</code>. Recall that these axes represent the variation in explanatory variables in fewer dimensions.</p>
@@ -376,7 +377,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.002 ** 
+## RDA3      1 0.027291  3.3069  0.003 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001).</p>
@@ -600,7 +601,6 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -640,6 +640,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
