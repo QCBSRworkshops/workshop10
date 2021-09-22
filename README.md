@@ -40,16 +40,18 @@ FR | [![badge](https://img.shields.io/static/v1?style=flat-square&label=diapos&m
 
 # Contributors | Contributeurs et contributrices 
 
+This workshop was originally developed by Monica Granados, Emmanuelle Chrétien, Bérenger Bourgeois, Amanda Winegardner and Xavier Giroux-Bougard. Material in the R script was originally derived from Borcard, Gillet & Legendre (2011). [Numerical Ecology with R](https://www.springer.com/us/book/9783319714035). Springer New York.
+
 Since 2014, several QCBS members contributed to consistently and collaboratively develop and update this workshop, as part of the *Learning and Development Award* from the Québec Centre for Biodiversity Science. They were:
 
 |      2022 - 2021 - 2020     |      2019 - 2018 - 2017     |      2016 - 2015 - 2014      |
 |:---------------------------:|:---------------------------:|:----------------------------:|
-| [Katherine Hébert]()    |     [Marie Hélène Brice]()   | [Monica Granados]() |
-|  [Gabriel Muñoz]()         |   [Pedro Henrique P. Braga]()  |        [Emmanuelle Chrétien]()       |
-|  [Pedro Henrique P. Braga]() | [Katherine Hébert]()                     |       [Bérenger Bourgeois]()       |
-| [Kevin Cazelles]() |                             |      [Amanda Winegardner]()      |
-|   [Marie Hélène Brice]()      |                             |      [Xavier Giroux-Bougard]()    |
-|           |                             |       [Vincent Fugère]()    |
+| Katherine Hébert    |     Marie Hélène Brice   | Monica Granados |
+|  Gabriel Muñoz         |   Pedro Henrique P. Braga  |        Emmanuelle Chrétien       |
+|  Pedro Henrique P. Braga | Katherine Hébert                     |       Bérenger Bourgeois       |
+| Kevin Cazelles |                             |      Amanda Winegardner      |
+|   Marie Hélène Brice      |                             |      Xavier Giroux-Bougard    |
+|           |                             |       Vincent Fugère    |
 
 # Development status
 
