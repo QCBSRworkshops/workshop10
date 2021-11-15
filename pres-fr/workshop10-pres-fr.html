@@ -525,7 +525,7 @@ anova.cca(spe.rda.signif, permutations = 1000, by = "term")
 #          Df Variance       F   Pr(&gt;F)    
 # alt       1 0.164856 19.9759 0.000999 ***
 # oxy       1 0.082426  9.9877 0.000999 ***
-# dbo       1 0.048909  5.9264 0.000999 ***
+# dbo       1 0.048909  5.9264 0.001998 ** 
 # Residual 25 0.206319                     
 ...
 ```
@@ -991,8 +991,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.024 *  
-# RDA3      1 0.003193 0.9919  0.406    
+# RDA2      1 0.008254 2.5643  0.018 *  
+# RDA3      1 0.003193 0.9919  0.431    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
