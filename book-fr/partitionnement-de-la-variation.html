@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 8 Partitionnement de la variation | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Analyses multivariées avancées en R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
@@ -50,8 +49,9 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -136,83 +136,83 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ<span></span></b></span></li>
+<li><a href="index.html#préface">Préface<span></span></a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code de conduite<span></span></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu<span></span></a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices<span></span></a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!<span></span></a></li>
 </ul></li>
-<li class="part"><span><b>Analyses multivariées avancées dans <code>R</code></b></span></li>
-<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
-<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier</a></li>
-<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploration les données</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#données-dabondances-despèces"><i class="fa fa-check"></i><b>4.1</b> Données d’abondances d’espèces</a></li>
-<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#données-environnementales"><i class="fa fa-check"></i><b>4.2</b> Données environnementales</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#colinéarité"><i class="fa fa-check"></i><b>4.2.1</b> Colinéarité</a></li>
-<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardisation-des-données"><i class="fa fa-check"></i><b>4.2.2</b> Standardisation des données</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Constrained ordinations</b></span></li>
-<li class="chapter" data-level="5" data-path="que-sont-les-ordinations-contraintes.html"><a href="que-sont-les-ordinations-contraintes.html"><i class="fa fa-check"></i><b>5</b> Que sont les ordinations “contraintes” ?</a></li>
-<li class="chapter" data-level="6" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html"><i class="fa fa-check"></i><b>6</b> Analyse canonique de redondances</a><ul>
-<li class="chapter" data-level="6.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#computation"><i class="fa fa-check"></i><b>6.1</b> Computation</a></li>
-<li class="chapter" data-level="6.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#implémentation-dans-r"><i class="fa fa-check"></i><b>6.2</b> Implémentation dans R</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#sélection-de-variables"><i class="fa fa-check"></i><b>6.2.1</b> Sélection de variables</a></li>
-<li class="chapter" data-level="6.2.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#tester-la-significativité"><i class="fa fa-check"></i><b>6.2.2</b> Tester la significativité</a></li>
-<li class="chapter" data-level="6.2.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#représentation-graphique-des-rdas"><i class="fa fa-check"></i><b>6.2.3</b> Représentation graphique des RDAs</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Défi 1: Solution</a></li>
+<li class="part"><span><b>Analyses multivariées avancées dans <code>R</code><span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage<span></span></a></li>
+<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier<span></span></a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?<span></span></a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploration les données<span></span></a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#données-dabondances-despèces"><i class="fa fa-check"></i><b>4.1</b> Données d’abondances d’espèces<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#données-environnementales"><i class="fa fa-check"></i><b>4.2</b> Données environnementales<span></span></a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#colinéarité"><i class="fa fa-check"></i><b>4.2.1</b> Colinéarité<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardisation-des-données"><i class="fa fa-check"></i><b>4.2.2</b> Standardisation des données<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="rda-partielle.html"><a href="rda-partielle.html"><i class="fa fa-check"></i><b>7</b> RDA partielle</a><ul>
-<li class="chapter" data-level="7.1" data-path="rda-partielle.html"><a href="rda-partielle.html#exemple-rda-partielle-sur-les-données-doubs"><i class="fa fa-check"></i><b>7.1</b> Exemple: RDA partielle sur les données Doubs</a><ul>
-<li class="chapter" data-level="7.1.1" data-path="rda-partielle.html"><a href="rda-partielle.html#interprétation-de-la-sortie-dune-rda-partielle"><i class="fa fa-check"></i><b>7.1.1</b> Interprétation de la sortie d’une RDA partielle</a></li>
-<li class="chapter" data-level="7.1.2" data-path="rda-partielle.html"><a href="rda-partielle.html#tester-la-significativité-1"><i class="fa fa-check"></i><b>7.1.2</b> Tester la significativité</a></li>
-<li class="chapter" data-level="7.1.3" data-path="rda-partielle.html"><a href="rda-partielle.html#représentation-graphique"><i class="fa fa-check"></i><b>7.1.3</b> Représentation graphique</a></li>
+<li class="part"><span><b>Constrained ordinations<span></span></b></span></li>
+<li class="chapter" data-level="5" data-path="que-sont-les-ordinations-contraintes.html"><a href="que-sont-les-ordinations-contraintes.html"><i class="fa fa-check"></i><b>5</b> Que sont les ordinations “contraintes” ?<span></span></a></li>
+<li class="chapter" data-level="6" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html"><i class="fa fa-check"></i><b>6</b> Analyse canonique de redondances<span></span></a><ul>
+<li class="chapter" data-level="6.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#computation"><i class="fa fa-check"></i><b>6.1</b> Computation<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#implémentation-dans-r"><i class="fa fa-check"></i><b>6.2</b> Implémentation dans R<span></span></a><ul>
+<li class="chapter" data-level="6.2.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#sélection-de-variables"><i class="fa fa-check"></i><b>6.2.1</b> Sélection de variables<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#tester-la-significativité"><i class="fa fa-check"></i><b>6.2.2</b> Tester la significativité<span></span></a></li>
+<li class="chapter" data-level="6.2.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#représentation-graphique-des-rdas"><i class="fa fa-check"></i><b>6.2.3</b> Représentation graphique des RDAs<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2"><i class="fa fa-check"></i><b>7.2</b> Défi 2</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Défi 2: Solution</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html"><i class="fa fa-check"></i><b>8</b> Partitionnement de la variation</a><ul>
-<li class="chapter" data-level="8.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r"><i class="fa fa-check"></i><b>8.1</b> Partitionnement de la variation dans R</a></li>
-<li class="chapter" data-level="8.2" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#tester-la-significativité-2"><i class="fa fa-check"></i><b>8.2</b> Tester la significativité</a></li>
-<li class="chapter" data-level="8.3" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3"><i class="fa fa-check"></i><b>8.3</b> Défi 3</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Défi 3: Solution</a></li>
+<li class="chapter" data-level="6.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1<span></span></a><ul>
+<li class="chapter" data-level="6.3.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Défi 1: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html"><i class="fa fa-check"></i><b>9</b> Arbre de régression multivarié</a><ul>
-<li class="chapter" data-level="9.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#computation-1"><i class="fa fa-check"></i><b>9.1</b> Computation</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#construction-de-larbre-partitionnement-des-données-sous-contrainte"><i class="fa fa-check"></i><b>9.1.1</b> Construction de l’arbre: Partitionnement des données sous contrainte</a></li>
-<li class="chapter" data-level="9.1.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#sélection-de-larbre-validation-croisée-et-élagage-de-larbre"><i class="fa fa-check"></i><b>9.1.2</b> Sélection de l’arbre: Validation croisée et élagage de l’arbre</a></li>
+<li class="chapter" data-level="7" data-path="rda-partielle.html"><a href="rda-partielle.html"><i class="fa fa-check"></i><b>7</b> RDA partielle<span></span></a><ul>
+<li class="chapter" data-level="7.1" data-path="rda-partielle.html"><a href="rda-partielle.html#exemple-rda-partielle-sur-les-données-doubs"><i class="fa fa-check"></i><b>7.1</b> Exemple: RDA partielle sur les données Doubs<span></span></a><ul>
+<li class="chapter" data-level="7.1.1" data-path="rda-partielle.html"><a href="rda-partielle.html#interprétation-de-la-sortie-dune-rda-partielle"><i class="fa fa-check"></i><b>7.1.1</b> Interprétation de la sortie d’une RDA partielle<span></span></a></li>
+<li class="chapter" data-level="7.1.2" data-path="rda-partielle.html"><a href="rda-partielle.html#tester-la-significativité-1"><i class="fa fa-check"></i><b>7.1.2</b> Tester la significativité<span></span></a></li>
+<li class="chapter" data-level="7.1.3" data-path="rda-partielle.html"><a href="rda-partielle.html#représentation-graphique"><i class="fa fa-check"></i><b>7.1.3</b> Représentation graphique<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#mrt-dans-r"><i class="fa fa-check"></i><b>9.2</b> MRT dans R</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#processus-de-sélection"><i class="fa fa-check"></i><b>9.2.1</b> Processus de sélection</a></li>
-<li class="chapter" data-level="9.2.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#interprétation-des-résultats"><i class="fa fa-check"></i><b>9.2.2</b> Interprétation des résultats</a></li>
-<li class="chapter" data-level="9.2.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#défi-4"><i class="fa fa-check"></i><b>9.3</b> Défi 4</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+<li class="chapter" data-level="7.2" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2"><i class="fa fa-check"></i><b>7.2</b> Défi 2<span></span></a><ul>
+<li class="chapter" data-level="7.2.1" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Défi 2: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html"><i class="fa fa-check"></i><b>10</b> Analyse discriminante linéaire</a><ul>
-<li class="chapter" data-level="10.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r-rivière-doubs"><i class="fa fa-check"></i><b>10.1</b> LDA dans R: Rivière Doubs</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#créer-des-groupes-a-priori"><i class="fa fa-check"></i><b>10.1.1</b> Créer des groupes <em>a priori</em></a></li>
-<li class="chapter" data-level="10.1.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> LDA dans R</a></li>
-<li class="chapter" data-level="10.1.3" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#exactitude-du-groupement"><i class="fa fa-check"></i><b>10.1.3</b> Exactitude du groupement</a></li>
-<li class="chapter" data-level="10.1.4" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#prédictions"><i class="fa fa-check"></i><b>10.1.4</b> Prédictions</a></li>
+<li class="chapter" data-level="8" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html"><i class="fa fa-check"></i><b>8</b> Partitionnement de la variation<span></span></a><ul>
+<li class="chapter" data-level="8.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r"><i class="fa fa-check"></i><b>8.1</b> Partitionnement de la variation dans R<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#tester-la-significativité-2"><i class="fa fa-check"></i><b>8.2</b> Tester la significativité<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3"><i class="fa fa-check"></i><b>8.3</b> Défi 3<span></span></a><ul>
+<li class="chapter" data-level="8.3.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Défi 3: Solution<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#défi-5"><i class="fa fa-check"></i><b>10.2</b> Défi 5</a></li>
 </ul></li>
-<li class="part"><span><b>Considérations finales</b></span></li>
-<li class="chapter" data-level="11" data-path="résumé.html"><a href="résumé.html"><i class="fa fa-check"></i><b>11</b> Résumé</a></li>
-<li class="chapter" data-level="12" data-path="ressources-additionelles.html"><a href="ressources-additionelles.html"><i class="fa fa-check"></i><b>12</b> Ressources additionelles</a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="chapter" data-level="9" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html"><i class="fa fa-check"></i><b>9</b> Arbre de régression multivarié<span></span></a><ul>
+<li class="chapter" data-level="9.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#computation-1"><i class="fa fa-check"></i><b>9.1</b> Computation<span></span></a><ul>
+<li class="chapter" data-level="9.1.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#construction-de-larbre-partitionnement-des-données-sous-contrainte"><i class="fa fa-check"></i><b>9.1.1</b> Construction de l’arbre: Partitionnement des données sous contrainte<span></span></a></li>
+<li class="chapter" data-level="9.1.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#sélection-de-larbre-validation-croisée-et-élagage-de-larbre"><i class="fa fa-check"></i><b>9.1.2</b> Sélection de l’arbre: Validation croisée et élagage de l’arbre<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#mrt-dans-r"><i class="fa fa-check"></i><b>9.2</b> MRT dans R<span></span></a><ul>
+<li class="chapter" data-level="9.2.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#processus-de-sélection"><i class="fa fa-check"></i><b>9.2.1</b> Processus de sélection<span></span></a></li>
+<li class="chapter" data-level="9.2.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#interprétation-des-résultats"><i class="fa fa-check"></i><b>9.2.2</b> Interprétation des résultats<span></span></a></li>
+<li class="chapter" data-level="9.2.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#défi-4"><i class="fa fa-check"></i><b>9.3</b> Défi 4<span></span></a><ul>
+<li class="chapter" data-level="9.3.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html"><i class="fa fa-check"></i><b>10</b> Analyse discriminante linéaire<span></span></a><ul>
+<li class="chapter" data-level="10.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r-rivière-doubs"><i class="fa fa-check"></i><b>10.1</b> LDA dans R: Rivière Doubs<span></span></a><ul>
+<li class="chapter" data-level="10.1.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#créer-des-groupes-a-priori"><i class="fa fa-check"></i><b>10.1.1</b> Créer des groupes <em>a priori</em><span></span></a></li>
+<li class="chapter" data-level="10.1.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> LDA dans R<span></span></a></li>
+<li class="chapter" data-level="10.1.3" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#exactitude-du-groupement"><i class="fa fa-check"></i><b>10.1.3</b> Exactitude du groupement<span></span></a></li>
+<li class="chapter" data-level="10.1.4" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#prédictions"><i class="fa fa-check"></i><b>10.1.4</b> Prédictions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#défi-5"><i class="fa fa-check"></i><b>10.2</b> Défi 5<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>Considérations finales<span></span></b></span></li>
+<li class="chapter" data-level="11" data-path="résumé.html"><a href="résumé.html"><i class="fa fa-check"></i><b>11</b> Résumé<span></span></a></li>
+<li class="chapter" data-level="12" data-path="ressources-additionelles.html"><a href="ressources-additionelles.html"><i class="fa fa-check"></i><b>12</b> Ressources additionelles<span></span></a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -248,14 +248,14 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="partitionnement-de-la-variation" class="section level1">
-<h1><span class="header-section-number">Chapitre 8</span> Partitionnement de la variation</h1>
+<div id="partitionnement-de-la-variation" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapitre 8</span> Partitionnement de la variation<a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Le partitionnement de la variation est un type d’analyse qui combine à
 la fois la RDA et la RDA partielle pour diviser la variation d’une
 matrice de variable réponse en deux, trois ou quatre jeux de données
 explicatives. Par exemple, on pourrait partitionner la variation dans une matrice de communauté en fonctiond e variables abiotiques et biotiques, ou de variables locales et à large
 échelle.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-52"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
 <img src="images/VarPart_Matrices.png" alt="La structure d'un partitionnement de la variation." width="60%" />
 <p class="caption">
 Figure 8.1: La structure d’un partitionnement de la variation.
@@ -265,7 +265,7 @@ Figure 8.1: La structure d’un partitionnement de la variation.
 généralement représenté par un diagramme de Venn sur lequel sont annotés
 les pourcentages de variance expliquée par chacun des jeux de données
 explicatives. Dans le cas où on partionnerait la variation entre deux matrices explicatives, le résultat pourrait être représenté comme suit:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
 <img src="images/VarPart.png" alt="Représentation des résultats d'un partitionnement de la variation." width="80%" />
 <p class="caption">
 Figure 8.2: Représentation des résultats d’un partitionnement de la variation.
@@ -283,8 +283,8 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 </li>
 <li><strong>La fraction <span class="math inline">\([b]\)</span></strong> est calculée par soustraction, c’est-à-dire <span class="math inline">\(b = [a + b] + [b + c] - [a + b + c].\)</span> Comme <span class="math inline">\([b]\)</span> n’est pas le résultat d’une RDA, il est impossible de tester sa significativité. Elle peut également être négative, ce qui indique que la matrice de réponse est mieux expliquée par la combinaison de <span class="math inline">\(X1\)</span> et <span class="math inline">\(X2\)</span> que par l’une ou l’autre des matrices prise individuellement.</li>
 </ul>
-<div id="partitionnement-de-la-variation-dans-r" class="section level2">
-<h2><span class="header-section-number">8.1</span> Partitionnement de la variation dans R</h2>
+<div id="partitionnement-de-la-variation-dans-r" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.1</span> Partitionnement de la variation dans R<a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Pour démontrer comment le partitionnement des variations fonctionne dans <code>R</code>, nous allons partitionner la variation de la composition des espèces de poissons entre les variables chimiques et topographiques. La fonction <code>varpart()</code> de <code>vegan</code> nous facilite la tâche.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="partitionnement-de-la-variation.html#cb73-1"></a><span class="co"># Partitionner la variation de la composition des espèces</span></span>
 <span id="cb73-2"><a href="partitionnement-de-la-variation.html#cb73-2"></a><span class="co"># de poissons</span></span>
@@ -314,14 +314,14 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 <span id="cb75-4"><a href="partitionnement-de-la-variation.html#cb75-4"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="dt">alpha =</span> <span class="dv">80</span>,</span>
 <span id="cb75-5"><a href="partitionnement-de-la-variation.html#cb75-5"></a>     <span class="dt">digits =</span> <span class="dv">2</span>,</span>
 <span id="cb75-6"><a href="partitionnement-de-la-variation.html#cb75-6"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-55-1.png" width="576" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-56-1.png" width="576" /></p>
 <p>Les variables chimiques expliquent <strong>24.1%</strong> de la variation de la composition des espèces de poissons, les variables topographiques expliquent <strong>11.2%</strong> de la variation de la composition des espèces de poissons, et ces deux groupes de variables <strong>conjointement</strong> expliquent <strong>23.3%</strong> de la variation de la composition des espèces de poissons.</p>
 <div class="explanation">
 <p>Soyez prudent lorsque vous rapportez les résultats du partitionnement de la variation ! La fraction partagée [b] ne représente pas un effet <em>d’interaction</em> des deux matrices explicatives. Considérez-la comme un <em>chevauchement</em> entre <span class="math inline">\(X1\)</span> et <span class="math inline">\(X2\)</span>. Elle représente la fraction <em>partagée</em> de la variation expliquée lorsque les deux sont incluses dans le modèle, c’est-à-dire la partie de la variation qui ne peut être attribuée à <span class="math inline">\(X1\)</span> ou <span class="math inline">\(X2\)</span> séparément. En d’autres termes, le partitionnement de la variation ne peut pas démêler les effets de la chimie et de la topographie pour 23.3% de la variation de la composition de la communauté de poissons.</p>
 </div>
 </div>
-<div id="tester-la-significativité-2" class="section level2">
-<h2><span class="header-section-number">8.2</span> Tester la significativité</h2>
+<div id="tester-la-significativité-2" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.2</span> Tester la significativité<a href="partitionnement-de-la-variation.html#tester-la-significativité-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>La sortie de la fonction <code>varpart()</code> rapporte le <span class="math inline">\(R^2\)</span> ajusté pour chaque fraction, mais vous remarquerez que le tableau n’inclut aucun test de signification statistique. Cependant, la colonne <code>Testable</code> identifie les fractions qui peuvent être testées pour leur signification en utilisant la fonction <code>anova.cca()</code>, tout comme nous l’avons fait avec le RDA !</p>
 <p><strong>X1 [a+b]: Chimie sans tenir compte de topographie</strong></p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="partitionnement-de-la-variation.html#cb76-1"></a><span class="co"># [a+b] Chimie sans tenir compte de topographie</span></span>
@@ -380,8 +380,8 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Toutes les fractions testables dans le partitionnement de la variation sont statistiquement significatives!</p>
 </div>
-<div id="défi-3" class="section level2">
-<h2><span class="header-section-number">8.3</span> Défi 3</h2>
+<div id="défi-3" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.3</span> Défi 3<a href="partitionnement-de-la-variation.html#défi-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Partitionnez la variation de l’abondance des espèces de mites entres des variables de substrat (<code>SubsDens</code>, <code>WatrCont</code>) et des variables spatiales significatives.</p>
 <ul>
 <li>Quelle est la proportion de variance expliquée par le substrat? par l’espace?<br />
@@ -397,8 +397,8 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 <span id="cb85-2"><a href="partitionnement-de-la-variation.html#cb85-2"></a><span class="kw">varpart</span>()</span>
 <span id="cb85-3"><a href="partitionnement-de-la-variation.html#cb85-3"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>())</span>
 <span id="cb85-4"><a href="partitionnement-de-la-variation.html#cb85-4"></a><span class="kw">plot</span>()</span></code></pre></div>
-<div id="défi-3-solution" class="section level3">
-<h3><span class="header-section-number">8.3.1</span> Défi 3: Solution</h3>
+<div id="défi-3-solution" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.3.1</span> Défi 3: Solution<a href="partitionnement-de-la-variation.html#défi-3-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Étape 1:</strong> Sélection de variables spatiales significatives.</p>
 <p>Il y a <em>beaucoup</em> de variables spatiales dans ce jeu de données (22 !). Nous devrions sélectionner les plus importantes, pour éviter de surcharger le modèle.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="partitionnement-de-la-variation.html#cb86-1"></a><span class="co"># Modèle RDA avec tous les variables spatiales</span></span>
@@ -454,7 +454,7 @@ Figure 8.2: Représentation des résultats d’un partitionnement de la variatio
 <span id="cb95-4"><a href="partitionnement-de-la-variation.html#cb95-4"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>,</span>
 <span id="cb95-5"><a href="partitionnement-de-la-variation.html#cb95-5"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="co"># ajoutez des couleurs!</span></span>
 <span id="cb95-6"><a href="partitionnement-de-la-variation.html#cb95-6"></a>     <span class="dt">alpha =</span> <span class="dv">80</span>)</span></code></pre></div>
-<p><img src="book-fr_files/figure-html/unnamed-chunk-70-1.png" width="576" /></p>
+<p><img src="book-fr_files/figure-html/unnamed-chunk-71-1.png" width="576" /></p>
 <p><strong>Alors, quels sont les effets de substrat et de l’espace sur les abondances d’espèces de mites?</strong></p>
 <p><strong>Indice:</strong> Pourquoi on trouve un effet si important de l’espace?</p>
 <p>L’espace explique la plupart de la variation dans la communauté: elle explique <strong>19.4% (p = 0.001)</strong> de la variation seule, et <strong>24.8%</strong> est expliqué <em>conjointement</em> par l’espace et le substrat. Le susbtrat n’explique que <strong>~6% (p = 0.001)</strong> de la variation entre sites sans l’effet de l’espace. Notez également que la moitié de la variation n’est pas expliquée par les variables que nous avons incluses dans le modèle (regardez les résidus !), le modèle pourrait donc être amélioré.</p>
