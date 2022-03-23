@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Variation partitioning | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Advanced Multivariate Analyses in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
@@ -50,8 +49,9 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -136,83 +136,83 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+<li class="part"><span><b>QCBS R Workshop Series<span></span></b></span></li>
+<li><a href="index.html#preface">Preface<span></span></a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code of conduct<span></span></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour<span></span></a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors<span></span></a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing<span></span></a></li>
 </ul></li>
-<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
-<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
-<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
-<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
-<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
-<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Constrained ordinations</b></span></li>
-<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
-<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
-<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
-<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
-<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code><span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives<span></span></a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop<span></span></a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?<span></span></a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset<span></span></a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset<span></span></a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
-<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
-<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
-<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
-<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+<li class="part"><span><b>Constrained ordinations<span></span></b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?<span></span></a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis<span></span></a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R<span></span></a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a><ul>
-<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R</a></li>
-<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing</a></li>
-<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1<span></span></a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis<span></span></a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data<span></span></a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R<span></span></a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
-<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
-<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2<span></span></a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
-<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA</a></li>
-<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy</a></li>
-<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions</a></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning<span></span></a><ul>
+<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3<span></span></a><ul>
+<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5</a></li>
 </ul></li>
-<li class="part"><span><b>Final considerations</b></span></li>
-<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
-<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree<span></span></a><ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT<span></span></a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data<span></span></a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R<span></span></a><ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process<span></span></a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output<span></span></a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4<span></span></a><ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis<span></span></a><ul>
+<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset<span></span></a><ul>
+<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings<span></span></a></li>
+<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA<span></span></a></li>
+<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy<span></span></a></li>
+<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>Final considerations<span></span></b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary<span></span></a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources<span></span></a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -248,17 +248,17 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="variation-partitioning" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Variation partitioning</h1>
+<div id="variation-partitioning" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 8</span> Variation partitioning<a href="variation-partitioning.html#variation-partitioning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Variation partitioning is a type of analysis that combines RDA and partial RDA to divide the variation of a response variable among two, three or four explanatory data sets. For example, you might want to partition the variation in a community matrix among a set of abiotic environmental variables, and a set of biotic variables. You could also partition this community variation among small-scale or large-scale variables, to test the effect of spatial scale on your community.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-52"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
 <img src="images/VarPart_Matrices.png" alt="The basic structure of variation partitioning." width="60%" />
 <p class="caption">
 Figure 8.1: The basic structure of variation partitioning.
 </p>
 </div>
 <p>The results of variation partitioning analyses are traditionally represented by a Venn diagram, in which the percentage of explained variance by each explanatory data set is reported. In a case where we are partitioning the variation among two explanatory matrices, the result could be represented as follows:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-53"></span>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-54"></span>
 <img src="images/VarPart.png" alt="Representing variation partitioning results." width="80%" />
 <p class="caption">
 Figure 8.2: Representing variation partitioning results.
@@ -274,8 +274,8 @@ Figure 8.2: Representing variation partitioning results.
 </li>
 <li>Fraction <span class="math inline">\([b]\)</span> is calculated by subtraction, i.e. <span class="math inline">\(b = [a + b] + [b + c] - [a + b + c].\)</span> Because <span class="math inline">\([b]\)</span> is not the result of an RDA, it cannot be tested for significance. It can also be negative, which indicates that the response matrix is better explained by the combination of <span class="math inline">\(X1\)</span> and <span class="math inline">\(X2\)</span> than by either matrix on its own.</li>
 </ul>
-<div id="variation-partitioning-in-r" class="section level2">
-<h2><span class="header-section-number">8.1</span> Variation partitioning in R</h2>
+<div id="variation-partitioning-in-r" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.1</span> Variation partitioning in R<a href="variation-partitioning.html#variation-partitioning-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To demonstrate how variation partitioning works in <code>R</code>, we will partition the variation of fish species composition between chemical and topographic variables. The <code>varpart()</code> function from <code>vegan</code> makes this easy for us.</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="variation-partitioning.html#cb74-1"></a><span class="co"># Partition the variation in fish community composition</span></span>
 <span id="cb74-2"><a href="variation-partitioning.html#cb74-2"></a>spe.part.all &lt;-<span class="st"> </span><span class="kw">varpart</span>(spe.hel, env.chem, env.topo)</span>
@@ -304,14 +304,14 @@ Figure 8.2: Representing variation partitioning results.
 <span id="cb76-4"><a href="variation-partitioning.html#cb76-4"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="dt">alpha =</span> <span class="dv">80</span>, <span class="co"># colour the circles</span></span>
 <span id="cb76-5"><a href="variation-partitioning.html#cb76-5"></a>     <span class="dt">digits =</span> <span class="dv">2</span>, <span class="co"># only show 2 digits</span></span>
 <span id="cb76-6"><a href="variation-partitioning.html#cb76-6"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>)</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-55-1.png" width="576" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-56-1.png" width="576" /></p>
 <p>The chemical variables explain <strong>24.1%</strong> of the variation in fish species composition, the topography variables explain <strong>11.2%</strong> of the variation in fish species composition, and these two variable groups <strong>jointly</strong> explain <strong>23.3%</strong> of the variation in fish species composition.</p>
 <div class="explanation">
 <p>Be careful when reporting results of variation partitioning! The shared fraction [b] does not represent an <em>interaction</em> effect of the two explanatory matrices. Think of it as an <em>overlap</em> between <span class="math inline">\(X1\)</span> and <span class="math inline">\(X2\)</span>. It represents the <em>shared</em> fraction of variation explained when the two are included in the model, meaning it is the portion of variation that cannot be attributed to <span class="math inline">\(X1\)</span> or <span class="math inline">\(X2\)</span> separately. In other words, the variation partitioning cannot disentangle the effects of chemistry and topography on 23.3% of the variation in the fish community composition.</p>
 </div>
 </div>
-<div id="significance-testing-2" class="section level2">
-<h2><span class="header-section-number">8.2</span> Significance testing</h2>
+<div id="significance-testing-2" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.2</span> Significance testing<a href="variation-partitioning.html#significance-testing-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The output from the <code>varpart()</code> function reports the adjusted <span class="math inline">\(R^2\)</span> for each fraction, but you will notice that the table does not include any test of statistical significance. However, the <code>Testable</code> column identifies the fractions that can be tested for significance using the function <code>anova.cca()</code>, just like we did with the RDA!</p>
 <p><strong>X1 [a+b]: Chemistry without controlling for topography</strong></p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="variation-partitioning.html#cb77-1"></a><span class="co"># [a+b] Chemistry without controlling for topography</span></span>
@@ -370,8 +370,8 @@ Figure 8.2: Representing variation partitioning results.
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>All of the testable fractions in the variation partitioning are statistically significant!</p>
 </div>
-<div id="challenge-3" class="section level2">
-<h2><span class="header-section-number">8.3</span> Challenge 3</h2>
+<div id="challenge-3" class="section level2 hasAnchor">
+<h2><span class="header-section-number">8.3</span> Challenge 3<a href="variation-partitioning.html#challenge-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Partition the variation in the mite species data according to substrate variables (<code>SubsDens</code>, <code>WatrCont</code>) and significant spatial variables.</p>
 <ul>
 <li>What proportion of the variation is explained by substrate variables? By space?<br />
@@ -387,8 +387,8 @@ Figure 8.2: Representing variation partitioning results.
 <span id="cb86-2"><a href="variation-partitioning.html#cb86-2"></a><span class="kw">varpart</span>()</span>
 <span id="cb86-3"><a href="variation-partitioning.html#cb86-3"></a><span class="kw">anova.cca</span>(<span class="kw">rda</span>())</span>
 <span id="cb86-4"><a href="variation-partitioning.html#cb86-4"></a><span class="kw">plot</span>()</span></code></pre></div>
-<div id="challenge-3-solution" class="section level3">
-<h3><span class="header-section-number">8.3.1</span> Challenge 3: Solution</h3>
+<div id="challenge-3-solution" class="section level3 hasAnchor">
+<h3><span class="header-section-number">8.3.1</span> Challenge 3: Solution<a href="variation-partitioning.html#challenge-3-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Step 1:</strong> Forward selection of significant spatial variables.</p>
 <p>There are a <em>lot</em> of spatial variables in this dataset (22!). We should select the most important ones, to avoid overloading the model.</p>
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="variation-partitioning.html#cb87-1"></a><span class="co"># Step 1: Forward selection!</span></span>
@@ -453,7 +453,7 @@ Figure 8.2: Representing variation partitioning results.
 <span id="cb96-5"><a href="variation-partitioning.html#cb96-5"></a>     <span class="dt">cex =</span> <span class="fl">1.5</span>,</span>
 <span id="cb96-6"><a href="variation-partitioning.html#cb96-6"></a>     <span class="dt">bg =</span> <span class="kw">c</span>(<span class="st">&quot;seagreen3&quot;</span>, <span class="st">&quot;mediumpurple&quot;</span>), <span class="co"># add colour!</span></span>
 <span id="cb96-7"><a href="variation-partitioning.html#cb96-7"></a>     <span class="dt">alpha =</span> <span class="dv">80</span>) <span class="co"># adjust transparency</span></span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-70-1.png" width="576" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-71-1.png" width="576" /></p>
 <p><strong>So, what can we say about the effects of substrate and space on mite species abundances?</strong></p>
 <p><strong>Hint:</strong> Why is the model showing such an important effect of space?</p>
 <p>Space explains a lot of the variation in species abundances here: <strong>19.4% (p = 0.001)</strong> of the variation is explained by space alone, and <strong>24.8%</strong> is <em>jointly</em> explained by space and substrate. Substrate only explains <strong>~6% (p = 0.001)</strong> of the variation in community composition across sites on its own! Also note that half of the variation is not explained by the variables we included in the model (look at the residuals!), so the model could be improved.</p>

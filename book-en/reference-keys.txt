@@ -1,9 +1,9 @@
-fig:unnamed-chunk-16
+fig:unnamed-chunk-17
 fig:ord-diagram
-fig:unnamed-chunk-38
-fig:unnamed-chunk-52
+fig:unnamed-chunk-39
 fig:unnamed-chunk-53
-fig:unnamed-chunk-71
+fig:unnamed-chunk-54
+fig:unnamed-chunk-72
 code-of-conduct
 expected-behaviour
 unacceptable-behaviour

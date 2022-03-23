@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Exploring the Doubs River dataset | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Exploring the Doubs River dataset | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://github.com/qcbsRworkshops/" />
   <meta property="og:image" content="https://github.com/qcbsRworkshops/assets/images/logo/csbq_logo_accueil.png" />
   <meta property="og:description" content="Advanced Multivariate Analyses in R" />
   <meta name="github-repo" content="qcbsRworkshops/workshop10" />
@@ -50,8 +49,9 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -136,83 +136,83 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
+<li class="part"><span><b>QCBS R Workshop Series<span></span></b></span></li>
+<li><a href="index.html#preface">Preface<span></span></a><ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code of conduct<span></span></a><ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour<span></span></a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors<span></span></a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing<span></span></a></li>
 </ul></li>
-<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
-<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
-<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
-<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
-<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a><ul>
-<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
-<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
-<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Constrained ordinations</b></span></li>
-<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a><ul>
-<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
-<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a><ul>
-<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
-<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
-<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code><span></span></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives<span></span></a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop<span></span></a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?<span></span></a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset<span></span></a><ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset<span></span></a><ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a><ul>
-<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a><ul>
-<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
-<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
-<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
+<li class="part"><span><b>Constrained ordinations<span></span></b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?<span></span></a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis<span></span></a><ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R<span></span></a><ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a><ul>
-<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a><ul>
-<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R</a></li>
-<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing</a></li>
-<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1<span></span></a><ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis<span></span></a><ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data<span></span></a><ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R<span></span></a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
-<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
-<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2<span></span></a><ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution<span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a><ul>
-<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a><ul>
-<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
-<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA</a></li>
-<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy</a></li>
-<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions</a></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning<span></span></a><ul>
+<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing<span></span></a></li>
+<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3<span></span></a><ul>
+<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5</a></li>
 </ul></li>
-<li class="part"><span><b>Final considerations</b></span></li>
-<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
-<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree<span></span></a><ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT<span></span></a><ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data<span></span></a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R<span></span></a><ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process<span></span></a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output<span></span></a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4<span></span></a><ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis<span></span></a><ul>
+<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset<span></span></a><ul>
+<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings<span></span></a></li>
+<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA<span></span></a></li>
+<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy<span></span></a></li>
+<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>Final considerations<span></span></b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary<span></span></a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources<span></span></a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -248,8 +248,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="exploration" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Exploring the Doubs River dataset</h1>
+<div id="exploration" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 4</span> Exploring the Doubs River dataset<a href="exploration.html#exploration" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>We will be using the Doubs River dataset <span class="citation">(Verneaux <a href="#ref-verneaux1973" role="doc-biblioref">1973</a>)</span> for this workshop.</p>
 <ul>
 <li><p><code>DoubsSpe.csv</code> is a data frame of fish community data where the first column contains <strong>site names from 1 to 30</strong> and the remaining columns are fish taxa (<strong>27 species</strong>). The taxa columns are populated by fish abundance data (counts).</p></li>
@@ -271,8 +271,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-13"><a href="exploration.html#cb3-13"></a>env &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
 <span id="cb3-14"><a href="exploration.html#cb3-14"></a>env &lt;-<span class="st"> </span>env[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Remove corresponding abiotic data for site 8 (because removed from fish data). </span></span>
 <span id="cb3-15"><a href="exploration.html#cb3-15"></a><span class="co"># Again, be careful to only run the last line once.</span></span></code></pre></div>
-<div id="exploring-the-fish-community-dataset" class="section level2">
-<h2><span class="header-section-number">4.1</span> Exploring the fish community dataset</h2>
+<div id="exploring-the-fish-community-dataset" class="section level2 hasAnchor">
+<h2><span class="header-section-number">4.1</span> Exploring the fish community dataset<a href="exploration.html#exploring-the-fish-community-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can begin by using summary functions to explore the <code>spe</code> data (fish community data), and get familiar with its dimensions, structure, column headings and some summary statistics. This is a review from <a href="https://github.com/QCBSRworkshops/workshop02">Workshop 2</a>.</p>
 <p>We can begin by getting a general overview of the matrix:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="exploration.html#cb4-1"></a><span class="kw">names</span>(spe)  <span class="co"># names of objects (species)</span></span></code></pre></div>
@@ -306,7 +306,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-4"><a href="exploration.html#cb11-4"></a><span class="kw">barplot</span>(ab, <span class="dt">las =</span> <span class="dv">1</span>, <span class="co"># make axis labels perpendicular to axis</span></span>
 <span id="cb11-5"><a href="exploration.html#cb11-5"></a>        <span class="dt">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>, <span class="co"># label axes</span></span>
 <span id="cb11-6"><a href="exploration.html#cb11-6"></a>        <span class="dt">col =</span> <span class="kw">grey</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">5</span>)) <span class="co"># 5-colour gradient for the bars</span></span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>You might notice that there are a lot of zeros in the abundance data.</p>
 <p>How many zeros are in the dataset?</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="exploration.html#cb12-1"></a><span class="co"># Count the number of zeros in the dataset</span></span>
@@ -323,8 +323,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-2"><a href="exploration.html#cb16-2"></a><span class="co"># zero problem</span></span>
 <span id="cb16-3"><a href="exploration.html#cb16-3"></a>spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
 </div>
-<div id="exploring-the-environmental-dataset" class="section level2">
-<h2><span class="header-section-number">4.2</span> Exploring the environmental dataset</h2>
+<div id="exploring-the-environmental-dataset" class="section level2 hasAnchor">
+<h2><span class="header-section-number">4.2</span> Exploring the environmental dataset<a href="exploration.html#exploring-the-environmental-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now, let us get some familiarity with the abiotic environmental variables measured at the same sites. First, we can explore the matrix using the same function we used above.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="exploration.html#cb17-1"></a><span class="kw">names</span>(env)</span></code></pre></div>
 <pre><code>##  [1] &quot;das&quot; &quot;alt&quot; &quot;pen&quot; &quot;deb&quot; &quot;pH&quot;  &quot;dur&quot; &quot;pho&quot; &quot;nit&quot; &quot;amm&quot; &quot;oxy&quot; &quot;dbo&quot;</code></pre>
@@ -341,8 +341,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>We can then look a little closer at the objects, which are the environmental variables in this case.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="exploration.html#cb23-1"></a><span class="kw">str</span>(env)</span>
 <span id="cb23-2"><a href="exploration.html#cb23-2"></a><span class="kw">summary</span>(env)</span></code></pre></div>
-<div id="collinearity" class="section level3">
-<h3><span class="header-section-number">4.2.1</span> Collinearity</h3>
+<div id="collinearity" class="section level3 hasAnchor">
+<h3><span class="header-section-number">4.2.1</span> Collinearity<a href="exploration.html#collinearity" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It is also a good idea to check for correlations between variables, as the <strong>constrained ordination methods we will be using are highly sensitive to collinearities in the explanatory matrix</strong>. This means a variable might appear to be highly important just because it was treated <em>first</em> in the analysis if it is highly correlated with one or more other variables that help to explain the response variable.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="exploration.html#cb24-1"></a><span class="co"># We can visually look for correlations between variables:</span></span>
 <span id="cb24-2"><a href="exploration.html#cb24-2"></a><span class="kw">heatmap</span>(<span class="kw">abs</span>(<span class="kw">cor</span>(env)), </span>
@@ -354,13 +354,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb24-8"><a href="exploration.html#cb24-8"></a>       <span class="dt">legend =</span>  <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
 <span id="cb24-9"><a href="exploration.html#cb24-9"></a>       <span class="dt">y.intersp =</span> <span class="fl">0.7</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
 <span id="cb24-10"><a href="exploration.html#cb24-10"></a>       <span class="dt">fill =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
-<p><img src="book-en_files/figure-html/unnamed-chunk-14-1.png" width="768" /></p>
+<p><img src="book-en_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
 <div class="noway">
 <p>Some variables look correlated… For example, <code>das</code> is highly correlated with <code>alt</code>, <code>deb</code>, <code>dur</code>, <code>nit</code>, among others!</p>
 </div>
 </div>
-<div id="standardizing-the-environmental-variables" class="section level3">
-<h3><span class="header-section-number">4.2.2</span> Standardizing the environmental variables</h3>
+<div id="standardizing-the-environmental-variables" class="section level3 hasAnchor">
+<h3><span class="header-section-number">4.2.2</span> Standardizing the environmental variables<a href="exploration.html#standardizing-the-environmental-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>You cannot compare the effects of variables with different units. For example, a variable measured in millimeters would appear more important than if it were measured in meters, simple because the value is larger (e.g. 1000 millimeters vs. 1 meter). <strong>Standardizing variables with different units is therefore crucial.</strong></p>
 <p>In this dataset, the environmental data are all in different units and will therefore need to be standardized prior to performing any ordinations. We can once again use the <code>decostand()</code> function to standardize the environmental variables.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="exploration.html#cb25-1"></a><span class="co"># Scale and center variables</span></span>
@@ -381,7 +381,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h3> References</h3>
+<h3> References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references">
 <div id="ref-borcard2011">
 <p>Borcard, Daniel, François Gillet, and Pierre Legendre. 2011. <em>Numerical Ecology with R</em>. Use R! New York: Springer-Verlag. <a href="https://doi.org/10.1007/978-1-4419-7976-6">https://doi.org/10.1007/978-1-4419-7976-6</a>.</p>
