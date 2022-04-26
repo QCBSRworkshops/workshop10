@@ -53,12 +53,12 @@ Since 2014, several QCBS members contributed to consistently and collaboratively
 
 |      2022 - 2021 - 2020     |      2019 - 2018 - 2017     |      2016 - 2015 - 2014      |
 |:---------------------------:|:---------------------------:|:----------------------------:|
-| Katherine Hébert    |     Marie Hélène Brice   | Monica Granados |
-|  Gabriel Muñoz         |   Pedro Henrique P. Braga  |        Emmanuelle Chrétien       |
+| Mathieu Vaillancourt    |     Marie Hélène Brice   | Monica Granados |
+|  Katherine Hébert         |   Pedro Henrique P. Braga  |        Emmanuelle Chrétien       |
 |  Pedro Henrique P. Braga | Katherine Hébert                     |       Bérenger Bourgeois       |
-| Kevin Cazelles |                             |      Amanda Winegardner      |
-|   Marie Hélène Brice      |                             |      Xavier Giroux-Bougard    |
-|           |                             |       Vincent Fugère    |
+| Gabriel Muñoz |                             |      Amanda Winegardner      |
+|   Kevin Cazelles      |                             |      Xavier Giroux-Bougard    |
+|  Marie Hélène Brice         |                             |       Vincent Fugère    |
 
 # Development status
 
