@@ -80,23 +80,87 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 ```
 
 # À propos de cet atelier
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=development&message=10&color=6f42c1&logo=github)](https://github.com/QCBSRworkshops/workshop10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=wiki&message=10&logo=wikipedia)](https://wiki.qcbs.ca/r_atelier10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=diapos&message=10&color=red&logo=html5)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.html)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=diapos&message=10&color=red&logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.pdf)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=script&message=10&color=2a50b8&logo=r)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.R)
 
-<br>
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Présentation&message=10&color=BF616A)](https://r.qcbs.ca/workshop10/pres-fr/workshop10-pres-fr.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Script&message=10&color=D08770&logo=r)](https://r.qcbs.ca/workshop10/book-fr/workshop10-script-fr.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Livre&message=10&color=EBCB8B)](https://r.qcbs.ca/workshop10/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=Site&message=r.qcbs.ca&color=A3BE8C)](https://r.qcbs.ca/fr/workshops/r-workshop-10/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&label=GitHub&message=10&color=B48EAD&logo=github)](https://github.com/QCBSRworkshops/workshop10) 
 
-<br>
-
-<br>
-
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
 ---
 
-# Paquets requis
+<p style="font-size:75%">
 
+.center[
+**Membres du CSBQ qui ont contribué à cet atelier**
+
+en modifiant et en améliorant son contenu dans le cadre du <br> Prix d'apprentissage et de développement (*Le*arning *a*nd *D*evelopment *A*ward)
+]
+
+.pull-left[
+.right[
+
+**2022** - **2021** - **2020**
+
+Mathieu Vaillancourt
+
+Katherine Hébert
+
+Pedro Henrique P. Braga
+
+Gabriel Muñoz
+
+Kevin Cazelles
+
+Marie Hélène Brice  
+
+
+
+**2019** - **2018** - **2017**
+
+Marie Hélène-Brice
+
+Pedro Henrique P. Braga
+
+Katherine Hébert
+
+<br>
+]
+]
+
+.pull-right[
+.left[
+
+**2016** - **2015** - **2014**
+
+Monica Granados
+
+Emmanuelle Chrétien
+
+Bérenger Bourgeois
+
+Amanda Winegardner
+
+Xavier Giroux-Bougard
+
+Vincent Fugère
+
+]
+]
+</p>
+
+<br>
+.center[
+__Si vous voulez contribuer aussi__, visitez [r.qcbs.ca/fr/contributing](https://r.qcbs.ca/fr/contributing/) <br> et n'hésitez pas à [nous contacter](mailto:csbq.qcbs.r@gmail.com)!
+]
+
+---
+
+# Matériel requis
+
+Cet atelier requiert les dernières versions de [RStudio](https://rstudio.com/products/rstudio/download/#download) et de [R](https://cran.rstudio.com/).
+
+<br>
+Vous devez également avoir installé ces librairies R:
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
@@ -109,6 +173,9 @@ lapply(list.of.packages, require, character.only = TRUE, quietly = TRUE)
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ```
 
+<br><br>
+Vous pouvez télécharger les jeux de données sur [r.qcbs.ca/fr/workshops/r-workshop-10](http://r.qcbs.ca/fr/workshops/r-workshop-10/).
+
 
 ???
 
@@ -119,7 +186,20 @@ remotes::install_github("cran/mvpart")
 ---
 # Objectifs d'apprentissage
 
-##### Utiliser R pour faire des ordinations sous contraintes
+__Objectif__: Réaliser des analyses multivariées avancées sur des données de communauté.
+
+--
+
+<br>
+
+En utilisant des méthodes d'ordination sous contrainte, nous apprendrons à:
+
+
+- Explorer comment les variables environnementales __expliquent__ des patrons de composition en espéces à travers différents sites.
+
+--
+
+- __Décrire et prédire__ ces tendances entre la composition des communautés et des variables environnementales.
 
 
 ---
@@ -183,9 +263,9 @@ Téléchargez le code R et les données requises pour cet atelier:
 .small[.comment[Pour télécharger les données, faire `clic droit + Sauvegarder` sur la page qui ouvre.]]
 
 ---
-# Paquets R
+# Librairies R
 
-Assurez-vous de télécharger, d'installer et de charger les paquets suivants:
+Assurez-vous de télécharger, d'installer et de charger les librairies suivants:
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
