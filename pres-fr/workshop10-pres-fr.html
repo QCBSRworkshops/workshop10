@@ -37,23 +37,87 @@ class: inverse, center, middle
 
 
 # À propos de cet atelier
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=development&amp;message=10&amp;color=6f42c1&amp;logo=github)](https://github.com/QCBSRworkshops/workshop10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=wiki&amp;message=10&amp;logo=wikipedia)](https://wiki.qcbs.ca/r_atelier10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=diapos&amp;message=10&amp;color=red&amp;logo=html5)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.html)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=diapos&amp;message=10&amp;color=red&amp;logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.pdf)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=script&amp;message=10&amp;color=2a50b8&amp;logo=r)](https://qcbsrworkshops.github.io/workshop10/workshop10-fr/workshop10-fr.R)
 
-&lt;br&gt;
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Présentation&amp;message=10&amp;color=BF616A)](https://r.qcbs.ca/workshop10/pres-fr/workshop10-pres-fr.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Script&amp;message=10&amp;color=D08770&amp;logo=r)](https://r.qcbs.ca/workshop10/book-fr/workshop10-script-fr.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Livre&amp;message=10&amp;color=EBCB8B)](https://r.qcbs.ca/workshop10/book-fr/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Site&amp;message=r.qcbs.ca&amp;color=A3BE8C)](https://r.qcbs.ca/fr/workshops/r-workshop-10/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=GitHub&amp;message=10&amp;color=B48EAD&amp;logo=github)](https://github.com/QCBSRworkshops/workshop10) 
 
-&lt;br&gt;
-
-&lt;br&gt;
-
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
 ---
 
-# Paquets requis
+&lt;p style="font-size:75%"&gt;
 
+.center[
+**Membres du CSBQ qui ont contribué à cet atelier**
+
+en modifiant et en améliorant son contenu dans le cadre du &lt;br&gt; Prix d'apprentissage et de développement (*Le*arning *a*nd *D*evelopment *A*ward)
+]
+
+.pull-left[
+.right[
+
+**2022** - **2021** - **2020**
+
+Mathieu Vaillancourt
+
+Katherine Hébert
+
+Pedro Henrique P. Braga
+
+Gabriel Muñoz
+
+Kevin Cazelles
+
+Marie Hélène Brice  
+
+
+
+**2019** - **2018** - **2017**
+
+Marie Hélène-Brice
+
+Pedro Henrique P. Braga
+
+Katherine Hébert
+
+&lt;br&gt;
+]
+]
+
+.pull-right[
+.left[
+
+**2016** - **2015** - **2014**
+
+Monica Granados
+
+Emmanuelle Chrétien
+
+Bérenger Bourgeois
+
+Amanda Winegardner
+
+Xavier Giroux-Bougard
+
+Vincent Fugère
+
+]
+]
+&lt;/p&gt;
+
+&lt;br&gt;
+.center[
+__Si vous voulez contribuer aussi__, visitez [r.qcbs.ca/fr/contributing](https://r.qcbs.ca/fr/contributing/) &lt;br&gt; et n'hésitez pas à [nous contacter](mailto:csbq.qcbs.r@gmail.com)!
+]
+
+---
+
+# Matériel requis
+
+Cet atelier requiert les dernières versions de [RStudio](https://rstudio.com/products/rstudio/download/#download) et de [R](https://cran.rstudio.com/).
+
+&lt;br&gt;
+Vous devez également avoir installé ces librairies R:
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
@@ -66,6 +130,9 @@ class: inverse, center, middle
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ```
 
+&lt;br&gt;&lt;br&gt;
+Vous pouvez télécharger les jeux de données sur [r.qcbs.ca/fr/workshops/r-workshop-10](http://r.qcbs.ca/fr/workshops/r-workshop-10/).
+
 
 ???
 
@@ -76,7 +143,20 @@ remotes::install_github("cran/mvpart")
 ---
 # Objectifs d'apprentissage
 
-##### Utiliser R pour faire des ordinations sous contraintes
+__Objectif__: Réaliser des analyses multivariées avancées sur des données de communauté.
+
+--
+
+&lt;br&gt;
+
+En utilisant des méthodes d'ordination sous contrainte, nous apprendrons à:
+
+
+- Explorer comment les variables environnementales __expliquent__ des patrons de composition en espéces à travers différents sites.
+
+--
+
+- __Décrire et prédire__ ces tendances entre la composition des communautés et des variables environnementales.
 
 
 ---
@@ -140,9 +220,9 @@ Téléchargez le code R et les données requises pour cet atelier:
 .small[.comment[Pour télécharger les données, faire `clic droit + Sauvegarder` sur la page qui ouvre.]]
 
 ---
-# Paquets R
+# Librairies R
 
-Assurez-vous de télécharger, d'installer et de charger les paquets suivants:
+Assurez-vous de télécharger, d'installer et de charger les librairies suivants:
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
@@ -531,7 +611,7 @@ anova.cca(spe.rda.signif, permutations = 1000, by = "term")
 #          Df Variance       F   Pr(&gt;F)    
 # alt       1 0.164856 19.9759 0.000999 ***
 # oxy       1 0.082426  9.9877 0.000999 ***
-# dbo       1 0.048909  5.9264 0.002997 ** 
+# dbo       1 0.048909  5.9264 0.000999 ***
 # Residual 25 0.206319                     
 ...
 ```
@@ -997,8 +1077,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.024 *  
-# RDA3      1 0.003193 0.9919  0.433    
+# RDA2      1 0.008254 2.5643  0.020 *  
+# RDA3      1 0.003193 0.9919  0.431    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1164,9 +1244,9 @@ anova.cca(rda(spe.hel, env.topo, env.chem))
 # Number of permutations: 999
 # 
 # Model: rda(X = spe.hel, Y = env.topo, Z = env.chem)
-#          Df Variance      F Pr(&gt;F)   
-# Model     3 0.064495 2.8965  0.002 **
-# Residual 18 0.133599                 
+#          Df Variance      F Pr(&gt;F)    
+# Model     3 0.064495 2.8965  0.001 ***
+# Residual 18 0.133599                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
