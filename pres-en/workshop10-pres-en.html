@@ -14,9 +14,15 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Workshop 10: Advanced multivariate analyses
+]
+.subtitle[
 ## QCBS R Workshop Series
+]
+.author[
 ### Québec Centre for Biodiversity Science
+]
 
 ---
 
@@ -32,23 +38,88 @@ class: inverse, center, middle
 
 
 # About this workshop
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=repo&amp;message=dev&amp;color=6f42c1&amp;logo=github)](https://github.com/QCBSRworkshops/workshop10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=wiki&amp;message=10&amp;logo=wikipedia)](https://wiki.qcbs.ca/r_workshop10)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=10&amp;color=red&amp;logo=html5)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.html)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=10&amp;color=red&amp;logo=adobe-acrobat-reader)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.pdf)
-[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=script&amp;message=10&amp;color=2a50b8&amp;logo=r)](https://qcbsrworkshops.github.io/workshop10/workshop10-en/workshop10-en.R)
 
-&lt;br&gt;
-
-&lt;br&gt;
-
-&lt;br&gt;
-
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Slides&amp;message=10&amp;color=BF616A)](https://r.qcbs.ca/workshop10/pres-en/workshop10-pres-en.html)    [![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Script&amp;message=10&amp;color=D08770&amp;logo=r)](https://r.qcbs.ca/workshop10/book-en/workshop10-script-en.R) 
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Book&amp;message=10&amp;color=EBCB8B)](https://r.qcbs.ca/workshop10/book-en/index.html)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=Site&amp;message=r.qcbs.ca&amp;color=A3BE8C)](https://r.qcbs.ca/workshops/r-workshop-09/)
+[![badge](https://img.shields.io/static/v1?style=for-the-badge&amp;label=GitHub&amp;message=10&amp;color=B48EAD&amp;logo=github)](https://github.com/QCBSRworkshops/workshop10)
 
 ---
 
-# Required packages
+&lt;p style="font-size:75%"&gt;
+
+.center[
+**QCBS members who contributed to this workshop**
+
+by modifying and improving its content as part of the &lt;br&gt; *Le*arning *a*nd *D*evelopment *A*ward
+]
+
+
+.pull-left[
+.right[
+
+**2022** - **2021** - **2020**
+
+Mathieu Vaillancourt
+
+Katherine Hébert
+
+Pedro Henrique P. Braga
+
+Gabriel Muñoz
+
+Kevin Cazelles
+
+Marie Hélène Brice  
+
+
+
+**2019** - **2018** - **2017**
+
+Marie Hélène-Brice
+
+Pedro Henrique P. Braga
+
+Katherine Hébert
+
+&lt;br&gt;
+]
+]
+
+.pull-right[
+.left[
+
+**2016** - **2015** - **2014**
+
+Monica Granados
+
+Emmanuelle Chrétien
+
+Bérenger Bourgeois
+
+Amanda Winegardner
+
+Xavier Giroux-Bougard
+
+Vincent Fugère
+
+]
+]
+&lt;/p&gt;
+
+
+&lt;br&gt;
+.center[
+__If you would like to contribute too__, visit [r.qcbs.ca/contributing](https://r.qcbs.ca/contributing/) &lt;br&gt; and don't hesitate to [get in touch](mailto:qcbs.csbq.r@gmail.com) with us!
+]
+
+---
+
+# Required material
+
+This workshop requires the latest [RStudio](https://rstudio.com/products/rstudio/download/#download) and [R](https://cran.rstudio.com/) versions.
+
+You must also install and load these packages:
 
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
@@ -62,10 +133,27 @@ class: inverse, center, middle
 install.packages(c('Hmisc', 'labdsv', 'MASS', 'vegan', 'ggplot2'))
 ```
 
+&lt;br&gt;
+You can download this workshop's datasets from [r.qcbs.ca/workshops/r-workshop-10](http://r.qcbs.ca/workshops/r-workshop-10/).
+
+
 ---
 # Learning objectives
 
-##### Use R to perform constrained ordinations
+__Objective__: Perform advanced multivariate analyses on community data. 
+
+--
+
+&lt;br&gt;
+
+Using constrained ordination methods, we will learn:
+
+
+- To explore how environmental variables may be __driving__ patterns in species assemblage across sites.
+
+--
+
+- To __describe and predict__ relationships between community composition data and environmental variables.
 
 
 ---
@@ -122,6 +210,7 @@ For this workshop, you will need:
 # Required packages
 
 Please make sure you have downloaded, installed, and loaded these packages:
+
 * [Hmisc](https://cran.r-project.org/package=Hmisc)
 * [labdsv](https://cran.r-project.org/package=labdsv)
 * [MASS](https://cran.r-project.org/package=MASS)
@@ -975,8 +1064,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.022 *  
-# RDA3      1 0.003193 0.9919  0.453    
+# RDA2      1 0.008254 2.5643  0.025 *  
+# RDA3      1 0.003193 0.9919  0.446    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1936,6 +2025,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
