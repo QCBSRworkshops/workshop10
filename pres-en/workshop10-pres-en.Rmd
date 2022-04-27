@@ -180,13 +180,21 @@ You can download this workshop's datasets from [r.qcbs.ca/workshops/r-workshop-1
 ---
 # Learning objectives
 
-__Objective__: Perform advanced multivariate analyses on community data. 
+1. Contrast and recognize the differences between unconstrained and constrained ordination analyses in ecological data;
+
+2. Learn how to perform and interpret the outcomes of:
+
+* Redundancy analysis (RDA)
+* Partial redundancy analysis
+* Variation partitioning
+* Linear discriminant analysis (LDA)
+
 
 --
 
 <br>
 
-Using constrained ordination methods, we will learn:
+Using constrained ordination methods, we will also learn:
 
 
 - To explore how environmental variables may be __driving__ patterns in species assemblage across sites.
@@ -219,12 +227,20 @@ These identify ***patterns*** in community composition data or in descriptors, w
 
 In this workshop, we will focus instead on .alert[**constrained**] analyses:
 
+<br>
+
 * Redundancy analysis (RDA)
 * Partial redundancy analysis
 * Variation partitioning
 * Linear discriminant analysis (LDA)
 
-These analyses allow us to **describe** and **predict** relationships between community composition data and environmental variables. (This means we can ***test hypotheses***!)
+<br>
+
+These analyses allow us to **describe** and **predict** relationships between community composition data and environmental variables.
+
+<br>
+
+.center[_This means we can **test hypotheses** related to species responses to selection gradients!_]
 
 ???
 Other methods that were excluded for 3 hour workshop format, but are in the book
@@ -277,7 +293,7 @@ class: inverse, center, middle
 ---
 # Today's data:
 
-#### Doubs River Fish Dataset (Verneaux 1973)
+#### Doubs River Fish Dataset (Verneaux, 1973)
 
 .pull-left[Description of fish communities along the Doubs River:
  * 27 species
@@ -299,19 +315,46 @@ class: inverse, center, middle
 Load the species data (`doubsspe.csv`):
 
 ```{r, echo = TRUE}
-# Make sure the files are in your working directory!
 spe <- read.csv("data/doubsspe.csv", row.names = 1)
-spe <- spe[-8,] # remove site with no data
 ```
 
 Load the environmental data (`doubsenv.csv`):
 
 ```{r, echo = TRUE}
 env <- read.csv("data/doubsenv.csv", row.names = 1)
-env <- env[-8,] # remove site with no data
+```
+
+--
+
+We must remove sites without species, to avoid biased association measures.
+
+.pull-left[
+We could do this using this:
+
+```{r, echo = T, eval = FALSE}
+spe <- spe[-8, ] 
+env <- env[-8, ]
 ```
 
 .alert[Note]: Only execute once!
+]
+
+.pull-right[
+
+But, more appropriately, we can keep the lines (sites) with values different than zero.
+
+```{r}
+row_sub <- apply(spe, 
+                 1, 
+                 function(row){ 
+                   any(row !=0)})
+
+spe <- spe[row_sub, ]
+env <- env[row_sub, ]
+
+```
+
+]
 
 ---
 # Exploring the fish community dataset
@@ -326,7 +369,7 @@ Let's take a closer look at the objects (species):
 ```{r, echo = TRUE, results = 'hide'}
 head(spe) # look at first 5 rows
 str(spe) # structure of objects in dataset
-summary(spe) # summary statistics for all objects (min, mean, max, etc.)
+summary(spe) # summary statistics for all objects (e.g., min, mean, max)
 ```
 
 ---
@@ -342,12 +385,12 @@ barplot(ab, las = 1, # make axis labels perpendicular to axis
         xlab = "Abundance class", ylab = "Frequency", # label axes
         col = grey(5:0/5)) # 5-colour gradient for the bars
 ```
-.alert[Notice]: There are many 0s!
+.alert[Notice]: There are many zeros!
 
 ---
 # Distribution of species frequencies
 
-How many 0s are in the dataset?
+How many zeroes are in the dataset?
 ```{r}
 sum(spe == 0)
 ```
@@ -360,20 +403,24 @@ sum(spe==0)/(nrow(spe)*ncol(spe))
 ---
 # Transforming the community data
 
-.alert[**Over 50%**] of our dataset consists of 0s, which is common in community datasets.
+.alert[**Over 50%**] of our dataset consists of zeroes, which is common in community data sets.
 
 --
 
-However, we don't want these common absences to **artificially increase** the similarity between sites.
-* To avoid this, we can .alert[transform] the community data.
+However, we do not want these common absences to **artificially increase** the similarity between sites.
 
-
-Let's use the .alert[Hellinger] transformation:
+To avoid this, we can .alert[transform] the community data using the .alert[Hellinger] transformation:
 ```{r}
 # The decostand() function in the vegan package makes this easy for us:
+
 library(vegan)
+
 spe.hel <- decostand(spe, method = "hellinger")
 ```
+
+
+
+> **Hellinger's transformation** allows us to reduce the effects of $y_{ij}$ values that are extremely large by taking the square-root of species profiles containing relative abundances. 
 
 ---
 # Exploring the environmental dataset
@@ -1002,27 +1049,31 @@ class: inverse, center, middle
 ---
 # Variation partitioning
 
-Partitions the variation of response variables among 2, 3, or 4 explanatory datasets.
-* e.g. large-scale and small-scale
-* e.g. abiotic and biotic
+Partitions the variation of response variables among 2, 3, or more groups of explanatory variables.
+* _e.g._ large-scale and small-scale
+* _e.g._ abiotic and biotic
+* _e.g._ phylogenetic, functional and taxonomic
 
+<br>
 
 .center[![:scale 85%](images/VarPart_Matrices.png)]
 
 ---
+
 # Variation partitioning
 
 .center[![:scale 85%](images/VarPart.png)]
 
 ---
-# Variation partitioning in R
+# Variation partitioning in `R`
 
 To demonstrate how variation partitioning works in `R`, let us partition the variation of fish species composition between chemical and physiographic variables.
 
-.small[.alert[Note]: Make sure you've loaded the `vegan` package!
+.small[.alert[Note]: Make sure you have loaded the `vegan` package!
 
 ```{r}
 spe.part.all <- varpart(spe.hel, env.chem, env.topo)
+
 spe.part.all$part # access results!
 ```
 ]
@@ -1553,12 +1604,15 @@ class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 
+Lineard discriminant analysis is not just a form to reduce dimensionality, but it is a robust classification procedure.
+
 The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful because:
 
-* It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable;
-* Which is great for making predictions about how to classify new data!
+It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable;
+
+Which is great for making predictions about how to classify new data!
   
-  .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
+.small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
 .center[
 ![:scale 40%](images/LDA_FishExample.jpg)
@@ -1566,6 +1620,28 @@ The LDA divides your response variable into groups according to a factor by find
 
 ???
 The grouping is done by maximizing the among-group dispersion versus the within-group dispersion.
+
+---
+
+# Linear discriminant analysis (LDA)
+
+In a nutshell, the approach of LDA is similar to Principal Component Analysis. 
+
+In addition to  finding the principal components that maximize the variance of our data, we also interested in axes that maximize separation between pre-defined classes.
+
+
+
+Quadratic Discriminant Analysis (QDA): Each class uses its own estimate of variance (or covariance when there are multiple input variables).
+Flexible Discriminant Analysis (FDA): Where non-linear combinations of inputs is used such as splines.
+Regularized Discriminant Analysis (RDA): Introduces regularization into the estimate of the variance (actually covariance), moderating the influence of different variables on LDA.
+
+
+???
+
+LDA looks for linear combinations of variables that best explain the data
+
+
+Linear Discriminant Analysis fails when the mean of the distributions are shared, as it becomes impossible to find a new axis that makes both the classes linearly separable. In such cases, we use non-linear discriminant analysis.
 
 ---
 
@@ -1588,21 +1664,23 @@ We know that environmental variables generally change with latitude. This might 
 
 # LDA in R: Doubs fish dataset
 
-Let us begin by loading spatial coordinates for the Doubs River sites:
+Let us begin by loading geographical coordinates for the Doubs River sites:
 ```{r}
 # load spatial data for Doubs sites
 spa <- read.csv("data/doubsspa.csv", row.names = 1)
 spa$site <- 1:nrow(spa) # add site numbers
-spa <- spa[-8,] # remove site 8
+
+spa <- spa[-8, ] # remove site 8, which lacks species
 ```
 
 --
 
-<br><br>
-We can then assign sites into 3 groups based on their latitude:
+<br>
+We can then assign sites into three groups based on latitudinal bands they occupy:
 ```{r}
 # group sites based on latitude
 spa$group <- NA # create "group" column
+
 spa$group[which(spa$y < 82)] <- 1
 spa$group[which(spa$y > 82 & spa$y < 156)] <- 2
 spa$group[which(spa$y > 156)] <- 3
@@ -1634,9 +1712,32 @@ ggplot(data = spa) +
 
 ---
 
-# LDA in R
+# LDA in `R`
 
-.alert[Note]: Usually we would check the multivariate homogeneity of within-group variances before proceeding (see Borcard et al. 2011). If you need to do this, check the `betadisper()` function in the `vegan` package.
+.alert[Note]: One needs to assess whether the multivariate homogeneity of within-group variances is being violated before proceeding (see Borcard et al. 2011). 
+
+.pull-left[
+You can do this using the `betadisper()` function in the `vegan` package.
+
+```{r}
+(env.d.betadisper <- betadisper(
+  dist(env), 
+  spa$group)
+)
+```
+]
+
+
+.pull-right[
+```{r}
+anova(env.d.betadisper)
+```
+```{r}
+permutest(env.d.betadisper)
+```
+
+]
+
 <br><br>
 For the purposes of this workshop, we will move straight to doing the LDA:
 ```{r}
@@ -1646,6 +1747,7 @@ library(MASS)
 # run the LDA grouping sites into latitude groups based on env data
 LDA <- lda(env, spa$group)
 ```
+
 ---
 
 # LDA in R
