@@ -1062,7 +1062,21 @@ Partitions the variation of response variables among 2, 3, or more groups of exp
 
 # Variation partitioning
 
-.center[![:scale 85%](images/VarPart.png)]
+.center[![:scale 55%](images/VarPart.png)]
+
+--
+
+.pull-left[
+```{r , fig.dim= c(5,5),echo=FALSE}
+showvarparts(3, bg=2:4)
+```
+]
+
+.pull-right[
+```{r , fig.dim = c(5,5), echo=FALSE}
+showvarparts(4, bg=2:5)
+```
+]
 
 ---
 # Variation partitioning in `R`
@@ -1079,6 +1093,7 @@ spe.part.all$part # access results!
 ]
 
 ---
+
 # Variation partitioning plot
 
 ```{r, strip.white = TRUE, fig.width = 6, fig.height = 6}
@@ -1088,6 +1103,46 @@ plot(spe.part.all,
      digits = 2, # only show 2 digits
      cex = 1.5)
 ```
+
+---
+# Variation partitioning: _what is happening?_
+
+With two explanatory tables, the fractions explained uniquely by each of the two tables are [a] and [c], and their joint effect is [b] following Borcard et al. (1992).
+
+.pull-left[
+
+
+Try `browseVignettes("vegan")`:
+
+| | Compute | Fitted | Residuals |
+| :-----: | :-----: | :----: | :-----:   |
+| √ | Y(X1) | [a+b] | [c+d] | 
+| √ | Y(X2) |  [b+c] |  [a+d] | 
+| √ | Y(X1+X2) | [a+b+c] | [d]  |
+<br>
+
+
+Partial analyses:
+
+| Fraction | Operation | 
+| :-----: | :----- | 
+| [a] | = [a+b+c] - [b+c] |
+| [c] | = [a+b+c] - [a+b] |
+| [b] | = [a+b] + [b+c] - [a+b+c] |
+| [d] | = residuals = 1 - [a+b+c] |
+
+]
+
+.pull-right[
+<br>
+```{r, echo=FALSE}
+showvarparts(2, bg=2:3)
+```
+]
+
+???
+
+√ indicates the 3 regression o r canonical analyses that have t o b e computed.
 
 ---
 # Significance testing
@@ -1604,15 +1659,15 @@ class: inverse, center, middle
 
 # Linear discriminant analysis (LDA)
 
-Lineard discriminant analysis is not just a form to reduce dimensionality, but it is a robust classification procedure.
+The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups**.
 
-The LDA divides your response variable into groups according to a factor by finding combination of the variables that give **best possible separation between groups.** This is useful because:
+Linear discriminant analysis is not just a form to reduce dimensionality, but it is a robust classification procedure.
 
 It can tell you how well your descriptor variables explain an *a priori* grouping of your response variable;
 
 Which is great for making predictions about how to classify new data!
   
-.small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
+-  .small[.comment[e.g. classifying whether a fish comes from a lake or ocean population, based on morphology]]
 
 .center[
 ![:scale 40%](images/LDA_FishExample.jpg)
@@ -1627,42 +1682,51 @@ The grouping is done by maximizing the among-group dispersion versus the within-
 
 In a nutshell, the approach of LDA is similar to Principal Component Analysis. 
 
-In addition to  finding the principal components that maximize the variance of our data, we also interested in axes that maximize separation between pre-defined classes.
+In addition to finding the principal components that maximize the variance of our data, we also interested in axes that maximize separation between pre-defined classes.
 
 
+```{r echo=TRUE}
+# klaR::partimat(Species ~ ., data = data(iris), method = "lda")
+```
 
-Quadratic Discriminant Analysis (QDA): Each class uses its own estimate of variance (or covariance when there are multiple input variables).
-Flexible Discriminant Analysis (FDA): Where non-linear combinations of inputs is used such as splines.
-Regularized Discriminant Analysis (RDA): Introduces regularization into the estimate of the variance (actually covariance), moderating the influence of different variables on LDA.
 
 
 ???
 
 LDA looks for linear combinations of variables that best explain the data
 
+Both LDA and QDA can be derived from simple probabilistic models which model the class conditional distribution of the data  
+P(X|y=k)   for each class k.  k is selected such that it maximize this conditional probability. P(X|y) is usually modeled as p multivariate Gaussian distribution with known density.
+
+- Quadratic Discriminant Analysis (QDA): Each class uses its own estimate of variance (or covariance when there are multiple input variables).
+
+- Flexible Discriminant Analysis (FDA): Where non-linear combinations of inputs is used such as splines.
+
+- Regularized Discriminant Analysis (RDA): Introduces regularization into the estimate of the variance (actually covariance), moderating the influence of different variables on LDA.
+
 
 Linear Discriminant Analysis fails when the mean of the distributions are shared, as it becomes impossible to find a new axis that makes both the classes linearly separable. In such cases, we use non-linear discriminant analysis.
+
 
 ---
 
 # LDA in R: Doubs fish dataset
 
-<br>
-We know that environmental variables generally change with latitude. This might lead us to ask the following question:
+We know that environmental variables generally change with latitude. This might lead us to the following question:
 
 <br>
 --
 
-<br><br><br><br>
+<br><br>
 .center[
 **If we classify our Doubs River sites according to latitude, how well do environmental variables explain these groupings?**
 
-.comment[We can use an LDA to answer this question!]
+.comment[We can try discriminating groups with LDA to answer this question!]
 
 ]
 ---
 
-# LDA in R: Doubs fish dataset
+# LDA in `R`: Doubs fish dataset
 
 Let us begin by loading geographical coordinates for the Doubs River sites:
 ```{r}
@@ -1714,53 +1778,61 @@ ggplot(data = spa) +
 
 # LDA in `R`
 
-.alert[Note]: One needs to assess whether the multivariate homogeneity of within-group variances is being violated before proceeding (see Borcard et al. 2011). 
+.alert[Note]: One needs to assess whether the multivariate homogeneity of within-group variances is being violated before proceeding (see Borcard et al. 2011).
 
 .pull-left[
-You can do this using the `betadisper()` function in the `vegan` package.
+You can do this using the `vegan::betadisper()` function.
 
 ```{r}
 (env.d.betadisper <- betadisper(
   dist(env), 
-  spa$group)
-)
+  spa$group))
 ```
 ]
 
-
 .pull-right[
+Then, test for within-group diferences in variance:
+
 ```{r}
 anova(env.d.betadisper)
 ```
 ```{r}
 permutest(env.d.betadisper)
 ```
-
 ]
-
-<br><br>
-For the purposes of this workshop, we will move straight to doing the LDA:
-```{r}
-# load required library
-library(MASS)
-
-# run the LDA grouping sites into latitude groups based on env data
-LDA <- lda(env, spa$group)
-```
 
 ---
 
 # LDA in R
 
+.pull-left2[
+
+For the purposes of this workshop, we will move straight into the LDA:
+
+```{r}
+library(MASS)
+
+# Run the LDA grouping sites into 
+# latitude groups based on env data
+
+LDA <- lda(env, spa$group)
+```
+
 Our sites have now been reorganised into groups that are as distinct as possible, based on the environmental variables.
 
 ```{r}
 # predict the groupings
-lda.plotdf <- data.frame(group = spa$group, lda = predict(LDA)$x)
+lda.plotdf <- data.frame(group = spa$group, 
+                         lda = predict(LDA)$x)
 ```
+]
+
+.pull-right2[
 <br>
+
 ```{r echo = FALSE, fig.width = 6.5, fig.height = 5.5}
 library(ggplot2)
+
 # Plot the newly reorganised sites according to the LDA
 ggplot(lda.plotdf) +
   geom_point(aes(x = lda.LD1, 
@@ -1776,6 +1848,7 @@ ggplot(lda.plotdf) +
         legend.text = element_text(size = 18))
 ```
 
+]
 
 ---
 
@@ -1795,11 +1868,13 @@ spe.post <- predict(LDA)$posterior
 (spe.table <- table(spa$group, spe.class))
 
 # Proportion of corrected classification
-diag(prop.table(spe.table, 1))
+diag(proportions(spe.table, margin = 1))
 ```
 ] 
 
-All sites were correctly classified (*Proportion of corrected classification = 1*) into the latitude groups based on environmental variables.
+All sites were _correctly_ classified (*Proportion of corrected classification = 1*) into the latitude groups based on environmental variables.
+
+???
 
 ---
 # LDA in R: Predictions
@@ -1808,7 +1883,7 @@ We can now use this relationship to classify **new** sites into latitude groups.
 
 --
 
-Let's **predict the grouping** of five new sites using our LDA results:
+Let us **predict the grouping** of five new sites using our LDA results:
 .small[
 ```{r}
 # Load the new site data
@@ -1829,16 +1904,18 @@ predict.group$class
 
 Create four equally-spaced latitude groups in the `mite.xy` dataset. Then, run an LDA to classify mite sites into latitude groupings based on environmental variables (`SubsDens` and `WatrCont`). 
 
+<br>
+
 **What proportion of sites was correctly classified in group1? in group2?**
 
 <br>
+
 To begin, load the `mite.xy` data:
 
 ```{r}
 data(mite.xy)
 ```
 
-<br>
 Recall some useful functions:
 
 ```{r, eval = FALSE}
