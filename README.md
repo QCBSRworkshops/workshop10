@@ -59,7 +59,7 @@ Since 2014, several QCBS members contributed to consistently and collaboratively
 | Gabriel Muñoz |                             |      Amanda Winegardner      |
 |   Kevin Cazelles      |                             |      Xavier Giroux-Bougard    |
 |  Marie Hélène Brice         |                             |       Vincent Fugère    |
-
+ 
 # Development status
 
 **Template** 
