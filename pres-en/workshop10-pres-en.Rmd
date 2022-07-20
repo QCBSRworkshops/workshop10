@@ -1684,14 +1684,64 @@ In a nutshell, the approach of LDA is similar to Principal Component Analysis.
 
 In addition to finding the principal components that maximize the variance of our data, we also interested in axes that maximize separation between pre-defined classes.
 
+.pull-left[
 
-```{r echo=TRUE}
-# klaR::partimat(Species ~ ., data = data(iris), method = "lda")
+LDA can be derived from simple probabilistic predicting the _class_ conditional distribution of the data $P(X|y=k)$ for each class $k$.  
+
+$k$ is priory selected to maximize this conditional probability. 
+]
+
+.pull-right[
+```{r eval=T, echo=FALSE, message=FALSE, warning=FALSE, fig.dim = c(5,5)}
+library(scales)
+fit <- lda(Species ~ ., data = iris, prior = rep(1, 3)/3)
+datPred <- data.frame(Species=predict(fit)$class,predict(fit)$x)
+#Create decision boundaries
+fit2 <- lda(Species ~ LD1 + LD2, data=datPred, prior = rep(1, 3)/3)
+ld1lim <- expand_range(c(min(datPred$LD1),max(datPred$LD1)),mul=0.05)
+ld2lim <- expand_range(c(min(datPred$LD2),max(datPred$LD2)),mul=0.05)
+ld1 <- seq(ld1lim[[1]], ld1lim[[2]], length.out=300)
+ld2 <- seq(ld2lim[[1]], ld1lim[[2]], length.out=300)
+newdat <- expand.grid(list(LD1=ld1,LD2=ld2))
+preds <-predict(fit2,newdata=newdat)
+predclass <- preds$class
+postprob <- preds$posterior
+df <- data.frame(x=newdat$LD1, y=newdat$LD2, class=predclass)
+df$classnum <- as.numeric(df$class)
+df <- cbind(df,postprob)
+
+colorfun <- function(n,l=65,c=100) { hues = seq(15, 375, length=n+1); hcl(h=hues, l=l, c=c)[1:n] } # default ggplot2 colours
+colors <- colorfun(3)
+colorslight <- colorfun(3,l=90,c=50)
+# ggplot(datPred, aes(x=LD1, y=LD2) ) +
+#     geom_raster(data=df, aes(x=x, y=y, fill = factor(class)),alpha=0.7,show_guide=FALSE) +
+#     geom_contour(data=df, aes(x=x, y=y, z=classnum), colour="red2", alpha=0.5, breaks=c(1.5,2.5)) +
+#     geom_point(data = datPred, size = 3, aes(pch = Species,  colour=Species)) +
+#     scale_x_continuous(limits = ld1lim, expand=c(0,0)) +
+#     scale_y_continuous(limits = ld2lim, expand=c(0,0)) +
+#     scale_fill_manual(values=colorslight,guide=F)
+# 
+
+fit = lda(Species ~ Sepal.Length + Sepal.Width, data = iris, prior = rep(1, 3)/3)
+ld1lim <- expand_range(c(min(datPred$LD1),max(datPred$LD1)),mul=0.5)
+ld2lim <- expand_range(c(min(datPred$LD2),max(datPred$LD2)),mul=0.5)
+
+lvls=unique(df$class)
+df$classpprob=apply(df[,as.character(lvls)],1,function(row) sample(lvls,1,prob=row))
+
+ggplot(datPred, aes(x=LD1, y=LD2) ) +
+  geom_raster(data=df, aes(x=x, y=y, fill = factor(classpprob)),hpad=0, vpad=0, alpha=0.7,show_guide=FALSE) +
+  geom_point(data = datPred, size = 3, aes(pch = Species,  colour=Species)) +
+  scale_fill_manual(values=colorslight,guide=F) +
+  scale_x_continuous(limits=range(datPred$LD1), expand=c(0,0)) +
+  scale_y_continuous(limits=range(datPred$LD2), expand=c(0,0))+
+  theme_bw(base_size = 18)
 ```
-
-
+]
 
 ???
+
+P(X|y) is usually modelled as p multivariate Gaussian distribution with known density.
 
 LDA looks for linear combinations of variables that best explain the data
 
@@ -1730,7 +1780,7 @@ We know that environmental variables generally change with latitude. This might 
 
 Let us begin by loading geographical coordinates for the Doubs River sites:
 ```{r}
-# load spatial data for Doubs sites
+# Load geographical coordinates for the Doubs sites
 spa <- read.csv("data/doubsspa.csv", row.names = 1)
 spa$site <- 1:nrow(spa) # add site numbers
 
@@ -1742,7 +1792,6 @@ spa <- spa[-8, ] # remove site 8, which lacks species
 <br>
 We can then assign sites into three groups based on latitudinal bands they occupy:
 ```{r}
-# group sites based on latitude
 spa$group <- NA # create "group" column
 
 spa$group[which(spa$y < 82)] <- 1
@@ -1755,28 +1804,55 @@ spa$group[which(spa$y > 156)] <- 3
 # LDA in R: Latitude groups
 
 Let us quickly plot the latitude groupings to see if they make sense:
-<br><br>
+<br>
+.pull-left[
 
-```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
+```{r, fig.width = 7.5, fig.height = 6, echo = T, eval = F}
 ggplot(data = spa) +
-  geom_point(aes(x = x, 
-                 y = y, 
-                 col = as.factor(group)), 
-             size = 4) +
+  geom_point(
+    aes(x = x, 
+        y = y, 
+        col = as.factor(group)), 
+    size = 4
+  ) +
   labs(color = "Groups", 
        x = "Longitude", 
        y = "Latitude") +
-  scale_color_manual(values = c("#3b5896", "#e3548c", "#ffa600")) +
-  theme_classic() + # formatting the plot to make it pretty
-  theme(axis.title = element_text(size = 18),
-        axis.text = element_text(size = 16),
-        legend.title = element_text(size = 20),
-        legend.text = element_text(size = 18))
+  scale_color_manual(
+    values = c("#3b5896", 
+               "#e3548c", 
+               "#ffa600")) +
+  theme_classic(base_size = 20)
 ```
+
+]
+
+.pull-right[
+
+<br>
+
+```{r, fig.width = 7.5, fig.height = 6, echo = FALSE}
+ggplot(data = spa) +
+  geom_point(
+    aes(x = x, 
+        y = y, 
+        col = as.factor(group)), 
+    size = 4
+  ) +
+  labs(color = "Groups", 
+       x = "Longitude", 
+       y = "Latitude") +
+  scale_color_manual(
+    values = c("#3b5896", 
+               "#e3548c", 
+               "#ffa600")) +
+  theme_classic(base_size = 20)
+```
+]
 
 ---
 
-# LDA in `R`
+# LDA in `R`: Assumption checking
 
 .alert[Note]: One needs to assess whether the multivariate homogeneity of within-group variances is being violated before proceeding (see Borcard et al. 2011).
 
@@ -1803,7 +1879,7 @@ permutest(env.d.betadisper)
 
 ---
 
-# LDA in R
+# LDA in `R`: `lda()`
 
 .pull-left2[
 
@@ -1887,12 +1963,16 @@ Let us **predict the grouping** of five new sites using our LDA results:
 .small[
 ```{r}
 # Load the new site data
-classify.me <- read.csv("data/classifyme.csv", header = TRUE)
+classify.me <- read.csv("data/classifyme.csv", 
+                        header = TRUE)
+
 # remove das
-classify.me <- subset(classify.me, select = -das)
+classify.me <- subset(classify.me, 
+                      select = -das)
 
 # Predict grouping of new sites
-predict.group <- predict(LDA, newdata = classify.me)
+predict.group <- predict(LDA, 
+                         newdata = classify.me)
 
 # View site classification
 predict.group$class
