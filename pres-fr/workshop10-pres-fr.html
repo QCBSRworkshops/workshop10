@@ -611,7 +611,7 @@ anova.cca(spe.rda.signif, permutations = 1000, by = "term")
 #          Df Variance       F   Pr(&gt;F)    
 # alt       1 0.164856 19.9759 0.000999 ***
 # oxy       1 0.082426  9.9877 0.000999 ***
-# dbo       1 0.048909  5.9264 0.000999 ***
+# dbo       1 0.048909  5.9264 0.003996 ** 
 # Residual 25 0.206319                     
 ...
 ```
@@ -1077,8 +1077,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.020 *  
-# RDA3      1 0.003193 0.9919  0.431    
+# RDA2      1 0.008254 2.5643  0.027 *  
+# RDA3      1 0.003193 0.9919  0.430    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1124,13 +1124,13 @@ spe.part.all$part # extraire résultats
 # 
 # Partition table:
 #                      Df R.squared Adj.R.squared Testable
-# [a+b] = X1            7   0.60579       0.47439     TRUE
+# [a+c] = X1            7   0.60579       0.47439     TRUE
 # [b+c] = X2            3   0.41526       0.34509     TRUE
 # [a+b+c] = X1+X2      10   0.73414       0.58644     TRUE
 # Individual fractions                                    
 # [a] = X1|X2           7                 0.24135     TRUE
-# [b]                   0                 0.23304    FALSE
-# [c] = X2|X1           3                 0.11205     TRUE
+# [b] = X2|X1           3                 0.11205     TRUE
+# [c]                   0                 0.23304    FALSE
 # [d] = Residuals                         0.41356    FALSE
 # ---
 # Use function 'rda' to test significance of fractions of interest
@@ -1326,8 +1326,8 @@ mite.part &lt;- varpart(mite.spe.hel, mite.subs, mite.spat)
 mite.part$part$indfract # extraire résultats
 #                 Df R.squared Adj.R.squared Testable
 # [a] = X1|X2      2        NA    0.05901929     TRUE
-# [b]              0        NA    0.24765221    FALSE
-# [c] = X2|X1     10        NA    0.19415929     TRUE
+# [b] = X2|X1     10        NA    0.19415929     TRUE
+# [c]              0        NA    0.24765221    FALSE
 # [d] = Residuals NA        NA    0.49916921    FALSE
 ```
 
