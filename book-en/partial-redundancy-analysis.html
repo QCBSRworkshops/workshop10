@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Partial Redundancy Analysis | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Partial Redundancy Analysis | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
@@ -48,25 +48,24 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -86,7 +85,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -118,6 +117,28 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -136,83 +157,101 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>QCBS R Workshop Series<span></span></b></span></li>
-<li><a href="index.html#preface">Preface<span></span></a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code of conduct<span></span></a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour<span></span></a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour<span></span></a></li>
+<li class="part"><span><b>QCBS R Workshop Series</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-of-conduct"><i class="fa fa-check"></i><b>0.1</b> Code of conduct</a>
+<ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#expected-behaviour"><i class="fa fa-check"></i><b>0.1.1</b> Expected behaviour</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#unacceptable-behaviour"><i class="fa fa-check"></i><b>0.1.2</b> Unacceptable behaviour</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors<span></span></a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing<span></span></a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributors"><i class="fa fa-check"></i><b>0.2</b> Contributors</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contributing"><i class="fa fa-check"></i><b>0.3</b> Contributing</a></li>
 </ul></li>
-<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code><span></span></b></span></li>
-<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives<span></span></a></li>
-<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop<span></span></a></li>
-<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?<span></span></a></li>
-<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset<span></span></a><ul>
-<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset<span></span></a></li>
-<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset<span></span></a><ul>
-<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity<span></span></a></li>
-<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Constrained ordinations<span></span></b></span></li>
-<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?<span></span></a></li>
-<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis<span></span></a><ul>
-<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works<span></span></a></li>
-<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R<span></span></a><ul>
-<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables<span></span></a></li>
-<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing<span></span></a></li>
-<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1<span></span></a><ul>
-<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution<span></span></a></li>
+<li class="part"><span><b>Advanced Multivariate Analyses in <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="learning-objectives.html"><a href="learning-objectives.html"><i class="fa fa-check"></i><b>1</b> Learning objectives</a></li>
+<li class="chapter" data-level="2" data-path="preparing-for-the-workshop.html"><a href="preparing-for-the-workshop.html"><i class="fa fa-check"></i><b>2</b> Preparing for the workshop</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploring the Doubs River dataset</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#exploring-the-fish-community-dataset"><i class="fa fa-check"></i><b>4.1</b> Exploring the fish community dataset</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#exploring-the-environmental-dataset"><i class="fa fa-check"></i><b>4.2</b> Exploring the environmental dataset</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#collinearity"><i class="fa fa-check"></i><b>4.2.1</b> Collinearity</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardizing-the-environmental-variables"><i class="fa fa-check"></i><b>4.2.2</b> Standardizing the environmental variables</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis<span></span></a><ul>
-<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data<span></span></a><ul>
-<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R<span></span></a></li>
-<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing<span></span></a></li>
-<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot<span></span></a></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="what-are-constrained-ordinations.html"><a href="what-are-constrained-ordinations.html"><i class="fa fa-check"></i><b>5</b> What are “constrained” ordinations?</a></li>
+<li class="chapter" data-level="6" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html"><i class="fa fa-check"></i><b>6</b> Redundancy analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#how-the-rda-works"><i class="fa fa-check"></i><b>6.1</b> How the RDA works</a></li>
+<li class="chapter" data-level="6.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#running-an-rda-in-r"><i class="fa fa-check"></i><b>6.2</b> Running an RDA in R</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#selecting-variables"><i class="fa fa-check"></i><b>6.2.1</b> Selecting variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#significance-testing"><i class="fa fa-check"></i><b>6.2.2</b> Significance testing</a></li>
+<li class="chapter" data-level="6.2.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#rda-plot"><i class="fa fa-check"></i><b>6.2.3</b> RDA plot</a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2<span></span></a><ul>
-<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning<span></span></a><ul>
-<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R<span></span></a></li>
-<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing<span></span></a></li>
-<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3<span></span></a><ul>
-<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree<span></span></a><ul>
-<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT<span></span></a><ul>
-<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data<span></span></a></li>
-<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R<span></span></a><ul>
-<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process<span></span></a></li>
-<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output<span></span></a></li>
-<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4<span></span></a><ul>
-<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1"><i class="fa fa-check"></i><b>6.3</b> Challenge 1</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="redundancy-analysis.html"><a href="redundancy-analysis.html#challenge-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Challenge 1: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis<span></span></a><ul>
-<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset<span></span></a><ul>
-<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings<span></span></a></li>
-<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA<span></span></a></li>
-<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy<span></span></a></li>
-<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions<span></span></a></li>
+<li class="chapter" data-level="7" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html"><i class="fa fa-check"></i><b>7</b> Partial Redundancy Analysis</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data"><i class="fa fa-check"></i><b>7.1</b> Example: Partial RDA on Doubs River data</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r"><i class="fa fa-check"></i><b>7.1.1</b> Interpreting partial RDA output in R</a></li>
+<li class="chapter" data-level="7.1.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#significance-testing-1"><i class="fa fa-check"></i><b>7.1.2</b> Significance testing</a></li>
+<li class="chapter" data-level="7.1.3" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#partial-rda-plot"><i class="fa fa-check"></i><b>7.1.3</b> Partial RDA plot</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5<span></span></a></li>
+<li class="chapter" data-level="7.2" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2"><i class="fa fa-check"></i><b>7.2</b> Challenge 2</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="partial-redundancy-analysis.html"><a href="partial-redundancy-analysis.html#challenge-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Challenge 2: Solution</a></li>
 </ul></li>
-<li class="part"><span><b>Final considerations<span></span></b></span></li>
-<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary<span></span></a></li>
-<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources<span></span></a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="variation-partitioning.html"><a href="variation-partitioning.html"><i class="fa fa-check"></i><b>8</b> Variation partitioning</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#variation-partitioning-in-r"><i class="fa fa-check"></i><b>8.1</b> Variation partitioning in R</a></li>
+<li class="chapter" data-level="8.2" data-path="variation-partitioning.html"><a href="variation-partitioning.html#significance-testing-2"><i class="fa fa-check"></i><b>8.2</b> Significance testing</a></li>
+<li class="chapter" data-level="8.3" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3"><i class="fa fa-check"></i><b>8.3</b> Challenge 3</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="variation-partitioning.html"><a href="variation-partitioning.html#challenge-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Challenge 3: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html"><i class="fa fa-check"></i><b>9</b> Multivariate regression tree</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#computing-the-mrt"><i class="fa fa-check"></i><b>9.1</b> Computing the MRT</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#building-the-tree-constrained-partitioning-of-the-data"><i class="fa fa-check"></i><b>9.1.1</b> Building the tree: Constrained partitioning of the data</a></li>
+<li class="chapter" data-level="9.1.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#selecting-the-tree-cross-validation-and-pruning"><i class="fa fa-check"></i><b>9.1.2</b> Selecting the tree: Cross-validation and pruning</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-in-r"><i class="fa fa-check"></i><b>9.2</b> MRT in R</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#mrt-selection-process"><i class="fa fa-check"></i><b>9.2.1</b> MRT selection process</a></li>
+<li class="chapter" data-level="9.2.2" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#interpreting-mrt-output"><i class="fa fa-check"></i><b>9.2.2</b> Interpreting MRT output</a></li>
+<li class="chapter" data-level="9.2.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4"><i class="fa fa-check"></i><b>9.3</b> Challenge 4</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="multivariate-regression-tree.html"><a href="multivariate-regression-tree.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html"><i class="fa fa-check"></i><b>10</b> Linear discriminant analysis</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#lda-in-r-doubs-river-fish-dataset"><i class="fa fa-check"></i><b>10.1</b> LDA in R: Doubs River fish dataset</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#making-a-priori-groupings"><i class="fa fa-check"></i><b>10.1.1</b> Making <em>a priori</em> groupings</a></li>
+<li class="chapter" data-level="10.1.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#running-the-lda"><i class="fa fa-check"></i><b>10.1.2</b> Running the LDA</a></li>
+<li class="chapter" data-level="10.1.3" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#evaluating-grouping-accuracy"><i class="fa fa-check"></i><b>10.1.3</b> Evaluating grouping accuracy</a></li>
+<li class="chapter" data-level="10.1.4" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#predictions"><i class="fa fa-check"></i><b>10.1.4</b> Predictions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="linear-discriminant-analysis.html"><a href="linear-discriminant-analysis.html#challenge-5"><i class="fa fa-check"></i><b>10.2</b> Challenge 5</a></li>
+</ul></li>
+<li class="part"><span><b>Final considerations</b></span></li>
+<li class="chapter" data-level="11" data-path="summary.html"><a href="summary.html"><i class="fa fa-check"></i><b>11</b> Summary</a></li>
+<li class="chapter" data-level="12" data-path="additional-resources.html"><a href="additional-resources.html"><i class="fa fa-check"></i><b>12</b> Additional resources</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -248,7 +287,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="partial-redundancy-analysis" class="section level1 hasAnchor">
+<div id="partial-redundancy-analysis" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> Partial Redundancy Analysis<a href="partial-redundancy-analysis.html#partial-redundancy-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Partial RDA is a special case of RDA in which the response variables <span class="math inline">\(Y\)</span> are related to explanatory variables <span class="math inline">\(X\)</span> in the presence of additional explanatory variables <span class="math inline">\(W\)</span>, called <strong>covariates</strong> (or covariables). As in partial linear regression, the linear effect of <span class="math inline">\(X\)</span> variables on the <span class="math inline">\(Y\)</span> variables are <em>adjusted</em> for the effects of the covariates <span class="math inline">\(W\)</span>. For this, a RDA of the covariables <span class="math inline">\(W\)</span> on the response variables <span class="math inline">\(Y\)</span> is first performed. The residuals of this RDA are then extracted, i.e. a matrix <span class="math inline">\(Y_{res}|W\)</span> containing the <span class="math inline">\(Y\)</span> response variables in which the effect of <span class="math inline">\(W\)</span> was removed. The partial RDA corresponds to the RDA of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y_{res}|W\)</span>. All statistics previously presented for RDA also apply for partial RDA.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-39"></span>
@@ -258,28 +297,28 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 </p>
 </div>
 <p>Partial RDA has several applications. It is a powerful tool when users what to assess the effect of environmental variables on species composition while taking into account the variation due to other environmental variables that are <strong>not the focus</strong> of the study. A common example of this in community ecology is to test the importance of environmental variables while controlling for the effect of space. Partial RDA can also be used to control for well-known linear effects, to isolate the effect of a single explanatory variable, or to analyse related samples.</p>
-<div id="example-partial-rda-on-doubs-river-data" class="section level2 hasAnchor">
+<div id="example-partial-rda-on-doubs-river-data" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Example: Partial RDA on Doubs River data<a href="partial-redundancy-analysis.html#example-partial-rda-on-doubs-river-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In <code>R</code>, a partial RDA is performed in the same way as the RDA we used previously, using <code>rda()</code>. As a demonstration, let’s assess the effect of water chemistry on fish species abundances (<code>spe.hel</code>) while controlling for the effect of topography.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="partial-redundancy-analysis.html#cb56-1"></a><span class="co"># Subset environmental data into topography variables and</span></span>
-<span id="cb56-2"><a href="partial-redundancy-analysis.html#cb56-2"></a><span class="co"># chemistry variables</span></span>
-<span id="cb56-3"><a href="partial-redundancy-analysis.html#cb56-3"></a>env.topo &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(alt, pen, deb))</span>
-<span id="cb56-4"><a href="partial-redundancy-analysis.html#cb56-4"></a>env.chem &lt;-<span class="st"> </span><span class="kw">subset</span>(env.z, <span class="dt">select =</span> <span class="kw">c</span>(pH, dur, pho, nit, amm,</span>
-<span id="cb56-5"><a href="partial-redundancy-analysis.html#cb56-5"></a>    oxy, dbo))</span>
-<span id="cb56-6"><a href="partial-redundancy-analysis.html#cb56-6"></a></span>
-<span id="cb56-7"><a href="partial-redundancy-analysis.html#cb56-7"></a><span class="co"># Run a partial RDA</span></span>
-<span id="cb56-8"><a href="partial-redundancy-analysis.html#cb56-8"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel, env.chem, env.topo)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="partial-redundancy-analysis.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset environmental data into topography variables and</span></span>
+<span id="cb56-2"><a href="partial-redundancy-analysis.html#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># chemistry variables</span></span>
+<span id="cb56-3"><a href="partial-redundancy-analysis.html#cb56-3" aria-hidden="true" tabindex="-1"></a>env.topo <span class="ot">&lt;-</span> <span class="fu">subset</span>(env.z, <span class="at">select =</span> <span class="fu">c</span>(alt, pen, deb))</span>
+<span id="cb56-4"><a href="partial-redundancy-analysis.html#cb56-4" aria-hidden="true" tabindex="-1"></a>env.chem <span class="ot">&lt;-</span> <span class="fu">subset</span>(env.z, <span class="at">select =</span> <span class="fu">c</span>(pH, dur, pho, nit, amm,</span>
+<span id="cb56-5"><a href="partial-redundancy-analysis.html#cb56-5" aria-hidden="true" tabindex="-1"></a>    oxy, dbo))</span>
+<span id="cb56-6"><a href="partial-redundancy-analysis.html#cb56-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-7"><a href="partial-redundancy-analysis.html#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a partial RDA</span></span>
+<span id="cb56-8"><a href="partial-redundancy-analysis.html#cb56-8" aria-hidden="true" tabindex="-1"></a>spe.partial.rda <span class="ot">&lt;-</span> <span class="fu">rda</span>(spe.hel, env.chem, env.topo)</span></code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> You can also use a formula syntax like <code>Y ~ X + Condition(W)</code>, where <code>Condition()</code> allows you to control for the covariates.</p>
 </blockquote>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="partial-redundancy-analysis.html#cb57-1"></a><span class="co"># Alternative syntax for the partial RDA:</span></span>
-<span id="cb57-2"><a href="partial-redundancy-analysis.html#cb57-2"></a>spe.partial.rda &lt;-<span class="st"> </span><span class="kw">rda</span>(spe.hel <span class="op">~</span><span class="st"> </span>pH <span class="op">+</span><span class="st"> </span>dur <span class="op">+</span><span class="st"> </span>pho <span class="op">+</span><span class="st"> </span>nit <span class="op">+</span><span class="st"> </span>amm <span class="op">+</span><span class="st"> </span>oxy <span class="op">+</span><span class="st"> </span>dbo <span class="op">+</span><span class="st"> </span><span class="co"># these are the effects we are interested in</span></span>
-<span id="cb57-3"><a href="partial-redundancy-analysis.html#cb57-3"></a><span class="st">                       </span><span class="kw">Condition</span>(alt <span class="op">+</span><span class="st"> </span>pen <span class="op">+</span><span class="st"> </span>deb), <span class="co"># these are the covariates</span></span>
-<span id="cb57-4"><a href="partial-redundancy-analysis.html#cb57-4"></a>                       <span class="dt">data =</span> env.z)</span></code></pre></div>
-<div id="interpreting-partial-rda-output-in-r" class="section level3 hasAnchor">
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="partial-redundancy-analysis.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative syntax for the partial RDA:</span></span>
+<span id="cb57-2"><a href="partial-redundancy-analysis.html#cb57-2" aria-hidden="true" tabindex="-1"></a>spe.partial.rda <span class="ot">&lt;-</span> <span class="fu">rda</span>(spe.hel <span class="sc">~</span> pH <span class="sc">+</span> dur <span class="sc">+</span> pho <span class="sc">+</span> nit <span class="sc">+</span> amm <span class="sc">+</span> oxy <span class="sc">+</span> dbo <span class="sc">+</span> <span class="co"># these are the effects we are interested in</span></span>
+<span id="cb57-3"><a href="partial-redundancy-analysis.html#cb57-3" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">Condition</span>(alt <span class="sc">+</span> pen <span class="sc">+</span> deb), <span class="co"># these are the covariates</span></span>
+<span id="cb57-4"><a href="partial-redundancy-analysis.html#cb57-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> env.z)</span></code></pre></div>
+<div id="interpreting-partial-rda-output-in-r" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> Interpreting partial RDA output in R<a href="partial-redundancy-analysis.html#interpreting-partial-rda-output-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The output of a partial RDA is very similar to the output discussed in the previous section on RDA. The key difference is that we have covariates in our model, which means we can see how much variation is explained by these additional, but not “<em>interesting</em>” variables. Once again, the first section of the summary contains the pieces we need to verify the performance of our partial RDA. Let us break it down:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="partial-redundancy-analysis.html#cb58-1"></a><span class="kw">summary</span>(spe.partial.rda)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="partial-redundancy-analysis.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spe.partial.rda)</span></code></pre></div>
 <pre><code>...
 ## Partitioning of variance:
 ##               Inertia Proportion
@@ -297,20 +336,20 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <p>How would you report these results? You could say something like: “Water chemistry explains 31.9% of the variation in fish community composition across sites, while topography explains 41.5% of this variation.”</p>
 </blockquote>
 </div>
-<div id="significance-testing-1" class="section level3 hasAnchor">
+<div id="significance-testing-1" class="section level3 hasAnchor" number="7.1.2">
 <h3><span class="header-section-number">7.1.2</span> Significance testing<a href="partial-redundancy-analysis.html#significance-testing-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As with the RDA, we can interpret the significance of our model with two key pieces of information.</p>
 <ol style="list-style-type: decimal">
 <li>What is the model’s <strong>explanatory power</strong>?</li>
 </ol>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="partial-redundancy-analysis.html#cb60-1"></a><span class="co"># Extract the model&#39;s adjusted R2</span></span>
-<span id="cb60-2"><a href="partial-redundancy-analysis.html#cb60-2"></a><span class="kw">RsquareAdj</span>(spe.partial.rda)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="partial-redundancy-analysis.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the model&#39;s adjusted R2</span></span>
+<span id="cb60-2"><a href="partial-redundancy-analysis.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">RsquareAdj</span>(spe.partial.rda)<span class="sc">$</span>adj.r.squared</span></code></pre></div>
 <pre><code>## [1] 0.2413464</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Is the model <strong>statistically significant</strong>?</li>
 </ol>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="partial-redundancy-analysis.html#cb62-1"></a><span class="co"># Test whether the model is statistically significant</span></span>
-<span id="cb62-2"><a href="partial-redundancy-analysis.html#cb62-2"></a><span class="kw">anova.cca</span>(spe.partial.rda, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="partial-redundancy-analysis.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test whether the model is statistically significant</span></span>
+<span id="cb62-2"><a href="partial-redundancy-analysis.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova.cca</span>(spe.partial.rda, <span class="at">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>...
 ## Permutation test for rda under reduced model
 ## Number of permutations: 999
@@ -324,10 +363,10 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <p>Our model explains 24.1% of the variation in fish abundance across sites. It is also statistically significant (p = 0.001)!</p>
 </blockquote>
 </div>
-<div id="partial-rda-plot" class="section level3 hasAnchor">
+<div id="partial-rda-plot" class="section level3 hasAnchor" number="7.1.3">
 <h3><span class="header-section-number">7.1.3</span> Partial RDA plot<a href="partial-redundancy-analysis.html#partial-rda-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can visualise the effects of the environmental variables on the fish community with the <code>ordiplot()</code> function.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="partial-redundancy-analysis.html#cb64-1"></a><span class="kw">ordiplot</span>(spe.partial.rda, <span class="dt">scaling =</span> <span class="dv">2</span>, <span class="dt">main =</span> <span class="st">&quot;Doubs River partial RDA - Scaling 2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="partial-redundancy-analysis.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(spe.partial.rda, <span class="at">scaling =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">&quot;Doubs River partial RDA - Scaling 2&quot;</span>)</span></code></pre></div>
 <p><img src="book-en_files/figure-html/unnamed-chunk-45-1.png" width="432" style="display: block; margin: auto;" /></p>
 <blockquote>
 <p>Recall: Scaling 2 shows the effects of explanatory variables, meaning it shows the effects of the X matrix on the Y matrix (after the effect of matrix W has been controlled for).</p>
@@ -338,28 +377,28 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 </div>
 </div>
 </div>
-<div id="challenge-2" class="section level2 hasAnchor">
+<div id="challenge-2" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Challenge 2<a href="partial-redundancy-analysis.html#challenge-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Run a partial RDA to model the effects of environmental variables on mite species abundances (<code>mite.spe.hel</code>), while controlling for substrate variables (<code>SubsDens</code>, <code>WatrCont</code>, and <code>Substrate</code>).
 * What is the variance explained by substrate variables?
 * Is the model significant?
 * Which axes are significant?</p>
 <p>Recall some useful functions:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="partial-redundancy-analysis.html#cb65-1"></a><span class="kw">rda</span>()</span>
-<span id="cb65-2"><a href="partial-redundancy-analysis.html#cb65-2"></a><span class="kw">summary</span>()</span>
-<span id="cb65-3"><a href="partial-redundancy-analysis.html#cb65-3"></a><span class="kw">RsquareAdj</span>()</span>
-<span id="cb65-4"><a href="partial-redundancy-analysis.html#cb65-4"></a><span class="kw">anova.cca</span>()  <span class="co"># hint: see the &#39;by&#39; argument in ?anova.cca</span></span></code></pre></div>
-<div id="challenge-2-solution" class="section level3 hasAnchor">
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="partial-redundancy-analysis.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rda</span>()</span>
+<span id="cb65-2"><a href="partial-redundancy-analysis.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>()</span>
+<span id="cb65-3"><a href="partial-redundancy-analysis.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">RsquareAdj</span>()</span>
+<span id="cb65-4"><a href="partial-redundancy-analysis.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">anova.cca</span>()  <span class="co"># hint: see the &#39;by&#39; argument in ?anova.cca</span></span></code></pre></div>
+<div id="challenge-2-solution" class="section level3 hasAnchor" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> Challenge 2: Solution<a href="partial-redundancy-analysis.html#challenge-2-solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Step 1:</strong> Transform and standardize the data.</p>
 <p>Our datasets have already been transformed and standardized.</p>
 <p><strong>Step 2:</strong> Run a partial RDA.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="partial-redundancy-analysis.html#cb66-1"></a><span class="co"># Compute partial RDA</span></span>
-<span id="cb66-2"><a href="partial-redundancy-analysis.html#cb66-2"></a>mite.spe.subs &lt;-<span class="st"> </span><span class="kw">rda</span>(mite.spe.hel <span class="op">~</span><span class="st"> </span>Shrub <span class="op">+</span><span class="st"> </span>Topo <span class="op">+</span><span class="st"> </span><span class="kw">Condition</span>(SubsDens <span class="op">+</span></span>
-<span id="cb66-3"><a href="partial-redundancy-analysis.html#cb66-3"></a><span class="st">    </span>WatrCont <span class="op">+</span><span class="st"> </span>Substrate), <span class="dt">data =</span> mite.env)</span>
-<span id="cb66-4"><a href="partial-redundancy-analysis.html#cb66-4"></a></span>
-<span id="cb66-5"><a href="partial-redundancy-analysis.html#cb66-5"></a><span class="co"># Check summary</span></span>
-<span id="cb66-6"><a href="partial-redundancy-analysis.html#cb66-6"></a><span class="kw">summary</span>(mite.spe.subs)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="partial-redundancy-analysis.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute partial RDA</span></span>
+<span id="cb66-2"><a href="partial-redundancy-analysis.html#cb66-2" aria-hidden="true" tabindex="-1"></a>mite.spe.subs <span class="ot">&lt;-</span> <span class="fu">rda</span>(mite.spe.hel <span class="sc">~</span> Shrub <span class="sc">+</span> Topo <span class="sc">+</span> <span class="fu">Condition</span>(SubsDens <span class="sc">+</span></span>
+<span id="cb66-3"><a href="partial-redundancy-analysis.html#cb66-3" aria-hidden="true" tabindex="-1"></a>    WatrCont <span class="sc">+</span> Substrate), <span class="at">data =</span> mite.env)</span>
+<span id="cb66-4"><a href="partial-redundancy-analysis.html#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-5"><a href="partial-redundancy-analysis.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check summary</span></span>
+<span id="cb66-6"><a href="partial-redundancy-analysis.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mite.spe.subs)</span></code></pre></div>
 <pre><code>...
 ## Partitioning of variance:
 ##               Inertia Proportion
@@ -375,12 +414,12 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <ul>
 <li>What is the variance explained by substrate variables?</li>
 </ul>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="partial-redundancy-analysis.html#cb68-1"></a><span class="kw">RsquareAdj</span>(mite.spe.subs)<span class="op">$</span>adj.r.squared</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="partial-redundancy-analysis.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">RsquareAdj</span>(mite.spe.subs)<span class="sc">$</span>adj.r.squared</span></code></pre></div>
 <pre><code>## [1] 0.08327533</code></pre>
 <ul>
 <li>Is the model significant?</li>
 </ul>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="partial-redundancy-analysis.html#cb70-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="partial-redundancy-analysis.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova.cca</span>(mite.spe.subs, <span class="at">step =</span> <span class="dv">1000</span>)</span></code></pre></div>
 <pre><code>## Permutation test for rda under reduced model
 ## Permutation: free
 ## Number of permutations: 999
@@ -394,7 +433,7 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 <ul>
 <li>Which axes are significant?</li>
 </ul>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="partial-redundancy-analysis.html#cb72-1"></a><span class="kw">anova.cca</span>(mite.spe.subs, <span class="dt">step =</span> <span class="dv">1000</span>, <span class="dt">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="partial-redundancy-analysis.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova.cca</span>(mite.spe.subs, <span class="at">step =</span> <span class="dv">1000</span>, <span class="at">by =</span> <span class="st">&quot;axis&quot;</span>)</span></code></pre></div>
 <pre><code>## Permutation test for rda under reduced model
 ## Forward tests for axes
 ## Permutation: free
@@ -403,8 +442,8 @@ Figure 7.1: The basic structure of a redundancy analysis (RDA).
 ## Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 ##          Df Variance      F Pr(&gt;F)    
 ## RDA1      1 0.027236 8.4618  0.001 ***
-## RDA2      1 0.008254 2.5643  0.025 *  
-## RDA3      1 0.003193 0.9919  0.436    
+## RDA2      1 0.008254 2.5643  0.020 *  
+## RDA3      1 0.003193 0.9919  0.423    
 ## Residual 58 0.186688                  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -487,7 +526,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
