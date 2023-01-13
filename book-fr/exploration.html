@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 4 Exploration les données | Atelier 10: Analyses multivariées avancées en R</title>
   <meta name="description" content="Analyses multivariées avancées en R" />
-  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 4 Exploration les données | Atelier 10: Analyses multivariées avancées en R" />
   <meta property="og:type" content="book" />
@@ -48,25 +48,24 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -86,7 +85,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -118,6 +117,28 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="assets/qcbs-style.css" type="text/css" />
 </head>
@@ -136,83 +157,101 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <link rel="icon" type="image/png" href="assets/images/favicon.ico"/>
 
 <li class="divider"></li>
-<li class="part"><span><b>Série d’ateliers R du CSBQ<span></span></b></span></li>
-<li><a href="index.html#préface">Préface<span></span></a><ul>
-<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>0.1</b> Code de conduite<span></span></a><ul>
-<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu<span></span></a></li>
-<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables<span></span></a></li>
+<li class="part"><span><b>Série d’ateliers R du CSBQ</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Préface</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="index.html"><a href="index.html#code-de-conduite"><i class="fa fa-check"></i><b>0.1</b> Code de conduite</a>
+<ul>
+<li class="chapter" data-level="0.1.1" data-path="index.html"><a href="index.html#comportement-attendu"><i class="fa fa-check"></i><b>0.1.1</b> Comportement attendu</a></li>
+<li class="chapter" data-level="0.1.2" data-path="index.html"><a href="index.html#comportements-inacceptables"><i class="fa fa-check"></i><b>0.1.2</b> Comportements inacceptables</a></li>
 </ul></li>
-<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices<span></span></a></li>
-<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!<span></span></a></li>
+<li class="chapter" data-level="0.2" data-path="index.html"><a href="index.html#contributeurs-et-contributrices"><i class="fa fa-check"></i><b>0.2</b> Contributeurs et contributrices</a></li>
+<li class="chapter" data-level="0.3" data-path="index.html"><a href="index.html#contribuez-à-la-série"><i class="fa fa-check"></i><b>0.3</b> Contribuez à la série!</a></li>
 </ul></li>
-<li class="part"><span><b>Analyses multivariées avancées dans <code>R</code><span></span></b></span></li>
-<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage<span></span></a></li>
-<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier<span></span></a></li>
-<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?<span></span></a></li>
-<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploration les données<span></span></a><ul>
-<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#données-dabondances-despèces"><i class="fa fa-check"></i><b>4.1</b> Données d’abondances d’espèces<span></span></a></li>
-<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#données-environnementales"><i class="fa fa-check"></i><b>4.2</b> Données environnementales<span></span></a><ul>
-<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#colinéarité"><i class="fa fa-check"></i><b>4.2.1</b> Colinéarité<span></span></a></li>
-<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardisation-des-données"><i class="fa fa-check"></i><b>4.2.2</b> Standardisation des données<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="part"><span><b>Constrained ordinations<span></span></b></span></li>
-<li class="chapter" data-level="5" data-path="que-sont-les-ordinations-contraintes.html"><a href="que-sont-les-ordinations-contraintes.html"><i class="fa fa-check"></i><b>5</b> Que sont les ordinations “contraintes” ?<span></span></a></li>
-<li class="chapter" data-level="6" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html"><i class="fa fa-check"></i><b>6</b> Analyse canonique de redondances<span></span></a><ul>
-<li class="chapter" data-level="6.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#computation"><i class="fa fa-check"></i><b>6.1</b> Computation<span></span></a></li>
-<li class="chapter" data-level="6.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#implémentation-dans-r"><i class="fa fa-check"></i><b>6.2</b> Implémentation dans R<span></span></a><ul>
-<li class="chapter" data-level="6.2.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#sélection-de-variables"><i class="fa fa-check"></i><b>6.2.1</b> Sélection de variables<span></span></a></li>
-<li class="chapter" data-level="6.2.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#tester-la-significativité"><i class="fa fa-check"></i><b>6.2.2</b> Tester la significativité<span></span></a></li>
-<li class="chapter" data-level="6.2.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#représentation-graphique-des-rdas"><i class="fa fa-check"></i><b>6.2.3</b> Représentation graphique des RDAs<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="6.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1<span></span></a><ul>
-<li class="chapter" data-level="6.3.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Défi 1: Solution<span></span></a></li>
+<li class="part"><span><b>Analyses multivariées avancées dans <code>R</code></b></span></li>
+<li class="chapter" data-level="1" data-path="objectifs-dapprentissage.html"><a href="objectifs-dapprentissage.html"><i class="fa fa-check"></i><b>1</b> Objectifs d’apprentissage</a></li>
+<li class="chapter" data-level="2" data-path="préparez-vous-pour-cet-atelier.html"><a href="préparez-vous-pour-cet-atelier.html"><i class="fa fa-check"></i><b>2</b> Préparez-vous pour cet atelier</a></li>
+<li class="chapter" data-level="3" data-path="why-advanced-multivariate-methods.html"><a href="why-advanced-multivariate-methods.html"><i class="fa fa-check"></i><b>3</b> Why “advanced multivariate methods”?</a></li>
+<li class="chapter" data-level="4" data-path="exploration.html"><a href="exploration.html"><i class="fa fa-check"></i><b>4</b> Exploration les données</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="exploration.html"><a href="exploration.html#données-dabondances-despèces"><i class="fa fa-check"></i><b>4.1</b> Données d’abondances d’espèces</a></li>
+<li class="chapter" data-level="4.2" data-path="exploration.html"><a href="exploration.html#données-environnementales"><i class="fa fa-check"></i><b>4.2</b> Données environnementales</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="exploration.html"><a href="exploration.html#colinéarité"><i class="fa fa-check"></i><b>4.2.1</b> Colinéarité</a></li>
+<li class="chapter" data-level="4.2.2" data-path="exploration.html"><a href="exploration.html#standardisation-des-données"><i class="fa fa-check"></i><b>4.2.2</b> Standardisation des données</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="rda-partielle.html"><a href="rda-partielle.html"><i class="fa fa-check"></i><b>7</b> RDA partielle<span></span></a><ul>
-<li class="chapter" data-level="7.1" data-path="rda-partielle.html"><a href="rda-partielle.html#exemple-rda-partielle-sur-les-données-doubs"><i class="fa fa-check"></i><b>7.1</b> Exemple: RDA partielle sur les données Doubs<span></span></a><ul>
-<li class="chapter" data-level="7.1.1" data-path="rda-partielle.html"><a href="rda-partielle.html#interprétation-de-la-sortie-dune-rda-partielle"><i class="fa fa-check"></i><b>7.1.1</b> Interprétation de la sortie d’une RDA partielle<span></span></a></li>
-<li class="chapter" data-level="7.1.2" data-path="rda-partielle.html"><a href="rda-partielle.html#tester-la-significativité-1"><i class="fa fa-check"></i><b>7.1.2</b> Tester la significativité<span></span></a></li>
-<li class="chapter" data-level="7.1.3" data-path="rda-partielle.html"><a href="rda-partielle.html#représentation-graphique"><i class="fa fa-check"></i><b>7.1.3</b> Représentation graphique<span></span></a></li>
+<li class="part"><span><b>Constrained ordinations</b></span></li>
+<li class="chapter" data-level="5" data-path="que-sont-les-ordinations-contraintes.html"><a href="que-sont-les-ordinations-contraintes.html"><i class="fa fa-check"></i><b>5</b> Que sont les ordinations “contraintes” ?</a></li>
+<li class="chapter" data-level="6" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html"><i class="fa fa-check"></i><b>6</b> Analyse canonique de redondances</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#computation"><i class="fa fa-check"></i><b>6.1</b> Computation</a></li>
+<li class="chapter" data-level="6.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#implémentation-dans-r"><i class="fa fa-check"></i><b>6.2</b> Implémentation dans R</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#sélection-de-variables"><i class="fa fa-check"></i><b>6.2.1</b> Sélection de variables</a></li>
+<li class="chapter" data-level="6.2.2" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#tester-la-significativité"><i class="fa fa-check"></i><b>6.2.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="6.2.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#représentation-graphique-des-rdas"><i class="fa fa-check"></i><b>6.2.3</b> Représentation graphique des RDAs</a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2"><i class="fa fa-check"></i><b>7.2</b> Défi 2<span></span></a><ul>
-<li class="chapter" data-level="7.2.1" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Défi 2: Solution<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html"><i class="fa fa-check"></i><b>8</b> Partitionnement de la variation<span></span></a><ul>
-<li class="chapter" data-level="8.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r"><i class="fa fa-check"></i><b>8.1</b> Partitionnement de la variation dans R<span></span></a></li>
-<li class="chapter" data-level="8.2" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#tester-la-significativité-2"><i class="fa fa-check"></i><b>8.2</b> Tester la significativité<span></span></a></li>
-<li class="chapter" data-level="8.3" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3"><i class="fa fa-check"></i><b>8.3</b> Défi 3<span></span></a><ul>
-<li class="chapter" data-level="8.3.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Défi 3: Solution<span></span></a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html"><i class="fa fa-check"></i><b>9</b> Arbre de régression multivarié<span></span></a><ul>
-<li class="chapter" data-level="9.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#computation-1"><i class="fa fa-check"></i><b>9.1</b> Computation<span></span></a><ul>
-<li class="chapter" data-level="9.1.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#construction-de-larbre-partitionnement-des-données-sous-contrainte"><i class="fa fa-check"></i><b>9.1.1</b> Construction de l’arbre: Partitionnement des données sous contrainte<span></span></a></li>
-<li class="chapter" data-level="9.1.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#sélection-de-larbre-validation-croisée-et-élagage-de-larbre"><i class="fa fa-check"></i><b>9.1.2</b> Sélection de l’arbre: Validation croisée et élagage de l’arbre<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#mrt-dans-r"><i class="fa fa-check"></i><b>9.2</b> MRT dans R<span></span></a><ul>
-<li class="chapter" data-level="9.2.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#processus-de-sélection"><i class="fa fa-check"></i><b>9.2.1</b> Processus de sélection<span></span></a></li>
-<li class="chapter" data-level="9.2.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#interprétation-des-résultats"><i class="fa fa-check"></i><b>9.2.2</b> Interprétation des résultats<span></span></a></li>
-<li class="chapter" data-level="9.2.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="9.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#défi-4"><i class="fa fa-check"></i><b>9.3</b> Défi 4<span></span></a><ul>
-<li class="chapter" data-level="9.3.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1"><i class="fa fa-check"></i><b>6.3</b> Défi 1</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="analyse-canonique-de-redondances.html"><a href="analyse-canonique-de-redondances.html#défi-1-solution"><i class="fa fa-check"></i><b>6.3.1</b> Défi 1: Solution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html"><i class="fa fa-check"></i><b>10</b> Analyse discriminante linéaire<span></span></a><ul>
-<li class="chapter" data-level="10.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r-rivière-doubs"><i class="fa fa-check"></i><b>10.1</b> LDA dans R: Rivière Doubs<span></span></a><ul>
-<li class="chapter" data-level="10.1.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#créer-des-groupes-a-priori"><i class="fa fa-check"></i><b>10.1.1</b> Créer des groupes <em>a priori</em><span></span></a></li>
-<li class="chapter" data-level="10.1.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> LDA dans R<span></span></a></li>
-<li class="chapter" data-level="10.1.3" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#exactitude-du-groupement"><i class="fa fa-check"></i><b>10.1.3</b> Exactitude du groupement<span></span></a></li>
-<li class="chapter" data-level="10.1.4" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#prédictions"><i class="fa fa-check"></i><b>10.1.4</b> Prédictions<span></span></a></li>
+<li class="chapter" data-level="7" data-path="rda-partielle.html"><a href="rda-partielle.html"><i class="fa fa-check"></i><b>7</b> RDA partielle</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="rda-partielle.html"><a href="rda-partielle.html#exemple-rda-partielle-sur-les-données-doubs"><i class="fa fa-check"></i><b>7.1</b> Exemple: RDA partielle sur les données Doubs</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="rda-partielle.html"><a href="rda-partielle.html#interprétation-de-la-sortie-dune-rda-partielle"><i class="fa fa-check"></i><b>7.1.1</b> Interprétation de la sortie d’une RDA partielle</a></li>
+<li class="chapter" data-level="7.1.2" data-path="rda-partielle.html"><a href="rda-partielle.html#tester-la-significativité-1"><i class="fa fa-check"></i><b>7.1.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="7.1.3" data-path="rda-partielle.html"><a href="rda-partielle.html#représentation-graphique"><i class="fa fa-check"></i><b>7.1.3</b> Représentation graphique</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#défi-5"><i class="fa fa-check"></i><b>10.2</b> Défi 5<span></span></a></li>
+<li class="chapter" data-level="7.2" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2"><i class="fa fa-check"></i><b>7.2</b> Défi 2</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="rda-partielle.html"><a href="rda-partielle.html#défi-2-solution"><i class="fa fa-check"></i><b>7.2.1</b> Défi 2: Solution</a></li>
 </ul></li>
-<li class="part"><span><b>Considérations finales<span></span></b></span></li>
-<li class="chapter" data-level="11" data-path="résumé.html"><a href="résumé.html"><i class="fa fa-check"></i><b>11</b> Résumé<span></span></a></li>
-<li class="chapter" data-level="12" data-path="ressources-additionelles.html"><a href="ressources-additionelles.html"><i class="fa fa-check"></i><b>12</b> Ressources additionelles<span></span></a></li>
-<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html"><i class="fa fa-check"></i><b>8</b> Partitionnement de la variation</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#partitionnement-de-la-variation-dans-r"><i class="fa fa-check"></i><b>8.1</b> Partitionnement de la variation dans R</a></li>
+<li class="chapter" data-level="8.2" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#tester-la-significativité-2"><i class="fa fa-check"></i><b>8.2</b> Tester la significativité</a></li>
+<li class="chapter" data-level="8.3" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3"><i class="fa fa-check"></i><b>8.3</b> Défi 3</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="partitionnement-de-la-variation.html"><a href="partitionnement-de-la-variation.html#défi-3-solution"><i class="fa fa-check"></i><b>8.3.1</b> Défi 3: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html"><i class="fa fa-check"></i><b>9</b> Arbre de régression multivarié</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#computation-1"><i class="fa fa-check"></i><b>9.1</b> Computation</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#construction-de-larbre-partitionnement-des-données-sous-contrainte"><i class="fa fa-check"></i><b>9.1.1</b> Construction de l’arbre: Partitionnement des données sous contrainte</a></li>
+<li class="chapter" data-level="9.1.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#sélection-de-larbre-validation-croisée-et-élagage-de-larbre"><i class="fa fa-check"></i><b>9.1.2</b> Sélection de l’arbre: Validation croisée et élagage de l’arbre</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#mrt-dans-r"><i class="fa fa-check"></i><b>9.2</b> MRT dans R</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#processus-de-sélection"><i class="fa fa-check"></i><b>9.2.1</b> Processus de sélection</a></li>
+<li class="chapter" data-level="9.2.2" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#interprétation-des-résultats"><i class="fa fa-check"></i><b>9.2.2</b> Interprétation des résultats</a></li>
+<li class="chapter" data-level="9.2.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#indicator-species"><i class="fa fa-check"></i><b>9.2.3</b> Indicator species</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#défi-4"><i class="fa fa-check"></i><b>9.3</b> Défi 4</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="arbre-de-régression-multivarié.html"><a href="arbre-de-régression-multivarié.html#challenge-4-solution"><i class="fa fa-check"></i><b>9.3.1</b> Challenge 4: Solution</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html"><i class="fa fa-check"></i><b>10</b> Analyse discriminante linéaire</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r-rivière-doubs"><i class="fa fa-check"></i><b>10.1</b> LDA dans R: Rivière Doubs</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#créer-des-groupes-a-priori"><i class="fa fa-check"></i><b>10.1.1</b> Créer des groupes <em>a priori</em></a></li>
+<li class="chapter" data-level="10.1.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#lda-dans-r"><i class="fa fa-check"></i><b>10.1.2</b> LDA dans R</a></li>
+<li class="chapter" data-level="10.1.3" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#exactitude-du-groupement"><i class="fa fa-check"></i><b>10.1.3</b> Exactitude du groupement</a></li>
+<li class="chapter" data-level="10.1.4" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#prédictions"><i class="fa fa-check"></i><b>10.1.4</b> Prédictions</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="analyse-discriminante-linéaire.html"><a href="analyse-discriminante-linéaire.html#défi-5"><i class="fa fa-check"></i><b>10.2</b> Défi 5</a></li>
+</ul></li>
+<li class="part"><span><b>Considérations finales</b></span></li>
+<li class="chapter" data-level="11" data-path="résumé.html"><a href="résumé.html"><i class="fa fa-check"></i><b>11</b> Résumé</a></li>
+<li class="chapter" data-level="12" data-path="ressources-additionelles.html"><a href="ressources-additionelles.html"><i class="fa fa-check"></i><b>12</b> Ressources additionelles</a></li>
+<li class="chapter" data-level="13" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>13</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/qcbsRworkshops" target="blank">QCBS R Workshop Series</a></li>
 
@@ -248,7 +287,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   <img class= "hero-image" src="assets/images/jean-philippe-delberghe-75xPHEQBmvA-unsplash_hero_image.jpg">
 </div>
 --!>
-<div id="exploration" class="section level1 hasAnchor">
+<div id="exploration" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapitre 4</span> Exploration les données<a href="exploration.html#exploration" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Encore une fois, nous utiliserons les données de la rivière Doubs.
 “DoubsSpe.csv” est une matrice de données d’abondance d’espèces de
@@ -259,7 +298,7 @@ données environnementales pour les mêmes sites. La première colonne
 contient donc les noms des sites de 1 à 30 et les colonnes suivantes les
 mesures de 11 variables abiotiques. Notez que les données utilisées pour
 les analyses d’ordination sont généralement en <a href="http://en.wikipedia.org/wiki/Wide_and_narrow_data">format long (EN)</a>.</p>
-<p>Encore une fois, nous utiliserons les données de la rivière Doubs <span class="citation">(Verneaux <a href="#ref-verneaux1973" role="doc-biblioref">1973</a>)</span> pour cet atelier.</p>
+<p>Encore une fois, nous utiliserons les données de la rivière Doubs <span class="citation">(<a href="#ref-verneaux1973" role="doc-biblioref">Verneaux 1973</a>)</span> pour cet atelier.</p>
 <ul>
 <li><p><code>DoubsSpe.csv</code> est une matrice de données d’abondance d’espèces de
 communautés de poissons dans laquelle la première colonne contient les
@@ -269,70 +308,70 @@ différentes espèces</strong> de poissons.</p></li>
 <li><p>Notez que les données utilisées pour
 les analyses d’ordination sont généralement en <a href="http://en.wikipedia.org/wiki/Wide_and_narrow_data">format long (EN)</a>.</p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="exploration.html#cb3-1"></a><span class="co"># Assurez vous que les fichiers se trouvent dans votre</span></span>
-<span id="cb3-2"><a href="exploration.html#cb3-2"></a><span class="co"># répertoire de travail!  Si R ne trouve pas le jeu de</span></span>
-<span id="cb3-3"><a href="exploration.html#cb3-3"></a><span class="co"># données, définissez votre répertoire de travail avec</span></span>
-<span id="cb3-4"><a href="exploration.html#cb3-4"></a><span class="co"># setwd() au dossier dans lequel vos données sont</span></span>
-<span id="cb3-5"><a href="exploration.html#cb3-5"></a><span class="co"># sauvegardées (par exemple setwd(&#39;~/Desktop/workshop10&#39;))</span></span>
-<span id="cb3-6"><a href="exploration.html#cb3-6"></a>spe &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb3-7"><a href="exploration.html#cb3-7"></a>spe &lt;-<span class="st"> </span>spe[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer site 8 (pas d&#39;espèces).</span></span>
-<span id="cb3-8"><a href="exploration.html#cb3-8"></a></span>
-<span id="cb3-9"><a href="exploration.html#cb3-9"></a><span class="co"># Matrice d&#39;abondances d&#39;espèces de poissons:</span></span>
-<span id="cb3-10"><a href="exploration.html#cb3-10"></a><span class="co"># “DoubsSpe.csv”</span></span>
-<span id="cb3-11"><a href="exploration.html#cb3-11"></a>spe &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb3-12"><a href="exploration.html#cb3-12"></a>spe &lt;-<span class="st"> </span>spe[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer site 8 (pas d&#39;espèces).</span></span>
-<span id="cb3-13"><a href="exploration.html#cb3-13"></a><span class="co"># Attention! Exécuter cette ligne une seule fois.</span></span>
-<span id="cb3-14"><a href="exploration.html#cb3-14"></a></span>
-<span id="cb3-15"><a href="exploration.html#cb3-15"></a><span class="co"># Matrice de données environnementales: “DoubsEnv.csv”</span></span>
-<span id="cb3-16"><a href="exploration.html#cb3-16"></a>env &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="dt">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb3-17"><a href="exploration.html#cb3-17"></a>env &lt;-<span class="st"> </span>env[<span class="op">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer le site 8 puisqu&#39;on l&#39;a supprimé de la matrice d&#39;abondance. # N&#39;exécuter qu&#39;une seule fois.</span></span></code></pre></div>
-<div id="données-dabondances-despèces" class="section level2 hasAnchor">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="exploration.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assurez vous que les fichiers se trouvent dans votre</span></span>
+<span id="cb3-2"><a href="exploration.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># répertoire de travail!  Si R ne trouve pas le jeu de</span></span>
+<span id="cb3-3"><a href="exploration.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># données, définissez votre répertoire de travail avec</span></span>
+<span id="cb3-4"><a href="exploration.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd() au dossier dans lequel vos données sont</span></span>
+<span id="cb3-5"><a href="exploration.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sauvegardées (par exemple setwd(&#39;~/Desktop/workshop10&#39;))</span></span>
+<span id="cb3-6"><a href="exploration.html#cb3-6" aria-hidden="true" tabindex="-1"></a>spe <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-7"><a href="exploration.html#cb3-7" aria-hidden="true" tabindex="-1"></a>spe <span class="ot">&lt;-</span> spe[<span class="sc">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer site 8 (pas d&#39;espèces).</span></span>
+<span id="cb3-8"><a href="exploration.html#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="exploration.html#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrice d&#39;abondances d&#39;espèces de poissons:</span></span>
+<span id="cb3-10"><a href="exploration.html#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># “DoubsSpe.csv”</span></span>
+<span id="cb3-11"><a href="exploration.html#cb3-11" aria-hidden="true" tabindex="-1"></a>spe <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/doubsspe.csv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-12"><a href="exploration.html#cb3-12" aria-hidden="true" tabindex="-1"></a>spe <span class="ot">&lt;-</span> spe[<span class="sc">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer site 8 (pas d&#39;espèces).</span></span>
+<span id="cb3-13"><a href="exploration.html#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Attention! Exécuter cette ligne une seule fois.</span></span>
+<span id="cb3-14"><a href="exploration.html#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="exploration.html#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrice de données environnementales: “DoubsEnv.csv”</span></span>
+<span id="cb3-16"><a href="exploration.html#cb3-16" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/doubsenv.csv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb3-17"><a href="exploration.html#cb3-17" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> env[<span class="sc">-</span><span class="dv">8</span>, ]  <span class="co"># Supprimer le site 8 puisqu&#39;on l&#39;a supprimé de la matrice d&#39;abondance. # N&#39;exécuter qu&#39;une seule fois.</span></span></code></pre></div>
+<div id="données-dabondances-despèces" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Données d’abondances d’espèces<a href="exploration.html#données-dabondances-despèces" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Nous pouvons utiliser les fonctions de résumé pour explorer les
 données “Spe” (données d’abondances de poissons) et découvrir les
 caractéristiques telles que les dimensions de la matrice, les noms des
 colonnes et les statistiques descriptives de ces colonnes. Ceci est un rappel de l’<a href="https://github.com/QCBSRworkshops/workshop02">atelier 2</a>.</p>
 <p>Pour commencer, explorons la matrice des abondances de poissons.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="exploration.html#cb4-1"></a><span class="kw">names</span>(spe)  <span class="co"># noms d&#39;objets (espèces)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="exploration.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(spe)  <span class="co"># noms d&#39;objets (espèces)</span></span></code></pre></div>
 <pre><code>##  [1] &quot;CHA&quot; &quot;TRU&quot; &quot;VAI&quot; &quot;LOC&quot; &quot;OMB&quot; &quot;BLA&quot; &quot;HOT&quot; &quot;TOX&quot; &quot;VAN&quot; &quot;CHE&quot; &quot;BAR&quot; &quot;SPI&quot;
 ## [13] &quot;GOU&quot; &quot;BRO&quot; &quot;PER&quot; &quot;BOU&quot; &quot;PSO&quot; &quot;ROT&quot; &quot;CAR&quot; &quot;TAN&quot; &quot;BCO&quot; &quot;PCH&quot; &quot;GRE&quot; &quot;GAR&quot;
 ## [25] &quot;BBO&quot; &quot;ABL&quot; &quot;ANG&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="exploration.html#cb6-1"></a><span class="kw">dim</span>(spe)  <span class="co"># dimensions de la matrice</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="exploration.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(spe)  <span class="co"># dimensions de la matrice</span></span></code></pre></div>
 <pre><code>## [1] 29 27</code></pre>
 <p>Et, si on veut plus de détails sur les objets de la matrice, c’est-à-dire les espèces:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="exploration.html#cb8-1"></a><span class="kw">head</span>(spe)  <span class="co"># 5 premières lignes</span></span>
-<span id="cb8-2"><a href="exploration.html#cb8-2"></a><span class="kw">str</span>(spe)  <span class="co"># structure d&#39;objets de la matrice</span></span>
-<span id="cb8-3"><a href="exploration.html#cb8-3"></a><span class="kw">summary</span>(spe)  <span class="co"># statistiques descriptives des objets (min, moyenne, max, etc.)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="exploration.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(spe)  <span class="co"># 5 premières lignes</span></span>
+<span id="cb8-2"><a href="exploration.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spe)  <span class="co"># structure d&#39;objets de la matrice</span></span>
+<span id="cb8-3"><a href="exploration.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spe)  <span class="co"># statistiques descriptives des objets (min, moyenne, max, etc.)</span></span></code></pre></div>
 <p>Il est également utile de jeter un coup d’œil rapide à la structure de la communauté en représentant graphiquement la distribution de l’abondance des espèces dans la matrice de communauté.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="exploration.html#cb9-1"></a><span class="co"># Compter la fréquence d&#39;espèces dans chaque classe</span></span>
-<span id="cb9-2"><a href="exploration.html#cb9-2"></a><span class="co"># d&#39;abondance</span></span>
-<span id="cb9-3"><a href="exploration.html#cb9-3"></a>ab &lt;-<span class="st"> </span><span class="kw">table</span>(<span class="kw">unlist</span>(spe))</span>
-<span id="cb9-4"><a href="exploration.html#cb9-4"></a><span class="co"># Visualiser cette distribution</span></span>
-<span id="cb9-5"><a href="exploration.html#cb9-5"></a><span class="kw">barplot</span>(ab, <span class="dt">las =</span> <span class="dv">1</span>, <span class="dt">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Frequency&quot;</span>,</span>
-<span id="cb9-6"><a href="exploration.html#cb9-6"></a>    <span class="dt">col =</span> <span class="kw">grey</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">0</span><span class="op">/</span><span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="exploration.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compter la fréquence d&#39;espèces dans chaque classe</span></span>
+<span id="cb9-2"><a href="exploration.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># d&#39;abondance</span></span>
+<span id="cb9-3"><a href="exploration.html#cb9-3" aria-hidden="true" tabindex="-1"></a>ab <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">unlist</span>(spe))</span>
+<span id="cb9-4"><a href="exploration.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualiser cette distribution</span></span>
+<span id="cb9-5"><a href="exploration.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(ab, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xlab =</span> <span class="st">&quot;Abundance class&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Frequency&quot;</span>,</span>
+<span id="cb9-6"><a href="exploration.html#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">grey</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">0</span><span class="sc">/</span><span class="dv">5</span>))</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-9-1.png" width="576" /></p>
 <p>Vous remarquerez peut-être qu’il y a beaucoup de zéros dans les données d’abondance.</p>
 <p>Combien y a-t-il de zéros?</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="exploration.html#cb10-1"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="exploration.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(spe <span class="sc">==</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] 408</code></pre>
 <p>Quelle proportion de l’ensemble des données cela représente-t-il ?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="exploration.html#cb12-1"></a><span class="kw">sum</span>(spe <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)<span class="op">/</span>(<span class="kw">nrow</span>(spe) <span class="op">*</span><span class="st"> </span><span class="kw">ncol</span>(spe))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="exploration.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(spe <span class="sc">==</span> <span class="dv">0</span>)<span class="sc">/</span>(<span class="fu">nrow</span>(spe) <span class="sc">*</span> <span class="fu">ncol</span>(spe))</span></code></pre></div>
 <pre><code>## [1] 0.5210728</code></pre>
 <p>Plus de <strong>50%</strong> de notre jeu de données est composé de zéros ! C’est un pourcentage élevé, mais pas inhabituel pour des données sur l’abondance des espèces. Cependant, de nombreux zéros peuvent entraîner un <strong>problème de double zéro</strong>, où des absences communes augmentent artificiellement la similarité entre les sites, en termes de composition de leur communauté. En d’autres termes, deux sites peuvent sembler <em>plus similaires</em> simplement parce qu’ils manquent tous les deux certaines espèces, même si les absences communes ne les rendent pas écologiquement similaires. Nous voulons plutôt que les <em>présences communes</em> déterminent la similarité des sites.</p>
-<p>Pour éviter ce problème de double zéro, nous allons appliquer une transformation aux données sur les espèces. <span class="citation">Legendre and Gallagher (<a href="#ref-legendre2001" role="doc-biblioref">2001</a>)</span> a proposé cinq pré-transformations des données d’espèces, dont quatre sont disponibles dans la fonction <code>decostand()</code> du paquet <code>vegan</code>.</p>
-<p>La <strong>transformation de Hellinger</strong> exprime les abondances comme la racine carrée de leur abondance relative sur chaque site <span class="citation">(Borcard, Gillet, and Legendre <a href="#ref-borcard2011" role="doc-biblioref">2011</a>)</span>, ce qui résout le problème des doubles zéros. Nous appliquerons cette transformation à l’ensemble de données sur l’abondance des poissons.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="exploration.html#cb14-1"></a><span class="co"># Appliquer la transformation de Hellinger pour corriger le</span></span>
-<span id="cb14-2"><a href="exploration.html#cb14-2"></a><span class="co"># problème de double zéro</span></span>
-<span id="cb14-3"><a href="exploration.html#cb14-3"></a>spe.hel &lt;-<span class="st"> </span><span class="kw">decostand</span>(spe, <span class="dt">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
+<p>Pour éviter ce problème de double zéro, nous allons appliquer une transformation aux données sur les espèces. <span class="citation">Pierre Legendre and Gallagher (<a href="#ref-legendre2001" role="doc-biblioref">2001</a>)</span> a proposé cinq pré-transformations des données d’espèces, dont quatre sont disponibles dans la fonction <code>decostand()</code> du paquet <code>vegan</code>.</p>
+<p>La <strong>transformation de Hellinger</strong> exprime les abondances comme la racine carrée de leur abondance relative sur chaque site <span class="citation">(<a href="#ref-borcard2011" role="doc-biblioref">Borcard, Gillet, and Legendre 2011</a>)</span>, ce qui résout le problème des doubles zéros. Nous appliquerons cette transformation à l’ensemble de données sur l’abondance des poissons.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="exploration.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Appliquer la transformation de Hellinger pour corriger le</span></span>
+<span id="cb14-2"><a href="exploration.html#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># problème de double zéro</span></span>
+<span id="cb14-3"><a href="exploration.html#cb14-3" aria-hidden="true" tabindex="-1"></a>spe.hel <span class="ot">&lt;-</span> <span class="fu">decostand</span>(spe, <span class="at">method =</span> <span class="st">&quot;hellinger&quot;</span>)</span></code></pre></div>
 </div>
-<div id="données-environnementales" class="section level2 hasAnchor">
+<div id="données-environnementales" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Données environnementales<a href="exploration.html#données-environnementales" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Maintenant, familiarisons-nous avec les variables environnementales abiotiques mesurées sur les mêmes sites. Tout d’abord, nous pouvons explorer la matrice en utilisant les mêmes fonctions que celles utilisées ci-dessus.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="exploration.html#cb15-1"></a><span class="kw">names</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="exploration.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(env)</span></code></pre></div>
 <pre><code>##  [1] &quot;das&quot; &quot;alt&quot; &quot;pen&quot; &quot;deb&quot; &quot;pH&quot;  &quot;dur&quot; &quot;pho&quot; &quot;nit&quot; &quot;amm&quot; &quot;oxy&quot; &quot;dbo&quot;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="exploration.html#cb17-1"></a><span class="kw">dim</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="exploration.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(env)</span></code></pre></div>
 <pre><code>## [1] 29 11</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="exploration.html#cb19-1"></a><span class="kw">head</span>(env)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="exploration.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(env)</span></code></pre></div>
 <pre><code>##    das alt  pen  deb  pH dur  pho  nit  amm  oxy dbo
 ## 1  0.3 934 48.0 0.84 7.9  45 0.01 0.20 0.00 12.2 2.7
 ## 2  2.2 932  3.0 1.00 8.0  40 0.02 0.20 0.10 10.3 1.9
@@ -341,38 +380,38 @@ colonnes et les statistiques descriptives de ces colonnes. Ceci est un rappel de
 ## 5 21.5 849  2.3 2.64 8.1  84 0.38 0.52 0.20  8.0 6.2
 ## 6 32.4 846  3.2 2.86 7.9  60 0.20 0.15 0.00 10.2 5.3</code></pre>
 <p>Nous pouvons alors nous attarder un peu plus sur les objets, qui sont les variables environnementales dans ce cas.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="exploration.html#cb21-1"></a><span class="kw">str</span>(env)</span>
-<span id="cb21-2"><a href="exploration.html#cb21-2"></a><span class="kw">summary</span>(env)</span></code></pre></div>
-<div id="colinéarité" class="section level3 hasAnchor">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="exploration.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(env)</span>
+<span id="cb21-2"><a href="exploration.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(env)</span></code></pre></div>
+<div id="colinéarité" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Colinéarité<a href="exploration.html#colinéarité" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Il est également conseillé de vérifier les corrélations entre les variables, car les <strong>méthodes d’ordination sous contrainte que nous utiliserons sont très sensibles aux colinéarités dans la matrice explicative</strong>. Cela implique qu’une variable peut sembler très importante simplement parce qu’elle a été traitée <em>en premier</em> dans l’analyse si elle est fortement corrélée avec une ou plusieurs autres variables qui contribuent à expliquer la variable de réponse.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="exploration.html#cb22-1"></a><span class="co"># On peut également détecter (visuellement) les colinéarités entres variables:</span></span>
-<span id="cb22-2"><a href="exploration.html#cb22-2"></a><span class="kw">heatmap</span>(<span class="kw">abs</span>(<span class="kw">cor</span>(env)), <span class="co"># corrélation de Pearson (note: ce sont des valeurs absolues!)</span></span>
-<span id="cb22-3"><a href="exploration.html#cb22-3"></a>        <span class="dt">col =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)), </span>
-<span id="cb22-4"><a href="exploration.html#cb22-4"></a>        <span class="dt">Colv =</span> <span class="ot">NA</span>, <span class="dt">Rowv =</span> <span class="ot">NA</span>)</span>
-<span id="cb22-5"><a href="exploration.html#cb22-5"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
-<span id="cb22-6"><a href="exploration.html#cb22-6"></a>       <span class="dt">title =</span> <span class="st">&quot;R de Pearson&quot;</span>,</span>
-<span id="cb22-7"><a href="exploration.html#cb22-7"></a>       <span class="dt">legend =</span>  <span class="kw">round</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
-<span id="cb22-8"><a href="exploration.html#cb22-8"></a>       <span class="dt">y.intersp =</span> <span class="fl">0.7</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
-<span id="cb22-9"><a href="exploration.html#cb22-9"></a>       <span class="dt">fill =</span> <span class="kw">rev</span>(<span class="kw">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="exploration.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On peut également détecter (visuellement) les colinéarités entres variables:</span></span>
+<span id="cb22-2"><a href="exploration.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="fu">abs</span>(<span class="fu">cor</span>(env)), <span class="co"># corrélation de Pearson (note: ce sont des valeurs absolues!)</span></span>
+<span id="cb22-3"><a href="exploration.html#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">heat.colors</span>(<span class="dv">6</span>)), </span>
+<span id="cb22-4"><a href="exploration.html#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">Colv =</span> <span class="cn">NA</span>, <span class="at">Rowv =</span> <span class="cn">NA</span>)</span>
+<span id="cb22-5"><a href="exploration.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb22-6"><a href="exploration.html#cb22-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;R de Pearson&quot;</span>,</span>
+<span id="cb22-7"><a href="exploration.html#cb22-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span>  <span class="fu">round</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">6</span>),<span class="dv">1</span>),</span>
+<span id="cb22-8"><a href="exploration.html#cb22-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y.intersp =</span> <span class="fl">0.7</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb22-9"><a href="exploration.html#cb22-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">rev</span>(<span class="fu">heat.colors</span>(<span class="dv">6</span>)))</span></code></pre></div>
 <p><img src="book-fr_files/figure-html/unnamed-chunk-15-1.png" width="768" /></p>
 <div class="noway">
 <p>Certaines variables semblent corrélées… Par exemple, <code>das</code> est fortement corrélé avec <code>alt</code>, <code>deb</code>, <code>dur</code>, <code>nit</code>, entre autres!</p>
 </div>
 </div>
-<div id="standardisation-des-données" class="section level3 hasAnchor">
+<div id="standardisation-des-données" class="section level3 hasAnchor" number="4.2.2">
 <h3><span class="header-section-number">4.2.2</span> Standardisation des données<a href="exploration.html#standardisation-des-données" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Il est impossible de comparer les effets de variables qui ont des unités différentes. Par exemple, une variable mesurée en millimètres semblerait plus importante que si elle était mesurée en mètres, simplement parce que la valeur est plus grande (par exemple, 1000 millimètres contre 1 mètre). <strong>La normalisation des variables avec des unités différentes est donc cruciale.</strong></p>
 <p>Dans ce jeu de données, les données environnementales sont toutes exprimées dans des unités différentes et devront donc être normalisées avant d’effectuer des ordinations. Nous pouvons à nouveau utiliser la fonction <code>decostand()</code> pour normaliser les variables environnementales.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="exploration.html#cb23-1"></a><span class="co"># standardiser les données</span></span>
-<span id="cb23-2"><a href="exploration.html#cb23-2"></a>env.z &lt;-<span class="st"> </span><span class="kw">decostand</span>(env, <span class="dt">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
-<span id="cb23-3"><a href="exploration.html#cb23-3"></a></span>
-<span id="cb23-4"><a href="exploration.html#cb23-4"></a><span class="co"># centrer les données (moyenne ~ 0)</span></span>
-<span id="cb23-5"><a href="exploration.html#cb23-5"></a><span class="kw">round</span>(<span class="kw">apply</span>(env.z, <span class="dv">2</span>, mean), <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="exploration.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># standardiser les données</span></span>
+<span id="cb23-2"><a href="exploration.html#cb23-2" aria-hidden="true" tabindex="-1"></a>env.z <span class="ot">&lt;-</span> <span class="fu">decostand</span>(env, <span class="at">method =</span> <span class="st">&quot;standardize&quot;</span>)</span>
+<span id="cb23-3"><a href="exploration.html#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="exploration.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># centrer les données (moyenne ~ 0)</span></span>
+<span id="cb23-5"><a href="exploration.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">apply</span>(env.z, <span class="dv">2</span>, mean), <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
 ##   0   0   0   0   0   0   0   0   0   0   0</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="exploration.html#cb25-1"></a><span class="co"># réduire les données (écart type = 1)</span></span>
-<span id="cb25-2"><a href="exploration.html#cb25-2"></a><span class="kw">apply</span>(env.z, <span class="dv">2</span>, sd)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="exploration.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># réduire les données (écart type = 1)</span></span>
+<span id="cb25-2"><a href="exploration.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(env.z, <span class="dv">2</span>, sd)</span></code></pre></div>
 <pre><code>## das alt pen deb  pH dur pho nit amm oxy dbo 
 ##   1   1   1   1   1   1   1   1   1   1   1</code></pre>
 
@@ -383,15 +422,15 @@ colonnes et les statistiques descriptives de ces colonnes. Ceci est un rappel de
 
 
 <h3> References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references">
-<div id="ref-borcard2011">
-<p>Borcard, Daniel, François Gillet, and Pierre Legendre. 2011. <em>Numerical Ecology with R</em>. Use R! New York: Springer-Verlag. <a href="https://doi.org/10.1007/978-1-4419-7976-6">https://doi.org/10.1007/978-1-4419-7976-6</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-borcard2011" class="csl-entry">
+Borcard, Daniel, François Gillet, and Pierre Legendre. 2011. <em>Numerical Ecology with R</em>. Use R! New York: Springer-Verlag. <a href="https://doi.org/10.1007/978-1-4419-7976-6">https://doi.org/10.1007/978-1-4419-7976-6</a>.
 </div>
-<div id="ref-legendre2001">
-<p>Legendre, Pierre, and Eugene D. Gallagher. 2001. “Ecologically Meaningful Transformations for Ordination of Species Data.” <em>Oecologia</em> 129 (2): 271–80. <a href="https://doi.org/10.1007/s004420100716">https://doi.org/10.1007/s004420100716</a>.</p>
+<div id="ref-legendre2001" class="csl-entry">
+Legendre, Pierre, and Eugene D. Gallagher. 2001. <span>“Ecologically Meaningful Transformations for Ordination of Species Data.”</span> <em>Oecologia</em> 129 (2): 271–80. <a href="https://doi.org/10.1007/s004420100716">https://doi.org/10.1007/s004420100716</a>.
 </div>
-<div id="ref-verneaux1973">
-<p>Verneaux, J. 1973. In, Thèse d’état:257. Essai de Biotypologie. Besançon.</p>
+<div id="ref-verneaux1973" class="csl-entry">
+Verneaux, J. 1973. In, Thèse d’état:257. Essai de Biotypologie. Besançon.
 </div>
 </div>
 <hr>
@@ -466,7 +505,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
