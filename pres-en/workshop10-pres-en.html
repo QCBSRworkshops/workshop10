@@ -4,6 +4,7 @@
     <title>Workshop 10: Advanced multivariate analyses</title>
     <meta charset="utf-8" />
     <meta name="author" content="Québec Centre for Biodiversity Science" />
+    <script src="assets/header-attrs-2.19/header-attrs.js"></script>
     <link href="assets/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
@@ -728,8 +729,8 @@ fwd.sel &lt;- ordiR2step(rda(mite.spe.hel ~ 1, data = mite.env),
                       direction = "forward",
                       R2scope = TRUE, pstep = 1000, trace = FALSE)
 fwd.sel$call
-# rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo, 
-#     data = mite.env)
+# rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo + 
+#     SubsDens, data = mite.env)
 ```
 
 ---
@@ -1064,8 +1065,8 @@ anova.cca(mite.spe.subs, step = 1000, by = "axis")
 # Model: rda(formula = mite.spe.hel ~ Shrub + Topo + Condition(SubsDens + WatrCont + Substrate), data = mite.env)
 #          Df Variance      F Pr(&gt;F)    
 # RDA1      1 0.027236 8.4618  0.001 ***
-# RDA2      1 0.008254 2.5643  0.018 *  
-# RDA3      1 0.003193 0.9919  0.419    
+# RDA2      1 0.008254 2.5643  0.017 *  
+# RDA3      1 0.003193 0.9919  0.437    
 # Residual 58 0.186688                  
 # ---
 # Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
