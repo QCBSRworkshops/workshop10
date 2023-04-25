@@ -62,7 +62,7 @@ class: inverse, center, middle
 
 # remotes::install_github("cran/mvpart")
 
-list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan"
+list.of.packages <- c("remotes", "Hmisc", "labdsv", "MASS", "vegan", "ggplot2"
                       #"mvpart"
                       )
 
