@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R</title>
   <meta name="description" content="Advanced Multivariate Analyses in R" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Redundancy analysis | Workshop 10: Advanced Multivariate Analyses in R" />
   <meta property="og:type" content="book" />
@@ -406,7 +406,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## alt       1 0.164856 19.9759  0.001 ***
 ## oxy       1 0.082426  9.9877  0.001 ***
-## dbo       1 0.048909  5.9264  0.001 ***
+## dbo       1 0.048909  5.9264  0.002 ** 
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>You can also test the significance of each canonical axis with <code>by = "axis"</code>. Recall that these axes represent the variation in explanatory variables in fewer dimensions.</p>
@@ -416,7 +416,7 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 ##          Df Variance       F Pr(&gt;F)    
 ## RDA1      1 0.218022 26.4181  0.001 ***
 ## RDA2      1 0.050879  6.1651  0.001 ***
-## RDA3      1 0.027291  3.3069  0.003 ** 
+## RDA3      1 0.027291  3.3069  0.001 ***
 ## Residual 25 0.206319                   
 ...</code></pre>
 <p>Our full model is statistically significant (p = 0.001), and every variable included in this model is significant as well (p = 0.001). Every canonical axis resulting from the RDA is also statistically significant (p = 0.001).</p>
@@ -566,8 +566,8 @@ Figure 6.2: The computation process of an RDA, from Legendre &amp; Legendre (201
 <span id="cb49-6"><a href="redundancy-analysis.html#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">scope =</span> <span class="fu">formula</span>(mite.spe.rda), <span class="at">direction =</span> <span class="st">&quot;forward&quot;</span>, <span class="at">R2scope =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb49-7"><a href="redundancy-analysis.html#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pstep =</span> <span class="dv">1000</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb49-8"><a href="redundancy-analysis.html#cb49-8" aria-hidden="true" tabindex="-1"></a>fwd.sel<span class="sc">$</span>call</span></code></pre></div>
-<pre><code>## rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo, 
-##     data = mite.env)</code></pre>
+<pre><code>## rda(formula = mite.spe.hel ~ WatrCont + Shrub + Substrate + Topo + 
+##     SubsDens, data = mite.env)</code></pre>
 <p><strong>Step 3:</strong> Run the RDA and check its explanatory power.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="redundancy-analysis.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-run the RDA with the significant variables</span></span>
 <span id="cb51-2"><a href="redundancy-analysis.html#cb51-2" aria-hidden="true" tabindex="-1"></a>mite.spe.rda.signif <span class="ot">&lt;-</span> <span class="fu">rda</span>(mite.spe.hel <span class="sc">~</span> WatrCont <span class="sc">+</span> Shrub <span class="sc">+</span></span>
