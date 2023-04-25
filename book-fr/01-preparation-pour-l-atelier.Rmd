@@ -65,8 +65,8 @@ remotes::install_url("https://cran.r-project.org/src/contrib/Archive/mvpart/mvpa
 
 ```{r, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
 # Chargez les pacquets requis
-library(vegan)
 library(labdsv)
+library(vegan)
 library(MASS)
 library(mvpart)
 library(ggplot2)
